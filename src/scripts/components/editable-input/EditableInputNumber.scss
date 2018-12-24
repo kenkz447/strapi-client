@@ -1,0 +1,18 @@
+.editable-input-number {
+    flex-grow: 1;
+    &-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    &.no-border {
+        >input {
+            border: 0;
+        }
+    }
+    input {
+        cursor: pointer;
+        &:focus {
+            cursor: text;
+        }
+    }
+}

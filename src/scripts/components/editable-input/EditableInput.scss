@@ -1,0 +1,13 @@
+.editable-input {
+    &.no-border {
+        >input {
+            border: 0;
+        }
+    }
+    >input {
+        cursor: pointer;
+        &:focus {
+            cursor: text;
+        }
+    }
+}

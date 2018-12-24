@@ -1,0 +1,15 @@
+{
+    "short_name": "Strapi Client",
+    "name": "Strapi Client",
+    "icons": [
+        {
+            "src": "/static/assets/blank.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "start_url": ".",
+    "background_color": "#ffc12e",
+    "display": "standalone",
+    "theme_color": "#ffc12e"
+}

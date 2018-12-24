@@ -1,0 +1,1 @@
+export const sortById = (p1, p2) => p2.id! - p1.id!;
