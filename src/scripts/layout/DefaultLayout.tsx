@@ -20,18 +20,6 @@ const DefaultLayoutWrapper = styled.div`
         padding: 0px;
         height: 100vh;
     }
-    .ant-layout {
-        &-header {
-            box-shadow: 0 1px 4px rgba(0,21,41,.08);
-            z-index: 10;
-            position: sticky;
-            top: 0;
-        }
-        &-sider {
-            box-shadow: 2px 0 6px rgba(0,21,41,.35);
-            z-index: 20;
-        }
-    }
     .sider-trigger {
         font-size: 18px;
         line-height: 64px;

@@ -4,8 +4,8 @@ import { OptionProps, SelectProps, SelectValue } from 'antd/lib/select';
 import * as React from 'react';
 
 interface FormFieldProps extends SelectProps, FormItemProps {
-    readonly name: string;
-    readonly setFieldValue: (fieldName: string, value: SelectValue, shouldValidate: boolean) => void;
+    readonly name?: string;
+    readonly setFieldValue?: (fieldName: string, value: SelectValue, shouldValidate: boolean) => void;
     readonly options: OptionProps[];
     readonly useFieldWrapper?: boolean;
 }
@@ -14,7 +14,7 @@ export class FormSelect extends React.PureComponent<FormFieldProps> {
     static readonly defaultProps = {
         useFieldWrapper: true
     };
-    
+
     render() {
         const {
             useFieldWrapper,
@@ -34,6 +34,10 @@ export class FormSelect extends React.PureComponent<FormFieldProps> {
             <Select
                 {...rest}
                 onSelect={(value) => {
+                    if (!setFieldValue || !name) {
+                        return;
+                    }
+
                     setFieldValue(name, value, true);
                 }}
             >

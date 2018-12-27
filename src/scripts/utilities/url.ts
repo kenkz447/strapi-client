@@ -6,7 +6,7 @@ export const getUrlSearchParam = (key: string) => {
 export const getUrlSearchParams = (key: string) => {
     const currentUrlParams = new URLSearchParams(location.search);
     return currentUrlParams.getAll(key);
-}
+};
 
 export const searchParamsObject = <T>(query?: string): T => {
     const currentUrlParams = query ? new URLSearchParams(query) : new URLSearchParams(location.search);

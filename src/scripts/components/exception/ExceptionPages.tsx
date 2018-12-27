@@ -5,12 +5,9 @@ import { Button, Icon } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { PageHeader } from '../structures';
-
 export const NotFoundPage = () => {
     return (
         <React.Fragment>
-            <PageHeader title={null} />
             <Exception
                 type="404"
                 backText="Về trang tổng quan"

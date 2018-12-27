@@ -61,6 +61,7 @@ body {
 .h {
     &-100 {
         height: 100% !important;
+        min-height: 100%;
     }
 }
 
@@ -104,6 +105,24 @@ th:last-child {
     white-space: nowrap;
 }
 
-.antd-pro-page-header-pageHeader {
-    padding-top: 32px !important;
+.ant-layout {
+    min-height: 100%;
+    &.page-layout {
+        background: #fff;
+        padding: 24px 24px 0 24px;
+    }
+    &-header {
+        background: transparent;
+        padding: 0 0;
+        height: unset;
+        line-height: unset;
+    }
+    &-content {
+        background: transparent;
+    }
+    &-footer {
+        background: transparent;
+        color: unset;
+        font-size: unset;
+    }
 }

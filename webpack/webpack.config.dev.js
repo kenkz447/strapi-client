@@ -21,7 +21,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'API_ENTRY': JSON.stringify('https://protected-dusk-97974.herokuapp.com'),
+            'API_ENTRY': JSON.stringify('http://v2-api.furnituremaker.vn'),
         }),
         new ErrorOverlayPlugin(),
         new webpack.HotModuleReplacementPlugin(),

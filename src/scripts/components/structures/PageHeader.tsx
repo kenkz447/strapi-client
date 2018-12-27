@@ -1,33 +1,16 @@
+import 'ant-design-pro/lib/PageHeader/style/css';
+
+import { PageHeader as AntdPageHeader } from 'ant-design-pro';
+import { IPageHeaderProps } from 'ant-design-pro/lib/PageHeader';
 import * as React from 'react';
-import { WithContextProps } from 'react-context-service';
+import { Link } from 'react-router-dom';
 
-import { RootContext } from '@/app';
-import { DefaultLayoutHeaderProps, DomainContext } from '@/domain';
-
-export class PageHeader extends React.PureComponent<DefaultLayoutHeaderProps> {
-    static readonly contextType = RootContext;
-    readonly context!: WithContextProps<DomainContext>;
-
-    componentDidMount() {
-        const { setContext } = this.context;
-
-        setContext({
-            pageHeaderProps: this.props.title ? this.props : null
-        });
-    }
-
-    componentWillUnmount() {
-        const { setContext, pageHeaderProps } = this.context;
-
-        setContext({
-            pageHeaderProps: {
-                ...pageHeaderProps!,
-                actions: null
-            }
-        });
-    }
+export class PageHeader extends React.PureComponent<IPageHeaderProps> {
+    static readonly defaultProps = {
+        linkElement: Link
+    };
 
     render() {
-        return null;
+        return <AntdPageHeader {...this.props} />;
     }
 }

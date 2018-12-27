@@ -14,15 +14,32 @@ export class RoutePage<P extends AppPageProps = AppPageProps, S= {}>
         setContext({
             drawerVisibled: false
         });
-        
+
         this.setDocumentTitle();
     }
 
     readonly setDocumentTitle = () => {
         const InheritPage = Object.getPrototypeOf(this).constructor;
-        if (InheritPage.hasOwnProperty('routeInfo')) {
-            const routeInfo = InheritPage.routeInfo as RouteInfo;
-            window.document.title = routeInfo.title;
+        if (!InheritPage.hasOwnProperty('routeInfo')) {
+            return;
         }
+
+        const routeInfo = InheritPage.routeInfo as RouteInfo;
+        if (typeof routeInfo.title === 'string') {
+            window.document.title = routeInfo.title;
+            return;
+        }
+
+        const title = routeInfo.title();
+        window.document.title = title;
+    }
+
+    readonly getPageTitle = () => {
+        const InheritPage = Object.getPrototypeOf(this).constructor;
+        if (!InheritPage.hasOwnProperty('routeInfo')) {
+            return;
+        }
+        const routeInfo = InheritPage.routeInfo as RouteInfo;
+        return typeof routeInfo.title === 'string' ? routeInfo.title : routeInfo.title();
     }
 }

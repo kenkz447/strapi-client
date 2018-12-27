@@ -6,6 +6,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Route, Router, Switch } from 'react-router';
 
 import { PageLoading } from '@/components';
+import { ORDER_PATH } from '@/configs';
 import {
     DomainContext,
     WithCurrentBreakpoint,
@@ -16,6 +17,7 @@ import { BlankLayout, DefaultLayout } from '@/layout';
 
 const AuthRoutes = React.lazy(() => import('./auth'));
 const MainRoutes = React.lazy(() => import('./main'));
+const OrderRoutes = React.lazy(() => import('./order'));
 
 type RouterRootContextProps =
     WithCurrentUser &
@@ -40,6 +42,9 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                             </React.Suspense>
                         </BlankLayout>
                     </Route>
+                    <Route path={ORDER_PATH}>
+                        {this.orderRouteComponent}
+                    </Route>
                     <Route>
                         {this.mainRouteComponent}
                     </Route>
@@ -50,7 +55,7 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
 
     readonly mainRouteComponent = () => {
         const { appState, history, currentBreakpoint } = this.props;
-        
+
         if (appState !== 'READY') {
             return null;
         }
@@ -62,6 +67,25 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
             >
                 <React.Suspense fallback={<PageLoading />}>
                     <MainRoutes />
+                </React.Suspense>
+            </DefaultLayout>
+        );
+    }
+
+    readonly orderRouteComponent = () => {
+        const { appState, history, currentBreakpoint } = this.props;
+
+        if (appState !== 'READY') {
+            return null;
+        }
+
+        return (
+            <DefaultLayout
+                currentBreakpoint={currentBreakpoint}
+                history={history}
+            >
+                <React.Suspense fallback={<PageLoading />}>
+                    <OrderRoutes />
                 </React.Suspense>
             </DefaultLayout>
         );

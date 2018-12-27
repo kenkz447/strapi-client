@@ -22,7 +22,7 @@ export interface AppCoreContext<U = {}> {
 
 export interface RouteInfo extends RouteProps {
     readonly path: string;
-    readonly title: string;
+    readonly title: string | (() => string);
     readonly icon?: JSX.Element;
     readonly policies?: string[] | Policy[];
     readonly isActive?: () => boolean;

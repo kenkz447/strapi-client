@@ -1,9 +1,8 @@
-import './SlideUp.scss';
-
 import * as React from 'react';
 import { Motion, spring } from 'react-motion';
 
 export interface SlideUpProps {
+    readonly className?: string;
     readonly style?: React.CSSProperties;
     readonly children: React.ReactNode;
 }
@@ -18,7 +17,7 @@ const toCSS = ({ translateY, opacity, ...rest }): React.CSSProperties => {
 };
 
 export function SlideUp(props: SlideUpProps) {
-    const { style } = props;
+    const { style, className } = props;
     return (
         <Motion
             defaultStyle={{
@@ -33,7 +32,7 @@ export function SlideUp(props: SlideUpProps) {
             {
                 (value) => (
                     <div
-                        className="motion-slide-up"
+                        className={className}
                         style={toCSS({
                             translateY: value.translateY,
                             opacity: value.opacity,

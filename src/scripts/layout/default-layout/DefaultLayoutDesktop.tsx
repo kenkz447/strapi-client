@@ -1,3 +1,5 @@
+import './DefaultLayoutDesktop.scss';
+
 import { Icon, Layout } from 'antd';
 import { SiderProps } from 'antd/lib/layout';
 import * as React from 'react';
@@ -23,13 +25,14 @@ export class DefaultLayoutDesktop extends React.PureComponent<DefaultLayoutDeskt
         const { siderProps, children, header } = this.props;
         const { siderCollapsed } = this.state;
         return (
-            <Layout style={{ minHeight: '100vh' }}>
+            <Layout className="default-layout-desktop">
                 <Layout.Sider
-                    {...siderProps}
+                    className="default-layout-desktop-sider"
                     collapsed={siderCollapsed}
+                    {...siderProps}
                 />
                 <Layout>
-                    <Layout.Header style={{ background: '#fff', padding: 0 }}>
+                    <Layout.Header className="default-layout-desktop-header">
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <Icon
                                 className="sider-trigger"

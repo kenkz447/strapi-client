@@ -8,12 +8,7 @@ import { User } from '@/restful';
 
 import { AuthClient } from './AuthClient';
 
-export interface DefaultLayoutHeaderProps {
-    readonly title: React.ReactNode;
-    readonly actions?: React.ReactNode;
-    readonly hideBranchSelect?: boolean;
-    readonly defaultBackUrl?: string;
-    readonly showDatePicker?: 'single' | 'range';
+export interface DefaultLayoutHeaderProps  {
 }
 
 export type Print<P = {}> = {

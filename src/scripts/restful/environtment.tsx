@@ -58,7 +58,7 @@ const environment = setupEnvironment({
         const clonedResponse = response.clone();
 
         if (clonedResponse.status === 401) {
-            return;
+            return response;
         }
 
         let error;

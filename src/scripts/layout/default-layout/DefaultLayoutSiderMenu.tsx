@@ -1,7 +1,12 @@
 import { Icon, Menu } from 'antd';
 import * as React from 'react';
 
-import { DASHBOARD_URL, USER_PATH, USER_PROFILE_URL } from '@/configs';
+import {
+    DASHBOARD_URL,
+    ORDER_LIST_URL,
+    USER_PATH,
+    USER_PROFILE_URL
+} from '@/configs';
 import { text } from '@/i18n';
 
 interface MenuItem {
@@ -82,6 +87,10 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                 <Menu.Item key={DASHBOARD_URL}>
                     <Icon type="dashboard" />
                     <span>{text('Dashboard')}</span>
+                </Menu.Item>
+                <Menu.Item key={ORDER_LIST_URL}>
+                    <Icon type="appstore" />
+                    <span>{text('Orders')}</span>
                 </Menu.Item>
                 {this.renderSubmenu(userSubmenu)}
             </Menu>

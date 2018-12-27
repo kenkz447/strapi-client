@@ -6,4 +6,6 @@ export const vi = {
     Meaning: 'Ý nghĩa',
     Example: 'Ví dụ',
     Source: 'Nguồn',
+    Orders: 'Đơn hàng',
+    'Order list': 'Danh sách đơn hàng'
 };
