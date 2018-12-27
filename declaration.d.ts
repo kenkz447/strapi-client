@@ -8,4 +8,5 @@ declare module '*.scss' {
     export default content;
 }
 
-declare const API_ENTRY: string;
+const API_ENTRY: string;
+const FILE_HOST: string;

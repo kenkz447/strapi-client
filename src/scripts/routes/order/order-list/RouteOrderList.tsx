@@ -67,7 +67,7 @@ export class RouteOrderList extends RoutePage<RouteProps> {
         return (
             <PageWrapper>
                 <PageHeader
-                    title={this.getPageTitle()}
+                    title={this.title}
                     action={this.renderHeaderActions()}
                     breadcrumbList={[{
                         title: 'Home',

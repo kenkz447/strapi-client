@@ -7,5 +7,8 @@ export const vi = {
     Example: 'Ví dụ',
     Source: 'Nguồn',
     Orders: 'Đơn hàng',
-    'Order list': 'Danh sách đơn hàng'
+    Order: 'Đơn hàng',
+    'Order list': 'Danh sách đơn hàng',
+    'Order details': 'Thông tin đơn hàng',
+    'Order code': 'Mã đơn hàng'
 };

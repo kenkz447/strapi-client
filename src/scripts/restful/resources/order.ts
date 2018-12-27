@@ -1,5 +1,6 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
+import { getDefaultParamsForUpdate } from '../base';
 import { Agency } from './agency';
 import { City } from './city';
 import { County } from './county';
@@ -59,7 +60,7 @@ export const orderResources = {
         resourceType: orderResourceType,
         url: '/order/:id'
     }),
-    add: new Resource<Order>({
+    create: new Resource<Order>({
         resourceType: orderResourceType,
         url: '/order',
         method: 'POST'
@@ -68,6 +69,7 @@ export const orderResources = {
         resourceType: orderResourceType,
         url: '/order/:id',
         method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate
     }),
     delete: new Resource<Order>({
         resourceType: orderResourceType,

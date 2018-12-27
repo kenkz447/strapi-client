@@ -3,10 +3,12 @@ import { Switch } from 'react-router';
 
 import { routeFrom } from '@/app';
 
+import { RouteOrderDetails } from './order-details';
 import { RouteOrderList } from './order-list';
 
 const routes = routeFrom([
-    RouteOrderList
+    RouteOrderList,
+    RouteOrderDetails
 ]);
 
 export default () => (

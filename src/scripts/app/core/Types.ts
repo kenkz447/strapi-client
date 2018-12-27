@@ -20,16 +20,17 @@ export interface AppCoreContext<U = {}> {
     readonly translations?: { readonly [key: string]: object };
 }
 
-export interface RouteInfo extends RouteProps {
+export interface RouteInfo<P = {}, S = {}> extends RouteProps {
     readonly path: string;
-    readonly title: string | (() => string);
+    readonly title: string | ((props: P, state: S) => string);
     readonly icon?: JSX.Element;
     readonly policies?: string[] | Policy[];
     readonly isActive?: () => boolean;
 }
 
 export interface PageProps {
-    readonly routeInfo: RouteInfo;
+    // tslint:disable-next-line:no-any
+    readonly routeInfo: RouteInfo<any>;
 }
 
 export interface Menu<P = {}> {

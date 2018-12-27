@@ -44,8 +44,6 @@ export function formatCurrency(value: number | FormatCurrencyParam) {
 
     if (sourceCurrency) {
         amount = roundTo(amount / rate, 2);
-    } else {
-        sourceCurrency = 'VND';
     }
 
     formated = `${replace(amount, /(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${sourceCurrency}`;

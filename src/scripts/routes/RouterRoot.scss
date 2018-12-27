@@ -95,14 +95,18 @@ body {
     text-align: center !important;
 }
 
-td:last-child {
+th:first-child,
+td:first-child {
+    text-align: left;
     width: 1px;
     white-space: nowrap;
 }
 
-th:last-child {
+th:first-child,
+td:last-child {
     width: 1px;
     white-space: nowrap;
+    text-align: right;
 }
 
 .ant-layout {
