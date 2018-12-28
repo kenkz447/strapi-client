@@ -4,6 +4,7 @@ export const FORGOT_PASSWORD_URL = AUTH_PATH + '/forgot-password';
 export const RESET_PASSWORD_URL = AUTH_PATH + '/reset-password';
 
 export const DASHBOARD_URL = '/';
+export const PRODUCT_URL = '/product/:code?';
 
 export const ORDER_PATH = '/orders';
 export const ORDER_LIST_URL = ORDER_PATH + '/list';

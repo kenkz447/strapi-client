@@ -10,7 +10,7 @@ import {
     DefaultLayoutMobile,
     DefaultLayoutSiderMenu
 } from './default-layout';
-import { DefaultLayoutHeader } from './default-layout/DefaultLayoutHeader';
+import { DefaultLayoutHeader } from './default-layout';
 
 const DefaultLayoutWrapper = styled.div`
     --sider-width: 256px;

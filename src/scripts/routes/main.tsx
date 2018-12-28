@@ -5,9 +5,11 @@ import { routeFrom } from '@/app';
 import { NotFoundPage } from '@/components';
 
 import { RouteDashboard } from './dashboard';
+import { RouteProduct } from './product';
 
 export const routes = routeFrom([
-    RouteDashboard
+    RouteDashboard,
+    RouteProduct
 ]);
 
 export default () => (
