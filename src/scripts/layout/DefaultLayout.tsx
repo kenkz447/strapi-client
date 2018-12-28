@@ -72,7 +72,7 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
             <React.Fragment>
                 <SiderLogo>
                     <Link to={DASHBOARD_URL}>
-                        <img src={LOGO} alt="logo" /> <h1>YOUR LOGO</h1>
+                        <img src={LOGO} alt="logo" /> <h1>Furniture Maker</h1>
                     </Link>
                 </SiderLogo>
                 <DefaultLayoutSiderMenu

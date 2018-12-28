@@ -15,6 +15,7 @@ export interface Agency extends Record {
     readonly user: User;
     readonly city: City;
     readonly county: County;
+    readonly createdAt: string;
 }
 
 export const agencyResourceType = new ResourceType<Agency>(nameof<Agency>());

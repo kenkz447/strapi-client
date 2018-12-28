@@ -6,7 +6,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Route, Router, Switch } from 'react-router';
 
 import { PageLoading } from '@/components';
-import { ORDER_PATH } from '@/configs';
+import { AGENCY_PATH, ORDER_PATH } from '@/configs';
 import {
     DomainContext,
     WithCurrentBreakpoint,
@@ -18,6 +18,7 @@ import { BlankLayout, DefaultLayout } from '@/layout';
 const AuthRoutes = React.lazy(() => import('./auth'));
 const MainRoutes = React.lazy(() => import('./main'));
 const OrderRoutes = React.lazy(() => import('./order'));
+const AgencyRoutes = React.lazy(() => import('./agencies'));
 
 type RouterRootContextProps =
     WithCurrentUser &
@@ -44,6 +45,9 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                     </Route>
                     <Route path={ORDER_PATH}>
                         {this.orderRouteComponent}
+                    </Route>
+                    <Route path={AGENCY_PATH}>
+                        {this.agenciesRouteComponent}
                     </Route>
                     <Route>
                         {this.mainRouteComponent}
@@ -90,10 +94,29 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
             </DefaultLayout>
         );
     }
+
+    readonly agenciesRouteComponent = () => {
+        const { appState, history, currentBreakpoint } = this.props;
+
+        if (appState !== 'READY') {
+            return null;
+        }
+
+        return (
+            <DefaultLayout
+                currentBreakpoint={currentBreakpoint}
+                history={history}
+            >
+                <React.Suspense fallback={<PageLoading />}>
+                    <AgencyRoutes />
+                </React.Suspense>
+            </DefaultLayout>
+        );
+    }
 }
 
 export default withContext<RouterRootContextProps>(
     'history',
     'appState',
-    'currentBreakpoint',
+    'currentBreakpoint'
 )(RouterRoot); 

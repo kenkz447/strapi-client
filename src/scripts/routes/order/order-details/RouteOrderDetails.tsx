@@ -6,12 +6,7 @@ import { PageContent, PageLoading, PageWrapper, SlideUp } from '@/components';
 import { ORDER_DETAIL_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
 import { text } from '@/i18n';
-import {
-    Order,
-    orderDetailResourceType,
-    orderResourceType,
-    request
-} from '@/restful';
+import { Order, orderResourceType, request } from '@/restful';
 import { orderResources } from '@/restful';
 
 import {

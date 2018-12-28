@@ -55,7 +55,7 @@ export class RouteLogin extends RoutePage<RouteLoginProps> {
                     <SlideUp>
                         <div className="login-card">
                             <div className="login-card-logo">
-                                <img alt="YOUR LOGO HERE" src={LOGO} width={48} height={48} /> <h1>YOUR LOGO</h1>
+                                <img alt="Furniture Maker HERE" src={LOGO} width={48} height={48} /> <h1>Furniture Maker</h1>
                             </div>
                             <div className="login-card-hello" style={{ marginBottom: 15 }}>
                                 <h2 style={{ marginBottom: 0, color: 'black' }}>

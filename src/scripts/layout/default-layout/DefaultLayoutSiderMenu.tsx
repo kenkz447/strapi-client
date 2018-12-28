@@ -2,6 +2,7 @@ import { Icon, Menu } from 'antd';
 import * as React from 'react';
 
 import {
+    AGENCY_LIST_URL,
     DASHBOARD_URL,
     ORDER_LIST_URL,
     USER_PATH,
@@ -91,6 +92,10 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                 <Menu.Item key={ORDER_LIST_URL}>
                     <Icon type="appstore" />
                     <span>{text('Orders')}</span>
+                </Menu.Item>
+                <Menu.Item key={AGENCY_LIST_URL}>
+                    <Icon type="shop" />
+                    <span>{text('Agencies')}</span>
                 </Menu.Item>
                 {this.renderSubmenu(userSubmenu)}
             </Menu>
