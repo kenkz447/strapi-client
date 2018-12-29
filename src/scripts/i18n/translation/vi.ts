@@ -11,5 +11,9 @@ export const vi = {
     'Order list': 'Danh sách đơn hàng',
     'Order details': 'Thông tin đơn hàng',
     'Order code': 'Mã đơn hàng',
-    Agencies: 'Đại lý'
+    Agencies: 'Đại lý',
+    Product: 'Sản phẩm',
+    Category: 'Danh mục',
+    Type: 'Loại',
+    Design: 'Thiết kế'
 };

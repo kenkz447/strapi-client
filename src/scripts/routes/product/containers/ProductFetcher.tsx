@@ -1,125 +1,140 @@
-import { Layout } from 'antd';
-import * as React from 'react';
-import { RequestParameter } from 'react-restful';
+import './ProductFetcher.scss';
 
+import { Layout } from 'antd';
+import { UnregisterCallback } from 'history';
+import * as React from 'react';
+
+import { RootContext } from '@/app';
+import {
+    getFurnitureComponentByCodeProps,
+    getFurnitureComponentByDesign
+} from '@/business/furniture-component';
+import { getFurnitureMaterialByCodeProps } from '@/business/furniture-material';
 import {
     getProductModulesComponentCodes,
     getProductModulesFromRaw,
     getProductModulesMaterialCodes,
     getProductModulesPrice
 } from '@/business/product-modules';
-import { Loading, NoContent } from '@/components';
+import { getProductTypeById } from '@/business/product-type';
+import { NoContent } from '@/components';
 import { ThreeSence } from '@/components/domain';
+import { PRODUCT_URL } from '@/configs';
+import { WithHistory } from '@/domain';
 import {
     FurnitureComponent,
-    furnitureComponentResources,
-    FurnitureMaterial,
-    furnitureMaterialResources,
-    ProductExtended,
-    productTypeResourceType,
-    request,
-    restfulStore
+    FurnitureComponentType,
+    ProductExtended
 } from '@/restful';
+import { getUrlSearchParam, replaceRoutePath } from '@/utilities';
+
+import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
 
 export interface ProductFetcherProps {
     readonly modulesCode: string | null;
 }
 
-interface ProductFetcherState {
+interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
     readonly modulesCode: string | null;
     readonly loadedProduct: ProductExtended | null;
 }
 
 export class ProductFetcher extends React.PureComponent<ProductFetcherProps, ProductFetcherState> {
+    static readonly contextType = RootContext;
+    readonly context!: WithHistory;
+    readonly unlistenHistory: UnregisterCallback;
+    _isUnmounting!: boolean;
 
     static getDerivedStateFromProps(
         nextProps: ProductFetcherProps,
-        prevState: ProductFetcherState
+        state: ProductFetcherState
     ): Partial<ProductFetcherState> | null {
-        const { modulesCode: nextModuleCode } = nextProps;
+        const { modulesCode, productDesign } = state;
 
-        if (!nextModuleCode && prevState.modulesCode) {
+        if (nextProps.modulesCode !== modulesCode) {
             return {
+                ...state,
                 loadedProduct: null,
-                modulesCode: null
+                modulesCode: nextProps.modulesCode
             };
         }
 
-        if (nextModuleCode && !prevState.modulesCode) {
+        const urlProductDesign = getUrlSearchParam('productDesign');
+        
+        if (productDesign !== urlProductDesign) {
             return {
-                loadedProduct: null,
-                modulesCode: nextModuleCode
-            };
-        }
-
-        if (
-            nextModuleCode && prevState.modulesCode &&
-            nextModuleCode !== prevState.modulesCode
-        ) {
-            return {
-                ...prevState,
-                allowLoad: false,
-                loadedProduct: null,
-                modulesCode: nextModuleCode
+                ...state,
+                productDesign: urlProductDesign
             };
         }
 
         return null;
     }
 
-    constructor(props: ProductFetcherProps) {
+    constructor(props: ProductFetcherProps, context: WithHistory) {
         super(props);
 
         const { modulesCode } = props;
+
+        const productTypeSelectState = ProductTypeSelect.getSearchParamsState();
 
         if (modulesCode) {
             this.state = {
                 allowLoad: false,
                 modulesCode: modulesCode,
-                loadedProduct: null
+                loadedProduct: null,
+                ...productTypeSelectState
             };
         } else {
             this.state = {
                 allowLoad: true,
                 modulesCode: null,
-                loadedProduct: null
+                loadedProduct: null,
+                ...productTypeSelectState
             };
         }
+
+        const { history } = context;
+        this.unlistenHistory = history.listen(this.onUrlChange);
+    }
+
+    private readonly onUrlChange = async () => {
+        if (this._isUnmounting) {
+            return;
+        }
+        
+        const { productDesign } = this.state;
+        const urlProductDesign = getUrlSearchParam('productDesign');
+
+        if (productDesign === urlProductDesign) {
+            return;
+        }
+
+        const nextModuleCode = await this.getProductModulesCodeByDesign(urlProductDesign!);
+
+        if (!nextModuleCode) {
+            return;
+        }
+
+        const { history } = this.context;
+
+        const url = replaceRoutePath(PRODUCT_URL, { modulesCode: nextModuleCode });
+        const searchParams = new URLSearchParams(location.search);
+        const toUrl = url + '?' + searchParams.toString();
+        history.replace(toUrl);
     }
 
     private readonly fetchModules = async (modulesCode: string) => {
         const componentCodes = getProductModulesComponentCodes(modulesCode);
         const materialCodes = getProductModulesMaterialCodes(modulesCode);
 
-        const componentParamsFetchList = componentCodes.map((code): RequestParameter => {
-            return {
-                type: 'query',
-                parameter: nameof<FurnitureComponent>(o => o.code),
-                value: code
-            };
-        });
-
-        const materialParamsFetchList = materialCodes.map((code): RequestParameter => {
-            return {
-                type: 'query',
-                parameter: nameof<FurnitureMaterial>(o => o.code),
-                value: code
-            };
-        });
-
         const componentsMaterials = await Promise.all([
-            Promise.all<FurnitureComponent[]>(componentParamsFetchList.map((param) =>
-                request(
-                    furnitureComponentResources.find,
-                    [param]
-                )
+            Promise.all(componentCodes.map((code) =>
+                getFurnitureComponentByCodeProps(code)
             )),
-            Promise.all<FurnitureMaterial[]>(materialParamsFetchList.map((param) =>
-                request(
-                    furnitureMaterialResources.find,
-                    [param]
-                )
+            Promise.all(materialCodes.map((code) =>
+                getFurnitureMaterialByCodeProps(code)
             ))
         ]);
 
@@ -128,8 +143,8 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
 
         const productModules = componentList.map((component, index) =>
             getProductModulesFromRaw({
-                component: component[0],
-                material: materialList[index][0]
+                component: component,
+                material: materialList[index]
             })
         );
 
@@ -142,13 +157,13 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
 
         const componentDesign = standardComponent.design;
 
-        const productType = restfulStore.findOneRecord(
-            productTypeResourceType,
-            componentDesign.productType
-        )!;
+        if (!componentDesign.productType) {
+            throw new Error('Product type is null!');
+        }
+
+        const productType = await getProductTypeById(componentDesign.productType);
 
         return {
-            produceCode: modulesCode,
             design: componentDesign,
             modules: modules,
             productType: productType,
@@ -169,10 +184,70 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
     }
 
     private readonly loadProductIfNeeded = () => {
-        const { modulesCode, loadedProduct } = this.state;
-        if (modulesCode && !loadedProduct) {
-            this.loadProduct(modulesCode);
+        const {
+            modulesCode,
+            loadedProduct
+        } = this.state;
+
+        if (loadedProduct || !modulesCode) {
+            return;
         }
+
+        this.loadProduct(modulesCode);
+    }
+
+    private readonly getProductModulesCodeByDesign = async (productDesign: string) => {
+        if (!productDesign) {
+            return;
+        }
+
+        const allFurnitureComponentByDesign = await getFurnitureComponentByDesign(productDesign);
+        const allFurnitureComponentType = allFurnitureComponentByDesign.reduce(
+            (furnitureComponentTypes, furnitureComponent) => {
+                const existingFurnitureComponentType = furnitureComponentTypes.find(
+                    o => o.id === furnitureComponent.componentType.id
+                );
+                if (existingFurnitureComponentType) {
+                    return furnitureComponentTypes;
+                }
+
+                return [
+                    ...furnitureComponentTypes,
+                    furnitureComponent.componentType
+                ];
+            },
+            [] as FurnitureComponentType[]
+        );
+
+        const moduleComponents: FurnitureComponent[] = [];
+        for (const furnitureComponentType of allFurnitureComponentType) {
+            const defaultFurnitureComponent = allFurnitureComponentByDesign.find(
+                o => o.componentType === furnitureComponentType
+            );
+
+            if (!defaultFurnitureComponent) {
+                continue;
+            }
+
+            moduleComponents.push(defaultFurnitureComponent);
+        }
+
+        const result = moduleComponents.reduce(
+            (modulesCode, component, index) => {
+                let nextCode = modulesCode;
+
+                nextCode += component.code + '-' + '999';
+
+                if (index !== moduleComponents.length - 1) {
+                    nextCode += '-';
+                }
+
+                return nextCode;
+            },
+            ''
+        );
+
+        return result;
     }
 
     public componentDidMount() {
@@ -183,25 +258,38 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         this.loadProductIfNeeded();
     }
 
+    public componentWillUnmount() {
+        this._isUnmounting = true;
+        this.unlistenHistory();
+    }
+
     public render() {
         const { allowLoad, loadedProduct } = this.state;
 
-        if (!allowLoad) {
-            return <Loading style={{ flexGrow: 1 }} />;
-        }
-
-        if (!loadedProduct) {
-            return <NoContent />;
-        }
+        const allowLoadWithProduct = allowLoad && loadedProduct;
+        const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
         return (
-            <Layout className="page-layout">
-                <div>
-                    <ThreeSence
-                        productModules={loadedProduct.modules}
-                        productType={loadedProduct.productType}
-                    />
-                </div>
+            <Layout className="page-layout product-fetcher">
+                {
+                    allowLoadWithProduct &&
+                    <React.Fragment>
+                        <Layout.Content className="h-100">
+                            <div className="product-fetcher-sence-wrapper">
+                                <ThreeSence
+                                    productModules={loadedProduct!.modules}
+                                    productType={loadedProduct!.productType}
+                                />
+                            </div>
+                        </Layout.Content>
+                        <Layout.Footer>
+                            {}
+                        </Layout.Footer>
+                    </React.Fragment>
+                }
+                {
+                    allowLoadWithNoProduct && <NoContent />
+                }
             </Layout>
         );
     }

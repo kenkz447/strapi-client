@@ -18,11 +18,11 @@ export interface FurnitureMaterial {
     readonly hideInLibrary?: boolean;
 }
 
-export const furnitureMaterialResouceType = new ResourceType<FurnitureMaterial>(nameof<FurnitureMaterial>());
+export const furnitureMaterialResourceType = new ResourceType<FurnitureMaterial>(nameof<FurnitureMaterial>());
 
 export const furnitureMaterialResources = {
     find: new Resource<FurnitureMaterial, FurnitureMaterial[]>({
-        resourceType: furnitureMaterialResouceType,
+        resourceType: furnitureMaterialResourceType,
         url: '/material'
     })
 };

@@ -65,7 +65,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
     componentDidUpdate() {
         const { selectedObject } = this.props;
-        
+
         if (selectedObject) {
             this.selectObject(selectedObject);
         }
@@ -131,7 +131,9 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                             material.transparent = true;
                             if (material.map) {
                                 material.map.anisotropy = 16;
-                                material.shininess = productModule.material.materialType.view_shiny || 0;
+                                if (productModule.material.materialType) {
+                                    material.shininess = productModule.material.materialType.view_shiny || 0;
+                                }
                             }
 
                             if (productModule.material.view_normalMap) {

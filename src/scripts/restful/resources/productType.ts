@@ -41,5 +41,9 @@ export const productTypeResources = {
     find: new Resource<ProductType, ProductType[]>({
         resourceType: productTypeResourceType,
         url: '/producttype',
+    }),
+    findOne: new Resource<ProductType, ProductType>({
+        resourceType: productTypeResourceType,
+        url: '/producttype/:id',
     })
 };

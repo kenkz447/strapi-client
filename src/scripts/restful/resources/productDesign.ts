@@ -8,7 +8,7 @@ export interface ProductDesign extends Record {
     readonly id: string;
     readonly name: string;
     readonly thumbnail: UploadedFile;
-    readonly productType: ProductType;
+    readonly productType: ProductType | string;
     readonly designGroup: ProductDesignGroup;
     readonly title?: string;
     readonly coverPhoto?: UploadedFile;
@@ -17,11 +17,11 @@ export interface ProductDesign extends Record {
     readonly order?: number;
 }
 
-export const productDesign = new ResourceType<ProductDesign>(nameof<ProductDesign>());
+export const productDesignResourceType = new ResourceType<ProductDesign>(nameof<ProductDesign>());
 
 export const productDesignResources = {
     find: new Resource<ProductDesign, ProductDesign[]>({
-        resourceType: productDesign,
+        resourceType: productDesignResourceType,
         url: '/design',
     })
 };

@@ -30,7 +30,7 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                 >
                     <Table.Column
                         title={text('Image')}
-                        dataIndex={nameof<OrderDetail>(o => o.previewImg)}
+                        dataIndex="previewImg"
                         render={(previewImg: OrderDetail['previewImg'], orderDetail: OrderDetail) => {
                             return (
                                 <Img width="150" file={previewImg} />
@@ -39,14 +39,23 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                     />
                     <Table.Column
                         title={text('Product type')}
-                        dataIndex={nameof<OrderDetail>(o => o.product_type)}
-                        render={(type, orderDetail) => {
+                        dataIndex="product_type"
+                        render={(type, orderDetail: OrderDetail) => {
+
+                            const uRLSearchParams = new URLSearchParams();
+
+                            uRLSearchParams.set('productDesign', orderDetail.design as string);
+                            uRLSearchParams.set('productType', orderDetail.product_type as string);
+                            uRLSearchParams.set('productTypeGroup', orderDetail.product_type as string);
+
+                            const productUrl = replaceRoutePath(PRODUCT_URL, {
+                                modulesCode: orderDetail.productModulesCode
+                            });
+
                             return (
                                 <div>
                                     <p>{type}</p>
-                                    <Link
-                                        to={replaceRoutePath(PRODUCT_URL, { modulesCode: orderDetail.productModulesCode })}
-                                    >
+                                    <Link to={productUrl + '?' + uRLSearchParams.toString()}>
                                         Xem sản phẩm
                                     </Link>
                                 </div>

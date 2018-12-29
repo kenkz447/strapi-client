@@ -1,5 +1,7 @@
 import { Resource, ResourceType } from 'react-restful';
 
+import { Omit } from '@/app';
+
 import { FurnitureComponent } from './furnitureComponent';
 import { FurnitureMaterial } from './furnutureMaterial';
 import { ProductDesign } from './productDesign';
@@ -28,7 +30,7 @@ export interface ProductModule {
     readonly materialPrice: number;
 }
 
-export interface ProductExtended extends Product {
+export interface ProductExtended extends Omit<Product, 'produceCode'> {
     readonly modules: ProductModule[];
 }
 

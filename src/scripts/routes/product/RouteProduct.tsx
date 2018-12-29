@@ -6,8 +6,9 @@ import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 import {
+    productDesignResources,
+    productTypeGroupResources,
     productTypeResources,
-    productTypeResourceType,
     request
 } from '@/restful';
 
@@ -23,31 +24,11 @@ export class RouteProduct extends RoutePage<RouteProps> {
     };
 
     readonly state = {
-        allowLoad: false
+        allowLoad: true
     };
-
-    constructor(props: RouteProps) {
-        super(props);
-        this.fetchResources();
-    }
-
-    readonly fetchResources = async () => {
-        await Promise.all([
-            request(productTypeResources.find),
-        ]);
-
-        this.setState({
-            allowLoad: true
-        });
-    }
     
-    render() {
-        const { allowLoad } = this.state;
+    public render() {
         const { match } = this.props;
-
-        if (!allowLoad) {
-            return <PageLoading />;
-        }
 
         return (
             <PageWrapper>

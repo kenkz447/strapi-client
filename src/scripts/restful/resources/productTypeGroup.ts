@@ -4,7 +4,7 @@ import { ProductType } from './productType';
 import { UploadedFile } from './uploadedFile';
 
 export interface ProductTypeGroup {
-    readonly id?: string;
+    readonly id: string;
     readonly name: string;
     readonly thumbnail: UploadedFile;
     readonly productTypes: ProductType[];

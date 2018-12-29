@@ -51,9 +51,17 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
     }
 
     static getDerivedStateFromProps(
-        props: DefaultLayoutSiderMenuState,
+        props: DefaultLayoutSiderMenuProps,
         state: DefaultLayoutSiderMenuState
     ): DefaultLayoutSiderMenuState | null {
+
+        if (location.pathname.startsWith(PRODUCT_PATH)) {
+            return {
+                subMenuOpenKey: DefaultLayoutSiderMenu.getOpenedSubmenuKey(),
+                currentPath: PRODUCT_PATH
+            };
+        }
+
         if (state.currentPath !== location.pathname) {
             return {
                 subMenuOpenKey: DefaultLayoutSiderMenu.getOpenedSubmenuKey(),
@@ -74,7 +82,7 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
 
     render() {
         const { onMenuItemClick } = this.props;
-        const { subMenuOpenKey } = this.state;
+        const { subMenuOpenKey, currentPath } = this.state;
 
         return (
             <Menu
@@ -82,7 +90,7 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                 style={{ width: '100%' }}
                 theme="dark"
                 defaultOpenKeys={[subMenuOpenKey]}
-                selectedKeys={[location.pathname]}
+                selectedKeys={[currentPath]}
                 onClick={({ key }) => {
                     onMenuItemClick(key);
                 }}
@@ -92,7 +100,7 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                     <span>{text('Dashboard')}</span>
                 </Menu.Item>
                 <Menu.Item key={PRODUCT_PATH}>
-                    <Icon type="border" />
+                    <Icon type="gold" />
                     <span>{text('Product')}</span>
                 </Menu.Item>
                 <Menu.Item key={ORDER_LIST_URL}>
