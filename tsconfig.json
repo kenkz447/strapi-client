@@ -28,7 +28,8 @@
         "allowSyntheticDefaultImports": true,
         "skipLibCheck": true,
         "types": [
-            "webpack-env"
+            "webpack-env",
+            "three"
         ]
     },
     "exclude": [

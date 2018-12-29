@@ -4,6 +4,7 @@
         "port": 3000
     },
     "dependencies": {
+        "@types/three": "^0.93.14",
         "ant-design-pro": "^2.1.1",
         "antd": "^3.11.6",
         "classnames": "2.2.6",

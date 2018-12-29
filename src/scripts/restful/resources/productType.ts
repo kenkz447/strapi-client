@@ -35,11 +35,11 @@ export interface ProductType extends Record {
     readonly view_cameraFar: number;
 }
 
-export const productType = new ResourceType<ProductType>(nameof<ProductType>());
+export const productTypeResourceType = new ResourceType<ProductType>(nameof<ProductType>());
 
 export const productTypeResources = {
     find: new Resource<ProductType, ProductType[]>({
-        resourceType: productType,
+        resourceType: productTypeResourceType,
         url: '/producttype',
     })
 };

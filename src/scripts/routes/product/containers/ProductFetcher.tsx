@@ -8,14 +8,15 @@ import {
     getProductModulesMaterialCodes,
     getProductModulesPrice
 } from '@/business/product-modules';
-import { Loading } from '@/components';
+import { Loading, NoContent } from '@/components';
+import { ThreeSence } from '@/components/domain';
 import {
     FurnitureComponent,
     furnitureComponentResources,
     FurnitureMaterial,
     furnitureMaterialResources,
     ProductExtended,
-    productType,
+    productTypeResourceType,
     request,
     restfulStore
 } from '@/restful';
@@ -135,21 +136,22 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         return productModules;
     }
 
-    private readonly getProduct = async (modulesCode: string): Promise<ProductExtended> => {
+    private readonly fetchProduct = async (modulesCode: string): Promise<ProductExtended> => {
         const modules = await this.fetchModules(modulesCode);
         const standardComponent = modules[0].component;
 
-        const selectedComponentDesign = standardComponent.design;
-        const selectedComponentType = restfulStore.findOneRecord(
-            productType,
-            selectedComponentDesign.productType
+        const componentDesign = standardComponent.design;
+
+        const productType = restfulStore.findOneRecord(
+            productTypeResourceType,
+            componentDesign.productType
         )!;
 
         return {
             produceCode: modulesCode,
-            design: selectedComponentDesign,
+            design: componentDesign,
             modules: modules,
-            productType: selectedComponentType,
+            productType: productType,
             totalPrice: getProductModulesPrice({
                 productModules: modules,
                 startPrice: 0
@@ -158,7 +160,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
     }
 
     private readonly loadProduct = async (modulesCode: string) => {
-        const product = await this.getProduct(modulesCode);
+        const product = await this.fetchProduct(modulesCode);
         this.setState({
             allowLoad: true,
             loadedProduct: product,
@@ -182,15 +184,24 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
     }
 
     public render() {
-        const { allowLoad } = this.state;
+        const { allowLoad, loadedProduct } = this.state;
 
         if (!allowLoad) {
-            return <Loading />;
+            return <Loading style={{ flexGrow: 1 }} />;
+        }
+
+        if (!loadedProduct) {
+            return <NoContent />;
         }
 
         return (
             <Layout className="page-layout">
-                {null}
+                <div>
+                    <ThreeSence
+                        productModules={loadedProduct.modules}
+                        productType={loadedProduct.productType}
+                    />
+                </div>
             </Layout>
         );
     }

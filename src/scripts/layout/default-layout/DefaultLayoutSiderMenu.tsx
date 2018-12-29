@@ -5,6 +5,7 @@ import {
     AGENCY_LIST_URL,
     DASHBOARD_URL,
     ORDER_LIST_URL,
+    PRODUCT_PATH,
     PRODUCT_URL,
     USER_PATH,
     USER_PROFILE_URL
@@ -90,7 +91,7 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                     <Icon type="dashboard" />
                     <span>{text('Dashboard')}</span>
                 </Menu.Item>
-                <Menu.Item key={PRODUCT_URL}>
+                <Menu.Item key={PRODUCT_PATH}>
                     <Icon type="border" />
                     <span>{text('Product')}</span>
                 </Menu.Item>

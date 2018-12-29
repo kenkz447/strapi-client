@@ -18,7 +18,11 @@ export class Img extends React.Component<ImgProps> {
         return url;
     }
 
-    static readonly getUrl = (uploadedFile: UploadedFile, size?: ImgSize) => {
+    static readonly getUrl = (uploadedFile?: UploadedFile, size?: ImgSize) => {
+        if (!uploadedFile) {
+            return '';
+        }
+        
         if (size) {
             const fileUrl = uploadedFile[size];
             if (fileUrl) {
