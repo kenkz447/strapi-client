@@ -8,7 +8,11 @@ import {
     request
 } from '@/restful';
 
-import { ProductTypeSelect, ProductTypeSelectProps } from './product-sider';
+import {
+    ProductComponentSelect,
+    ProductTypeSelect,
+    ProductTypeSelectProps
+} from './product-sider';
 
 const ProductSiderWrapper = styled.div`
     width: 400px;
@@ -65,6 +69,7 @@ export class ProductSider extends React.PureComponent<
                     allProductType={allProductType}
                     allProductDesign={allProductDesign}
                 />
+                <ProductComponentSelect />
             </ProductSiderWrapper>
         );
     }

@@ -3,7 +3,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 
 import { FurnitureMaterial } from './furnutureMaterial';
 
-export interface MaterialType extends Record {
+export interface FurnitureMaterialType extends Record {
     readonly id: string;
     readonly name: string;
     readonly materials?: FurnitureMaterial[];
@@ -12,12 +12,12 @@ export interface MaterialType extends Record {
     readonly hideInLibrary?: boolean;
 }
 
-export const materialTypeResourceType = new ResourceType<MaterialType>(
-    nameof<MaterialType>()
+export const materialTypeResourceType = new ResourceType<FurnitureMaterialType>(
+    nameof<FurnitureMaterialType>()
 );
 
 export const materialTypeResources = {
-    find: new Resource<MaterialType, MaterialType[]>({
+    find: new Resource<FurnitureMaterialType, FurnitureMaterialType[]>({
         resourceType: materialTypeResourceType,
         url: '/materialtype',
         method: 'GET'

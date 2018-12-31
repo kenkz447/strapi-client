@@ -188,8 +188,8 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
 
     initLights() {
         // * Environtment
-        const hemiLight = new THREE.AmbientLight(0xffffff, 0xffffff, 1);
-        hemiLight.intensity = .9;
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+        hemiLight.intensity = 1;
         this.scene.add(hemiLight);
 
         const baseShadowCamera = 150;

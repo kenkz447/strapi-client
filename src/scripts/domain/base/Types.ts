@@ -4,11 +4,16 @@ import { WithContextProps } from 'react-context-service';
 import { RouteComponentProps } from 'react-router';
 
 import { AppCoreContext, PageProps } from '@/app';
-import { User } from '@/restful';
+import {
+    FurnitureComponent,
+    FurnitureMaterial,
+    FurnitureMaterialType,
+    User
+} from '@/restful';
 
 import { AuthClient } from './AuthClient';
 
-export interface DefaultLayoutHeaderProps  {
+export interface DefaultLayoutHeaderProps {
 }
 
 export type Print<P = {}> = {
@@ -16,7 +21,7 @@ export type Print<P = {}> = {
     readonly props: P;
 };
 
-export interface DomainContext extends AppCoreContext<User> {
+export interface DomainContext extends AppCoreContext<User>, Product3DSenceContext {
     readonly authClient: AuthClient<User>;
     readonly drawerVisibled?: boolean;
     readonly showPageLoading?: boolean;
@@ -41,6 +46,16 @@ export type WithGlobalModal =
 export type WithSelectedDate = Pick<DomainContext, 'selectedDate'>;
 export type WithSelectedDateRange = Pick<DomainContext, 'selectedDateRange'>;
 export type WithShowPrint = Pick<DomainContext, 'showPrint'>;
+
+export interface Product3DSenceContext {
+    readonly selected3DObject: THREE.Object3D | null;
+    readonly selectedFurnitureComponent: FurnitureComponent | null;
+    readonly availableFurnitureComponents: FurnitureComponent[] | null;
+
+    readonly selectedFurnitureMaterial: FurnitureMaterial | null;
+    readonly selectedFurnitureMaterialType: FurnitureMaterialType | null;
+    readonly availableFurnitureMaterials: FurnitureMaterial[] | null;
+}
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;
 

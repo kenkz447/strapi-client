@@ -1,0 +1,27 @@
+.product-component-select {
+    .ant-list-header {
+        border-bottom: none;
+    }
+    .ant-list-item {
+        margin-bottom: 7px;
+    }
+    .ant-row {
+        display: flex;
+        flex-flow: row wrap;
+    }
+
+    &-item {
+        overflow: hidden;
+        cursor: pointer;
+        &:hover {
+            box-shadow: 0 0 0 2px rgba(213, 155, 1, 0.2);
+        }
+        &.selected {
+            border-color: var(--primary-color);
+            cursor: unset;
+        }
+        img {
+            max-width: 100%;
+        }
+    }
+}

@@ -1,9 +1,10 @@
+import './ProductTypeSelect.scss';
+
 import { Form, Select } from 'antd';
 import { UnregisterCallback } from 'history';
 import * as React from 'react';
 
 import { RootContext } from '@/app';
-import { FormSelect } from '@/components';
 import { WithHistory } from '@/domain';
 import { text } from '@/i18n';
 import { ProductDesign, ProductType, ProductTypeGroup } from '@/restful';
@@ -193,7 +194,7 @@ export class ProductTypeSelect extends React.PureComponent<
         const filteredProductDesign = this.getProductDesignByCurrentType();
 
         return (
-            <div>
+            <div className="product-type-select">
                 <Form.Item label={text('Category')}>
                     <Select
                         value={productTypeGroup || undefined}

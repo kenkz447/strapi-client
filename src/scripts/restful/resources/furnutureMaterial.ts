@@ -1,13 +1,13 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
-import { MaterialType } from './materialType';
+import { FurnitureMaterialType } from './materialType';
 import { UploadedFile } from './uploadedFile';
 
 export interface FurnitureMaterial {
     readonly id: string;
     readonly name: string;
     readonly texture: UploadedFile;
-    readonly materialType: MaterialType;
+    readonly materialType: FurnitureMaterialType;
     readonly price: number;
     readonly inStock: boolean;
     readonly code: string;

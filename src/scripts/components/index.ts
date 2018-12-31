@@ -5,3 +5,4 @@ export * from './editable-input';
 export * from './exception';
 export * from './motion';
 export * from './data';
+export * from './domain';

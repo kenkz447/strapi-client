@@ -2,7 +2,7 @@ import { Card, Table } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Img } from '@/components/generic/Img';
+import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { text } from '@/i18n';
 import { Order, OrderDetail } from '@/restful';
@@ -59,7 +59,7 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                         Xem sản phẩm
                                     </Link>
                                 </div>
-                            )
+                            );
                         }}
                     />
                     <Table.Column

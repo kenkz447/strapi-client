@@ -8,9 +8,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Material } from 'three';
 
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { FurnitureMaterial, ProductModule } from '@/restful';
 
-import { Img } from '../generic';
 import { ThreeSenceBase, ThreeSenceBaseProps } from './ThreeSenceBase';
 
 const { THREE } = window;
@@ -43,7 +43,10 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     static readonly loadNormalMap = (material: FurnitureMaterial, meshMaterial: THREE.MeshPhongMaterial) => {
         const normalMapLoader = new THREE.TextureLoader();
         normalMapLoader.load(
-            Img.getUrl(material.view_normalMap),
+            getUploadedFileSrc({
+                uploadedFile: material.view_normalMap
+            }),
+            
             function (texture: THREE.Texture) {
                 texture.wrapS = THREE.RepeatWrapping;
                 texture.wrapT = THREE.RepeatWrapping;
@@ -110,7 +113,10 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
             if (productModule.component.mtl) {
                 const onLoadMtl = (mtl: THREE.MaterialCreator) => {
-                    const textureFile = Img.getUrl(productModule.material.texture);
+                    const textureFile = getUploadedFileSrc({
+                        uploadedFile: productModule.material.texture
+                    });
+
                     for (const materialInfoKey in mtl.materialsInfo) {
                         if (mtl.materialsInfo.hasOwnProperty(materialInfoKey)) {
                             const materialInfo = mtl.materialsInfo[materialInfoKey];
@@ -149,19 +155,29 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                     objLoader.setMaterials(materials);
                     objLoader.setModelName(productModule.component.name);
 
-                    const objFile = Img.getUrl(productModule.component.obj);
+                    const objFile = getUploadedFileSrc({
+                        uploadedFile: productModule.component.obj
+                    });
+
                     objLoader.load(objFile, callbackOnLoadObj, null, null, null, false);
                 };
 
                 const mtlLoader = new THREE.MTLLoader();
-                const mtlFile = Img.getUrl(productModule.component.mtl);
+                const mtlFile = getUploadedFileSrc({
+                    uploadedFile: productModule.component.mtl
+                });
+
                 mtlLoader.load(mtlFile, onLoadMtl);
                 continue;
             }
 
             if (productModule.component.fbx) {
                 const fbxLoader = new THREE.FBXLoader();
-                const fbxFile = Img.getUrl(productModule.component.fbx);
+
+                const fbxFile = getUploadedFileSrc({
+                    uploadedFile: productModule.component.fbx
+                });
+
                 fbxLoader.load(
                     fbxFile,
                     (object) => {
@@ -224,12 +240,26 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     }
 
     readonly calcComponentsPosition = () => {
-        const leg = this.props.productModules.find(o => o.component.componentType.position === 'leg');
+        const leg = this.props.productModules.find(o => {
+            if (typeof o.component.componentType === 'string') {
+                return false;
+            }
+
+            return o.component.componentType.position === 'leg';
+        });
+
         if (!leg) {
             return;
         }
 
-        const top = this.props.productModules.find(o => o.component.componentType.position === 'top');
+        const top = this.props.productModules.find(o => {
+            if (typeof o.component.componentType === 'string') {
+                return false;
+            }
+
+            return o.component.componentType.position === 'top';
+        });
+
         if (!top) {
             return;
         }

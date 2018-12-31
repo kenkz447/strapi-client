@@ -2,7 +2,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 
 import { ComponentGroup } from './componentGroup';
 import { FurnitureComponentType } from './furnitureComponentType';
-import { MaterialType } from './materialType';
+import { FurnitureMaterialType } from './materialType';
 import { ProductDesign } from './productDesign';
 import { UploadedFile } from './uploadedFile';
 
@@ -12,8 +12,8 @@ export interface FurnitureComponent extends Record {
     readonly obj?: UploadedFile;
     readonly mtl?: UploadedFile;
     readonly thumbnail?: UploadedFile;
-    readonly componentType: FurnitureComponentType;
-    readonly materialTypes: MaterialType[];
+    readonly componentType: FurnitureComponentType | string;
+    readonly materialTypes: FurnitureMaterialType[];
     readonly quotaValue: number;
     readonly design: ProductDesign;
     readonly price: number;
@@ -36,6 +36,11 @@ export const furnitureComponentResources = {
     find: new Resource<FurnitureComponent, FurnitureComponent[]>({
         resourceType: furnitureComponentResourceType,
         url: '/components',
+        method: 'GET'
+    }),
+    findOne: new Resource<FurnitureComponent, FurnitureComponent>({
+        resourceType: furnitureComponentResourceType,
+        url: '/components/:id',
         method: 'GET'
     }),
     create: new Resource<FurnitureComponent>({

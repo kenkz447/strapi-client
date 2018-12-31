@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import { RootContext } from '@/app';
 import {
-    getFurnitureComponentByCodeProps,
+    getFurnitureComponentByCode,
     getFurnitureComponentByDesign
 } from '@/business/furniture-component';
 import { getFurnitureMaterialByCodeProps } from '@/business/furniture-material';
@@ -18,7 +18,6 @@ import {
 } from '@/business/product-modules';
 import { getProductTypeById } from '@/business/product-type';
 import { NoContent } from '@/components';
-import { ThreeSence } from '@/components/domain';
 import { PRODUCT_URL } from '@/configs';
 import { WithHistory } from '@/domain';
 import {
@@ -28,6 +27,7 @@ import {
 } from '@/restful';
 import { getUrlSearchParam, replaceRoutePath } from '@/utilities';
 
+import { Product3dSence } from './product-fetcher';
 import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
 
 export interface ProductFetcherProps {
@@ -61,7 +61,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         }
 
         const urlProductDesign = getUrlSearchParam('productDesign');
-        
+
         if (productDesign !== urlProductDesign) {
             return {
                 ...state,
@@ -103,7 +103,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         if (this._isUnmounting) {
             return;
         }
-        
+
         const { productDesign } = this.state;
         const urlProductDesign = getUrlSearchParam('productDesign');
 
@@ -131,7 +131,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
 
         const componentsMaterials = await Promise.all([
             Promise.all(componentCodes.map((code) =>
-                getFurnitureComponentByCodeProps(code)
+                getFurnitureComponentByCode(code)
             )),
             Promise.all(materialCodes.map((code) =>
                 getFurnitureMaterialByCodeProps(code)
@@ -205,8 +205,15 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         const allFurnitureComponentType = allFurnitureComponentByDesign.reduce(
             (furnitureComponentTypes, furnitureComponent) => {
                 const existingFurnitureComponentType = furnitureComponentTypes.find(
-                    o => o.id === furnitureComponent.componentType.id
+                    o => {
+                        if (typeof furnitureComponent.componentType === 'string') {
+                            return o.id === furnitureComponent.componentType;
+                        }
+
+                        return o.id === furnitureComponent.componentType.id;
+                    }
                 );
+
                 if (existingFurnitureComponentType) {
                     return furnitureComponentTypes;
                 }
@@ -276,7 +283,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
                     <React.Fragment>
                         <Layout.Content className="h-100">
                             <div className="product-fetcher-sence-wrapper">
-                                <ThreeSence
+                                <Product3dSence
                                     productModules={loadedProduct!.modules}
                                     productType={loadedProduct!.productType}
                                 />

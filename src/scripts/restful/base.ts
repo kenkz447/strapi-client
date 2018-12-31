@@ -26,3 +26,46 @@ export const getDefaultParamsForUpdate = (params: RequestParameter[]): RequestPa
         value: bodyValue.id!
     };
 };
+
+interface IsRecordEqualRecord {
+    readonly id: string;
+}
+
+export const isRecordEqual = (
+    item1: IsRecordEqualRecord | string,
+    item2: IsRecordEqualRecord | string
+) => {
+    if (!item1 || !item2) {
+        return false;
+    }
+
+    if (
+        typeof item2 === 'string' &&
+        typeof item1 === 'string'
+    ) {
+        return item1 === item2;
+    }
+
+    if (
+        typeof item2 === 'string' &&
+        typeof item1 !== 'string'
+    ) {
+        return item1.id === item2;
+    }
+
+    if (
+        typeof item2 !== 'string' &&
+        typeof item1 === 'string'
+    ) {
+        return item1 === item2.id;
+    }
+
+    if (
+        typeof item2 !== 'string' &&
+        typeof item1 !== 'string'
+    ) {
+        return item1.id === item2.id;
+    }
+
+    return false;
+};

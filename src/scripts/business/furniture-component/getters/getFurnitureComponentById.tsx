@@ -5,20 +5,21 @@ import {
     restfulStore
 } from '@/restful';
 
-export const getFurnitureComponentByCode = async (code: string) => {
+export const getFurnitureComponentById = async (id: string) => {
     const component = restfulStore.findOneRecord(
         furnitureComponentResourceType,
-        (o) => o.code === code
+        (o) => o.id === id
     );
 
     if (component) {
         return component;
     }
-    const result = await request(furnitureComponentResources.find, {
-        type: 'query',
-        parameter: 'code',
-        value: code
+
+    const result = await request(furnitureComponentResources.findOne, {
+        type: 'path',
+        parameter: 'id',
+        value: id
     });
 
-    return result[0] || null;
+    return result;
 };
