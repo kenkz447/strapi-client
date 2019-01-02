@@ -1,13 +1,16 @@
 import './ProductComponentSelect.scss';
 
 import { List } from 'antd';
-import * as classNames from 'classnames';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Img } from '@/components';
 import { Product3DSenceContext } from '@/domain';
 import { FurnitureComponent } from '@/restful';
+
+import { RouteProductContext } from '../../RouteProductContext';
+import { ComponentSelectItem } from './product-component-select';
 
 interface ProductComponentSelectProps {
 
@@ -16,38 +19,94 @@ interface ProductComponentSelectProps {
 class ProductComponentSelectComponent extends React.PureComponent<
     WithContextProps<Product3DSenceContext, ProductComponentSelectProps>
     > {
-    render() {
+
+    private readonly getFilteredFurnitureComponents = () => {
         const {
             selectedFurnitureComponent,
+            selectedFurnitureComponentType,
             availableFurnitureComponents,
-            setContext
+            selectedFurnitureComponentHeight,
+            selectedFurnitureComponentDiameter,
+            selectedFurnitureComponentLengthinesss
+        } = this.props;
+
+        if (
+            !selectedFurnitureComponent ||
+            !selectedFurnitureComponentType ||
+            !availableFurnitureComponents
+        ) {
+            return [];
+        }
+
+        let filteredComponentByGroup = [...availableFurnitureComponents];
+        const selectedFurnitureComponentGroup = selectedFurnitureComponent.componentGroup;
+        if (
+            !selectedFurnitureComponentType.isBase &&
+            selectedFurnitureComponentGroup
+        ) {
+            filteredComponentByGroup = filteredComponentByGroup.filter(o =>
+                o.componentGroup && o.componentGroup.id === selectedFurnitureComponentGroup.id
+            );
+        }
+
+        if (selectedFurnitureComponentHeight) {
+            const heightFiltered = filteredComponentByGroup.filter(o => o.height === selectedFurnitureComponentHeight);
+            if (heightFiltered.length) {
+                filteredComponentByGroup = heightFiltered;
+            }
+        }
+
+        if (selectedFurnitureComponentDiameter) {
+            const diameterFiltered = filteredComponentByGroup.filter(o =>
+                o.diameter === selectedFurnitureComponentDiameter
+            );
+
+            if (diameterFiltered.length) {
+                filteredComponentByGroup = diameterFiltered;
+            }
+        }
+
+        if (selectedFurnitureComponentLengthinesss) {
+            const diameterFiltered = filteredComponentByGroup.filter(o =>
+                o.lengthiness === selectedFurnitureComponentLengthinesss
+            );
+            if (diameterFiltered.length) {
+                filteredComponentByGroup = diameterFiltered;
+            }
+        }
+
+        return filteredComponentByGroup;
+    }
+
+    render() {
+        const {
+            selectedFurnitureComponent
         } = this.props;
 
         if (!selectedFurnitureComponent) {
             return null;
         }
 
+        const filteredFurnitureComponents = this.getFilteredFurnitureComponents();
+
         return (
             <List
                 className="product-component-select"
                 header="Components"
-                dataSource={availableFurnitureComponents}
+                dataSource={filteredFurnitureComponents}
                 grid={{ column: 4, gutter: 5 }}
                 renderItem={(furnitureComponent: FurnitureComponent) => {
                     const isSelected = furnitureComponent.id === selectedFurnitureComponent.id;
                     return (
-                        <List.Item>
-                            <div
-                                className={
-                                    classNames(
-                                        'product-component-select-item',
-                                        'ant-select-selection',
-                                        { 'selected': isSelected }
-                                    )}
-                            >
-                                <Img file={furnitureComponent.thumbnail} />
-                            </div>
-                        </List.Item>
+                        <RouteProductContext.Consumer key={furnitureComponent.id}>
+                            {({ currentModulesCode }) => (
+                                <ComponentSelectItem
+                                    currentProductModulesCode={currentModulesCode}
+                                    furnitureComponent={furnitureComponent}
+                                    isSelected={isSelected}
+                                />
+                            )}
+                        </RouteProductContext.Consumer>
                     );
                 }}
             />
@@ -58,5 +117,9 @@ class ProductComponentSelectComponent extends React.PureComponent<
 export const ProductComponentSelect = withContext<Product3DSenceContext>(
     'availableFurnitureComponents',
     'selected3DObject',
-    'selectedFurnitureComponent'
+    'selectedFurnitureComponent',
+    'selectedFurnitureComponentType',
+    'selectedFurnitureComponentHeight',
+    'selectedFurnitureComponentDiameter',
+    'selectedFurnitureComponentLengthinesss'
 )(ProductComponentSelectComponent);

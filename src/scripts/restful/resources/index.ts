@@ -2,7 +2,7 @@ export * from './agency';
 export * from './agencyLevel';
 export * from './auth';
 export * from './city';
-export * from './componentGroup';
+export * from './furnitureComponentGroup';
 export * from './county';
 export * from './discountByQuantities';
 export * from './furnitureComponent';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { RouteInfo } from '@/app';
+import { eventEmitter, RouteInfo } from '@/app';
 import { PageContent, PageLoading, PageWrapper, SlideUp } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
@@ -13,6 +13,7 @@ import {
 } from '@/restful';
 
 import { ProductFetcher, ProductSider } from './containers';
+import { RouteProductContext } from './RouteProductContext';
 
 type RouteProps = AppPageProps<{ readonly modulesCode: string }>;
 
@@ -26,19 +27,46 @@ export class RouteProduct extends RoutePage<RouteProps> {
     readonly state = {
         allowLoad: true
     };
-    
+
+    private readonly clearContext = () => {
+        eventEmitter.on('clear3dContext', () => {
+            const { setContext } = this.context;
+            setContext({
+                selected3DObject: null,
+                selectedFurnitureComponent: null,
+                selectedFurnitureMaterial: null,
+                selectedFurnitureMaterialType: null,
+                availableFurnitureComponents: null,
+                availableFurnitureMaterials: null,
+                selectedFurnitureComponentGroup: null,
+                selectedFurnitureComponentDiameter: null,
+                selectedFurnitureComponentHeight: null,
+                selectedFurnitureComponentLengthinesss: null,
+                selectedFurnitureComponentType: null
+            });
+        });
+    }
+
     public render() {
         const { match } = this.props;
 
+        const routeProductContextValue = {
+            currentModulesCode: match.params.modulesCode
+        };
+
         return (
-            <PageWrapper>
-                <PageContent>
-                    <SlideUp className="h-100 w-100 d-flex">
-                        <ProductFetcher modulesCode={match.params.modulesCode} />
-                        <ProductSider />
-                    </SlideUp>
-                </PageContent>
-            </PageWrapper>
+            <RouteProductContext.Provider value={routeProductContextValue}>
+                <PageWrapper>
+                    <PageContent>
+                        <SlideUp className="h-100 w-100 d-flex">
+                            <ProductFetcher
+                                modulesCode={routeProductContextValue.currentModulesCode}
+                            />
+                            <ProductSider />
+                        </SlideUp>
+                    </PageContent>
+                </PageWrapper>
+            </RouteProductContext.Provider>
         );
     }
 }

@@ -13,7 +13,8 @@ export interface ThreeSenceBaseProps {
     readonly productType: ProductType;
     readonly clearColor?: string;
     readonly sampleLevel?: number;
-    onObjectSelect?: (object: THREE.Group | null) => void;
+    readonly onObjectSelect?: (object: THREE.Group | null) => void;
+    readonly selectedObject?: THREE.Object3D | null;
 }
 
 export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.PureComponent<TProps> {
@@ -123,10 +124,13 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         this.outlinePass = new THREE.OutlinePass(
             new THREE.Vector2(this.container.clientWidth, this.container.clientHeight),
             this.scene,
-            this.camera);
+            this.camera
+        );
+        
         this.outlinePass.pulsePeriod = 1;
-        this.composer.addPass(this.outlinePass);
 
+        this.composer.addPass(this.outlinePass);
+        
         // * FXAA
         const effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
         effectFXAA.uniforms['resolution'].value.set(1 / this.container.clientWidth, 1 / this.container.clientHeight);

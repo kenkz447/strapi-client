@@ -2,7 +2,7 @@ import React from 'react';
 import { WithContextProps } from 'react-context-service';
 import { isArray } from 'util';
 
-import { RootContext } from '@/app';
+import { eventEmitter, RootContext } from '@/app';
 import {
     getFurnitureComponentById,
     getFurnitureComponentsByType
@@ -10,7 +10,7 @@ import {
 import { getFurnitureMaterialByType } from '@/business/furniture-material';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Product3DSenceContext } from '@/domain';
-import { ProductModule, ProductType } from '@/restful';
+import { FurnitureComponentType, ProductModule, ProductType } from '@/restful';
 import { ThreeSence } from '@/routes/product/components';
 
 interface Product3dSenceProps {
@@ -22,18 +22,11 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
     static readonly contextType = RootContext;
     readonly context!: WithContextProps<Product3DSenceContext>;
 
-    public readonly on3dComponentSelect = async (object3D: THREE.Group | null) => {
+    private readonly on3dComponentSelect = async (object3D: THREE.Group | null) => {
         const { setContext } = this.context;
 
         if (!object3D) {
-            setContext({
-                selected3DObject: null,
-                selectedFurnitureComponent: null,
-                selectedFurnitureMaterial: null,
-                selectedFurnitureMaterialType: null,
-                availableFurnitureComponents: null,
-                availableFurnitureMaterials: null
-            });
+            eventEmitter.emit('clear3dContext');
             return;
         }
 
@@ -41,6 +34,7 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
         if (!selectedFurnitureComponent) {
             throw new Error('No FurnitureComponent found!');
         }
+        const selectedFurnitureComponentType = selectedFurnitureComponent.componentType as FurnitureComponentType;
 
         const availableFurnitureComponents = await getFurnitureComponentsByType(
             selectedFurnitureComponent.componentType
@@ -69,17 +63,18 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
         });
 
         setContext({
-            selected3DObject: object3DShape,
             selectedFurnitureComponent,
             selectedFurnitureMaterial,
             selectedFurnitureMaterialType,
             availableFurnitureComponents,
-            availableFurnitureMaterials
+            availableFurnitureMaterials,
+            selectedFurnitureComponentType
         });
     }
 
     render() {
         const { productModules, productType } = this.props;
+
         return (
             <ThreeSence
                 productModules={productModules}

@@ -1,6 +1,6 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
-import { ComponentGroup } from './componentGroup';
+import { FurnitureComponentGroup } from './furnitureComponentGroup';
 import { FurnitureComponentType } from './furnitureComponentType';
 import { FurnitureMaterialType } from './materialType';
 import { ProductDesign } from './productDesign';
@@ -21,7 +21,7 @@ export interface FurnitureComponent extends Record {
     readonly displayName: string;
     readonly code: string;
     readonly height?: number;
-    readonly componentGroup?: ComponentGroup;
+    readonly componentGroup?: FurnitureComponentGroup;
     readonly isDefault?: boolean;
     readonly noSelection?: boolean;
     readonly diameter?: number;

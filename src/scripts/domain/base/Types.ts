@@ -6,6 +6,8 @@ import { RouteComponentProps } from 'react-router';
 import { AppCoreContext, PageProps } from '@/app';
 import {
     FurnitureComponent,
+    FurnitureComponentGroup,
+    FurnitureComponentType,
     FurnitureMaterial,
     FurnitureMaterialType,
     User
@@ -50,11 +52,18 @@ export type WithShowPrint = Pick<DomainContext, 'showPrint'>;
 export interface Product3DSenceContext {
     readonly selected3DObject: THREE.Object3D | null;
     readonly selectedFurnitureComponent: FurnitureComponent | null;
+    readonly selectedFurnitureComponentType: FurnitureComponentType | null;
     readonly availableFurnitureComponents: FurnitureComponent[] | null;
 
     readonly selectedFurnitureMaterial: FurnitureMaterial | null;
     readonly selectedFurnitureMaterialType: FurnitureMaterialType | null;
     readonly availableFurnitureMaterials: FurnitureMaterial[] | null;
+
+    readonly selectedFurnitureComponentGroup: FurnitureComponentGroup | null;
+    
+    readonly selectedFurnitureComponentHeight: number | null;
+    readonly selectedFurnitureComponentDiameter: number | null;
+    readonly selectedFurnitureComponentLengthinesss: number | null;
 }
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;
