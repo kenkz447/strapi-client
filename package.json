@@ -4,7 +4,7 @@
         "port": 3000
     },
     "dependencies": {
-        "@types/three": "^0.93.14",
+        "@types/three": "^0.93.15",
         "ant-design-pro": "^2.1.1",
         "antd": "^3.11.6",
         "classnames": "2.2.6",
@@ -27,7 +27,7 @@
         "yup": "^0.26.6"
     },
     "devDependencies": {
-        "@types/classnames": "^2.2.6",
+        "@types/classnames": "^2.2.7",
         "@types/js-cookie": "^2.1.0",
         "@types/jwt-decode": "^2.2.1",
         "@types/lodash": "^4.14.119",
@@ -38,7 +38,7 @@
         "@types/react-router-dom": "^4.3.0",
         "@types/styled-components": "^4.1.4",
         "@types/webpack-env": "^1.13.6",
-        "@types/yup": "^0.26.3",
+        "@types/yup": "^0.26.4",
         "compression-webpack-plugin": "^2.0.0",
         "copy-webpack-plugin": "^4.6.0",
         "cross-env": "^5.1.5",
@@ -63,7 +63,7 @@
         "stylelint-config-recommended": "^2.1.0",
         "stylelint-config-styled-components": "^0.1.1",
         "stylelint-processor-styled-components": "^1.5.1",
-        "terser-webpack-plugin": "^1.2.0",
+        "terser-webpack-plugin": "^1.2.1",
         "ts-import-plugin": "^1.5.5",
         "ts-loader": "^5.3.2",
         "ts-nameof": "^1.0.4",
@@ -74,9 +74,9 @@
         "tslint-language-service": "^0.9.9",
         "tslint-react": "^3.6.0",
         "typescript": "^3.2.2",
-        "webpack": "^4.28.2",
+        "webpack": "^4.28.3",
         "webpack-bundle-analyzer": "^3.0.2",
-        "webpack-cli": "^3.1.2",
+        "webpack-cli": "^3.2.0",
         "webpack-dev-server": "^3.1.14",
         "webpack-env": "^0.8.0",
         "workbox-webpack-plugin": "^3.6.3"
