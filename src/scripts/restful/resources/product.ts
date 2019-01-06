@@ -23,7 +23,6 @@ export interface Product {
 }
 
 export interface ProductModule {
-    readonly id?: string;
     readonly component: FurnitureComponent;
     readonly componentPrice: number;
     readonly material: FurnitureMaterial;

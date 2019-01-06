@@ -38,6 +38,7 @@ interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
     readonly modulesCode: string | null;
     readonly loadedProduct: ProductExtended | null;
+    readonly needsUpdate?: boolean;
 }
 
 export class ProductFetcher extends React.PureComponent<ProductFetcherProps, ProductFetcherState> {
@@ -55,7 +56,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         if (nextProps.modulesCode !== modulesCode) {
             return {
                 ...state,
-                loadedProduct: null,
+                needsUpdate: true,
                 modulesCode: nextProps.modulesCode
             };
         }
@@ -65,6 +66,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         if (productDesign !== urlProductDesign) {
             return {
                 ...state,
+                needsUpdate: true,
                 productDesign: urlProductDesign
             };
         }
@@ -178,6 +180,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         const product = await this.fetchProduct(modulesCode);
         this.setState({
             allowLoad: true,
+            needsUpdate: false,
             loadedProduct: product,
             modulesCode: modulesCode
         });
@@ -185,11 +188,10 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
 
     private readonly loadProductIfNeeded = () => {
         const {
-            modulesCode,
-            loadedProduct
+            modulesCode
         } = this.state;
 
-        if (loadedProduct || !modulesCode) {
+        if (!modulesCode) {
             return;
         }
 
@@ -261,8 +263,15 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         this.loadProductIfNeeded();
     }
 
-    public componentDidUpdate() {
-        this.loadProductIfNeeded();
+    public componentDidUpdate(
+        prevProps: ProductFetcherProps,
+        prevState: ProductFetcherState
+    ) {
+        const isModulesCodeChanged = prevState.modulesCode !== this.state.modulesCode;
+
+        if (isModulesCodeChanged) {
+            this.loadProductIfNeeded();
+        }
     }
 
     public componentWillUnmount() {
@@ -271,7 +280,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
     }
 
     public render() {
-        const { allowLoad, loadedProduct } = this.state;
+        const { allowLoad, loadedProduct, productDesign } = this.state;
 
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
@@ -284,6 +293,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
                         <Layout.Content className="h-100">
                             <div className="product-fetcher-sence-wrapper">
                                 <Product3dSence
+                                    key={loadedProduct!.design.id}
                                     productModules={loadedProduct!.modules}
                                     productType={loadedProduct!.productType}
                                 />

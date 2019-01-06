@@ -13,7 +13,10 @@ import {
 } from '@/restful';
 
 import { ProductFetcher, ProductSider } from './containers';
-import { RouteProductContext } from './RouteProductContext';
+import {
+    CLEAR_3D_SENCE_CONTEXT_EVENT,
+    RouteProductContext
+} from './RouteProductContext';
 
 type RouteProps = AppPageProps<{ readonly modulesCode: string }>;
 
@@ -28,23 +31,34 @@ export class RouteProduct extends RoutePage<RouteProps> {
         allowLoad: true
     };
 
-    private readonly clearContext = () => {
-        eventEmitter.on('clear3dContext', () => {
-            const { setContext } = this.context;
-            setContext({
-                selected3DObject: null,
-                selectedFurnitureComponent: null,
-                selectedFurnitureMaterial: null,
-                selectedFurnitureMaterialType: null,
-                availableFurnitureComponents: null,
-                availableFurnitureMaterials: null,
-                selectedFurnitureComponentGroup: null,
-                selectedFurnitureComponentDiameter: null,
-                selectedFurnitureComponentHeight: null,
-                selectedFurnitureComponentLengthinesss: null,
-                selectedFurnitureComponentType: null
-            });
+    private readonly registerEvent = () => {
+        eventEmitter.on(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
+    }
+
+    private readonly clear3DSenceContext = () => {
+        const { setContext } = this.props;
+        setContext({
+            selected3DObject: null,
+            selectedFurnitureComponent: null,
+            selectedFurnitureComponentGroup: null,
+            selectedFurnitureComponentDiameter: null,
+            selectedFurnitureComponentHeight: null,
+            selectedFurnitureComponentLengthinesss: null,
+            selectedFurnitureComponentType: null,
+            selectedFurnitureMaterial: null,
+            selectedFurnitureMaterialType: null,
+            availableFurnitureComponents: null,
+            availableFurnitureMaterials: null
         });
+    }
+
+    public componentDidMount() {
+        this.registerEvent();
+    }
+
+    public componentWillUnmount() {
+        this.clear3DSenceContext();
+        eventEmitter.removeListener(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
     }
 
     public render() {

@@ -13,6 +13,8 @@ import { Product3DSenceContext } from '@/domain';
 import { FurnitureComponentType, ProductModule, ProductType } from '@/restful';
 import { ThreeSence } from '@/routes/product/components';
 
+import { CLEAR_3D_SENCE_CONTEXT_EVENT } from '../../RouteProductContext';
+
 interface Product3dSenceProps {
     readonly productModules: ProductModule[];
     readonly productType: ProductType;
@@ -23,10 +25,8 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
     readonly context!: WithContextProps<Product3DSenceContext>;
 
     private readonly on3dComponentSelect = async (object3D: THREE.Group | null) => {
-        const { setContext } = this.context;
-
         if (!object3D) {
-            eventEmitter.emit('clear3dContext');
+            eventEmitter.emit(CLEAR_3D_SENCE_CONTEXT_EVENT);
             return;
         }
 
@@ -61,6 +61,8 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
 
             return materialTextureSrc === object3DTextureSrc;
         });
+
+        const { setContext } = this.context;
 
         setContext({
             selectedFurnitureComponent,

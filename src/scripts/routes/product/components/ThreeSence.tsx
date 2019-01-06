@@ -9,23 +9,15 @@ import styled from 'styled-components';
 import { Material } from 'three';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
-import { FurnitureMaterial, ProductModule } from '@/restful';
+import {
+    FurnitureComponent,
+    FurnitureMaterial,
+    ProductModule
+} from '@/restful';
 
 import { ThreeSenceBase, ThreeSenceBaseProps } from './ThreeSenceBase';
 
 const { THREE } = window;
-
-const Overlay = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
 
 interface ThreeSenceProps extends ThreeSenceBaseProps {
     readonly setSence?: (threeSence: ThreeSence) => void;
@@ -36,16 +28,15 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         loaded: false
     };
 
-    // tslint:disable-next-line:readonly-keyword
-    private loaded3DComponents: Array<THREE.Group> = [];
+    private _loaded3DComponents: Array<THREE.Group> = [];
 
-    static readonly loadNormalMap = (material: FurnitureMaterial, meshMaterial: THREE.MeshPhongMaterial) => {
+    readonly loadNormalMap = (material: FurnitureMaterial, meshMaterial: THREE.MeshPhongMaterial) => {
         const normalMapLoader = new THREE.TextureLoader();
         normalMapLoader.load(
             getUploadedFileSrc({
                 uploadedFile: material.view_normalMap
             }),
-            
+
             function (texture: THREE.Texture) {
                 texture.wrapS = THREE.RepeatWrapping;
                 texture.wrapT = THREE.RepeatWrapping;
@@ -56,56 +47,10 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         );
     }
 
-    componentDidMount() {
-        this.initSence();
-        this.initContent();
-        const { setSence } = this.props;
-        if (setSence) {
-            setSence(this);
-        }
-    }
-
-    componentDidUpdate() {
-        const { selectedObject } = this.props;
-
-        if (selectedObject) {
-            this.selectObject(selectedObject);
-        }
-
-        this.calcComponentsPosition();
-    }
-
-    componentWillUnmount() {
-        if (this.animationFrameId) {
-            this.clearScene();
-        }
-    }
-
-    render() {
-        const { productType } = this.props;
-
-        return (
-            <div style={{ position: 'relative', width: '100%' }}>
-                {!this.state.loaded &&
-                    <Overlay>
-                        <Spin />
-                    </Overlay>
-                }
-                <div
-                    id="threeViewWindow"
-                    ref={(element: HTMLDivElement) => this.container = element}
-                    style={{
-                        width: '100%',
-                        height: productType.view_senceHeight
-                    }}
-                />
-            </div>
-        );
-    }
-
-    initContent() {
+    private readonly initContent = () => {
         const { productModules } = this.props;
         for (const productModule of productModules) {
+
             if (!productModule.material || !productModule.component) {
                 continue;
             }
@@ -131,24 +76,29 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                     const materials = mtl.materials as THREE.MeshPhongMaterial[];
 
                     for (const key in materials) {
-                        if (materials.hasOwnProperty(key)) {
-                            const material = materials[key];
-                            material.transparent = true;
-                            if (material.map) {
-                                material.map.anisotropy = 16;
-                                if (productModule.material.materialType) {
-                                    material.shininess = productModule.material.materialType.view_shiny || 0;
-                                }
-                            }
+                        if (!materials.hasOwnProperty(key)) {
+                            continue;
+                        }
 
-                            if (productModule.material.view_normalMap) {
-                                ThreeSence.loadNormalMap(productModule.material, material);
+                        const material = materials[key];
+
+                        material.name = productModule.material.id;
+                        material.transparent = true;
+
+                        if (material.map) {
+                            material.map.anisotropy = 16;
+                            if (productModule.material.materialType) {
+                                material.shininess = productModule.material.materialType.view_shiny || 0;
                             }
+                        }
+
+                        if (productModule.material.view_normalMap) {
+                            this.loadNormalMap(productModule.material, material);
                         }
                     }
 
                     const objLoader = new THREE.OBJLoader2();
-                    const callbackOnLoadObj = this.callbackOnLoadObj(productModule, materials);
+                    const callbackOnLoadObj = this.createInitModulesOnLoadHandler(productModule, materials);
 
                     objLoader.setLogging(false, false);
                     objLoader.setMaterials(materials);
@@ -196,11 +146,46 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         }
     }
 
-    readonly callbackOnLoadObj = (productModule: ProductModule, materials: Material[]) => (event) => {
+    private readonly replaceComponentObject = (replaced3DGroup: THREE.Group, newComponent: FurnitureComponent) => {
+        const objLoader = new THREE.OBJLoader2();
+
+        const objFileUrl = getUploadedFileSrc({
+            uploadedFile: newComponent.obj
+        });
+
+        objLoader.load(objFileUrl, (event) => {
+            const oldChild = replaced3DGroup.children[0] as THREE.Mesh;
+
+            const componentScale = this.getComponentScale(newComponent);
+            const loadedObject = event.detail.loaderRootNode;
+
+            for (const mesh of loadedObject.children) {
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                mesh.scale.set(componentScale, componentScale, componentScale);
+                mesh.material = oldChild.material;
+            }
+
+            loadedObject.name = newComponent.id;
+            this.scene.add(loadedObject);
+
+            this.scene.remove(replaced3DGroup);
+        });
+    }
+
+    private readonly getComponentScale = (component: FurnitureComponent) => {
+        const { scale } = component;
+        return scale ? scale * 0.1 : 0.1;
+    }
+
+    private readonly createInitModulesOnLoadHandler = (
+        productModule: ProductModule,
+        materials: Material[]
+    ) => (event) => {
         const root = event.detail.loaderRootNode;
 
         const { component } = productModule;
-        const componentScale = component.scale ? component.scale * 0.1 : 0.1;
+        const componentScale = this.getComponentScale(component);
 
         for (const child of root.children) {
             // if child has multi material, we need set child's material to first material in the list
@@ -224,21 +209,21 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         root.name = component.id;
 
         this.scene.add(root);
-        this.loaded3DComponents.push(root);
+        this._loaded3DComponents.push(root);
 
-        if (this.loaded3DComponents.length === this.props.productModules.length) {
+        if (this._loaded3DComponents.length === this.props.productModules.length) {
             this.modulesLoadCompleted();
         }
     }
 
-    readonly modulesLoadCompleted = () => {
+    private readonly modulesLoadCompleted = () => {
         this.calcComponentsPosition();
         this.setState({
             loaded: true
         });
     }
 
-    readonly calcComponentsPosition = () => {
+    private readonly calcComponentsPosition = () => {
         const leg = this.props.productModules.find(o => {
             if (typeof o.component.componentType === 'string') {
                 return false;
@@ -274,7 +259,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         }
     }
 
-    readonly takeScreenshot = () => {
+    private readonly takeScreenshot = () => {
         return new Promise<string>((resolve) => {
             this.resetCamera();
             setTimeout(
@@ -285,5 +270,113 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                 500
             );
         });
+    }
+
+    private readonly update3DViewData = (props: {
+        readonly prevProductModules: ProductModule[];
+        readonly nextProductModules: ProductModule[];
+    }) => {
+        const {
+            prevProductModules,
+            nextProductModules
+        } = props;
+
+        const replacingModule = nextProductModules.find((currentModule) => {
+            return !prevProductModules.find(oldModule =>
+                oldModule.component.id === currentModule.component.id
+            );
+        });
+
+        if (!replacingModule) {
+            return;
+        }
+
+        this.scene.traverse((object3d: THREE.Group) => {
+            const isComponentObject = object3d instanceof THREE.Group;
+
+            if (!isComponentObject) {
+                return;
+            }
+
+            const productModule = this.props.productModules.find(o => o.component.id === object3d.name);
+
+            if (productModule) {
+                if (replacingModule.component.id !== productModule.component.id) {
+                    return;
+                }
+
+                const mesh = object3d.children.find((o: THREE.Mesh) => !!o.material) as THREE.Mesh | undefined;
+                if (!mesh) {
+                    return;
+                }
+
+                const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+                if (material.name === replacingModule.material.id) {
+                    return;
+                }
+
+                return;
+            }
+
+            this.replaceComponentObject(
+                object3d as THREE.Group,
+                replacingModule!.component
+            );
+        });
+    }
+
+    public componentDidMount() {
+        this.initSence();
+        this.initContent();
+        const { setSence } = this.props;
+        if (setSence) {
+            setSence(this);
+        }
+    }
+
+    public componentDidUpdate(prevProps: ThreeSenceProps) {
+        const { selectedObject } = this.props;
+
+        const idModuleChanged = prevProps.productModules !== this.props.productModules;
+        if (idModuleChanged) {
+            this.update3DViewData({
+                prevProductModules: prevProps.productModules,
+                nextProductModules: this.props.productModules
+            });
+        }
+
+        if (selectedObject) {
+            this.selectObject(selectedObject);
+        }
+
+        this.calcComponentsPosition();
+    }
+
+    public componentWillUnmount() {
+        if (this.animationFrameId) {
+            this.clearScene();
+        }
+    }
+
+    public render() {
+        const { productType } = this.props;
+
+        return (
+            <div className="three-sence-wrapper">
+                {!this.state.loaded &&
+                    <div className="three-sence-loading">
+                        <Spin />
+                    </div>
+                }
+                <div
+                    id="threeViewWindow"
+                    ref={(element: HTMLDivElement) => this.container = element}
+                    style={{
+                        width: '100%',
+                        height: productType.view_senceHeight
+                    }}
+                />
+            </div>
+        );
     }
 }

@@ -4,8 +4,6 @@ import { List } from 'antd';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { getUploadedFileSrc } from '@/business/uploaded-file';
-import { Img } from '@/components';
 import { Product3DSenceContext } from '@/domain';
 import { FurnitureComponent } from '@/restful';
 
