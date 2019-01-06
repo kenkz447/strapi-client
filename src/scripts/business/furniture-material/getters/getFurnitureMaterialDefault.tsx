@@ -5,19 +5,20 @@ import {
     restfulStore
 } from '@/restful';
 
-export const getFurnitureMaterialByCode = async (code: string) => {
+export const getFurnitureMaterialDefault = async () => {
     const component = restfulStore.findOneRecord(
         furnitureMaterialResourceType,
-        (o) => o.code === code
+        (o) => o.code === '999'
     );
 
     if (component) {
         return component;
     }
+
     const result = await request(furnitureMaterialResources.find, {
         type: 'query',
         parameter: 'code',
-        value: code
+        value: '999'
     });
 
     return result[0] || null;

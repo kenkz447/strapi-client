@@ -9,7 +9,7 @@ import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign
 } from '@/business/furniture-component';
-import { getFurnitureMaterialByCodeProps } from '@/business/furniture-material';
+import { getFurnitureMaterialByCode } from '@/business/furniture-material';
 import {
     getProductModulesComponentCodes,
     getProductModulesFromRaw,
@@ -136,7 +136,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
                 getFurnitureComponentByCode(code)
             )),
             Promise.all(materialCodes.map((code) =>
-                getFurnitureMaterialByCodeProps(code)
+                getFurnitureMaterialByCode(code)
             ))
         ]);
 

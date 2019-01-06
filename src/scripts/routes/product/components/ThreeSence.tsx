@@ -173,6 +173,36 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         });
     }
 
+    private readonly replace3DMeshMaterial = (props: {
+        readonly object3D: THREE.Group;
+        readonly material: FurnitureMaterial;
+    }) => {
+
+        const {
+            object3D,
+            material
+        } = props;
+
+        const texture = new window.THREE.TextureLoader();
+        const textureFile = getUploadedFileSrc({
+            uploadedFile: material.texture
+        });
+
+        const mesh = object3D.children[0] as THREE.Mesh;
+        const meshMaterial = mesh.material as THREE.MeshPhongMaterial;
+
+        texture.load(textureFile, (textureMap) => {
+            meshMaterial.map!.image = textureMap.image;
+            meshMaterial.map!.needsUpdate = true;
+            meshMaterial.needsUpdate = true;
+            if (material.view_normalMap) {
+                this.loadNormalMap(material, meshMaterial);
+            } else {
+                meshMaterial.normalMap = null;
+            }
+        });
+    }
+
     private readonly getComponentScale = (component: FurnitureComponent) => {
         const { scale } = component;
         return scale ? scale * 0.1 : 0.1;
@@ -283,7 +313,8 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
         const replacingModule = nextProductModules.find((currentModule) => {
             return !prevProductModules.find(oldModule =>
-                oldModule.component.id === currentModule.component.id
+                oldModule.component.id === currentModule.component.id &&
+                oldModule.material.id === currentModule.material.id
             );
         });
 
@@ -310,9 +341,12 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                     return;
                 }
 
-                const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-                if (material.name === replacingModule.material.id) {
-                    return;
+                const meshMaterial = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+                if (meshMaterial.name !== replacingModule.material.id) {
+                    this.replace3DMeshMaterial({
+                        object3D: object3d,
+                        material: replacingModule.material
+                    });
                 }
 
                 return;

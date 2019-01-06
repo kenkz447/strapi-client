@@ -7,7 +7,11 @@ import {
     getFurnitureComponentById,
     getFurnitureComponentsByType
 } from '@/business/furniture-component';
-import { getFurnitureMaterialByType } from '@/business/furniture-material';
+import {
+    getFurnitureMaterialByCode,
+    getFurnitureMaterialByType,
+    getFurnitureMaterialDefault
+} from '@/business/furniture-material';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Product3DSenceContext } from '@/domain';
 import { FurnitureComponentType, ProductModule, ProductType } from '@/restful';
@@ -48,7 +52,7 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
         const selectedFurnitureMaterialType = selectedFurnitureComponent.materialTypes[0];
         const availableFurnitureMaterials = await getFurnitureMaterialByType(selectedFurnitureMaterialType);
 
-        const selectedFurnitureMaterial = availableFurnitureMaterials.find(o => {
+        let selectedFurnitureMaterial = availableFurnitureMaterials.find(o => {
             if (
                 !object3DMaterial ||
                 !object3DMaterial.map
@@ -61,6 +65,10 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
 
             return materialTextureSrc === object3DTextureSrc;
         });
+
+        if (!selectedFurnitureMaterial) {
+            selectedFurnitureMaterial = await getFurnitureMaterialByCode('999');
+        }
 
         const { setContext } = this.context;
 

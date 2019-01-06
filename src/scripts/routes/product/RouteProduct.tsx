@@ -1,16 +1,10 @@
 import * as React from 'react';
 
 import { eventEmitter, RouteInfo } from '@/app';
-import { PageContent, PageLoading, PageWrapper, SlideUp } from '@/components';
+import { PageContent, PageWrapper, SlideUp } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
-import {
-    productDesignResources,
-    productTypeGroupResources,
-    productTypeResources,
-    request
-} from '@/restful';
 
 import { ProductFetcher, ProductSider } from './containers';
 import {

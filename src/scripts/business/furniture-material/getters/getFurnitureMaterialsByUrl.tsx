@@ -1,23 +1,13 @@
 import {
     FurnitureMaterial,
     furnitureMaterialResources,
-    furnitureMaterialResourceType,
     FurnitureMaterialType,
-    isRecordEqual,
-    request,
-    restfulStore
+    request
 } from '@/restful';
 
-export const getFurnitureMaterialByType = async (furnitureMaterialType: FurnitureMaterialType | string) => {
-    const furnitureMaterials = restfulStore.findManyRecords(
-        furnitureMaterialResourceType,
-        (o) => isRecordEqual(o.materialType, furnitureMaterialType)
-    );
-
-    if (furnitureMaterials && furnitureMaterials.length) {
-        return furnitureMaterials;
-    }
-
+export const getFurnitureMaterialByType = async (
+    furnitureMaterialType: FurnitureMaterialType | string
+) => {
     const result = await request(furnitureMaterialResources.find, {
         type: 'query',
         parameter: nameof<FurnitureMaterial>(o => o.materialType),

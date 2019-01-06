@@ -90,7 +90,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
         return (
             <List
                 className="product-component-select"
-                header="Components"
+                header="Components:"
                 dataSource={filteredFurnitureComponents}
                 grid={{ column: 4, gutter: 5 }}
                 renderItem={(furnitureComponent: FurnitureComponent) => {
