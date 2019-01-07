@@ -41,6 +41,10 @@ export class OrdersFetcher extends React.PureComponent<OrdersFetcherProps, Order
 
         return [{
             type: 'query',
+            parameter: '_sort',
+            value: '_id:DESC'
+        }, {
+            type: 'query',
             parameter: 'code',
             value: codeFilter || undefined!
         }, {

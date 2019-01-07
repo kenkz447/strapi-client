@@ -13,14 +13,11 @@ import {
     ProductTypeSelect,
     ProductTypeSelectProps
 } from './product-sider';
-import { ProductMaterialSelect } from './product-sider/ProductMaterialSelect';
+import { ProductMaterialSelect } from './product-sider';
 
 const ProductSiderWrapper = styled.div`
     flex-basis: 400px;
     background: #fff;
-    margin-left: 24px;
-    margin-top: -24px;
-    margin-right: -24px;
     padding: 24px 24px 0 24px;
     overflow-x: hidden;
 `;
@@ -63,7 +60,12 @@ export class ProductSider extends React.PureComponent<
     }
 
     public render() {
-        const { allProductTypeGroups, allProductType, allProductDesign } = this.state;
+        const {
+            allProductTypeGroups,
+            allProductType,
+            allProductDesign
+        } = this.state;
+        
         return (
             <ProductSiderWrapper>
                 <ProductTypeSelect

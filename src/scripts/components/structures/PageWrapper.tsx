@@ -21,6 +21,7 @@ const PageWrapperContent = styled.div`
 `;
 interface PageWrapperProps extends PageWrapperContentProps {
     readonly className?: string;
+    readonly style?: React.CSSProperties;
 }
 
 export class PageWrapper extends React.PureComponent<PageWrapperProps> {
@@ -35,10 +36,14 @@ export class PageWrapper extends React.PureComponent<PageWrapperProps> {
     }
 
     render() {
-        const { backgroundColor } = this.props;
+        const {
+            backgroundColor,
+            style
+        } = this.props;
         return (
             <PageWrapperContent
                 backgroundColor={backgroundColor}
+                style={style}
             >
                 {this.props.children}
             </PageWrapperContent>

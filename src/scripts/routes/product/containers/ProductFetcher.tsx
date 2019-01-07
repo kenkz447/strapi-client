@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import { UnregisterCallback } from 'history';
 import * as React from 'react';
 
-import { RootContext } from '@/app';
+import { eventEmitter, RootContext } from '@/app';
 import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign
@@ -17,9 +17,10 @@ import {
     getProductModulesPrice
 } from '@/business/product-modules';
 import { getProductTypeById } from '@/business/product-type';
-import { NoContent } from '@/components';
+import { NoContent, PageLoading, SlideUp } from '@/components';
 import { PRODUCT_URL } from '@/configs';
-import { WithHistory } from '@/domain';
+import { DomainContext, WithHistory } from '@/domain';
+import { text } from '@/i18n';
 import {
     FurnitureComponent,
     FurnitureComponentType,
@@ -27,7 +28,8 @@ import {
 } from '@/restful';
 import { getUrlSearchParam, replaceRoutePath } from '@/utilities';
 
-import { Product3dSence } from './product-fetcher';
+import { CLEAR_3D_SENCE_CONTEXT_EVENT } from '../RouteProductContext';
+import { Product3dSence, ProductPrice } from './product-fetcher';
 import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
 
 export interface ProductFetcherProps {
@@ -43,7 +45,7 @@ interface ProductFetcherState extends ProductTypeSelectState {
 
 export class ProductFetcher extends React.PureComponent<ProductFetcherProps, ProductFetcherState> {
     static readonly contextType = RootContext;
-    readonly context!: WithHistory;
+    readonly context!: WithHistory & Pick<DomainContext, 'selectedFurnitureComponent'>;
     readonly unlistenHistory: UnregisterCallback;
     _isUnmounting!: boolean;
 
@@ -53,15 +55,16 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
     ): Partial<ProductFetcherState> | null {
         const { modulesCode, productDesign } = state;
 
+        const urlProductDesign = getUrlSearchParam('productDesign');
+
         if (nextProps.modulesCode !== modulesCode) {
             return {
                 ...state,
                 needsUpdate: true,
-                modulesCode: nextProps.modulesCode
+                modulesCode: nextProps.modulesCode,
+                productDesign: urlProductDesign
             };
         }
-
-        const urlProductDesign = getUrlSearchParam('productDesign');
 
         if (productDesign !== urlProductDesign) {
             return {
@@ -90,7 +93,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
             };
         } else {
             this.state = {
-                allowLoad: true,
+                allowLoad: false,
                 modulesCode: null,
                 loadedProduct: null,
                 ...productTypeSelectState
@@ -259,6 +262,14 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         return result;
     }
 
+    private readonly onComponentChanged = () => {
+        eventEmitter.emit(CLEAR_3D_SENCE_CONTEXT_EVENT);
+    }
+
+    private readonly onShoppingClick = () => {
+        // 
+    }
+
     public componentDidMount() {
         this.loadProductIfNeeded();
     }
@@ -280,34 +291,47 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
     }
 
     public render() {
-        const { allowLoad, loadedProduct, productDesign } = this.state;
-
+        const { allowLoad, loadedProduct } = this.state;
+        if (!allowLoad) {
+            return (
+                <PageLoading />
+            );
+        }
+        const { selectedFurnitureComponent } = this.context;
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
         return (
-            <Layout className="page-layout product-fetcher">
-                {
-                    allowLoadWithProduct &&
-                    <React.Fragment>
-                        <Layout.Content className="h-100">
-                            <div className="product-fetcher-sence-wrapper">
-                                <Product3dSence
-                                    key={loadedProduct!.design.id}
-                                    productModules={loadedProduct!.modules}
-                                    productType={loadedProduct!.productType}
-                                />
-                            </div>
-                        </Layout.Content>
-                        <Layout.Footer>
-                            {}
-                        </Layout.Footer>
-                    </React.Fragment>
-                }
-                {
-                    allowLoadWithNoProduct && <NoContent />
-                }
-            </Layout>
+            <SlideUp className="h-100 w-100 d-flex">
+                <Layout className="page-layout product-fetcher">
+                    {
+                        allowLoadWithProduct &&
+                        <React.Fragment>
+                            <Layout.Content className="h-100">
+                                <div className="product-fetcher-sence-wrapper">
+                                    <Product3dSence
+                                        key={loadedProduct!.design.id}
+                                        productModules={loadedProduct!.modules}
+                                        productType={loadedProduct!.productType}
+                                    />
+                                    <ProductPrice
+                                        totalPrice={loadedProduct!.totalPrice}
+                                        actionTitle={selectedFurnitureComponent ? text('Done') : text('Buy this')}
+                                        actionIcon={selectedFurnitureComponent ? 'check' : 'shopping'}
+                                        actionCallback={selectedFurnitureComponent ?
+                                            this.onComponentChanged :
+                                            this.onShoppingClick
+                                        }
+                                    />
+                                </div>
+                            </Layout.Content>
+                        </React.Fragment>
+                    }
+                    {
+                        allowLoadWithNoProduct && <NoContent />
+                    }
+                </Layout>
+            </SlideUp>
         );
     }
 }

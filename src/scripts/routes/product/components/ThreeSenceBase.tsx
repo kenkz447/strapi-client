@@ -192,14 +192,14 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
 
     initLights() {
         // * Environtment
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-        hemiLight.intensity = 1;
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, .8);
+
         this.scene.add(hemiLight);
 
         const baseShadowCamera = 150;
         // * Directional
         const dirLightLeft = new THREE.DirectionalLight(0xffffff, 1, 1);
-        dirLightLeft.intensity = 1;
+        dirLightLeft.intensity = 1.3;
         dirLightLeft.position.set(-120, 120, 45);
         dirLightLeft.castShadow = true;
         dirLightLeft.shadow.camera.left = -baseShadowCamera;
@@ -212,7 +212,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
 
         // * Directional
         const dirLightright = new THREE.DirectionalLight(0xffffff, 1, 1);
-        dirLightright.intensity = 1;
+        dirLightright.intensity = 1.3;
         dirLightright.position.set(120, 120, 45);
         dirLightright.castShadow = true;
         dirLightright.shadow.camera.left = -baseShadowCamera;

@@ -64,15 +64,13 @@ export class RouteProduct extends RoutePage<RouteProps> {
 
         return (
             <RouteProductContext.Provider value={routeProductContextValue}>
-                <PageWrapper>
+                <PageWrapper style={{ flexDirection: 'row' }}>
                     <PageContent>
-                        <SlideUp className="h-100 w-100 d-flex">
-                            <ProductFetcher
-                                modulesCode={routeProductContextValue.currentModulesCode}
-                            />
-                            <ProductSider />
-                        </SlideUp>
+                        <ProductFetcher
+                            modulesCode={routeProductContextValue.currentModulesCode}
+                        />
                     </PageContent>
+                    <ProductSider />
                 </PageWrapper>
             </RouteProductContext.Provider>
         );
