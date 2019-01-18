@@ -3,6 +3,7 @@ import './ProductFetcher.scss';
 import { Layout } from 'antd';
 import { UnregisterCallback } from 'history';
 import * as React from 'react';
+import { withContext, WithContextProps } from 'react-context-service';
 
 import { eventEmitter, RootContext } from '@/app';
 import {
@@ -32,9 +33,13 @@ import { CLEAR_3D_SENCE_CONTEXT_EVENT } from '../RouteProductContext';
 import { Product3dSence, ProductPrice } from './product-fetcher';
 import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
 
-export interface ProductFetcherProps {
+interface ProductFetcherProps {
     readonly modulesCode: string | null;
 }
+
+type ProductFetcherContextProps = WithHistory
+    & Pick<DomainContext, 'selectedFurnitureComponent'>
+    & Pick<DomainContext, 'selectedProduct'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
@@ -43,9 +48,11 @@ interface ProductFetcherState extends ProductTypeSelectState {
     readonly needsUpdate?: boolean;
 }
 
-export class ProductFetcher extends React.PureComponent<ProductFetcherProps, ProductFetcherState> {
-    static readonly contextType = RootContext;
-    readonly context!: WithHistory & Pick<DomainContext, 'selectedFurnitureComponent'>;
+class ProductFetcherComponent extends React.PureComponent<
+    WithContextProps<ProductFetcherContextProps, ProductFetcherProps>,
+    ProductFetcherState
+    > {
+
     readonly unlistenHistory: UnregisterCallback;
     _isUnmounting!: boolean;
 
@@ -77,10 +84,10 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         return null;
     }
 
-    constructor(props: ProductFetcherProps, context: WithHistory) {
+    constructor(props: WithContextProps<ProductFetcherContextProps, ProductFetcherProps>) {
         super(props);
 
-        const { modulesCode } = props;
+        const { modulesCode, history } = props;
 
         const productTypeSelectState = ProductTypeSelect.getSearchParamsState();
 
@@ -100,7 +107,6 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
             };
         }
 
-        const { history } = context;
         this.unlistenHistory = history.listen(this.onUrlChange);
     }
 
@@ -122,7 +128,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
             return;
         }
 
-        const { history } = this.context;
+        const { history } = this.props;
 
         const url = replaceRoutePath(PRODUCT_URL, { modulesCode: nextModuleCode });
         const searchParams = new URLSearchParams(location.search);
@@ -283,6 +289,12 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         if (isModulesCodeChanged) {
             this.loadProductIfNeeded();
         }
+
+        if (this.state.loadedProduct !== prevState.loadedProduct) {
+            this.props.setContext({
+                selectedProduct: this.state.loadedProduct
+            });
+        }
     }
 
     public componentWillUnmount() {
@@ -297,7 +309,7 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
                 <PageLoading />
             );
         }
-        const { selectedFurnitureComponent } = this.context;
+        const { selectedFurnitureComponent } = this.props;
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
@@ -306,26 +318,24 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
                 <Layout className="page-layout product-fetcher">
                     {
                         allowLoadWithProduct &&
-                        <React.Fragment>
-                            <Layout.Content className="h-100">
-                                <div className="product-fetcher-sence-wrapper">
-                                    <Product3dSence
-                                        key={loadedProduct!.design.id}
-                                        productModules={loadedProduct!.modules}
-                                        productType={loadedProduct!.productType}
-                                    />
-                                    <ProductPrice
-                                        totalPrice={loadedProduct!.totalPrice}
-                                        actionTitle={selectedFurnitureComponent ? text('Done') : text('Buy this')}
-                                        actionIcon={selectedFurnitureComponent ? 'check' : 'shopping'}
-                                        actionCallback={selectedFurnitureComponent ?
-                                            this.onComponentChanged :
-                                            this.onShoppingClick
-                                        }
-                                    />
-                                </div>
-                            </Layout.Content>
-                        </React.Fragment>
+                        <Layout.Content className="h-100">
+                            <div className="product-fetcher-sence-wrapper">
+                                <Product3dSence
+                                    key={loadedProduct!.design.id}
+                                    productModules={loadedProduct!.modules}
+                                    productType={loadedProduct!.productType}
+                                />
+                                <ProductPrice
+                                    totalPrice={loadedProduct!.totalPrice}
+                                    actionTitle={selectedFurnitureComponent ? text('Done') : text('Buy this')}
+                                    actionIcon={selectedFurnitureComponent ? 'check' : 'shopping'}
+                                    actionCallback={selectedFurnitureComponent ?
+                                        this.onComponentChanged :
+                                        this.onShoppingClick
+                                    }
+                                />
+                            </div>
+                        </Layout.Content>
                     }
                     {
                         allowLoadWithNoProduct && <NoContent />
@@ -335,3 +345,8 @@ export class ProductFetcher extends React.PureComponent<ProductFetcherProps, Pro
         );
     }
 }
+
+export const ProductFetcher = withContext<ProductFetcherContextProps, ProductFetcherProps>(
+    'history',
+    'selectedFurnitureComponent'
+)(ProductFetcherComponent);

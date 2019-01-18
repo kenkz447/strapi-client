@@ -10,6 +10,7 @@ import {
     FurnitureComponentType,
     FurnitureMaterial,
     FurnitureMaterialType,
+    ProductExtended,
     User
 } from '@/restful';
 
@@ -60,10 +61,11 @@ export interface Product3DSenceContext {
     readonly availableFurnitureMaterials: FurnitureMaterial[] | null;
 
     readonly selectedFurnitureComponentGroup: FurnitureComponentGroup | null;
-    
+
     readonly selectedFurnitureComponentHeight: number | null;
     readonly selectedFurnitureComponentDiameter: number | null;
     readonly selectedFurnitureComponentLengthinesss: number | null;
+    readonly selectedProduct: ProductExtended | null;
 }
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;

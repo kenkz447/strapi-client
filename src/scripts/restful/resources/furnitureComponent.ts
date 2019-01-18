@@ -21,7 +21,7 @@ export interface FurnitureComponent extends Record {
     readonly displayName: string;
     readonly code: string;
     readonly height?: number;
-    readonly componentGroup?: FurnitureComponentGroup;
+    readonly componentGroup?: FurnitureComponentGroup | string;
     readonly isDefault?: boolean;
     readonly noSelection?: boolean;
     readonly diameter?: number;

@@ -12,7 +12,6 @@ margin-top: 14px;
     background: ${COLOR_PRIMARY_200};
     width: 256px;
     display: flex;
-    box-shadow: 0px 17px 50px rgba(0, 21, 41, 0.15);
     .product-price-value {
         font-size: 18px;
         line-height: 40px;

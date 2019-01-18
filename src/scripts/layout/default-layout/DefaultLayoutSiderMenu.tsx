@@ -2,11 +2,11 @@ import { Icon, Menu } from 'antd';
 import * as React from 'react';
 
 import {
+    ACCOUNT_LIST_URL,
     AGENCY_LIST_URL,
     DASHBOARD_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH,
-    PRODUCT_URL,
     USER_PATH,
     USER_PROFILE_URL
 } from '@/configs';
@@ -110,6 +110,10 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                 <Menu.Item key={AGENCY_LIST_URL}>
                     <Icon type="shop" />
                     <span>{text('Agencies')}</span>
+                </Menu.Item>
+                <Menu.Item key={ACCOUNT_LIST_URL}>
+                    <Icon type="team" />
+                    <span>{text('Accounts')}</span>
                 </Menu.Item>
                 {this.renderSubmenu(userSubmenu)}
             </Menu>

@@ -1,3 +1,4 @@
+import DescriptionList from 'ant-design-pro/lib/DescriptionList';
 import { Card, Table } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
@@ -20,13 +21,34 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
             <Card
                 style={{ marginBottom: 24 }}
                 bordered={false}
-                title={text('Products')}
+                title={text('Details')}
             >
+                <DescriptionList title={text('Contact information')} style={{ marginBottom: 24 }}>
+                    <DescriptionList.Description term={text('Person')}>
+                        {order.contactTo || '...'}
+                    </DescriptionList.Description>
+                    <DescriptionList.Description term={text('Phone')}>
+                        {order.contactToPhone || '...'}
+                    </DescriptionList.Description>
+                </DescriptionList>
+
+                <DescriptionList title={text('Billing information')} style={{ marginBottom: 24 }}>
+                    <DescriptionList.Description term={text('Organization')}>
+                        {order.billingOrganization || '...'}
+                    </DescriptionList.Description>
+                    <DescriptionList.Description term={text('Address')}>
+                        {order.billingAddress || '...'}
+                    </DescriptionList.Description>
+                    <DescriptionList.Description term={text('Tax code')}>
+                        {order.billingTaxcode || '...'}
+                    </DescriptionList.Description>
+                </DescriptionList>
                 <Table
                     dataSource={orderDetails}
                     pagination={false}
                     bordered={true}
                     size="middle"
+                    title={() => text('Products')}
                 >
                     <Table.Column
                         title={text('Image')}

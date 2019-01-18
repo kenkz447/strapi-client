@@ -8,6 +8,9 @@ import {
     getFurnitureComponentsByType
 } from '@/business/furniture-component';
 import {
+    getFurnitureComponentGroupById
+} from '@/business/furniture-component-group';
+import {
     getFurnitureMaterialByCode,
     getFurnitureMaterialByType,
     getFurnitureMaterialDefault
@@ -35,14 +38,20 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
         }
 
         const selectedFurnitureComponent = await getFurnitureComponentById(object3D.name);
+
         if (!selectedFurnitureComponent) {
             throw new Error('No FurnitureComponent found!');
         }
+
         const selectedFurnitureComponentType = selectedFurnitureComponent.componentType as FurnitureComponentType;
 
-        const availableFurnitureComponents = await getFurnitureComponentsByType(
-            selectedFurnitureComponent.componentType
-        );
+        const [selectedFurnitureComponentGroup, availableFurnitureComponents] = await
+            Promise.all([
+                getFurnitureComponentGroupById(selectedFurnitureComponent.componentGroup),
+                getFurnitureComponentsByType(
+                    selectedFurnitureComponent.componentType
+                )
+            ]);
 
         const object3DShape = object3D.children[0] as THREE.Mesh;
         const object3DMaterial = isArray(object3DShape.material) ?
@@ -78,7 +87,8 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
             selectedFurnitureMaterialType,
             availableFurnitureComponents,
             availableFurnitureMaterials,
-            selectedFurnitureComponentType
+            selectedFurnitureComponentType,
+            selectedFurnitureComponentGroup
         });
     }
 

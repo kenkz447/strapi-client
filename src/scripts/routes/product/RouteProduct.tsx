@@ -33,6 +33,7 @@ export class RouteProduct extends RoutePage<RouteProps> {
         const { setContext } = this.props;
         setContext({
             selected3DObject: null,
+            selectedProduct: null,
             selectedFurnitureComponent: null,
             selectedFurnitureComponentGroup: null,
             selectedFurnitureComponentDiameter: null,

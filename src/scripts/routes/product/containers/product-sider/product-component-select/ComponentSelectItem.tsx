@@ -4,10 +4,11 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
 import { RootContext } from '@/app';
+import { getProductModuleCodes } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { Product3DSenceContext, WithHistory } from '@/domain';
-import { FurnitureComponent } from '@/restful';
+import { FurnitureComponent, ProductModule } from '@/restful';
 import { replaceRoutePath } from '@/utilities';
 
 interface ComponentSelectItemOwnProps {
@@ -16,7 +17,10 @@ interface ComponentSelectItemOwnProps {
     readonly isSelected: boolean;
 }
 
-type ComponentSelectItemContext = WithHistory & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>;
+type ComponentSelectItemContext = WithHistory
+    & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>
+    & Pick<Product3DSenceContext, 'selectedFurnitureComponentGroup'>
+    & Pick<Product3DSenceContext, 'selectedProduct'>;
 
 type ComponentSelectItemProps = WithContextProps<ComponentSelectItemContext, ComponentSelectItemOwnProps>;
 
@@ -25,20 +29,71 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         const {
             furnitureComponent,
             currentProductModulesCode,
-            history,
-            selectedFurnitureComponent
+            selectedFurnitureComponent,
+            selectedFurnitureComponentGroup,
+            selectedProduct,
+            history
         } = this.props;
 
         if (!currentProductModulesCode || !selectedFurnitureComponent) {
             return;
         }
 
-        const nextModulesCode = currentProductModulesCode.replace(
-            selectedFurnitureComponent.code,
-            furnitureComponent.code
-        );
+        const nextProductModules: ProductModule[] = [];
+        if (selectedProduct && selectedFurnitureComponentGroup) {
+            for (const productModule of selectedProduct.modules) {
 
-        const nextProductUrl = replaceRoutePath(PRODUCT_URL, { modulesCode: nextModulesCode });
+                if (productModule.component.code === selectedFurnitureComponent.code) {
+                    nextProductModules.push({
+                        component: furnitureComponent,
+                        componentPrice: 0,
+                        material: productModule.material,
+                        materialPrice: 0
+                    });
+
+                    continue;
+                }
+
+                const isComponentAvaliabled = !!selectedFurnitureComponentGroup
+                    .components.find(o => o.id === productModule.component.id);
+
+                if (isComponentAvaliabled) {
+                    nextProductModules.push(productModule);
+                    continue;
+                }
+
+                const moduleComponentTypeId = typeof productModule.component.componentType === 'string' ?
+                    productModule.component.componentType :
+                    productModule.component.componentType.id;
+
+                const nextComponent = selectedFurnitureComponentGroup
+                    .components.find(o => {
+                        if (typeof o.componentType === 'string') {
+                            return o.componentType === moduleComponentTypeId;
+                        }
+
+                        return o.componentType.id === moduleComponentTypeId;
+                    });
+
+                if (!nextComponent) {
+                    continue;
+                }
+
+                nextProductModules.push({
+                    component: nextComponent,
+                    componentPrice: 0,
+                    material: productModule.material,
+                    materialPrice: 0
+                });
+            }
+        }
+
+        const nextModulesCode = getProductModuleCodes(nextProductModules);
+
+        const nextProductUrl = replaceRoutePath(
+            PRODUCT_URL,
+            { modulesCode: nextModulesCode }
+        );
 
         history.replace(nextProductUrl + location.search);
     }
@@ -87,5 +142,7 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
 
 export const ComponentSelectItem = withContext<ComponentSelectItemContext, ComponentSelectItemOwnProps>(
     'history',
-    'selectedFurnitureComponent'
+    'selectedFurnitureComponent',
+    'selectedFurnitureComponentGroup',
+    'selectedProduct'
 )(ComponentSelectItemComponent);

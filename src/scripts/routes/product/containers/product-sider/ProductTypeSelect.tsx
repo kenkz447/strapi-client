@@ -165,7 +165,15 @@ export class ProductTypeSelect extends React.PureComponent<
         const { allProductDesign } = this.props;
         const { productType } = this.state;
 
+        if (!productType) {
+            return [];
+        }
+
         return allProductDesign.filter(o => {
+            if (!o.productType) {
+                return false;
+            }
+
             if (typeof o.productType === 'string') {
                 return o.productType === productType;
             }
