@@ -5,7 +5,6 @@ import './ThreeSence.scss';
 
 import { Spin } from 'antd';
 import * as React from 'react';
-import styled from 'styled-components';
 import { Material } from 'three';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
@@ -169,6 +168,10 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             loadedObject.name = newComponent.id;
             this.scene.add(loadedObject);
 
+            for (const oldChild of replaced3DGroup.children) {
+                this.scene.remove(oldChild);
+            }
+
             this.scene.remove(replaced3DGroup);
         });
     }
@@ -311,52 +314,72 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             nextProductModules
         } = props;
 
-        const replacingModule = nextProductModules.find((currentModule) => {
+        const replacingModules = nextProductModules.filter((currentModule) => {
             return !prevProductModules.find(oldModule =>
                 oldModule.component.id === currentModule.component.id &&
                 oldModule.material.id === currentModule.material.id
             );
         });
 
-        if (!replacingModule) {
+        if (!replacingModules.length) {
             return;
         }
 
-        this.scene.traverse((object3d: THREE.Group) => {
-            const isComponentObject = object3d instanceof THREE.Group;
+        const replaced3DObjects: Array<{
+            readonly object3d: THREE.Group;
+            readonly component: FurnitureComponent;
+        }> = [];
 
-            if (!isComponentObject) {
-                return;
-            }
-
-            const productModule = this.props.productModules.find(o => o.component.id === object3d.name);
-
-            if (productModule) {
-                if (replacingModule.component.id !== productModule.component.id) {
+        for (const replacingModule of replacingModules) {
+            let skiped = false;
+            this.scene.traverse((object3d: THREE.Group) => {
+                if (skiped) {
                     return;
                 }
 
-                const mesh = object3d.children.find((o: THREE.Mesh) => !!o.material) as THREE.Mesh | undefined;
-                if (!mesh) {
+                const isComponentObject = object3d instanceof THREE.Group;
+
+                if (!isComponentObject) {
                     return;
                 }
 
-                const meshMaterial = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-                if (meshMaterial.name !== replacingModule.material.id) {
-                    this.replace3DMeshMaterial({
-                        object3D: object3d,
-                        material: replacingModule.material
+                if (replaced3DObjects.find(o => o.object3d === object3d)) {
+                    return;
+                }
+
+                const productModule = this.props.productModules.find(o => o.component.id === object3d.name);
+
+                if (productModule) {
+                    if (replacingModule.component.id !== productModule.component.id) {
+                        return;
+                    }
+
+                    const mesh = object3d.children.find((o: THREE.Mesh) => !!o.material) as THREE.Mesh | undefined;
+                    if (!mesh) {
+                        return;
+                    }
+
+                    const meshMaterial = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+                    if (meshMaterial.name !== replacingModule.material.id) {
+                        this.replace3DMeshMaterial({
+                            object3D: object3d,
+                            material: replacingModule.material
+                        });
+                    }
+                } else {
+                    replaced3DObjects.push({
+                        object3d: object3d,
+                        component: replacingModule!.component
                     });
                 }
+                
+                skiped = true;
+            });
+        }
 
-                return;
-            }
-
-            this.replaceComponentObject(
-                object3d as THREE.Group,
-                replacingModule!.component
-            );
-        });
+        replaced3DObjects.forEach((value) =>
+            this.replaceComponentObject(value.object3d, value.component)
+        );
     }
 
     public componentDidMount() {

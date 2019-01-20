@@ -12,8 +12,7 @@ import {
 } from '@/business/furniture-component-group';
 import {
     getFurnitureMaterialByCode,
-    getFurnitureMaterialByType,
-    getFurnitureMaterialDefault
+    getFurnitureMaterialByType
 } from '@/business/furniture-material';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Product3DSenceContext } from '@/domain';

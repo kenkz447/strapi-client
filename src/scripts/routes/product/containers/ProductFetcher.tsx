@@ -10,6 +10,9 @@ import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign
 } from '@/business/furniture-component';
+import {
+    getFurnitureComponentGroupById
+} from '@/business/furniture-component-group';
 import { getFurnitureMaterialByCode } from '@/business/furniture-material';
 import {
     getProductModulesComponentCodes,
@@ -24,6 +27,7 @@ import { DomainContext, WithHistory } from '@/domain';
 import { text } from '@/i18n';
 import {
     FurnitureComponent,
+    FurnitureComponentGroup,
     FurnitureComponentType,
     ProductExtended
 } from '@/restful';
@@ -39,7 +43,8 @@ interface ProductFetcherProps {
 
 type ProductFetcherContextProps = WithHistory
     & Pick<DomainContext, 'selectedFurnitureComponent'>
-    & Pick<DomainContext, 'selectedProduct'>;
+    & Pick<DomainContext, 'selectedProduct'>
+    & Pick<DomainContext, 'selectedFurnitureComponentGroup'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
@@ -276,6 +281,42 @@ class ProductFetcherComponent extends React.PureComponent<
         // 
     }
 
+    private readonly updateContext = async () => {
+        const {
+            selectedFurnitureComponent,
+            selectedFurnitureComponentGroup
+        } = this.props;
+
+        const { loadedProduct } = this.state;
+
+        let nextComponentGroup: FurnitureComponentGroup | null | undefined;
+
+        if (selectedFurnitureComponent && selectedFurnitureComponent.componentGroup) {
+            const currentSelectedComponentGroupId = selectedFurnitureComponentGroup &&
+                selectedFurnitureComponentGroup.id;
+
+            const nextSelectedComponentGroupId =
+                typeof selectedFurnitureComponent.componentGroup === 'string' ?
+                    selectedFurnitureComponent.componentGroup :
+                    selectedFurnitureComponent.componentGroup.id;
+
+            if (currentSelectedComponentGroupId !== nextSelectedComponentGroupId) {
+                nextComponentGroup = await getFurnitureComponentGroupById(nextSelectedComponentGroupId);
+            } else {
+                nextComponentGroup = selectedFurnitureComponentGroup;
+            }
+        }
+
+        if (!nextComponentGroup) {
+            nextComponentGroup = undefined;
+        }
+
+        this.props.setContext({
+            selectedProduct: loadedProduct,
+            selectedFurnitureComponentGroup: nextComponentGroup
+        });
+    }
+
     public componentDidMount() {
         this.loadProductIfNeeded();
     }
@@ -291,9 +332,7 @@ class ProductFetcherComponent extends React.PureComponent<
         }
 
         if (this.state.loadedProduct !== prevState.loadedProduct) {
-            this.props.setContext({
-                selectedProduct: this.state.loadedProduct
-            });
+            this.updateContext();
         }
     }
 
@@ -348,5 +387,6 @@ class ProductFetcherComponent extends React.PureComponent<
 
 export const ProductFetcher = withContext<ProductFetcherContextProps, ProductFetcherProps>(
     'history',
-    'selectedFurnitureComponent'
+    'selectedFurnitureComponent',
+    'selectedFurnitureComponentGroup'
 )(ProductFetcherComponent);

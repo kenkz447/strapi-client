@@ -42,7 +42,6 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         const nextProductModules: ProductModule[] = [];
         if (selectedProduct && selectedFurnitureComponentGroup) {
             for (const productModule of selectedProduct.modules) {
-
                 if (productModule.component.code === selectedFurnitureComponent.code) {
                     nextProductModules.push({
                         component: furnitureComponent,
