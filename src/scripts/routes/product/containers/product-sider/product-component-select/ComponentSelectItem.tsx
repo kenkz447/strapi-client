@@ -4,11 +4,18 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
 import { RootContext } from '@/app';
+import {
+    getFurnitureComponentGroupById
+} from '@/business/furniture-component-group';
 import { getProductModuleCodes } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { Product3DSenceContext, WithHistory } from '@/domain';
-import { FurnitureComponent, ProductModule } from '@/restful';
+import {
+    FurnitureComponent,
+    FurnitureComponentGroup,
+    ProductModule
+} from '@/restful';
 import { replaceRoutePath } from '@/utilities';
 
 interface ComponentSelectItemOwnProps {
@@ -25,7 +32,7 @@ type ComponentSelectItemContext = WithHistory
 type ComponentSelectItemProps = WithContextProps<ComponentSelectItemContext, ComponentSelectItemOwnProps>;
 
 class ComponentSelectItemComponent extends React.Component<ComponentSelectItemProps> {
-    private readonly onComponentSelect = () => {
+    private readonly onComponentSelect = async () => {
         const {
             furnitureComponent,
             currentProductModulesCode,
@@ -39,9 +46,11 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
             return;
         }
 
+        const nextComponentGroup = await this.getNextComponentGroup();
+
         const nextProductModules: ProductModule[] = [];
-        if (selectedProduct && selectedFurnitureComponentGroup) {
-            for (const productModule of selectedProduct.modules) {
+        if (nextComponentGroup) {
+            for (const productModule of selectedProduct!.modules) {
                 if (productModule.component.code === selectedFurnitureComponent.code) {
                     nextProductModules.push({
                         component: furnitureComponent,
@@ -53,7 +62,7 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
                     continue;
                 }
 
-                const isComponentAvaliabled = !!selectedFurnitureComponentGroup
+                const isComponentAvaliabled = !!nextComponentGroup
                     .components.find(o => o.id === productModule.component.id);
 
                 if (isComponentAvaliabled) {
@@ -65,7 +74,7 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
                     productModule.component.componentType :
                     productModule.component.componentType.id;
 
-                const nextComponent = selectedFurnitureComponentGroup
+                const nextComponent = nextComponentGroup
                     .components.find(o => {
                         if (typeof o.componentType === 'string') {
                             return o.componentType === moduleComponentTypeId;
@@ -95,6 +104,34 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         );
 
         history.replace(nextProductUrl + location.search);
+    }
+
+    private readonly getNextComponentGroup = async () => {
+        const { selectedFurnitureComponentGroup, furnitureComponent } = this.props;
+
+        let nextComponentGroup: FurnitureComponentGroup | null | undefined;
+
+        if (furnitureComponent.componentGroup) {
+            const currentSelectedComponentGroupId = selectedFurnitureComponentGroup &&
+                selectedFurnitureComponentGroup.id;
+
+            const nextSelectedComponentGroupId =
+                typeof furnitureComponent.componentGroup === 'string' ?
+                    furnitureComponent.componentGroup :
+                    furnitureComponent.componentGroup.id;
+
+            if (currentSelectedComponentGroupId !== nextSelectedComponentGroupId) {
+                nextComponentGroup = await getFurnitureComponentGroupById(nextSelectedComponentGroupId);
+            } else {
+                nextComponentGroup = selectedFurnitureComponentGroup;
+            }
+        }
+
+        if (!nextComponentGroup) {
+            nextComponentGroup = undefined;
+        }
+
+        return nextComponentGroup;
     }
 
     componentDidUpdate(preveProps: ComponentSelectItemProps) {

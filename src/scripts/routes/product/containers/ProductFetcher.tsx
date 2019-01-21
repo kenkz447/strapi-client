@@ -5,14 +5,11 @@ import { UnregisterCallback } from 'history';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { eventEmitter, RootContext } from '@/app';
+import { eventEmitter } from '@/app';
 import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign
 } from '@/business/furniture-component';
-import {
-    getFurnitureComponentGroupById
-} from '@/business/furniture-component-group';
 import { getFurnitureMaterialByCode } from '@/business/furniture-material';
 import {
     getProductModulesComponentCodes,
@@ -22,12 +19,11 @@ import {
 } from '@/business/product-modules';
 import { getProductTypeById } from '@/business/product-type';
 import { NoContent, PageLoading, SlideUp } from '@/components';
-import { PRODUCT_URL } from '@/configs';
+import { PRODUCT_PATH, PRODUCT_URL } from '@/configs';
 import { DomainContext, WithHistory } from '@/domain';
 import { text } from '@/i18n';
 import {
     FurnitureComponent,
-    FurnitureComponentGroup,
     FurnitureComponentType,
     ProductExtended
 } from '@/restful';
@@ -43,8 +39,7 @@ interface ProductFetcherProps {
 
 type ProductFetcherContextProps = WithHistory
     & Pick<DomainContext, 'selectedFurnitureComponent'>
-    & Pick<DomainContext, 'selectedProduct'>
-    & Pick<DomainContext, 'selectedFurnitureComponentGroup'>;
+    & Pick<DomainContext, 'selectedProduct'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
@@ -116,7 +111,7 @@ class ProductFetcherComponent extends React.PureComponent<
     }
 
     private readonly onUrlChange = async () => {
-        if (this._isUnmounting) {
+        if (this._isUnmounting || !location.pathname.startsWith(PRODUCT_PATH)) {
             return;
         }
 
@@ -282,38 +277,10 @@ class ProductFetcherComponent extends React.PureComponent<
     }
 
     private readonly updateContext = async () => {
-        const {
-            selectedFurnitureComponent,
-            selectedFurnitureComponentGroup
-        } = this.props;
-
         const { loadedProduct } = this.state;
 
-        let nextComponentGroup: FurnitureComponentGroup | null | undefined;
-
-        if (selectedFurnitureComponent && selectedFurnitureComponent.componentGroup) {
-            const currentSelectedComponentGroupId = selectedFurnitureComponentGroup &&
-                selectedFurnitureComponentGroup.id;
-
-            const nextSelectedComponentGroupId =
-                typeof selectedFurnitureComponent.componentGroup === 'string' ?
-                    selectedFurnitureComponent.componentGroup :
-                    selectedFurnitureComponent.componentGroup.id;
-
-            if (currentSelectedComponentGroupId !== nextSelectedComponentGroupId) {
-                nextComponentGroup = await getFurnitureComponentGroupById(nextSelectedComponentGroupId);
-            } else {
-                nextComponentGroup = selectedFurnitureComponentGroup;
-            }
-        }
-
-        if (!nextComponentGroup) {
-            nextComponentGroup = undefined;
-        }
-
         this.props.setContext({
-            selectedProduct: loadedProduct,
-            selectedFurnitureComponentGroup: nextComponentGroup
+            selectedProduct: loadedProduct
         });
     }
 
@@ -387,6 +354,5 @@ class ProductFetcherComponent extends React.PureComponent<
 
 export const ProductFetcher = withContext<ProductFetcherContextProps, ProductFetcherProps>(
     'history',
-    'selectedFurnitureComponent',
-    'selectedFurnitureComponentGroup'
+    'selectedFurnitureComponent'
 )(ProductFetcherComponent);

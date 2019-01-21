@@ -9,6 +9,7 @@ import { text } from '@/i18n';
 import { ProductFetcher, ProductSider } from './containers';
 import {
     CLEAR_3D_SENCE_CONTEXT_EVENT,
+    CLEAR_3D_SENCE_SELECT_EVENT,
     RouteProductContext
 } from './RouteProductContext';
 
@@ -27,6 +28,16 @@ export class RouteProduct extends RoutePage<RouteProps> {
 
     private readonly registerEvent = () => {
         eventEmitter.on(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
+        eventEmitter.on(CLEAR_3D_SENCE_SELECT_EVENT, this.clear3dSenceSelect);
+    }
+
+    private readonly clear3dSenceSelect = () => {
+        const { setContext } = this.props;
+        setContext({
+            selected3DObject: null,
+            selectedFurnitureComponent: null,
+            selectedFurnitureMaterial: null
+        });
     }
 
     private readonly clear3DSenceContext = () => {
@@ -54,6 +65,7 @@ export class RouteProduct extends RoutePage<RouteProps> {
     public componentWillUnmount() {
         this.clear3DSenceContext();
         eventEmitter.removeListener(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
+        eventEmitter.removeListener(CLEAR_3D_SENCE_SELECT_EVENT, this.clear3dSenceSelect);
     }
 
     public render() {

@@ -1,13 +1,19 @@
+import { UnregisterCallback } from 'history';
 import * as React from 'react';
+import { withContext, WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
+import { eventEmitter } from '@/app';
+import { DomainContext } from '@/domain';
 import {
     productDesignResources,
     productTypeGroupResources,
     productTypeResources,
     request
 } from '@/restful';
+import { getUrlSearchParam } from '@/utilities';
 
+import { CLEAR_3D_SENCE_SELECT_EVENT } from '../RouteProductContext';
 import {
     ProductComponentSelect,
     ProductTypeSelect,
@@ -22,30 +28,74 @@ const ProductSiderWrapper = styled.div`
     overflow-x: hidden;
 `;
 
-export interface ProductSiderProps {
+interface ProductSiderProps {
 }
+
+type ProductSiderContext =
+    Pick<DomainContext, 'history'>
+    & Pick<DomainContext, 'selectedFurnitureComponent'>
+    & Pick<DomainContext, 'selectedFurnitureMaterial'>
+    & Pick<DomainContext, 'selected3DObject'>;
 
 interface ProductSiderState extends ProductTypeSelectProps {
-
+    readonly currentProductDesignId: string | null;
 }
 
-export class ProductSider extends React.PureComponent<
-    ProductSiderProps,
+class ProductSiderComponent extends React.PureComponent<
+    WithContextProps<ProductSiderContext, ProductSiderProps>,
     ProductSiderState
     > {
-    constructor(props: ProductSiderProps) {
+
+    static readonly getDerivedStateFromProps = (
+        nextProps: ProductSiderProps,
+        state: ProductSiderState
+    ): ProductSiderState | null => {
+        const nextProductDesignId = getUrlSearchParam('productDesign');
+
+        if (state.currentProductDesignId !== nextProductDesignId) {
+            return {
+                ...state,
+                currentProductDesignId: nextProductDesignId,
+            };
+        }
+
+        return null;
+    }
+
+    readonly unlistenHistory: UnregisterCallback;
+    _isUnmounting!: boolean;
+
+    constructor(props: WithContextProps<ProductSiderContext, ProductSiderProps>) {
         super(props);
+
+        const { history } = props;
 
         this.state = {
             allProductDesign: [],
             allProductType: [],
-            allProductTypeGroups: []
+            allProductTypeGroups: [],
+            currentProductDesignId: getUrlSearchParam('productDesign')
         };
 
         this.fetchResources();
+
+        this.unlistenHistory = history.listen(() => {
+            if (this._isUnmounting) {
+                return;
+            }
+
+            const { currentProductDesignId } = this.state;
+            const nextProductDesignId = getUrlSearchParam('productDesign');
+
+            if (currentProductDesignId === nextProductDesignId) {
+                return;
+            }
+
+            this.onDesignChange();
+        });
     }
 
-    readonly fetchResources = async () => {
+    private readonly fetchResources = async () => {
         const resources = await Promise.all([
             request(productDesignResources.find),
             request(productTypeResources.find),
@@ -59,13 +109,22 @@ export class ProductSider extends React.PureComponent<
         });
     }
 
+    private readonly onDesignChange = () => {
+        eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
+    }
+
+    public componentWillUnmount() {
+        this._isUnmounting = true;
+        this.unlistenHistory();
+    }
+
     public render() {
         const {
             allProductTypeGroups,
             allProductType,
             allProductDesign
         } = this.state;
-        
+
         return (
             <ProductSiderWrapper>
                 <ProductTypeSelect
@@ -79,3 +138,9 @@ export class ProductSider extends React.PureComponent<
         );
     }
 }
+
+export const ProductSider = withContext<ProductSiderContext, ProductSiderProps>(
+    'history',
+    'selectedFurnitureComponent',
+    'selectedFurnitureMaterial'
+)(ProductSiderComponent);
