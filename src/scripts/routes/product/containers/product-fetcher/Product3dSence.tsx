@@ -1,5 +1,5 @@
 import React from 'react';
-import { WithContextProps } from 'react-context-service';
+import { withContext, WithContextProps } from 'react-context-service';
 import { isArray } from 'util';
 
 import { eventEmitter, RootContext } from '@/app';
@@ -29,17 +29,16 @@ interface Product3dSenceProps {
     readonly productType: ProductType;
 }
 
-export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
-    static readonly contextType = RootContext;
-    readonly context!: WithContextProps<Product3DSenceContext>;
-
-    private readonly on3dComponentSelect = async (object3D: THREE.Group | null) => {
-        if (!object3D) {
+class Product3dSenceComponent extends React.PureComponent<
+    WithContextProps<Product3DSenceContext, Product3dSenceProps>
+    > {
+    private readonly on3dComponentSelect = async (selected3DObject: THREE.Group | null) => {
+        if (!selected3DObject) {
             eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
             return;
         }
 
-        const selectedFurnitureComponent = await getFurnitureComponentById(object3D.name);
+        const selectedFurnitureComponent = await getFurnitureComponentById(selected3DObject.name);
 
         if (!selectedFurnitureComponent) {
             throw new Error('No FurnitureComponent found!');
@@ -55,7 +54,7 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
                 )
             ]);
 
-        const object3DShape = object3D.children[0] as THREE.Mesh;
+        const object3DShape = selected3DObject.children[0] as THREE.Mesh;
         const object3DMaterial = isArray(object3DShape.material) ?
             object3DShape.material[0] as THREE.MeshPhongMaterial :
             object3DShape.material as THREE.MeshPhongMaterial;
@@ -81,9 +80,10 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
             selectedFurnitureMaterial = await getFurnitureMaterialByCode('999');
         }
 
-        const { setContext } = this.context;
+        const { setContext } = this.props;
 
         setContext({
+            selected3DObject,
             selectedFurnitureComponent,
             selectedFurnitureMaterial,
             selectedFurnitureMaterialType,
@@ -95,14 +95,19 @@ export class Product3dSence extends React.PureComponent<Product3dSenceProps> {
     }
 
     render() {
-        const { productModules, productType } = this.props;
+        const { productModules, productType, selected3DObject } = this.props;
 
         return (
             <ThreeSence
                 productModules={productModules}
                 productType={productType}
                 onObjectSelect={this.on3dComponentSelect}
+                selectedObject={selected3DObject}
             />
         );
     }
 }
+
+export const Product3dSence = withContext<Product3DSenceContext, Product3dSenceProps>(
+    'selected3DObject'
+)(Product3dSenceComponent);

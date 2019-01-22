@@ -14,7 +14,7 @@ export interface ThreeSenceBaseProps {
     readonly clearColor?: string;
     readonly sampleLevel?: number;
     readonly onObjectSelect?: (object: THREE.Group | null) => void;
-    readonly selectedObject?: THREE.Object3D | null;
+    readonly selectedObject: THREE.Object3D | null;
 }
 
 export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.PureComponent<TProps> {
@@ -414,9 +414,13 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
             if (!canSelect) {
                 return;
             }
+            
+            if (!selectedObject) {
+                return;
+            }
 
-            this.selectObject(selectedObject);
-            if (onObjectSelect && selectedObject) {
+            this.selectObject(selectedObject.parent);
+            if (onObjectSelect) {
                 onObjectSelect(selectedObject.parent as THREE.Group);
             }
         } else {

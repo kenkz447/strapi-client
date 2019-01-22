@@ -29,7 +29,7 @@ import {
 } from '@/restful';
 import { getUrlSearchParam, replaceRoutePath } from '@/utilities';
 
-import { CLEAR_3D_SENCE_CONTEXT_EVENT } from '../RouteProductContext';
+import { CLEAR_3D_SENCE_SELECT_EVENT } from '../RouteProductContext';
 import { Product3dSence, ProductPrice } from './product-fetcher';
 import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
 
@@ -269,7 +269,7 @@ class ProductFetcherComponent extends React.PureComponent<
     }
 
     private readonly onComponentChanged = () => {
-        eventEmitter.emit(CLEAR_3D_SENCE_CONTEXT_EVENT);
+        eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
     }
 
     private readonly onShoppingClick = () => {

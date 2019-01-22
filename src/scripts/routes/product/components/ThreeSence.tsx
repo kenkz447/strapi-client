@@ -168,8 +168,8 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             loadedObject.name = newComponent.id;
             this.scene.add(loadedObject);
 
-            for (const oldChild of replaced3DGroup.children) {
-                this.scene.remove(oldChild);
+            if (this.selectedObject === replaced3DGroup) {
+                this.selectObject(loadedObject);
             }
 
             this.scene.remove(replaced3DGroup);
@@ -191,18 +191,18 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             uploadedFile: material.texture
         });
 
-        const mesh = object3D.children[0] as THREE.Mesh;
-        const meshMaterial = mesh.material as THREE.MeshPhongMaterial;
-
         texture.load(textureFile, (textureMap) => {
-            meshMaterial.map!.image = textureMap.image;
-            meshMaterial.map!.needsUpdate = true;
-            meshMaterial.needsUpdate = true;
-            if (material.view_normalMap) {
-                this.loadNormalMap(material, meshMaterial);
-            } else {
-                meshMaterial.normalMap = null;
-            }
+            object3D.children.forEach((mesh: THREE.Mesh) => {
+                const meshMaterial = mesh.material as THREE.MeshPhongMaterial;
+                meshMaterial.map!.image = textureMap.image;
+                meshMaterial.map!.needsUpdate = true;
+                meshMaterial.needsUpdate = true;
+                if (material.view_normalMap) {
+                    this.loadNormalMap(material, meshMaterial);
+                } else {
+                    meshMaterial.normalMap = null;
+                }
+            });
         });
     }
 
@@ -314,67 +314,35 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             nextProductModules
         } = props;
 
-        const replacingModules = nextProductModules.filter((currentModule) => {
-            return !prevProductModules.find(oldModule =>
-                oldModule.component.id === currentModule.component.id &&
-                oldModule.material.id === currentModule.material.id
-            );
-        });
-
-        if (!replacingModules.length) {
-            return;
-        }
-
         const replaced3DObjects: Array<{
             readonly object3d: THREE.Group;
             readonly component: FurnitureComponent;
         }> = [];
 
-        for (const replacingModule of replacingModules) {
-            let skiped = false;
-            this.scene.traverse((object3d: THREE.Group) => {
-                if (skiped) {
-                    return;
-                }
+        const groups = this.scene.children.filter(o => o instanceof THREE.Group) as THREE.Group[];
 
-                const isComponentObject = object3d instanceof THREE.Group;
+        for (let index = 0; index < prevProductModules.length; index++) {
+            const prevProductModule = prevProductModules[index];
+            if (!prevProductModule) {
+                continue;
+            }
 
-                if (!isComponentObject) {
-                    return;
-                }
+            const oldObject = groups.find(o => o.name === prevProductModule.component.id)!;
+            const nextProductModule = nextProductModules[index];
 
-                if (replaced3DObjects.find(o => o.object3d === object3d)) {
-                    return;
-                }
+            if (prevProductModule.material.id !== nextProductModule.material.id) {
+                this.replace3DMeshMaterial({
+                    material: nextProductModule.material,
+                    object3D: oldObject
+                });
+            }
 
-                const productModule = this.props.productModules.find(o => o.component.id === object3d.name);
-
-                if (productModule) {
-                    if (replacingModule.component.id !== productModule.component.id) {
-                        return;
-                    }
-
-                    const mesh = object3d.children.find((o: THREE.Mesh) => !!o.material) as THREE.Mesh | undefined;
-                    if (!mesh) {
-                        return;
-                    }
-
-                    const meshMaterial = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-                    if (meshMaterial.name !== replacingModule.material.id) {
-                        this.replace3DMeshMaterial({
-                            object3D: object3d,
-                            material: replacingModule.material
-                        });
-                    }
-                } else {
-                    replaced3DObjects.push({
-                        object3d: object3d,
-                        component: replacingModule!.component
-                    });
-                }
-                
-                skiped = true;
-            });
+            if (prevProductModule.component.id !== nextProductModule.component.id) {
+                replaced3DObjects.push({
+                    object3d: oldObject,
+                    component: nextProductModule.component
+                });
+            }
         }
 
         replaced3DObjects.forEach((value) =>
@@ -402,7 +370,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             });
         }
 
-        if (selectedObject) {
+        if (prevProps.selectedObject !== selectedObject) {
             this.selectObject(selectedObject);
         }
 
