@@ -49,23 +49,24 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         const nextComponentGroup = await this.getNextComponentGroup();
 
         const nextProductModules: ProductModule[] = [];
-        if (nextComponentGroup) {
-            for (const productModule of selectedProduct!.modules) {
-                if (productModule.component.code === selectedFurnitureComponent.code) {
-                    nextProductModules.push({
-                        component: furnitureComponent,
-                        componentPrice: 0,
-                        material: productModule.material,
-                        materialPrice: 0
-                    });
+        
+        for (const productModule of selectedProduct!.modules) {
+            if (productModule.component.code === selectedFurnitureComponent.code) {
+                nextProductModules.push({
+                    component: furnitureComponent,
+                    componentPrice: 0,
+                    material: productModule.material,
+                    materialPrice: 0
+                });
 
-                    continue;
-                }
+                continue;
+            }
 
-                const isComponentAvaliabled = !!nextComponentGroup
+            if (nextComponentGroup) {
+                const isComponentAvailabled = !!nextComponentGroup
                     .components.find(o => o.id === productModule.component.id);
 
-                if (isComponentAvaliabled) {
+                if (isComponentAvailabled) {
                     nextProductModules.push(productModule);
                     continue;
                 }
@@ -93,6 +94,8 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
                     material: productModule.material,
                     materialPrice: 0
                 });
+            } else {
+                nextProductModules.push(productModule);
             }
         }
 

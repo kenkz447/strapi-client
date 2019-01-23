@@ -2,7 +2,7 @@ import React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import { isArray } from 'util';
 
-import { eventEmitter, RootContext } from '@/app';
+import { eventEmitter } from '@/app';
 import {
     getFurnitureComponentById,
     getFurnitureComponentsByType
@@ -19,10 +19,7 @@ import { Product3DSenceContext } from '@/domain';
 import { FurnitureComponentType, ProductModule, ProductType } from '@/restful';
 import { ThreeSence } from '@/routes/product/components';
 
-import {
-    CLEAR_3D_SENCE_CONTEXT_EVENT,
-    CLEAR_3D_SENCE_SELECT_EVENT
-} from '../../RouteProductContext';
+import { CLEAR_3D_SENCE_SELECT_EVENT } from '../../RouteProductContext';
 
 interface Product3dSenceProps {
     readonly productModules: ProductModule[];

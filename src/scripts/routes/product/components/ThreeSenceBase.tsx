@@ -72,10 +72,10 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         this.initControls();
         this.initLights();
         this.initComposer();
+        this.initGround();
 
         this.resizeDisplayGL();
         this.renderSence();
-
         this.container.onmousemove = this.onTouchMove.bind(this);
         this.container.ontouchmove = this.onTouchMove.bind(this);
 
@@ -108,6 +108,16 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         window.addEventListener('resize', resizeWindow, false);
     }
 
+    initGround = () => {
+        const groundGeo = new THREE.PlaneBufferGeometry(1000, 1000);
+        const groundMat = new THREE.MeshPhongMaterial();
+        
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = - Math.PI / 2;
+        ground.position.y = 0;
+        this.scene.add(ground);
+    }
+
     initComposer() {
         this.composer = new THREE.EffectComposer(this.renderer);
         this.composer.setSize(this.container.clientWidth, this.container.clientHeight);
@@ -126,11 +136,11 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
             this.scene,
             this.camera
         );
-        
+
         this.outlinePass.pulsePeriod = 1;
 
         this.composer.addPass(this.outlinePass);
-        
+
         // * FXAA
         const effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
         effectFXAA.uniforms['resolution'].value.set(1 / this.container.clientWidth, 1 / this.container.clientHeight);
@@ -192,16 +202,16 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
 
     initLights() {
         // * Environtment
-        const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, .8);
-
-        this.scene.add(hemiLight);
+        const light = new THREE.AmbientLight(0x404040); // soft white light
+        light.intensity = 1.3;
+        this.scene.add( light );
 
         const baseShadowCamera = 150;
         // * Directional
         const dirLightLeft = new THREE.DirectionalLight(0xffffff, 1, 1);
         dirLightLeft.intensity = 1.3;
         dirLightLeft.position.set(-120, 120, 45);
-        dirLightLeft.castShadow = true;
+        dirLightLeft.castShadow = false;
         dirLightLeft.shadow.camera.left = -baseShadowCamera;
         dirLightLeft.shadow.camera.right = baseShadowCamera;
         dirLightLeft.shadow.camera.top = baseShadowCamera;
@@ -214,7 +224,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         const dirLightright = new THREE.DirectionalLight(0xffffff, 1, 1);
         dirLightright.intensity = 1.3;
         dirLightright.position.set(120, 120, 45);
-        dirLightright.castShadow = true;
+        dirLightright.castShadow = false;
         dirLightright.shadow.camera.left = -baseShadowCamera;
         dirLightright.shadow.camera.right = baseShadowCamera;
         dirLightright.shadow.camera.top = baseShadowCamera;
@@ -223,11 +233,11 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         dirLightright.shadow.bias = -0.0001;
         this.scene.add(dirLightright);
 
-        // * Directional
+        // // * Directional
         const dirLightBack = new THREE.DirectionalLight(0xffffff, 1, 1);
         dirLightBack.intensity = 1;
         dirLightBack.position.set(0, 60, -160);
-        dirLightBack.castShadow = true;
+        dirLightBack.castShadow = false;
         dirLightBack.shadow.camera.left = -baseShadowCamera;
         dirLightBack.shadow.camera.right = baseShadowCamera;
         dirLightBack.shadow.camera.top = baseShadowCamera;
@@ -236,32 +246,32 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         dirLightBack.shadow.bias = -0.0001;
         this.scene.add(dirLightBack);
 
-        // * Directional
+        // // * Directional
         const dirLightTop = new THREE.DirectionalLight(0xffffff, 1, 1);
         dirLightTop.intensity = 1;
         dirLightTop.position.set(0, 40, 100);
-        dirLightTop.castShadow = true;
+        dirLightTop.castShadow = false;
         dirLightTop.shadow.camera.left = -baseShadowCamera;
         dirLightTop.shadow.camera.right = baseShadowCamera;
         dirLightTop.shadow.camera.top = baseShadowCamera;
         dirLightTop.shadow.camera.bottom = -baseShadowCamera;
         dirLightTop.shadow.camera.far = 3500;
         dirLightTop.shadow.bias = -0.0001;
-        // this.scene.add(dirLightBack);
+        this.scene.add(dirLightTop);
 
-        // * Helpers
-        if (!true) {
-            const dirLighLefttHeper = new THREE.DirectionalLightHelper(dirLightLeft, 10);
-            this.scene.add(dirLighLefttHeper);
-            const dirLightRightHeper = new THREE.DirectionalLightHelper(dirLightright, 10);
-            this.scene.add(dirLightRightHeper);
+        // // * Helpers
+        // if (!true) {
+        //     const dirLighLefttHeper = new THREE.DirectionalLightHelper(dirLightLeft, 10);
+        //     this.scene.add(dirLighLefttHeper);
+        //     const dirLightRightHeper = new THREE.DirectionalLightHelper(dirLightright, 10);
+        //     this.scene.add(dirLightRightHeper);
 
-            const dirLightBackHeper = new THREE.DirectionalLightHelper(dirLightBack, 10);
-            this.scene.add(dirLightBackHeper);
+        //     const dirLightBackHeper = new THREE.DirectionalLightHelper(dirLightBack, 10);
+        //     this.scene.add(dirLightBackHeper);
 
-            const dirLightTopHeper = new THREE.DirectionalLightHelper(dirLightTop, 10);
-            this.scene.add(dirLightTopHeper);
-        }
+        //     const dirLightTopHeper = new THREE.DirectionalLightHelper(dirLightTop, 10);
+        //     this.scene.add(dirLightTopHeper);
+        // }
     }
 
     resizeDisplayGL = () => {
@@ -414,7 +424,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
             if (!canSelect) {
                 return;
             }
-            
+
             if (!selectedObject) {
                 return;
             }
