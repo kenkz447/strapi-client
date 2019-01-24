@@ -3,7 +3,7 @@ import { Resource, ResourceType } from 'react-restful';
 import { Omit } from '@/app';
 
 import { FurnitureComponent } from './furnitureComponent';
-import { FurnitureMaterial } from './furnutureMaterial';
+import { FurnitureMaterial } from './furnitureMaterial';
 import { ProductDesign } from './productDesign';
 import { ProductType } from './productType';
 import { UploadedFile } from './uploadedFile';

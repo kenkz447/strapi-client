@@ -2,7 +2,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 
 import { FurnitureComponentGroup } from './furnitureComponentGroup';
 import { FurnitureComponentType } from './furnitureComponentType';
-import { FurnitureMaterialType } from './materialType';
+import { FurnitureMaterialType } from './furnitureMaterialType';
 import { ProductDesign } from './productDesign';
 import { UploadedFile } from './uploadedFile';
 

@@ -35,6 +35,8 @@ class Product3dSenceComponent extends React.PureComponent<
             return;
         }
 
+        const { setContext } = this.props;
+
         const selectedFurnitureComponent = await getFurnitureComponentById(selected3DObject.name);
 
         if (!selectedFurnitureComponent) {
@@ -77,17 +79,64 @@ class Product3dSenceComponent extends React.PureComponent<
             selectedFurnitureMaterial = await getFurnitureMaterialByCode('999');
         }
 
-        const { setContext } = this.props;
+        const availableFurnitureComponentDiameter = selectedFurnitureComponent.diameter ?
+            availableFurnitureComponents.reduce(
+                (list, current) => {
+                    if (!list!.includes(current.diameter!)) {
+                        list.push(current.diameter! || selectedFurnitureComponent.diameter!);
+                    }
+
+                    return list;
+                },
+                [] as number[]
+            ) :
+            null;
+
+        const availableFurnitureComponentHeight = selectedFurnitureComponent.height ?
+            availableFurnitureComponents.reduce(
+                (list, current) => {
+                    if (!list!.includes(current.height!)) {
+                        list.push(current.height! || selectedFurnitureComponent.height!);
+                    }
+
+                    return list;
+                },
+                [] as number[]
+            ) :
+            null;
+
+        const availableFurnitureComponentLengthiness = selectedFurnitureComponent.lengthiness ?
+            availableFurnitureComponents.reduce(
+                (list, current) => {
+                    if (!list!.includes(current.lengthiness!)) {
+                        list.push(current.lengthiness! || selectedFurnitureComponent.lengthiness!);
+                    }
+
+                    return list;
+                },
+                [] as number[]
+            ) :
+            null;
 
         setContext({
             selected3DObject,
+            
             selectedFurnitureComponent,
             selectedFurnitureMaterial,
             selectedFurnitureMaterialType,
+            selectedFurnitureComponentType,
+            selectedFurnitureComponentGroup,
+
             availableFurnitureComponents,
             availableFurnitureMaterials,
-            selectedFurnitureComponentType,
-            selectedFurnitureComponentGroup
+
+            availableFurnitureComponentDiameter,
+            availableFurnitureComponentHeight,
+            availableFurnitureComponentLengthiness,
+
+            selectedFurnitureComponentDiameter: selectedFurnitureComponent.diameter || null,
+            selectedFurnitureComponentHeight: selectedFurnitureComponent.height || null,
+            selectedFurnitureComponentLengthiness: selectedFurnitureComponent.lengthiness || null
         });
     }
 

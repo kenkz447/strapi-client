@@ -48,6 +48,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 
     componentDidUpdate(preveProps: MaterialSelectItemProps) {
         const {
+            selectedFurnitureComponent,
             currentProductModulesCode,
             furnitureMaterial,
             setContext
@@ -59,7 +60,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 
         if (
             !currentProductModulesCode ||
-            currentProductModulesCode.indexOf(furnitureMaterial.code) < 0
+            currentProductModulesCode.indexOf(selectedFurnitureComponent!.code + '-' + furnitureMaterial.code) < 0
         ) {
             return;
         }

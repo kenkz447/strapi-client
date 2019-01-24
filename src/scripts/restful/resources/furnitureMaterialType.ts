@@ -1,7 +1,7 @@
 import { UploadFile } from 'antd/lib/upload/interface';
 import { Record, Resource, ResourceType } from 'react-restful';
 
-import { FurnitureMaterial } from './furnutureMaterial';
+import { FurnitureMaterial } from './furnitureMaterial';
 
 export interface FurnitureMaterialType extends Record {
     readonly id: string;
@@ -12,13 +12,13 @@ export interface FurnitureMaterialType extends Record {
     readonly hideInLibrary?: boolean;
 }
 
-export const materialTypeResourceType = new ResourceType<FurnitureMaterialType>(
+export const furnitureMaterialTypeResourceType = new ResourceType<FurnitureMaterialType>(
     nameof<FurnitureMaterialType>()
 );
 
-export const materialTypeResources = {
+export const furnitureMaterialTypeResources = {
     find: new Resource<FurnitureMaterialType, FurnitureMaterialType[]>({
-        resourceType: materialTypeResourceType,
+        resourceType: furnitureMaterialTypeResourceType,
         url: '/materialtype',
         method: 'GET'
     })

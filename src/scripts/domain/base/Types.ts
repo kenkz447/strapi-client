@@ -53,6 +53,7 @@ export type WithShowPrint = Pick<DomainContext, 'showPrint'>;
 export interface Product3DSenceContext {
     readonly selected3DObject: THREE.Object3D | null;
     readonly selectedFurnitureComponent: FurnitureComponent | null;
+    readonly selectedFurnitureComponentIndex: number | null;
     readonly selectedFurnitureComponentType: FurnitureComponentType | null;
     readonly availableFurnitureComponents: FurnitureComponent[] | null;
 
@@ -64,7 +65,12 @@ export interface Product3DSenceContext {
 
     readonly selectedFurnitureComponentHeight: number | null;
     readonly selectedFurnitureComponentDiameter: number | null;
-    readonly selectedFurnitureComponentLengthinesss: number | null;
+    readonly selectedFurnitureComponentLengthiness: number | null;
+
+    readonly availableFurnitureComponentHeight: Array<number> | null;
+    readonly availableFurnitureComponentDiameter: Array<number> | null;
+    readonly availableFurnitureComponentLengthiness: Array<number> | null;
+
     readonly selectedProduct: ProductExtended | null;
 }
 

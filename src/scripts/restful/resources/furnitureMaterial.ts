@@ -1,6 +1,6 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
-import { FurnitureMaterialType } from './materialType';
+import { FurnitureMaterialType } from './furnitureMaterialType';
 import { UploadedFile } from './uploadedFile';
 
 export interface FurnitureMaterial {

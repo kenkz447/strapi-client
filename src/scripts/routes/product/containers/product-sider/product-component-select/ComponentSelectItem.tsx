@@ -7,6 +7,9 @@ import { RootContext } from '@/app';
 import {
     getFurnitureComponentGroupById
 } from '@/business/furniture-component-group';
+import {
+    getFurnitureMaterialTypeById
+} from '@/business/furniture-material-type';
 import { getProductModuleCodes } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
@@ -22,10 +25,12 @@ interface ComponentSelectItemOwnProps {
     readonly currentProductModulesCode?: string;
     readonly furnitureComponent: FurnitureComponent;
     readonly isSelected: boolean;
+    readonly currentIndex: number;
 }
 
 type ComponentSelectItemContext = WithHistory
     & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>
+    & Pick<Product3DSenceContext, 'selectedFurnitureComponentIndex'>
     & Pick<Product3DSenceContext, 'selectedFurnitureComponentGroup'>
     & Pick<Product3DSenceContext, 'selectedProduct'>;
 
@@ -37,7 +42,6 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
             furnitureComponent,
             currentProductModulesCode,
             selectedFurnitureComponent,
-            selectedFurnitureComponentGroup,
             selectedProduct,
             history
         } = this.props;
@@ -49,13 +53,15 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         const nextComponentGroup = await this.getNextComponentGroup();
 
         const nextProductModules: ProductModule[] = [];
-        
+
         for (const productModule of selectedProduct!.modules) {
             if (productModule.component.code === selectedFurnitureComponent.code) {
+                let material = productModule.material;
+
                 nextProductModules.push({
                     component: furnitureComponent,
                     componentPrice: 0,
-                    material: productModule.material,
+                    material: material,
                     materialPrice: 0
                 });
 
@@ -141,12 +147,34 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         const {
             currentProductModulesCode,
             furnitureComponent,
-            setContext
+            setContext,
+            currentIndex,
+            selectedFurnitureComponentIndex,
+            selectedFurnitureComponent
         } = this.props;
+
+        if (
+            selectedFurnitureComponent!.id === furnitureComponent.id
+            && selectedFurnitureComponentIndex !== currentIndex
+        ) {
+            setContext({
+                selectedFurnitureComponentIndex: currentIndex
+            });
+        }
+
+        if (
+            !location.pathname.includes(furnitureComponent.code)
+            && selectedFurnitureComponent!.id !== furnitureComponent.id
+            && selectedFurnitureComponentIndex === currentIndex
+        ) {
+            this.onComponentSelect();
+            return;
+        }
 
         if (preveProps.currentProductModulesCode === currentProductModulesCode) {
             return;
         }
+
         if (
             !currentProductModulesCode ||
             currentProductModulesCode.indexOf(furnitureComponent.code) < 0
@@ -155,7 +183,8 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         }
 
         setContext({
-            selectedFurnitureComponent: furnitureComponent
+            selectedFurnitureComponent: furnitureComponent,
+            selectedFurnitureComponentIndex: currentIndex
         });
     }
 
@@ -183,5 +212,6 @@ export const ComponentSelectItem = withContext<ComponentSelectItemContext, Compo
     'history',
     'selectedFurnitureComponent',
     'selectedFurnitureComponentGroup',
-    'selectedProduct'
+    'selectedProduct',
+    'selectedFurnitureComponentIndex'
 )(ComponentSelectItemComponent);

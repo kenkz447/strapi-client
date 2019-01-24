@@ -20,6 +20,7 @@ import {
     ProductTypeSelectProps
 } from './product-sider';
 import { ProductMaterialSelect } from './product-sider';
+import { ProductVariantSelect } from './product-sider/ProductVariantSelect';
 
 const ProductSiderWrapper = styled.div`
     flex-basis: 400px;
@@ -132,6 +133,7 @@ class ProductSiderComponent extends React.PureComponent<
                     allProductType={allProductType}
                     allProductDesign={allProductDesign}
                 />
+                <ProductVariantSelect />
                 <ProductComponentSelect />
                 <ProductMaterialSelect />
             </ProductSiderWrapper>

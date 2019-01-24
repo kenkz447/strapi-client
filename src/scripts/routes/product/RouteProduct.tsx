@@ -36,7 +36,8 @@ export class RouteProduct extends RoutePage<RouteProps> {
         setContext({
             selected3DObject: null,
             selectedFurnitureComponent: null,
-            selectedFurnitureMaterial: null
+            selectedFurnitureMaterial: null,
+            selectedFurnitureComponentIndex: null
         });
     }
 
@@ -49,7 +50,7 @@ export class RouteProduct extends RoutePage<RouteProps> {
             selectedFurnitureComponentGroup: null,
             selectedFurnitureComponentDiameter: null,
             selectedFurnitureComponentHeight: null,
-            selectedFurnitureComponentLengthinesss: null,
+            selectedFurnitureComponentLengthiness: null,
             selectedFurnitureComponentType: null,
             selectedFurnitureMaterial: null,
             selectedFurnitureMaterialType: null,

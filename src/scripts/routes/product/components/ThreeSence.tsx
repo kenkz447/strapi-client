@@ -163,6 +163,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                 mesh.receiveShadow = true;
                 mesh.scale.set(componentScale, componentScale, componentScale);
                 mesh.material = oldChild.material;
+                mesh.position.set(oldChild.position.x, oldChild.position.y, oldChild.position.z);
             }
 
             loadedObject.name = newComponent.id;

@@ -16,6 +16,26 @@ class ProductMaterialSelectComponent extends React.Component<
     WithContextProps<Product3DSenceContext, ProductMaterialSelectProps>
     > {
 
+    public componentDidUpdate(prevProps: WithContextProps<Product3DSenceContext, ProductMaterialSelectProps>) {
+        const {
+            selectedFurnitureComponent,
+            selectedFurnitureMaterialType,
+            setContext
+        } = this.props;
+
+        if (selectedFurnitureMaterialType) {
+            // let nextCurrentMaterialType = furnitureComponent.materialTypes.find(
+            //     o => o.id === currentMaterialType.id
+            // );
+
+            // if (!nextCurrentMaterialType) {
+            //     nextCurrentMaterialType = await getFurnitureMaterialTypeById(
+            //         furnitureComponent.materialTypes[0].id
+            //     );
+            // }
+        }
+    }
+
     public render() {
         const {
             availableFurnitureMaterials,
