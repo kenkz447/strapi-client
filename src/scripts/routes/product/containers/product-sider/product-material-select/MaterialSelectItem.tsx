@@ -13,12 +13,14 @@ interface MaterialSelectItemOwnProps {
     readonly currentProductModulesCode?: string;
     readonly furnitureMaterial: FurnitureMaterial;
     readonly isSelected?: boolean;
+    readonly index: number;
 }
 
 type MaterialSelectItemContext =
     WithHistory
     & Pick<Product3DSenceContext, 'selectedFurnitureMaterial'>
-    & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>;
+    & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>
+    & Pick<Product3DSenceContext, 'selectedFurnitureMaterialType'>;
 
 type MaterialSelectItemProps = WithContextProps<MaterialSelectItemContext, MaterialSelectItemOwnProps>;
 
@@ -48,26 +50,64 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 
     componentDidUpdate(preveProps: MaterialSelectItemProps) {
         const {
+            selectedFurnitureMaterial,
             selectedFurnitureComponent,
             currentProductModulesCode,
             furnitureMaterial,
-            setContext
+            setContext,
+            index
         } = this.props;
 
-        if (preveProps.currentProductModulesCode === currentProductModulesCode) {
-            return;
-        }
-
-        if (
-            !currentProductModulesCode ||
-            currentProductModulesCode.indexOf(selectedFurnitureComponent!.code + '-' + furnitureMaterial.code) < 0
+        if (!selectedFurnitureComponent
+            || !currentProductModulesCode
         ) {
             return;
         }
 
-        setContext({
-            selectedFurnitureMaterial: furnitureMaterial
-        });
+        if (
+            selectedFurnitureComponent.id !== preveProps.selectedFurnitureComponent!.id &&
+            preveProps.currentProductModulesCode!.indexOf(preveProps.selectedFurnitureComponent!.code + '-' + furnitureMaterial.code) >= 0
+        ) {
+            setContext({
+                selectedFurnitureMaterial: furnitureMaterial
+            });
+
+            return;
+        }
+    }
+
+    componentDidMount() {
+        const {
+            selectedFurnitureMaterial,
+            selectedFurnitureComponent,
+            currentProductModulesCode,
+            selectedFurnitureMaterialType,
+            furnitureMaterial,
+            setContext,
+            index
+        } = this.props;
+
+        if (!selectedFurnitureComponent || !selectedFurnitureMaterialType) {
+            return null;
+        }
+        
+        if (!selectedFurnitureMaterial || !selectedFurnitureMaterial.materialType) {
+            return;
+        }
+
+        const currentFurnitureMaterialType = selectedFurnitureComponent.materialTypes
+            ? selectedFurnitureComponent.materialTypes.find(o => o.id === selectedFurnitureMaterialType.id)
+            : selectedFurnitureComponent.materialTypes[0];
+
+        const currentFurnitureMaterialTypeId = currentFurnitureMaterialType!.id;
+
+
+        if (currentFurnitureMaterialTypeId !== selectedFurnitureMaterial.materialType.id) {
+            if (index === 0) {
+                this.onMaterialSelect();
+                return;
+            }
+        }
     }
 
     render() {
@@ -93,5 +133,6 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 export const MaterialSelectItem = withContext<MaterialSelectItemContext, MaterialSelectItemOwnProps>(
     'history',
     'selectedFurnitureMaterial',
-    'selectedFurnitureComponent'
+    'selectedFurnitureComponent',
+    'selectedFurnitureMaterialType'
 )(MaterialSelectItemMaterial);

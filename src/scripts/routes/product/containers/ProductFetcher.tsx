@@ -39,6 +39,7 @@ interface ProductFetcherProps {
 
 type ProductFetcherContextProps = WithHistory
     & Pick<DomainContext, 'selectedFurnitureComponent'>
+    & Pick<DomainContext, 'selectedFurnitureMaterial'>
     & Pick<DomainContext, 'selectedProduct'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
@@ -276,11 +277,19 @@ class ProductFetcherComponent extends React.PureComponent<
         // 
     }
 
-    private readonly updateContext = async () => {
-        const { loadedProduct } = this.state;
+    private readonly updateContext = async (prevProps: ProductFetcherContextProps) => {
+        const { selectedFurnitureComponent } = prevProps;
+
+        const {
+            loadedProduct,
+        } = this.state;
+
+        const selectedModule = (selectedFurnitureComponent && loadedProduct) &&
+            loadedProduct.modules.find(o => o.component.id === selectedFurnitureComponent.id);
 
         this.props.setContext({
-            selectedProduct: loadedProduct
+            selectedProduct: loadedProduct,
+            selectedFurnitureMaterial: selectedModule ? selectedModule.material : null
         });
     }
 
@@ -289,7 +298,7 @@ class ProductFetcherComponent extends React.PureComponent<
     }
 
     public componentDidUpdate(
-        prevProps: ProductFetcherProps,
+        prevProps: ProductFetcherContextProps,
         prevState: ProductFetcherState
     ) {
         const isModulesCodeChanged = prevState.modulesCode !== this.state.modulesCode;
@@ -299,7 +308,7 @@ class ProductFetcherComponent extends React.PureComponent<
         }
 
         if (this.state.loadedProduct !== prevState.loadedProduct) {
-            this.updateContext();
+            this.updateContext(prevProps);
         }
     }
 

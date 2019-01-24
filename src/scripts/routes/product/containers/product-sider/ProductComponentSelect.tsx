@@ -98,9 +98,10 @@ class ProductComponentSelectComponent extends React.PureComponent<
                 renderItem={(furnitureComponent: FurnitureComponent, index: number) => {
                     const isSelected = furnitureComponent.id === selectedFurnitureComponent.id;
                     return (
-                        <RouteProductContext.Consumer key={furnitureComponent.id}>
+                        <RouteProductContext.Consumer>
                             {({ currentModulesCode }) => (
                                 <ComponentSelectItem
+                                    key={furnitureComponent.id}
                                     currentProductModulesCode={currentModulesCode}
                                     furnitureComponent={furnitureComponent}
                                     isSelected={isSelected}

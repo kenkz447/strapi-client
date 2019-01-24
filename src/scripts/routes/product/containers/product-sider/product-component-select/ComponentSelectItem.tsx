@@ -36,7 +36,7 @@ type ComponentSelectItemContext = WithHistory
 
 type ComponentSelectItemProps = WithContextProps<ComponentSelectItemContext, ComponentSelectItemOwnProps>;
 
-class ComponentSelectItemComponent extends React.Component<ComponentSelectItemProps> {
+class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectItemProps> {
     private readonly onComponentSelect = async () => {
         const {
             furnitureComponent,
@@ -143,6 +143,24 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
         return nextComponentGroup;
     }
 
+    private readonly trySetSelectComponentIndexContext = () => {
+        const {
+            setContext,
+            furnitureComponent,
+            selectedFurnitureComponent,
+            selectedFurnitureComponentIndex,
+            currentIndex
+        } = this.props;
+
+        if (selectedFurnitureComponent && !selectedFurnitureComponentIndex) {
+            if (selectedFurnitureComponent.id === furnitureComponent.id) {
+                setContext({
+                    selectedFurnitureComponentIndex: currentIndex
+                });
+            }
+        }
+    }
+
     componentDidUpdate(preveProps: ComponentSelectItemProps) {
         const {
             currentProductModulesCode,
@@ -153,13 +171,29 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
             selectedFurnitureComponent
         } = this.props;
 
+        if (!currentProductModulesCode) {
+            return;
+        }
+
         if (
-            selectedFurnitureComponent!.id === furnitureComponent.id
+            currentProductModulesCode.indexOf(furnitureComponent.code) !== -1
+            && (selectedFurnitureComponent && selectedFurnitureComponent.id !== furnitureComponent.id)
+        ) {
+            setContext({
+                selectedFurnitureComponent: furnitureComponent,
+                selectedFurnitureComponentIndex: currentIndex
+            });
+            return;
+        }
+
+        if (
+            currentProductModulesCode.indexOf(furnitureComponent.code) >= 0
             && selectedFurnitureComponentIndex !== currentIndex
         ) {
             setContext({
                 selectedFurnitureComponentIndex: currentIndex
             });
+            return;
         }
 
         if (
@@ -171,21 +205,11 @@ class ComponentSelectItemComponent extends React.Component<ComponentSelectItemPr
             return;
         }
 
-        if (preveProps.currentProductModulesCode === currentProductModulesCode) {
-            return;
-        }
+        this.trySetSelectComponentIndexContext();
+    }
 
-        if (
-            !currentProductModulesCode ||
-            currentProductModulesCode.indexOf(furnitureComponent.code) < 0
-        ) {
-            return;
-        }
-
-        setContext({
-            selectedFurnitureComponent: furnitureComponent,
-            selectedFurnitureComponentIndex: currentIndex
-        });
+    componentDidMount() {
+        this.trySetSelectComponentIndexContext();
     }
 
     render() {

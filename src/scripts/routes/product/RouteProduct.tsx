@@ -55,7 +55,8 @@ export class RouteProduct extends RoutePage<RouteProps> {
             selectedFurnitureMaterial: null,
             selectedFurnitureMaterialType: null,
             availableFurnitureComponents: null,
-            availableFurnitureMaterials: null
+            availableFurnitureMaterials: null,
+            selectedFurnitureComponentIndex: null
         });
     }
 

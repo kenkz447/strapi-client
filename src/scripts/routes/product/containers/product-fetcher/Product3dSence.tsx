@@ -136,7 +136,8 @@ class Product3dSenceComponent extends React.PureComponent<
 
             selectedFurnitureComponentDiameter: selectedFurnitureComponent.diameter || null,
             selectedFurnitureComponentHeight: selectedFurnitureComponent.height || null,
-            selectedFurnitureComponentLengthiness: selectedFurnitureComponent.lengthiness || null
+            selectedFurnitureComponentLengthiness: selectedFurnitureComponent.lengthiness || null,
+            selectedFurnitureComponentIndex: null
         });
     }
 

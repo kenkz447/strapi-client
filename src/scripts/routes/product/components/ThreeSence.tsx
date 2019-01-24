@@ -18,6 +18,8 @@ import { ThreeSenceBase, ThreeSenceBaseProps } from './ThreeSenceBase';
 
 const { THREE } = window;
 
+type QueueAction = () => Promise<any>;
+
 interface ThreeSenceProps extends ThreeSenceBaseProps {
     readonly setSence?: (threeSence: ThreeSence) => void;
 }
@@ -28,8 +30,35 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     };
 
     private _loaded3DComponents: Array<THREE.Group> = [];
+    private _queue: Array<QueueAction> = [];
+    private _isQueueRuning = false;
 
-    readonly loadNormalMap = (material: FurnitureMaterial, meshMaterial: THREE.MeshPhongMaterial) => {
+    private readonly runQueue = async () => {
+        this._isQueueRuning = true;
+
+        while (this._queue.length) {
+            try {
+                await this._queue[0]();
+                this._queue.shift();
+            } catch (error) {
+                throw error;
+            } finally {
+                this._isQueueRuning = false;
+            }
+        }
+    }
+
+    private readonly addToQueue = (action: QueueAction) => {
+        this._queue.push(action);
+        
+        if (this._isQueueRuning) {
+            return;
+        }
+
+        this.runQueue();
+    }
+
+    private readonly loadNormalMap = (material: FurnitureMaterial, meshMaterial: THREE.MeshPhongMaterial) => {
         const normalMapLoader = new THREE.TextureLoader();
         normalMapLoader.load(
             getUploadedFileSrc({
@@ -145,35 +174,45 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         }
     }
 
-    private readonly replaceComponentObject = (replaced3DGroup: THREE.Group, newComponent: FurnitureComponent) => {
-        const objLoader = new THREE.OBJLoader2();
+    private readonly replaceComponentObject = (
+        replaced3DGroup: THREE.Group,
+        newComponent: FurnitureComponent
+    ) => {
+        return new Promise((resolve, reject) => {
+            try {
+                const objLoader = new THREE.OBJLoader2();
 
-        const objFileUrl = getUploadedFileSrc({
-            uploadedFile: newComponent.obj
-        });
+                const objFileUrl = getUploadedFileSrc({
+                    uploadedFile: newComponent.obj
+                });
 
-        objLoader.load(objFileUrl, (event) => {
-            const oldChild = replaced3DGroup.children[0] as THREE.Mesh;
+                objLoader.load(objFileUrl, (event) => {
+                    const oldChild = replaced3DGroup.children[0] as THREE.Mesh;
 
-            const componentScale = this.getComponentScale(newComponent);
-            const loadedObject = event.detail.loaderRootNode;
+                    const componentScale = this.getComponentScale(newComponent);
+                    const loadedObject = event.detail.loaderRootNode;
 
-            for (const mesh of loadedObject.children) {
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-                mesh.scale.set(componentScale, componentScale, componentScale);
-                mesh.material = oldChild.material;
-                mesh.position.set(oldChild.position.x, oldChild.position.y, oldChild.position.z);
+                    for (const mesh of loadedObject.children) {
+                        mesh.castShadow = true;
+                        mesh.receiveShadow = true;
+                        mesh.scale.set(componentScale, componentScale, componentScale);
+                        mesh.material = oldChild.material;
+                        mesh.position.set(oldChild.position.x, oldChild.position.y, oldChild.position.z);
+                    }
+
+                    loadedObject.name = newComponent.id;
+                    this.scene.add(loadedObject);
+
+                    if (this.selectedObject === replaced3DGroup) {
+                        this.selectObject(loadedObject);
+                    }
+
+                    this.scene.remove(replaced3DGroup);
+                    resolve();
+                });
+            } catch (error) {
+                reject(error);
             }
-
-            loadedObject.name = newComponent.id;
-            this.scene.add(loadedObject);
-
-            if (this.selectedObject === replaced3DGroup) {
-                this.selectObject(loadedObject);
-            }
-
-            this.scene.remove(replaced3DGroup);
         });
     }
 
@@ -181,29 +220,36 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         readonly object3D: THREE.Group;
         readonly material: FurnitureMaterial;
     }) => {
+        return new Promise((resolve, reject) => {
+            try {
+                const {
+                    object3D,
+                    material
+                } = props;
 
-        const {
-            object3D,
-            material
-        } = props;
+                const texture = new window.THREE.TextureLoader();
+                const textureFile = getUploadedFileSrc({
+                    uploadedFile: material.texture
+                });
 
-        const texture = new window.THREE.TextureLoader();
-        const textureFile = getUploadedFileSrc({
-            uploadedFile: material.texture
-        });
+                texture.load(textureFile, (textureMap) => {
+                    object3D.children.forEach((mesh: THREE.Mesh) => {
+                        const meshMaterial = mesh.material as THREE.MeshPhongMaterial;
+                        meshMaterial.map!.image = textureMap.image;
+                        meshMaterial.map!.needsUpdate = true;
+                        meshMaterial.needsUpdate = true;
+                        if (material.view_normalMap) {
+                            this.loadNormalMap(material, meshMaterial);
+                        } else {
+                            meshMaterial.normalMap = null;
+                        }
+                    });
 
-        texture.load(textureFile, (textureMap) => {
-            object3D.children.forEach((mesh: THREE.Mesh) => {
-                const meshMaterial = mesh.material as THREE.MeshPhongMaterial;
-                meshMaterial.map!.image = textureMap.image;
-                meshMaterial.map!.needsUpdate = true;
-                meshMaterial.needsUpdate = true;
-                if (material.view_normalMap) {
-                    this.loadNormalMap(material, meshMaterial);
-                } else {
-                    meshMaterial.normalMap = null;
-                }
-            });
+                    resolve();
+                });
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
@@ -310,45 +356,55 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         readonly prevProductModules: ProductModule[];
         readonly nextProductModules: ProductModule[];
     }) => {
-        const {
-            prevProductModules,
-            nextProductModules
-        } = props;
+        return new Promise((resolve, reject) => {
+            try {
+                const {
+                    prevProductModules,
+                    nextProductModules
+                } = props;
 
-        const replaced3DObjects: Array<{
-            readonly object3d: THREE.Group;
-            readonly component: FurnitureComponent;
-        }> = [];
+                const replaced3DObjects: Array<{
+                    readonly object3d: THREE.Group;
+                    readonly component: FurnitureComponent;
+                }> = [];
 
-        const groups = this.scene.children.filter(o => o instanceof THREE.Group) as THREE.Group[];
+                const groups = this.scene.children.filter(o => o instanceof THREE.Group) as THREE.Group[];
 
-        for (let index = 0; index < prevProductModules.length; index++) {
-            const prevProductModule = prevProductModules[index];
-            if (!prevProductModule) {
-                continue;
+                for (let index = 0; index < prevProductModules.length; index++) {
+                    const prevProductModule = prevProductModules[index];
+                    if (!prevProductModule) {
+                        continue;
+                    }
+
+                    const oldObject = groups.find(o => o.name === prevProductModule.component.id)!;
+                    const nextProductModule = nextProductModules[index];
+
+                    if (prevProductModule.material.id !== nextProductModule.material.id) {
+                        this.addToQueue(
+                            () => this.replace3DMeshMaterial({
+                                material: nextProductModule.material,
+                                object3D: oldObject
+                            })
+                        );
+                    }
+
+                    if (prevProductModule.component.id !== nextProductModule.component.id) {
+                        replaced3DObjects.push({
+                            object3d: oldObject,
+                            component: nextProductModule.component
+                        });
+                    }
+                }
+
+                replaced3DObjects.forEach((value) =>
+                    this.addToQueue(() => this.replaceComponentObject(value.object3d, value.component))
+                );
+
+                resolve();
+            } catch (error) {
+                reject(error);
             }
-
-            const oldObject = groups.find(o => o.name === prevProductModule.component.id)!;
-            const nextProductModule = nextProductModules[index];
-
-            if (prevProductModule.material.id !== nextProductModule.material.id) {
-                this.replace3DMeshMaterial({
-                    material: nextProductModule.material,
-                    object3D: oldObject
-                });
-            }
-
-            if (prevProductModule.component.id !== nextProductModule.component.id) {
-                replaced3DObjects.push({
-                    object3d: oldObject,
-                    component: nextProductModule.component
-                });
-            }
-        }
-
-        replaced3DObjects.forEach((value) =>
-            this.replaceComponentObject(value.object3d, value.component)
-        );
+        });
     }
 
     public componentDidMount() {
@@ -365,10 +421,10 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
         const idModuleChanged = prevProps.productModules !== this.props.productModules;
         if (idModuleChanged) {
-            this.update3DViewData({
+            this.addToQueue(() => this.update3DViewData({
                 prevProductModules: prevProps.productModules,
                 nextProductModules: this.props.productModules
-            });
+            }));
         }
 
         if (prevProps.selectedObject !== selectedObject) {

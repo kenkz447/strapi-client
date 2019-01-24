@@ -72,6 +72,7 @@ export interface Product3DSenceContext {
     readonly availableFurnitureComponentLengthiness: Array<number> | null;
 
     readonly selectedProduct: ProductExtended | null;
+    readonly product3DSenceLoading: boolean | null;
 }
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;
