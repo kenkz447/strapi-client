@@ -1,4 +1,5 @@
 export * from './getProductModuleCodes';
+export * from './getProductModuleDetails';
 export * from './getProductModulesComponentCodes';
 export * from './getProductModulesFromRaw';
 export * from './getProductModulesMaterialCodes';

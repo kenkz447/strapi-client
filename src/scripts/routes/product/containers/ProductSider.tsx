@@ -20,6 +20,7 @@ import {
     ProductTypeSelectProps
 } from './product-sider';
 import { ProductMaterialSelect } from './product-sider';
+import { ProductDetails } from './product-sider/ProductDetails';
 import { ProductVariantSelect } from './product-sider/ProductVariantSelect';
 
 const ProductSiderWrapper = styled.div`
@@ -120,6 +121,7 @@ class ProductSiderComponent extends React.PureComponent<
     }
 
     public render() {
+        const { selectedFurnitureComponent } = this.props;
         const {
             allProductTypeGroups,
             allProductType,
@@ -133,9 +135,20 @@ class ProductSiderComponent extends React.PureComponent<
                     allProductType={allProductType}
                     allProductDesign={allProductDesign}
                 />
-                <ProductVariantSelect />
-                <ProductComponentSelect />
-                <ProductMaterialSelect />
+                {
+                    selectedFurnitureComponent
+                        ? (
+                            <div>
+                                <ProductVariantSelect />
+                                <ProductComponentSelect />
+                                <ProductMaterialSelect />
+                            </div>
+                        )
+                        : (
+                            <ProductDetails />
+                        )
+                }
+
             </ProductSiderWrapper>
         );
     }

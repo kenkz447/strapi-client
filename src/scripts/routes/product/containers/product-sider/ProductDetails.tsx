@@ -1,0 +1,116 @@
+import './ProductDetails.scss';
+
+import map from 'lodash/map';
+import * as React from 'react';
+
+import { RootContext } from '@/app';
+import { DomainContext } from '@/domain';
+
+interface ProductDetailsProps {
+}
+
+export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
+    static readonly contextType = RootContext;
+    readonly context!: DomainContext;
+
+    private readonly getLegsInfo = () => {
+        const {
+            selectedProduct
+        } = this.context;
+
+        const legModules = selectedProduct!.modules.find(o => {
+            if (typeof o.component.componentType === 'string') {
+                return false;
+            }
+
+            return o.component.componentType.position === 'leg';
+        });
+
+        if (!legModules) {
+            return null;
+        }
+
+        const { material, component } = legModules;
+
+        return {
+            'Vật liệu chân': material.materialType && material.name,
+            'Chiều cao chân': component.height + ' mm'
+        };
+    }
+
+    private readonly getTopInfo = () => {
+        const {
+            selectedProduct
+        } = this.context;
+
+        const legModules = selectedProduct!.modules.find(o => {
+            if (typeof o.component.componentType === 'string') {
+                return false;
+            }
+
+            return o.component.componentType.position === 'top';
+        });
+
+        if (!legModules) {
+            return null;
+        }
+
+        const { material, component } = legModules;
+
+        return {
+            'Vật liệu mặt bàn': material.materialType && material.name,
+            'Đường kính mặt bàn': component.diameter + ' mm'
+        };
+    }
+
+    private readonly getDetails = () => {
+        const common = {
+            'Kích thước bao bì': '???',
+            'Trọng lượng': '???',
+            'Carring': '???'
+        };
+
+        const leg = this.getLegsInfo();
+        const top = this.getTopInfo();
+
+        const details = {
+            ...top,
+            ...leg,
+            ...common
+        };
+
+        return map(details, (value, label) => ({ label, value }));
+    }
+
+    public render() {
+        const {
+            selectedProduct
+        } = this.context;
+
+        if (!selectedProduct) {
+            return null;
+        }
+
+        const details = this.getDetails();
+        return (
+            <div className="product-details">
+                <p><strong>Thông số sản phẩm</strong></p>
+                <div>
+                    {
+                        details.map((detail) => {
+                            if (!detail.value) {
+                                return null;
+                            }
+
+                            return (
+                                <div className="product-details-item d-flex" key={detail.label}>
+                                    <div className="flex-grow-1">{detail.label}:</div>
+                                    <div>{detail.value}</div>
+                                </div>
+                            );
+                        })}
+                </div>
+            </div>
+        );
+    }
+}

@@ -12,6 +12,7 @@ import {
 } from '@/business/furniture-component';
 import { getFurnitureMaterialByCode } from '@/business/furniture-material';
 import {
+    getProductModuleDetails,
     getProductModulesComponentCodes,
     getProductModulesFromRaw,
     getProductModulesMaterialCodes,
@@ -40,7 +41,10 @@ interface ProductFetcherProps {
 type ProductFetcherContextProps = WithHistory
     & Pick<DomainContext, 'selectedFurnitureComponent'>
     & Pick<DomainContext, 'selectedFurnitureMaterial'>
-    & Pick<DomainContext, 'selectedProduct'>;
+    & Pick<DomainContext, 'selectedProduct'>
+    & Pick<DomainContext, 'selectedFurnitureComponentDiameter'>
+    & Pick<DomainContext, 'selectedFurnitureComponentHeight'>
+    & Pick<DomainContext, 'selectedFurnitureComponentLengthiness'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
@@ -287,9 +291,13 @@ class ProductFetcherComponent extends React.PureComponent<
         const selectedModule = (selectedFurnitureComponent && loadedProduct) &&
             loadedProduct.modules.find(o => o.component.id === selectedFurnitureComponent.id);
 
+        const details = getProductModuleDetails(loadedProduct && loadedProduct.modules);
         this.props.setContext({
             selectedProduct: loadedProduct,
-            selectedFurnitureMaterial: selectedModule ? selectedModule.material : null
+            selectedFurnitureMaterial: selectedModule ? selectedModule.material : null,
+            selectedFurnitureComponentDiameter: details.diameter,
+            selectedFurnitureComponentHeight: details.height,
+            selectedFurnitureComponentLengthiness: details.lengthiness
         });
     }
 
