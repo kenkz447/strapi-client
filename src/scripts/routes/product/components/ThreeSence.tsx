@@ -26,14 +26,28 @@ interface ThreeSenceProps extends ThreeSenceBaseProps {
 
 export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     readonly state = {
-        loaded: false
+        loaded: false,
+        isQueueRuning: false
     };
 
+    private _isQueueRuning = false;
     private _loaded3DComponents: Array<THREE.Group> = [];
     private _queue: Array<QueueAction> = [];
-    private _isQueueRuning = false;
 
     private readonly runQueue = async () => {
+        setTimeout(
+            () => {
+                if (!this._isQueueRuning) {
+                    return;
+                }
+                
+                this.setState({
+                    isQueueRuning: true
+                });
+            },
+            250
+        );
+
         this._isQueueRuning = true;
 
         while (this._queue.length) {
@@ -42,15 +56,18 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                 this._queue.shift();
             } catch (error) {
                 throw error;
-            } finally {
-                this._isQueueRuning = false;
             }
         }
+
+        this.setState({
+            isQueueRuning: false
+        });
+        this._isQueueRuning = false;
     }
 
     private readonly addToQueue = (action: QueueAction) => {
         this._queue.push(action);
-        
+
         if (this._isQueueRuning) {
             return;
         }
@@ -447,6 +464,11 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             <div className="three-sence-wrapper">
                 {!this.state.loaded &&
                     <div className="three-sence-loading">
+                        <Spin />
+                    </div>
+                }
+                {this.state.isQueueRuning &&
+                    <div className="three-sence-loading queue">
                         <Spin />
                     </div>
                 }

@@ -3,6 +3,7 @@ import './ProductComponentSelect.scss';
 import { List } from 'antd';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
+import { isNumber } from 'util';
 
 import { Product3DSenceContext } from '@/domain';
 import { FurnitureComponent } from '@/restful';
@@ -18,6 +19,12 @@ class ProductComponentSelectComponent extends React.PureComponent<
     WithContextProps<Product3DSenceContext, ProductComponentSelectProps>
     > {
 
+    static readonly defaultProps = {
+        selectedFurnitureComponentHeight: null,
+        selectedFurnitureComponentDiameter: null,
+        selectedFurnitureComponentLengthiness: null
+    };
+
     private readonly getFilteredFurnitureComponents = () => {
         const {
             selectedFurnitureComponent,
@@ -25,7 +32,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
             availableFurnitureComponents,
             selectedFurnitureComponentHeight,
             selectedFurnitureComponentDiameter,
-            selectedFurnitureComponentLengthiness: selectedFurnitureComponentLengthinesss
+            selectedFurnitureComponentLengthiness
         } = this.props;
 
         if (
@@ -64,9 +71,9 @@ class ProductComponentSelectComponent extends React.PureComponent<
             }
         }
 
-        if (selectedFurnitureComponentLengthinesss) {
+        if (selectedFurnitureComponentLengthiness) {
             const diameterFiltered = filteredComponentByGroup.filter(o =>
-                o.lengthiness === selectedFurnitureComponentLengthinesss
+                o.lengthiness === selectedFurnitureComponentLengthiness
             );
             if (diameterFiltered.length) {
                 filteredComponentByGroup = diameterFiltered;
@@ -74,6 +81,33 @@ class ProductComponentSelectComponent extends React.PureComponent<
         }
 
         return filteredComponentByGroup.sort((i1, i2) => (i1.variantIndex || 0) - (i2.variantIndex || 0));
+    }
+
+    private readonly isComponentSelected = (
+        components: FurnitureComponent[]
+    ): FurnitureComponent | undefined => {
+        const {
+            selectedFurnitureComponentIndex
+        } = this.props;
+        const next = components.find(o => location.pathname.includes(o.code));
+        return next || components[selectedFurnitureComponentIndex || 0];
+    }
+
+    componentDidUpdate(prevProps: Product3DSenceContext) {
+        const {
+            selectedFurnitureComponentDiameter,
+            selectedFurnitureComponentHeight,
+            selectedFurnitureComponentLengthiness
+        } = this.props;
+
+        const diameterChanged = selectedFurnitureComponentDiameter !== prevProps.selectedFurnitureComponentDiameter;
+        const heightChanged = selectedFurnitureComponentHeight !== prevProps.selectedFurnitureComponentHeight;
+        const lengthinessChanged =
+            selectedFurnitureComponentLengthiness !== prevProps.selectedFurnitureComponentLengthiness;
+
+        if (diameterChanged || heightChanged || lengthinessChanged) {
+            this.forceUpdate();
+        }
     }
 
     render() {
@@ -89,6 +123,11 @@ class ProductComponentSelectComponent extends React.PureComponent<
         const isHidden = filteredFurnitureComponents.length === 1;
 
         const className = 'product-component-select ' + (isHidden ? 'display-none' : '');
+
+        const nextSelectedFurnitureComponent = this.isComponentSelected(
+            filteredFurnitureComponents
+        );
+
         return (
             <List
                 className={className}
@@ -96,7 +135,9 @@ class ProductComponentSelectComponent extends React.PureComponent<
                 dataSource={filteredFurnitureComponents}
                 grid={{ column: 4, gutter: 5 }}
                 renderItem={(furnitureComponent: FurnitureComponent, index: number) => {
-                    const isSelected = furnitureComponent.id === selectedFurnitureComponent.id;
+
+                    const isSelected = furnitureComponent === nextSelectedFurnitureComponent;
+
                     return (
                         <RouteProductContext.Consumer>
                             {({ currentModulesCode }) => (
@@ -123,5 +164,6 @@ export const ProductComponentSelect = withContext<Product3DSenceContext>(
     'selectedFurnitureComponentType',
     'selectedFurnitureComponentHeight',
     'selectedFurnitureComponentDiameter',
-    'selectedFurnitureComponentLengthiness'
+    'selectedFurnitureComponentLengthiness',
+    'selectedFurnitureComponentIndex'
 )(ProductComponentSelectComponent);

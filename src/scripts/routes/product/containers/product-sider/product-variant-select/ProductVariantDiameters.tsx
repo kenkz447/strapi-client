@@ -10,8 +10,8 @@ interface ProductVariantDiametersProps {
 
 type ProductVariantDiametersContext =
     & Pick<Product3DSenceContext, 'selectedFurnitureComponentDiameter'>
-    & Pick<Product3DSenceContext, 'availableFurnitureComponentDiameter'>;
-
+    & Pick<Product3DSenceContext, 'availableFurnitureComponentDiameter'>
+    & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>;
 class ProductVariantDiametersComponent extends React.PureComponent<
     WithContextProps<ProductVariantDiametersContext, ProductVariantDiametersProps>
     > {

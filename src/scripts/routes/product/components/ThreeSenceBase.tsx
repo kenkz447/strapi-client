@@ -115,7 +115,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         const ground = new THREE.Mesh(groundGeo, groundMat);
         ground.rotation.x = - Math.PI / 2;
         ground.position.y = 0;
-        this.scene.add(ground);
+        // this.scene.add(ground);
     }
 
     initComposer() {
@@ -333,6 +333,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
     checkIntersection = () => {
         this.raycaster.setFromCamera(this.mouse, this.camera);
         const intersects = this.raycaster.intersectObjects([this.scene], true);
+        
         if (intersects.length > 0) {
             if (this.highlightTimeout) {
                 clearTimeout(this.highlightTimeout as number);

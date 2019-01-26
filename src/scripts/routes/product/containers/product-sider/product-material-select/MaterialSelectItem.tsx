@@ -50,12 +50,10 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 
     componentDidUpdate(preveProps: MaterialSelectItemProps) {
         const {
-            selectedFurnitureMaterial,
             selectedFurnitureComponent,
             currentProductModulesCode,
             furnitureMaterial,
-            setContext,
-            index
+            setContext
         } = this.props;
 
         if (!selectedFurnitureComponent
@@ -80,10 +78,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
         const {
             selectedFurnitureMaterial,
             selectedFurnitureComponent,
-            currentProductModulesCode,
             selectedFurnitureMaterialType,
-            furnitureMaterial,
-            setContext,
             index
         } = this.props;
 
@@ -100,7 +95,6 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
             : selectedFurnitureComponent.materialTypes[0];
 
         const currentFurnitureMaterialTypeId = currentFurnitureMaterialType!.id;
-
 
         if (currentFurnitureMaterialTypeId !== selectedFurnitureMaterial.materialType.id) {
             if (index === 0) {

@@ -3,13 +3,9 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { RootContext } from '@/app';
 import {
     getFurnitureComponentGroupById
 } from '@/business/furniture-component-group';
-import {
-    getFurnitureMaterialTypeById
-} from '@/business/furniture-material-type';
 import { getProductModuleCodes } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
@@ -97,7 +93,9 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
                 nextProductModules.push({
                     component: nextComponent,
                     componentPrice: 0,
-                    material: productModule.material,
+                    material: {
+                        code: 999
+                    } as  any,
                     materialPrice: 0
                 });
             } else {
@@ -143,24 +141,6 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
         return nextComponentGroup;
     }
 
-    private readonly trySetSelectComponentIndexContext = () => {
-        const {
-            setContext,
-            furnitureComponent,
-            selectedFurnitureComponent,
-            selectedFurnitureComponentIndex,
-            currentIndex
-        } = this.props;
-
-        if (selectedFurnitureComponent && !selectedFurnitureComponentIndex) {
-            if (selectedFurnitureComponent.id === furnitureComponent.id) {
-                setContext({
-                    selectedFurnitureComponentIndex: currentIndex
-                });
-            }
-        }
-    }
-
     componentDidUpdate(preveProps: ComponentSelectItemProps) {
         const {
             currentProductModulesCode,
@@ -195,21 +175,13 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
             });
             return;
         }
-
-        if (
-            !location.pathname.includes(furnitureComponent.code)
-            && selectedFurnitureComponent!.id !== furnitureComponent.id
-            && selectedFurnitureComponentIndex === currentIndex
-        ) {
-            this.onComponentSelect();
-            return;
-        }
-
-        this.trySetSelectComponentIndexContext();
     }
 
     componentDidMount() {
-        this.trySetSelectComponentIndexContext();
+        const { isSelected } = this.props;
+        if (isSelected) {
+            this.onComponentSelect();
+        }
     }
 
     render() {

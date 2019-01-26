@@ -17,5 +17,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        &.queue {
+            background: rgba(#fff, .5);
+        }
     }
 }
