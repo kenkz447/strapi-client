@@ -255,6 +255,8 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                         meshMaterial.map!.image = textureMap.image;
                         meshMaterial.map!.needsUpdate = true;
                         meshMaterial.needsUpdate = true;
+                        meshMaterial.shininess = material.shininess || 0;
+
                         if (material.view_normalMap) {
                             this.loadNormalMap(material, meshMaterial);
                         } else {
