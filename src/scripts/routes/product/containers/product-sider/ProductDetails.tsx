@@ -6,6 +6,8 @@ import * as React from 'react';
 import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
 
+import { ProductLinks } from './product-details';
+
 interface ProductDetailsProps {
 }
 
@@ -110,6 +112,7 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                             );
                         })}
                 </div>
+                <ProductLinks />
             </div>
         );
     }
