@@ -66,10 +66,15 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
     }
 
     private readonly getDetails = () => {
+        const { selectedFurnitureComponentGroup } = this.context;
+
         const common = {
-            'Kích thước bao bì': '???',
-            'Trọng lượng': '???',
-            'Carring': '???'
+            'Kích thước sản phẩm': selectedFurnitureComponentGroup ?
+                selectedFurnitureComponentGroup.productSize : null,
+            'Kích thước bao bì': selectedFurnitureComponentGroup ?
+                selectedFurnitureComponentGroup.packagingSize : null,
+            'Trọng lượng (kg)': selectedFurnitureComponentGroup ?
+                selectedFurnitureComponentGroup.weight : null
         };
 
         const leg = this.getLegsInfo();

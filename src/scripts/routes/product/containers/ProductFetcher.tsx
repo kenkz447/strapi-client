@@ -44,7 +44,8 @@ type ProductFetcherContextProps = WithHistory
     & Pick<DomainContext, 'selectedProduct'>
     & Pick<DomainContext, 'selectedFurnitureComponentDiameter'>
     & Pick<DomainContext, 'selectedFurnitureComponentHeight'>
-    & Pick<DomainContext, 'selectedFurnitureComponentLengthiness'>;
+    & Pick<DomainContext, 'selectedFurnitureComponentLengthiness'>
+    & Pick<DomainContext, 'selectedFurnitureComponentGroup'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
     readonly allowLoad?: boolean;
@@ -288,16 +289,24 @@ class ProductFetcherComponent extends React.PureComponent<
             loadedProduct,
         } = this.state;
 
+        const componentGroup = (loadedProduct && loadedProduct.modules) &&
+            ((loadedProduct.modules[0] && typeof loadedProduct.modules[0].component.componentGroup !== 'string')
+                ? loadedProduct.modules[0].component.componentGroup
+                : null
+            );
+
         const selectedModule = (selectedFurnitureComponent && loadedProduct) &&
             loadedProduct.modules.find(o => o.component.id === selectedFurnitureComponent.id);
 
         const details = getProductModuleDetails(loadedProduct && loadedProduct.modules);
+
         this.props.setContext({
             selectedProduct: loadedProduct,
             selectedFurnitureMaterial: selectedModule ? selectedModule.material : null,
             selectedFurnitureComponentDiameter: details.diameter,
             selectedFurnitureComponentHeight: details.height,
-            selectedFurnitureComponentLengthiness: details.lengthiness
+            selectedFurnitureComponentLengthiness: details.lengthiness,
+            selectedFurnitureComponentGroup: componentGroup
         });
     }
 
