@@ -6,7 +6,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { isNumber } from 'util';
 
 import { Product3DSenceContext } from '@/domain';
-import { FurnitureComponent } from '@/restful';
+import { FurnitureComponent, FurnitureComponentGroup } from '@/restful';
 
 import { RouteProductContext } from '../../RouteProductContext';
 import { ComponentSelectItem } from './product-component-select';
@@ -44,13 +44,14 @@ class ProductComponentSelectComponent extends React.PureComponent<
         }
 
         let filteredComponentByGroup = [...availableFurnitureComponents];
-        const selectedFurnitureComponentGroup = selectedFurnitureComponent.componentGroup;
+        const selectedFurnitureComponentGroup = selectedFurnitureComponent.componentGroup as FurnitureComponentGroup;
         if (
             !selectedFurnitureComponentType.isBase &&
             selectedFurnitureComponentGroup
         ) {
             filteredComponentByGroup = filteredComponentByGroup.filter(o =>
-                o.componentGroup && o.componentGroup.id === selectedFurnitureComponentGroup.id
+                o.componentGroup &&
+                (o.componentGroup as FurnitureComponentGroup).id === selectedFurnitureComponentGroup.id
             );
         }
 

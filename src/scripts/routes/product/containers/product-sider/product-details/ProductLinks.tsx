@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
+import { FurnitureComponentGroup } from '@/restful';
 
 const ProductLinksWrapper = styled.div`
     margin-top: 15px;
@@ -39,7 +40,7 @@ export class ProductLinks extends React.PureComponent<ProductLinksProps> {
         }
 
         const modules = selectedProduct.modules.find(o => !!o.component.componentGroup);
-        const componentGroup = modules && modules.component.componentGroup;
+        const componentGroup = modules && modules.component.componentGroup as FurnitureComponentGroup;
         const groupUrl = componentGroup &&
             `${API_ENTRY}/admin/plugins/content-manager/componentgroup/${componentGroup.id}?source=content-manager`;
 

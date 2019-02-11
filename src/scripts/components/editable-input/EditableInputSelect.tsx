@@ -1,5 +1,5 @@
 import { Button, Input, InputNumber, Select } from 'antd';
-import { OptionProps } from 'antd/lib/select';
+import { OptionProps, SelectValue } from 'antd/lib/select';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -122,14 +122,14 @@ export class InputSelect<I extends number | string, S extends number | string> e
                             placeholder="..."
                             className={inputClassName}
                             value={value as number}
-                            onChange={(nextValue: I) => this.setState({ inputValue: nextValue })}
+                            onChange={(nextValue) => this.setState({ inputValue: nextValue as I})}
                             onKeyDown={this.onInputKeyDown}
                         />
                         <Select
                             placeholder="chọn"
                             className={selectClassName}
-                            value={discountUnitId}
-                            onChange={(selectedId) => this.setState({ selectValue: selectedId })}
+                            value={discountUnitId as SelectValue}
+                            onChange={(selectedId) => this.setState({ selectValue: selectedId as S })}
                         >
                             {
                                 selectOptions.map(o =>
