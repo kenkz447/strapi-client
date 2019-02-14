@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
+import { FurnitureComponentGroup } from '@/restful';
 
 import { ProductLinks } from './product-details';
 
@@ -14,6 +15,36 @@ interface ProductDetailsProps {
 export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
     static readonly contextType = RootContext;
     readonly context!: DomainContext;
+
+    private readonly getSeatInfo = () => {
+        const {
+            selectedProduct,
+            selectedFurnitureComponentGroup
+        } = this.context;
+
+        const seatModule = selectedProduct!.modules.find(o => {
+            if (typeof o.component.componentType === 'string') {
+                return false;
+            }
+
+            return o.component.componentType.position === 'seat';
+        });
+
+        if (!seatModule) {
+            return null;
+        }
+
+        const { material, component } = seatModule;
+        const productType = selectedProduct!.productType;
+
+        return {
+            'Vật liệu bọc': material.materialType && material.name,
+            'Chất liệu nệm': productType.mattressMaterial,
+            'Loại foam': productType.foamType,
+            'Kích thước mặt ngồi': selectedFurnitureComponentGroup!.sittingSurfaceSize,
+            'Chiều cao tay (mm)': component.handHeight || selectedProduct!.design.handHeight
+        };
+    }
 
     private readonly getLegsInfo = () => {
         const {
@@ -36,7 +67,7 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
 
         return {
             'Vật liệu chân': material.materialType && material.name,
-            'Chiều cao chân': component.height + ' mm'
+            'Chiều cao chân (mm)': component.height
         };
     }
 
@@ -79,9 +110,11 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
 
         const leg = this.getLegsInfo();
         const top = this.getTopInfo();
+        const seat = this.getSeatInfo();
 
         const details = {
             ...top,
+            ...seat,
             ...leg,
             ...common
         };

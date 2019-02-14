@@ -81,7 +81,7 @@ export class ProductLinks extends React.PureComponent<ProductLinksProps> {
                                     <br />
                                     <small>Component</small>
                                 </li>
-                            )
+                            );
                         })
                     }
                 </ul>

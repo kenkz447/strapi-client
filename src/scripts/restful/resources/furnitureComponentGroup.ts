@@ -9,6 +9,9 @@ export interface FurnitureComponentGroup {
     readonly productSize?: string;
     readonly packagingSize?: string;
     readonly weight?: number;
+    readonly mattressMaterial?: string;
+    readonly foamType?: string;
+    readonly sittingSurfaceSize?: string;
 }
 
 export const furnitureComponentGroupResourceType = new ResourceType<FurnitureComponentGroup>(
