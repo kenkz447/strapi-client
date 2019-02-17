@@ -18,7 +18,7 @@ import { ThreeSenceBase, ThreeSenceBaseProps } from './ThreeSenceBase';
 
 const { THREE } = window;
 
-type QueueAction = () => Promise<any>;
+type QueueAction = () => Promise<unknown>;
 
 interface ThreeSenceProps extends ThreeSenceBaseProps {
     readonly setSence?: (threeSence: ThreeSence) => void;
@@ -358,19 +358,6 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         }
     }
 
-    private readonly takeScreenshot = () => {
-        return new Promise<string>((resolve) => {
-            this.resetCamera();
-            setTimeout(
-                () => {
-                    const base64 = this.renderer.domElement.toDataURL('image/jpeg');
-                    resolve(base64);
-                },
-                500
-            );
-        });
-    }
-
     private readonly update3DViewData = (props: {
         readonly prevProductModules: ProductModule[];
         readonly nextProductModules: ProductModule[];
@@ -423,6 +410,19 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             } catch (error) {
                 reject(error);
             }
+        });
+    }
+    
+    readonly takeScreenshot = () => {
+        return new Promise<string>((resolve) => {
+            this.resetCamera();
+            setTimeout(
+                () => {
+                    const base64 = this.renderer.domElement.toDataURL('image/jpeg');
+                    resolve(base64);
+                },
+                500
+            );
         });
     }
 

@@ -10,6 +10,7 @@ import {
     FurnitureComponentType,
     FurnitureMaterial,
     FurnitureMaterialType,
+    OrderDetail,
     ProductExtended,
     User
 } from '@/restful';
@@ -35,6 +36,7 @@ export interface DomainContext extends AppCoreContext<User>, Product3DSenceConte
     readonly selectedDate?: Moment | null;
     readonly selectedDateRange?: [Moment, Moment] | null;
     readonly showPrint?: Print | null;
+    readonly initOrderDetails: Array<OrderDetail>;
 }
 
 export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;
@@ -73,6 +75,7 @@ export interface Product3DSenceContext {
 
     readonly selectedProduct: ProductExtended | null;
     readonly product3DSenceLoading: boolean | null;
+    readonly takeProduct3DScreenshot: () => Promise<string>;
 }
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;

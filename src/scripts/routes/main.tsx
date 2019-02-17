@@ -4,12 +4,14 @@ import { Route, Switch } from 'react-router';
 import { routeFrom } from '@/app';
 import { NotFoundPage } from '@/components';
 
+import { RouteCart } from './cart';
 import { RouteDashboard } from './dashboard';
 import { RouteProduct } from './product';
 
 export const routes = routeFrom([
     RouteDashboard,
-    RouteProduct
+    RouteProduct,
+    RouteCart
 ]);
 
 export default () => (

@@ -12,7 +12,13 @@ const environment = setupEnvironment({
     entry: API_ENTRY,
     store: new Store(),
     requestUrlParamParser: dateToString,
-    requestBodyParser: (key, value) => dateToString(value),
+    requestBodyParser: (key, value) => {
+        if (value && value.id) {
+            return value.id;
+        }
+
+        return dateToString(value);
+    },
     beforeFetch: (url: string, requestInit: RequestInit) => {
         restfulEmitEvent({
             type: 'START',

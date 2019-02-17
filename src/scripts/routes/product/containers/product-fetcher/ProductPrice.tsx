@@ -20,8 +20,7 @@ margin-top: 14px;
 
 export interface ProductPriceProps {
     readonly totalPrice: number;
-    readonly actionIcon: string;
-    readonly actionCallback: () => void;
+    readonly button: React.ReactNode;
     readonly actionTitle: string;
 }
 
@@ -29,8 +28,7 @@ export class ProductPrice extends React.PureComponent<ProductPriceProps> {
     public render() {
         const {
             totalPrice,
-            actionCallback,
-            actionIcon,
+            button,
             actionTitle
         } = this.props;
 
@@ -42,14 +40,8 @@ export class ProductPrice extends React.PureComponent<ProductPriceProps> {
                     </strong>
                 </div>
                 <Tooltip title={actionTitle}>
-                    <Button
-                        onClick={actionCallback}
-                        icon={actionIcon}
-                        shape="circle-outline"
-                        size="large"
-                    />
+                    {button}
                 </Tooltip>
-
             </ProductPriceWrapper>
         );
     }

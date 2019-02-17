@@ -84,7 +84,7 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                             order={syncOrder}
                         />
                         <PageContent>
-                            <SlideUp className="h-100 w-100 d-flex">
+                            <SlideUp className="w-100 d-flex">
                                 <div className="w-100">
                                     <OrderDetailsProducts order={syncOrder} />
                                     <OrderDetailsTransactions order={syncOrder} />

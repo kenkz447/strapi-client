@@ -1,7 +1,7 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import * as React from 'react';
 
 import {

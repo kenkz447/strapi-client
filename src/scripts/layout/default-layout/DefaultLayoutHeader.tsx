@@ -1,7 +1,9 @@
+import { Divider } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
 import {
+    HeaderCartButton,
     HeaderSelectLanguage,
     HeaderUserActions
 } from './default-layout-header';
@@ -37,6 +39,7 @@ export function DefaultLayoutHeader(props: DefaultLayoutHeaderProps) {
     return (
         <DefaultLayoutHeaderWrapper>
             <div style={{ flexGrow: 1 }} />
+            <HeaderCartButton />
             <HeaderUserActions />
             <HeaderSelectLanguage />
         </DefaultLayoutHeaderWrapper>

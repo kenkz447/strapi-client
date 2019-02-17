@@ -29,6 +29,9 @@ interface Product3dSenceProps {
 class Product3dSenceComponent extends React.PureComponent<
     WithContextProps<Product3DSenceContext, Product3dSenceProps>
     > {
+
+    _threeSence = React.createRef<ThreeSence>();
+
     private readonly on3dComponentSelect = async (selected3DObject: THREE.Group | null) => {
         if (!selected3DObject) {
             eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
@@ -120,7 +123,7 @@ class Product3dSenceComponent extends React.PureComponent<
 
         setContext({
             selected3DObject,
-            
+
             selectedFurnitureComponent,
             selectedFurnitureMaterial,
             selectedFurnitureMaterialType,
@@ -141,11 +144,20 @@ class Product3dSenceComponent extends React.PureComponent<
         });
     }
 
-    render() {
+    public componentDidMount() {
+        const { setContext } = this.props;
+        
+        setContext({
+            takeProduct3DScreenshot: this._threeSence.current!.takeScreenshot
+        });
+    }
+
+    public render() {
         const { productModules, productType, selected3DObject } = this.props;
 
         return (
             <ThreeSence
+                ref={this._threeSence}
                 productModules={productModules}
                 productType={productType}
                 onObjectSelect={this.on3dComponentSelect}

@@ -5,7 +5,6 @@ import * as React from 'react';
 
 import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
-import { FurnitureComponentGroup } from '@/restful';
 
 import { ProductLinks } from './product-details';
 

@@ -5,7 +5,6 @@ export const verticalLayout = {
         md: { span: 8 },
         xl: { span: 8 },
         xxl: { span: 8 }
-
     },
     wrapperCol: {
         xs: { span: 24 },

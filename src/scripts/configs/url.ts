@@ -21,3 +21,5 @@ export const ACCOUNT_DETAIL_URL = ACCOUNT_LIST_URL + '/detail/:id';
 
 export const USER_PATH = '/user';
 export const USER_PROFILE_URL = USER_PATH + '/profile';
+
+export const CART_URL = '/cart';

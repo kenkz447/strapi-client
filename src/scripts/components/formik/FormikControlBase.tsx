@@ -49,13 +49,20 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
         return options;
     }
 
+    readonly beforeSubmit!: (values: V, formiKBag: FormikBag<P, V>) => Promise<V>;
+
     readonly onSubmit = async (
         values: V,
         formiKBag: FormikBag<P, V>
     ) => {
         const { submit } = this.props;
         try {
-            await submit(values);
+            let requestBody = values;
+            if (this.beforeSubmit) {
+                requestBody = await this.beforeSubmit(values, formiKBag);
+            }
+
+            await submit(requestBody);
         } catch (error) {
             if (error instanceof SchemaError) {
                 // tslint:disable-next-line:no-any

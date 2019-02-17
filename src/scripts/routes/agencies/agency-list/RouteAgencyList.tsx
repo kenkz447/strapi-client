@@ -75,7 +75,7 @@ export class RouteAgencyList extends RoutePage<RouteProps> {
                     }]}
                 />
                 <PageContent>
-                    <SlideUp className="h-100 w-100 d-flex">
+                    <SlideUp className="w-100 d-flex">
                         <AgenciesFetcher initData={initAgenies} />
                     </SlideUp>
                 </PageContent>

@@ -77,7 +77,7 @@ export class RouteOrderList extends RoutePage<RouteProps> {
                     }]}
                 />
                 <PageContent>
-                    <SlideUp className="h-100 w-100 d-flex">
+                    <SlideUp className="w-100 d-flex">
                         <OrdersFetcher initData={initOrders} />
                     </SlideUp>
                 </PageContent>

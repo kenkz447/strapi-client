@@ -1,3 +1,4 @@
+import debounce from 'lodash/debounce';
 import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
 
@@ -12,6 +13,7 @@ interface BusinessControllerRenderProps<T, R> {
 }
 
 export interface BusinessControllerProps<T, R = {}> {
+    readonly delay?: number;
     readonly params?: T;
     readonly needsConfirm?: boolean;
     readonly confirmTitle?: string;
@@ -31,6 +33,14 @@ export class BusinessController<T> extends React.PureComponent<BusinessControlle
     readonly state = {
         loading: false
     };
+
+    constructor(props: BusinessControllerProps<T>) {
+        super(props);
+
+        if (props.delay) {
+            this.doBusiness = debounce(this.doBusiness, props.delay);
+        }
+    }
 
     readonly doBusiness = async (customParams?: T) => {
         const {

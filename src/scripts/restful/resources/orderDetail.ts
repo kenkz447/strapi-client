@@ -1,5 +1,6 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
+import { getDefaultParamsForUpdate } from '../base';
 import { Order } from './order';
 import { Product } from './product';
 import { ProductDesign } from './productDesign';
@@ -36,7 +37,7 @@ export const orderDetailResources = {
         url: '/orderDetail',
         method: 'GET'
     }),
-    add: new Resource<OrderDetail>({
+    create: new Resource<OrderDetail>({
         resourceType: orderDetailResourceType,
         url: '/orderDetail',
         method: 'POST',
@@ -44,7 +45,8 @@ export const orderDetailResources = {
     update: new Resource<OrderDetail>({
         resourceType: orderDetailResourceType,
         url: '/orderDetail/:id',
-        method: 'PUT'
+        method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate
     }),
     delete: new Resource<OrderDetail>({
         resourceType: orderDetailResourceType,

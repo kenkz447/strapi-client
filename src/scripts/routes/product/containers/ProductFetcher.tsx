@@ -1,6 +1,6 @@
 import './ProductFetcher.scss';
 
-import { Layout } from 'antd';
+import { Button, Layout } from 'antd';
 import { UnregisterCallback } from 'history';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
@@ -22,6 +22,9 @@ import { getProductTypeById } from '@/business/product-type';
 import { NoContent, PageLoading, SlideUp } from '@/components';
 import { PRODUCT_PATH, PRODUCT_URL } from '@/configs';
 import { DomainContext, WithHistory } from '@/domain';
+import {
+    OrderDetailCreateFormButton
+} from '@/forms/order-detail/order-detail-create';
 import { text } from '@/i18n';
 import {
     FurnitureComponent,
@@ -341,9 +344,11 @@ class ProductFetcherComponent extends React.PureComponent<
                 <PageLoading />
             );
         }
-        const { selectedFurnitureComponent } = this.props;
+        const { selectedFurnitureComponent, modulesCode } = this.props;
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
+
+        const disableAddToCart = modulesCode!.includes('999');
 
         return (
             <SlideUp className="h-100 w-100 d-flex">
@@ -359,11 +364,32 @@ class ProductFetcherComponent extends React.PureComponent<
                                 />
                                 <ProductPrice
                                     totalPrice={loadedProduct!.totalPrice}
-                                    actionTitle={selectedFurnitureComponent ? text('Done') : text('Buy this')}
-                                    actionIcon={selectedFurnitureComponent ? 'check' : 'shopping'}
-                                    actionCallback={selectedFurnitureComponent ?
-                                        this.onComponentChanged :
-                                        this.onShoppingClick
+                                    actionTitle={
+                                        disableAddToCart ? text('Please choose materials for this product') : 
+                                        selectedFurnitureComponent ? text('Done') : text('Buy this')
+                                    }
+                                    button={
+                                        selectedFurnitureComponent
+                                            ? (
+                                                <Button
+                                                    onClick={this.onComponentChanged}
+                                                    icon="check"
+                                                    shape="circle-outline"
+                                                    size="large"
+                                                />
+                                            )
+                                            : (
+                                                <OrderDetailCreateFormButton
+                                                    disabled={disableAddToCart}
+                                                    onClick={this.onShoppingClick}
+                                                    initialValues={{
+                                                        design: loadedProduct!.design.id,
+                                                        product_type: loadedProduct!.productType.id,
+                                                        productModulesCode: modulesCode!,
+                                                        status: 'temp'
+                                                    }}
+                                                />
+                                            )
                                     }
                                 />
                             </div>
