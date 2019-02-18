@@ -60,6 +60,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
     }
 
     private readonly renderOrderDetail = (orderDetail: OrderDetail) => {
+        const productTitle = orderDetail.product_type!['name'];
         return (
             <List.Item
                 key={orderDetail.id}
@@ -67,7 +68,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
             >
                 <List.Item.Meta
                     avatar={<img width="200" className="order-detail-preview-img" src={orderDetail.previewImg} />}
-                    title={orderDetail.product_type!.name}
+                    title={productTitle}
                     description={(
                         <div>
                             <div className="order-detail-meta">

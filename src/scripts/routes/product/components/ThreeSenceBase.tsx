@@ -47,8 +47,8 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
     highlightObjects: THREE.Object3D[] = [];
     selectedObject!: THREE.Object3D | null;
 
-    highlightTimeout!: number | NodeJS.Timer;
-    mouseHoldTimeout!: number | NodeJS.Timer;
+    highlightTimeout!: number;
+    mouseHoldTimeout!: number;
     isMouseHold!: boolean;
 
     initSence() {
