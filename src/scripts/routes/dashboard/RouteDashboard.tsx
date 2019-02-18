@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 
 import { RouteInfo } from '@/app';
 import { PageContent, PageWrapper } from '@/components';

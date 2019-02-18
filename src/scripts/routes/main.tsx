@@ -5,13 +5,15 @@ import { routeFrom } from '@/app';
 import { NotFoundPage } from '@/components';
 
 import { RouteCart } from './cart';
+import { RouteCheckout } from './checkout';
 import { RouteDashboard } from './dashboard';
 import { RouteProduct } from './product';
 
 export const routes = routeFrom([
     RouteDashboard,
     RouteProduct,
-    RouteCart
+    RouteCart,
+    RouteCheckout
 ]);
 
 export default () => (

@@ -38,6 +38,10 @@ body {
     min-height: 100vh;
 }
 
+button + button {
+    margin-left: 8px;
+}
+
 .child-centered {
     display: flex;
     justify-content: center;

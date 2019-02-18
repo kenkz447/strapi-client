@@ -3,7 +3,10 @@ import { Button, Col, Row } from 'antd';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
+import { RootContext } from '@/app';
 import { getOrderDetailsTotal } from '@/business/order-detail';
+import { CHECKOUT_URL } from '@/configs';
+import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { OrderDetail, orderDetailResourceType } from '@/restful';
 import { formatCurrency } from '@/utilities';
@@ -20,6 +23,14 @@ export interface OrderDetailsPageHeaderProps {
 }
 
 export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPageHeaderProps> {
+    static readonly contextType = RootContext;
+    readonly context!: DomainContext;
+
+    private readonly onCheckoutClick = () => {
+        const { history } = this.context;
+        history.push(CHECKOUT_URL);
+    }
+
     public render() {
         const { initOrderDetails } = this.props;
         return (
@@ -38,6 +49,7 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
                                 <Button
                                     type="primary"
                                     icon="solution"
+                                    onClick={this.onCheckoutClick}
                                 >
                                     {text('Order now!')}
                                 </Button>
