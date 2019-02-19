@@ -61,7 +61,7 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
         } = this.props;
         const { checkoutResultOrder } = this.state;
 
-        if (!checkoutResultOrder || !initOrderDetails.length) {
+        if (!checkoutResultOrder && !initOrderDetails.length) {
             return <Redirect to={CART_URL} />;
         }
 

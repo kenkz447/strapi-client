@@ -3,9 +3,11 @@ import { OptionProps } from 'antd/lib/select';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { AccessControl } from '@/app';
 import { getAllAgency } from '@/business/agency';
 import { getAllOrderStatus } from '@/business/order';
 import { FormInput, FormSelect } from '@/components';
+import { functionAllowed } from '@/domain/policies';
 import { text } from '@/i18n';
 
 const TableFilterWrapper = styled.div`
@@ -86,17 +88,19 @@ export class OrderFilter extends React.PureComponent<
                             onChange={this.onCodeChange}
                         />
                     </Col>
-                    <Col span={6}>
-                        <FormSelect
-                            value={agency || undefined}
-                            label={text('Agency')}
-                            placeholder={text('agency name...')}
-                            options={allAgencyOptions}
-                            allowClear={true}
-                            onChange={onAgencyChange}
-                            showSearch={true}
-                        />
-                    </Col>
+                    <AccessControl policy={functionAllowed} funcKey="FUNC_ORDERS_FILTER_BY_AGENCY">
+                        <Col span={6}>
+                            <FormSelect
+                                value={agency || undefined}
+                                label={text('Agency')}
+                                placeholder={text('agency name...')}
+                                options={allAgencyOptions}
+                                allowClear={true}
+                                onChange={onAgencyChange}
+                                showSearch={true}
+                            />
+                        </Col>
+                    </AccessControl>
                     <Col span={6}>
                         <FormSelect
                             value={status || undefined}

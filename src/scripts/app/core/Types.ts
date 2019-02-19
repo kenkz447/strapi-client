@@ -6,9 +6,14 @@ import { AppCoreContext } from '@/app';
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 // tslint:disable-next-line:no-any
-export type Policy = (context: any) => boolean;
+export type Policy = (context: any, funcKey?: string) => boolean;
 
 export type BreakPoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export interface MenuItem {
+    readonly url: string;
+    readonly icon?: string;
+    readonly label: string;
+}
 
 export interface AppCoreContext<U = {}> {
     readonly currentUser: U;
@@ -18,6 +23,7 @@ export interface AppCoreContext<U = {}> {
     readonly currentBreakpoint: BreakPoint;
     readonly currentLanguage: string;
     readonly translations?: { readonly [key: string]: object };
+    readonly menus?: { readonly [key: string]: MenuItem[] };
 }
 
 export interface RouteInfo<P = {}, S = {}> extends RouteProps {

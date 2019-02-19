@@ -1,27 +1,16 @@
 import { Icon, Menu } from 'antd';
 import * as React from 'react';
 
+import { RootContext } from '@/app';
 import {
     ACCOUNT_LIST_URL,
     AGENCY_LIST_URL,
     DASHBOARD_URL,
     ORDER_LIST_URL,
-    PRODUCT_PATH,
-    USER_PATH,
-    USER_PROFILE_URL
+    PRODUCT_PATH
 } from '@/configs';
+import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
-
-interface MenuItem {
-    readonly key: string;
-    readonly label: string;
-    readonly icon?: string;
-}
-
-interface Submenu {
-    readonly key: string;
-    readonly items: Array<MenuItem>;
-}
 
 interface DefaultLayoutSiderMenuProps {
     readonly onMenuItemClick: (url: string) => void;
@@ -31,16 +20,10 @@ interface DefaultLayoutSiderMenuState {
     readonly subMenuOpenKey: string;
     readonly currentPath: string;
 }
-
-const userSubmenu: Submenu = {
-    key: USER_PATH,
-    items: [{
-        key: USER_PROFILE_URL,
-        label: text('Profile')
-    }]
-};
-
 export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMenuProps, DefaultLayoutSiderMenuState> {
+    static readonly contextType = RootContext;
+    readonly context!: DomainContext;
+
     static getOpenedSubmenuKey() {
         let subMenuOpenKey = location.pathname.split('/')[1];
         if (subMenuOpenKey) {
@@ -81,8 +64,15 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
     }
 
     render() {
+        const { menus } = this.context;
         const { onMenuItemClick } = this.props;
         const { subMenuOpenKey, currentPath } = this.state;
+
+        if (!menus) {
+            return;
+        }
+
+        const mainMenuItems = menus.MAIN;
 
         return (
             <Menu
@@ -95,59 +85,13 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
                     onMenuItemClick(key);
                 }}
             >
-                <Menu.Item key={DASHBOARD_URL}>
-                    <Icon type="dashboard" />
-                    <span>{text('Dashboard')}</span>
-                </Menu.Item>
-                <Menu.Item key={PRODUCT_PATH}>
-                    <Icon type="gold" />
-                    <span>{text('Product')}</span>
-                </Menu.Item>
-                <Menu.Item key={ORDER_LIST_URL}>
-                    <Icon type="appstore" />
-                    <span>{text('Orders')}</span>
-                </Menu.Item>
-                <Menu.Item key={AGENCY_LIST_URL}>
-                    <Icon type="shop" />
-                    <span>{text('Agencies')}</span>
-                </Menu.Item>
-                <Menu.Item key={ACCOUNT_LIST_URL}>
-                    <Icon type="team" />
-                    <span>{text('Accounts')}</span>
-                </Menu.Item>
-                {this.renderSubmenu(userSubmenu)}
+                {mainMenuItems.map(o => (
+                    <Menu.Item key={o.url}>
+                        <Icon type={o.icon} />
+                        <span>{text(o.label)}</span>
+                    </Menu.Item>
+                ))}
             </Menu>
-        );
-    }
-
-    readonly renderSubmenu = (submenu: Submenu) => {
-        const { subMenuOpenKey } = this.state;
-        const { key, items } = submenu;
-
-        return (
-            <Menu.SubMenu
-                key={key}
-                title={(
-                    <span>
-                        <Icon type="user" />
-                        <span>{text('User')}</span>
-                    </span>
-                )}
-                onTitleClick={() => {
-                    if (subMenuOpenKey === key) {
-                        return void this.setState({ subMenuOpenKey: '' });
-                    }
-                    this.setState({ subMenuOpenKey: key });
-                }}
-            >
-                {items.map(item => {
-                    return (
-                        <Menu.Item key={item.key}>
-                            <span>{text(item.label)}</span>
-                        </Menu.Item>
-                    );
-                })}
-            </Menu.SubMenu>
         );
     }
 }

@@ -1,4 +1,5 @@
 export const vi = {
+    Home: 'Tổng quan',
     Login: 'Đăng nhập',
     LoginDescription: 'Chúc bạn một này làm việc vui vẻ',
     User: 'Cá nhân',
@@ -15,5 +16,6 @@ export const vi = {
     Product: 'Sản phẩm',
     Category: 'Danh mục',
     Type: 'Loại',
-    Design: 'Thiết kế'
+    Design: 'Thiết kế',
+    Accounts: 'Tài khoản'
 };

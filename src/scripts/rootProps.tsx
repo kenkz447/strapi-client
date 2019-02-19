@@ -17,6 +17,7 @@ import {
     policies,
     PrintHandler
 } from './domain';
+import MenusBuilder from './domain/services/MenusBuilder';
 import { getCurrentLanguage } from './i18n';
 import { RouterRoot } from './routes';
 
@@ -27,6 +28,7 @@ const AppContent = () => (
         <LoadingBar />
         <ContextFetcher />
         <BreakpointDetector />
+        <MenusBuilder />
         <Authentication>
             <I18NLoader>
                 <RouterRoot />

@@ -25,3 +25,5 @@ export const USER_PROFILE_URL = USER_PATH + '/profile';
 export const CART_URL = '/cart';
 
 export const CHECKOUT_URL = '/checkout';
+
+export const NOTIFICATION_URL = '/notification';

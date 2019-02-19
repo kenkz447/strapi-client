@@ -3,8 +3,9 @@ import './ProductDetails.scss';
 import map from 'lodash/map';
 import * as React from 'react';
 
-import { RootContext } from '@/app';
+import { AccessControl, RootContext } from '@/app';
 import { DomainContext } from '@/domain';
+import { functionAllowed } from '@/domain/policies';
 
 import { ProductLinks } from './product-details';
 
@@ -149,7 +150,9 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                             );
                         })}
                 </div>
-                <ProductLinks />
+                <AccessControl policy={functionAllowed} funcKey="PRODUCT_RELATED_LINK">
+                    {(allowed) => allowed ? <ProductLinks /> : null}
+                </AccessControl>
             </div>
         );
     }
