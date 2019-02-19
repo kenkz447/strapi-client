@@ -1,6 +1,7 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
+import { Agency } from './agency';
 import { Role, roleSchema } from './role';
 
 export interface User extends Record {
@@ -10,6 +11,7 @@ export interface User extends Record {
     readonly role: Role;
     readonly username: string;
     readonly confirmed?: boolean;
+    readonly agency?: Agency;
 }
 
 export const userSchema = yup.object<User>().shape({

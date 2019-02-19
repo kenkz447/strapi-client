@@ -2,14 +2,7 @@ import { FormikProps } from 'formik';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { getAllOrderStatus } from '@/business/order';
-import {
-    FormBody,
-    FormDatePicker,
-    FormSelect,
-    verticalLayout
-} from '@/components';
-import { text } from '@/i18n';
+import { FormBody } from '@/components';
 import { Order } from '@/restful';
 
 import {
@@ -31,6 +24,10 @@ const CheckoutFormWrapper = styled.div`
     .checkout-total-payment {
         font-size: 20px;
         line-height: 0;
+    }
+    .checkout-form-meta {
+        width: 100px;
+        display: inline-block;
     }
 `;
 
@@ -61,12 +58,7 @@ export class CheckoutForm extends React.PureComponent<CheckoutFormOwnProps, Chec
         this.setState({ currentStep });
     }
 
-    render() {
-        const {
-            values,
-            errors,
-            setFieldValue
-        } = this.props;
+    public render() {
         const { currentStep } = this.state;
         return (
             <CheckoutFormWrapper>
@@ -74,7 +66,7 @@ export class CheckoutForm extends React.PureComponent<CheckoutFormOwnProps, Chec
                     <CheckoutFormSteps currentStep={currentStep} />
                     <div className="checkout-form-content">
                         {
-                            currentStep === 0
+                            currentStep === 1
                                 ? <CheckoutFormAddress {...this.props} onNextClick={this.next} />
                                 : (
                                     <CheckoutFormPayment

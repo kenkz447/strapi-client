@@ -2,12 +2,14 @@ import { Button, message, Steps } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { text } from '@/i18n';
+
 const steps = [{
-    title: 'First'
+    title: text('Review')
 }, {
-    title: 'Second',
+    title: text('Shipping info')
 }, {
-    title: 'Last'
+    title: text('Payment')
 }];
 
 const CheckoutFormStepsWrapper = styled.div`

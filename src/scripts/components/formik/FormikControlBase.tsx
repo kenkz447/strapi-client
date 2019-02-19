@@ -20,11 +20,11 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
         initialValues: {}
     };
 
-    readonly listToOptions = (list: Array<ListItem>) => {
+    public readonly listToOptions = (list: Array<ListItem>) => {
         return list.map(o => ({ value: o.id, title: o.name }));
     }
 
-    readonly listToTreeOptions = (
+    public readonly listToTreeOptions = (
         parentKeys: string[],
         ...dataLists: Array<ListItem[]>
     ): FormTreeSelectOption[] => {

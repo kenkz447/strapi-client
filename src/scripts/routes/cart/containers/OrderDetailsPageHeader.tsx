@@ -50,6 +50,7 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
                                     type="primary"
                                     icon="solution"
                                     onClick={this.onCheckoutClick}
+                                    disabled={!initOrderDetails.length}
                                 >
                                     {text('Order now!')}
                                 </Button>

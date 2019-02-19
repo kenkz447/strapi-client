@@ -40,7 +40,8 @@ function FormInputComponent(props: FormFieldProps) {
                 label={label}
                 required={required}
                 help={helpMessage}
-                validateStatus={touched ? validateStatus : undefined}
+                validateStatus={validateStatus}
+                hasFeedback={true}
             >
                 {input}
             </Form.Item>

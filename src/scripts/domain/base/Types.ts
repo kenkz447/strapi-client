@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router';
 
 import { AppCoreContext, PageProps } from '@/app';
 import {
+    Agency,
     FurnitureComponent,
     FurnitureComponentGroup,
     FurnitureComponentType,
@@ -37,6 +38,7 @@ export interface DomainContext extends AppCoreContext<User>, Product3DSenceConte
     readonly selectedDateRange?: [Moment, Moment] | null;
     readonly showPrint?: Print | null;
     readonly initOrderDetails: Array<OrderDetail>;
+    readonly currentAgency?: Agency;
 }
 
 export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;

@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { WithContextProps } from 'react-context-service';
 import { RestfulDataContainer, RestfulRender } from 'react-restful';
 
+import { RootContext } from '@/app';
+import { DomainContext } from '@/domain';
 import {
     OrderDetail,
     orderDetailResources,
@@ -14,12 +17,24 @@ export interface OrderDetailsFetcherProps {
 }
 
 export class OrderDetailsFetcher extends React.PureComponent<OrderDetailsFetcherProps> {
+    static readonly contextType = RootContext;
+    readonly context!: WithContextProps<DomainContext>;
+
+    private readonly updateOrderDetailContext = (result: OrderDetail[]) => {
+        const { setContext } = this.context;
+        setContext({
+            initOrderDetails: result
+        });
+    }
+
     public render() {
         const { initOrderDetails } = this.props;
         return (
             <RestfulRender
                 initData={initOrderDetails}
+                initFetch={true}
                 resource={orderDetailResources.find}
+                onFetchCompleted={this.updateOrderDetailContext}
             >
                 {({ data }) => {
                     return (

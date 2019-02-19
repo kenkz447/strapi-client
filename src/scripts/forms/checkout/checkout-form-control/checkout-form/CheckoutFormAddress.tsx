@@ -12,6 +12,7 @@ import { text } from '@/i18n';
 import { Order } from '@/restful';
 
 import { CheckoutFormOwnProps } from '../CheckoutForm';
+import { AddressCityAndCounty } from './checout-form-address';
 
 interface CheckoutFormAddressProps extends CheckoutFormOwnProps {
     readonly onNextClick: () => void;
@@ -27,6 +28,12 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
             onNextClick
         } = this.props;
 
+        const isValid = !!(values.phone
+            && values.email
+            && values.shippingToCity
+            && values.shippingToCounty
+            && values.shippingAddress);
+        
         return (
             <div>
                 <FormInput
@@ -54,31 +61,25 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     placeholder={text('Nhập email')}
                     required={true}
                 />
-                <FormSelect
-                    name={nameof<Order>(o => o.shippingToCity.id)}
-                    value={values.shippingToCity && values.shippingToCity.id}
+                <AddressCityAndCounty
+                    cityError={errors.shippingToCity}
+                    countyError={errors.shippingToCounty}
+                    city={values.shippingToCity}
+                    county={values.shippingToCounty}
                     setFieldValue={setFieldValue}
-                    options={[]}
-                    wrapperCol={verticalLayout.wrapperCol}
-                    labelCol={verticalLayout.labelCol}
-                    help={errors.shippingToCity}
-                    validateStatus={errors.shippingToCity ? 'error' : undefined}
-                    label={text('Thành phố')}
-                    placeholder={text('Chọn thành phố')}
-                    required={true}
                 />
-                <FormSelect
-                    name={nameof<Order>(o => o.shippingToCounty.id)}
-                    value={values.shippingToCounty && values.shippingToCounty.id}
-                    setFieldValue={setFieldValue}
-                    options={[]}
+                <FormInput
+                    name={nameof<Order>(o => o.shippingAddress)}
+                    onChange={handleChange}
+                    value={values.shippingAddress}
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
-                    help={errors.shippingToCounty}
-                    validateStatus={errors.shippingToCounty ? 'error' : undefined}
-                    label={text('Quận huyện')}
-                    placeholder={text('Chọn quận huyện')}
+                    help={errors.shippingAddress}
+                    validateStatus={errors.shippingAddress ? 'error' : undefined}
+                    label={text('Địa chỉ')}
+                    placeholder={text('Nhập địa chỉ')}
                     required={true}
+                    autoFocus={true}
                 />
                 <FormRadioGroup
                     name={nameof<Order>(o => o.addressType)}
@@ -94,7 +95,13 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                 <Form.Item
                     wrapperCol={verticalLayoutNoLabel.wrapperCol}
                 >
-                    <Button type="primary" onClick={onNextClick}>{text('Next')}</Button>
+                    <Button
+                        type="primary"
+                        onClick={onNextClick}
+                        disabled={!isValid}
+                    >
+                        {text('Next')}
+                    </Button>
                 </Form.Item>
             </div>
         );

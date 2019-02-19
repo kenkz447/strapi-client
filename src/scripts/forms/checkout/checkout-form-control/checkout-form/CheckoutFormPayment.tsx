@@ -1,19 +1,18 @@
-import { Alert, Button, Divider, Form, Radio } from 'antd';
+import { Alert, Button, Divider, Form, Icon, Tooltip } from 'antd';
 import * as React from 'react';
 
-import {
-    FormInput,
-    FormRadioGroup,
-    FormSelect,
-    verticalLayout,
-    verticalLayoutNoLabel
-} from '@/components';
+import { getOrderTotalPayment } from '@/business/order/getters/getOrderPayment';
+import { verticalLayout, verticalLayoutNoLabel } from '@/components';
 import { text } from '@/i18n';
-import { Order } from '@/restful';
 import { formatCurrency } from '@/utilities';
 
 import { CheckoutFormOwnProps } from '../CheckoutForm';
 import { PaymentPromotionField } from './checkout-form-payment';
+
+const formMetaStyle = {
+    width: 130,
+    display: 'inline-block'
+};
 
 interface CheckoutFormPaymentProps extends CheckoutFormOwnProps {
     readonly onNextClick: () => void;
@@ -26,55 +25,116 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
             setFieldValue,
             handleChange,
             values,
-            errors,
-            onNextClick,
-            onPrevClick
+            isSubmitting,
+            onPrevClick,
+            handleSubmit
         } = this.props;
+
+        const orderTotal = getOrderTotalPayment(values);
+        if (!orderTotal) {
+            return null;
+        }
+
+        const {
+            discounts,
+            subTotal,
+            totalPayment,
+            transportFee,
+        } = orderTotal;
 
         return (
             <div>
-                <Alert message={text('Estimated delivery time') + ': ' + 'DD/MM/YYYY'} />
+                <Alert message={text('Estimated delivery time') + ': ' + values.shippingDate} />
                 <PaymentPromotionField
                     handleChange={handleChange}
-                    error={errors.promotion}
                     value={values.promotion}
+                    setFieldValue={setFieldValue}
                 />
-                <Divider dashed={true}/>
+                <Divider dashed={true} />
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
                     label={text('Total')}
                 >
-                    xxx
+                    <span>{formatCurrency(subTotal)}</span>
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
                     label={text('Discount')}
                 >
-                    -{formatCurrency(10000)}
+                    <Tooltip
+                        placement="right"
+                        title={(
+                            <div>
+                                <div>
+                                    <span style={formMetaStyle}>
+                                        {text('Products discount')}:
+                                    </span>
+                                    {formatCurrency(discounts.products)}
+                                </div>
+                                <div>
+                                    <span style={formMetaStyle}>
+                                        {text('Promo code')}:
+                                    </span>
+                                    {formatCurrency(discounts.promotion)}
+                                </div>
+                                <div>
+                                    <span style={formMetaStyle}>
+                                        {discounts.agency.name}:
+                                    </span>
+                                    {formatCurrency(discounts.agency.discount)}
+                                </div>
+                            </div>
+                        )}
+                    >
+                        <span>
+                            {discounts.total && '-' + formatCurrency(discounts.total)}
+                            &nbsp;
+                            <Icon type="question-circle" theme="twoTone" />
+                        </span>
+                    </Tooltip>
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
                     label={text('Transport fee')}
                 >
-                    xxx
+                    {transportFee ? formatCurrency(transportFee.total) : 0}
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
                     label={text('Total of payment')}
                 >
-                    <span className="checkout-total-payment">
-                        {formatCurrency(10000)}
-                    </span>
+                    <div>
+                        <span className="checkout-total-payment">
+                            {formatCurrency(totalPayment)}
+                        </span>
+                        <br />
+                        <small style={{ lineHeight: 1, display: 'block' }}>
+                            <i>{text('VAT included')}</i>
+                        </small>
+                    </div>
+
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayoutNoLabel.wrapperCol}
                 >
-                    <Button type="primary" icon="check" onClick={onNextClick}>{text('Checkout')}</Button>
-                    <Button onClick={onPrevClick}>{text('Previous')}</Button>
+                    <Button
+                        type="primary"
+                        icon="check"
+                        onClick={() => handleSubmit()}
+                        loading={isSubmitting}
+                    >
+                        {text('Checkout')}
+                    </Button>
+                    <Button
+                        onClick={onPrevClick}
+                        disabled={isSubmitting}
+                    >
+                        {text('Previous')}
+                    </Button>
                 </Form.Item>
             </div>
         );
