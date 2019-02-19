@@ -5,7 +5,6 @@ import {
     AppCoreContext,
     BreakpointDetector,
     I18NLoader,
-    LoadingBar,
     RootProps
 } from './app';
 import { DEFAULT_APP_LANG } from './configs';
@@ -13,6 +12,7 @@ import {
     Authentication,
     ContextFetcher,
     ErrorLogger,
+    FirebaseNotification,
     GlobalModal,
     policies,
     PrintHandler
@@ -25,7 +25,7 @@ const browserHistory = createBrowserHistory();
 
 const AppContent = () => (
     <ErrorLogger>
-        <LoadingBar />
+        <FirebaseNotification />
         <ContextFetcher />
         <BreakpointDetector />
         <MenusBuilder />

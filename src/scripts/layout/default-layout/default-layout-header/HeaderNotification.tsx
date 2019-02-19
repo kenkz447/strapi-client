@@ -21,15 +21,23 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
     static readonly contextType = RootContext;
     readonly context!: DomainContext;
 
+    private readonly getUnreadNotifications = () => {
+        const { notifications } = this.context;
+        if (!notifications) {
+            return [];
+        }
+        
+        return notifications.filter(o => !o.viewedAt);
+    }
+
     public render() {
-        const { history } = this.context;
+        const unreadNotifications = this.getUnreadNotifications();
 
         return (
             <HeaderNotificationWrapper
                 className="header-action"
-                onClick={() => history.push('/notification')}
             >
-                <Badge count={1} dot={true}>
+                <Badge count={unreadNotifications.length} dot={true}>
                     <Icon className="" type="notification" />
                 </Badge>
             </HeaderNotificationWrapper>

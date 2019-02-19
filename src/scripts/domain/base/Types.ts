@@ -26,6 +26,18 @@ export type Print<P = {}> = {
     readonly props: P;
 };
 
+export interface AppNotification {
+    readonly id?: string;
+    readonly time?: string;
+    readonly type: 'new-order' | 'update-order' | 'cancel-order' | 'change-order' | 'new-order-transaction';
+    readonly orderId?: string;
+    readonly orderRransactionId?: string;
+    readonly fromUserId?: string;
+    readonly fromUserName?: string;
+    readonly fromAgencyId?: string;
+    readonly fromAgencyName?: string;
+    readonly viewedAt?: string;
+}
 export interface DomainContext extends AppCoreContext<User>, Product3DSenceContext {
     readonly authClient: AuthClient<User>;
     readonly drawerVisibled?: boolean;
@@ -39,6 +51,8 @@ export interface DomainContext extends AppCoreContext<User>, Product3DSenceConte
     readonly showPrint?: Print | null;
     readonly initOrderDetails: Array<OrderDetail>;
     readonly currentAgency?: Agency;
+
+    readonly notifications: AppNotification[];
 }
 
 export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;
