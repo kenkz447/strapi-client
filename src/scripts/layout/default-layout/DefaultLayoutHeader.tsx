@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import {
     HeaderCartButton,
+    HeaderNotification,
     HeaderSelectLanguage,
     HeaderUserActions
 } from './default-layout-header';
@@ -41,6 +42,7 @@ export function DefaultLayoutHeader(props: DefaultLayoutHeaderProps) {
             <div style={{ flexGrow: 1 }} />
             <HeaderCartButton />
             <HeaderUserActions />
+            <HeaderNotification />
             <HeaderSelectLanguage />
         </DefaultLayoutHeaderWrapper>
     );
