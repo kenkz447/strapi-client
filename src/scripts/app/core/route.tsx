@@ -39,7 +39,7 @@ export const route = (Component: AppRouteComponent) => {
             <Route key={routeProps.path} {...routeProps}>
                 {(componentProps) => {
                     return (
-                        <AccessControl allowFor={routeProps.policies!}>
+                        <AccessControl policy={routeProps.policies!}>
                             {(canAccess) => {
                                 if (!canAccess) {
                                     return <Redirect to="/access-deny" />;
