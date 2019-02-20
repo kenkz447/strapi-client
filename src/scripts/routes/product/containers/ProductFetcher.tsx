@@ -10,6 +10,9 @@ import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign
 } from '@/business/furniture-component';
+import {
+    getFurnitureComponentGroupById
+} from '@/business/furniture-component-group';
 import { getFurnitureMaterialByCode } from '@/business/furniture-material';
 import {
     getProductModuleDetails,
@@ -48,6 +51,7 @@ type ProductFetcherContextProps = WithHistory
     & Pick<DomainContext, 'selectedFurnitureComponentDiameter'>
     & Pick<DomainContext, 'selectedFurnitureComponentHeight'>
     & Pick<DomainContext, 'selectedFurnitureComponentLengthiness'>
+    & Pick<DomainContext, 'selectedFurnitureComponentGroup'>
     & Pick<DomainContext, 'selectedFurnitureComponentGroup'>;
 
 interface ProductFetcherState extends ProductTypeSelectState {
@@ -292,11 +296,14 @@ class ProductFetcherComponent extends React.PureComponent<
             loadedProduct,
         } = this.state;
 
-        const componentGroup = (loadedProduct && loadedProduct.modules) &&
+        const currentComponentGroup = (loadedProduct && loadedProduct.modules) &&
             ((loadedProduct.modules[0] && typeof loadedProduct.modules[0].component.componentGroup !== 'string')
                 ? loadedProduct.modules[0].component.componentGroup
                 : null
             );
+
+        const componentGroupEntity = currentComponentGroup
+            && await getFurnitureComponentGroupById(currentComponentGroup.id);
 
         const selectedModule = (selectedFurnitureComponent && loadedProduct) &&
             loadedProduct.modules.find(o => o.component.id === selectedFurnitureComponent.id);
@@ -309,7 +316,7 @@ class ProductFetcherComponent extends React.PureComponent<
             selectedFurnitureComponentDiameter: details.diameter,
             selectedFurnitureComponentHeight: details.height,
             selectedFurnitureComponentLengthiness: details.lengthiness,
-            selectedFurnitureComponentGroup: componentGroup
+            selectedFurnitureComponentGroup: componentGroupEntity
         });
     }
 
@@ -365,8 +372,8 @@ class ProductFetcherComponent extends React.PureComponent<
                                 <ProductPrice
                                     totalPrice={loadedProduct!.totalPrice}
                                     actionTitle={
-                                        disableAddToCart ? text('Please choose materials for this product') : 
-                                        selectedFurnitureComponent ? text('Done') : text('Buy this')
+                                        disableAddToCart ? text('Please choose materials for this product') :
+                                            selectedFurnitureComponent ? text('Done') : text('Buy this')
                                     }
                                     button={
                                         selectedFurnitureComponent
@@ -406,5 +413,5 @@ class ProductFetcherComponent extends React.PureComponent<
 
 export const ProductFetcher = withContext<ProductFetcherContextProps, ProductFetcherProps>(
     'history',
-    'selectedFurnitureComponent'
+    'selectedFurnitureComponent',
 )(ProductFetcherComponent);
