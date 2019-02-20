@@ -56,7 +56,9 @@ class ProductComponentSelectComponent extends React.PureComponent<
         }
 
         if (selectedFurnitureComponentHeight) {
-            const heightFiltered = filteredComponentByGroup.filter(o => o.height === selectedFurnitureComponentHeight);
+            const heightFiltered = filteredComponentByGroup.filter(o =>
+                !o.height || o.height === selectedFurnitureComponentHeight
+            );
             if (heightFiltered.length) {
                 filteredComponentByGroup = heightFiltered;
             }
@@ -64,7 +66,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
 
         if (selectedFurnitureComponentDiameter) {
             const diameterFiltered = filteredComponentByGroup.filter(o =>
-                o.diameter === selectedFurnitureComponentDiameter
+                !o.diameter || o.diameter === selectedFurnitureComponentDiameter
             );
 
             if (diameterFiltered.length) {
@@ -74,7 +76,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
 
         if (selectedFurnitureComponentLengthiness) {
             const diameterFiltered = filteredComponentByGroup.filter(o =>
-                o.lengthiness === selectedFurnitureComponentLengthiness
+                !o.lengthiness || o.lengthiness === selectedFurnitureComponentLengthiness
             );
             if (diameterFiltered.length) {
                 filteredComponentByGroup = diameterFiltered;

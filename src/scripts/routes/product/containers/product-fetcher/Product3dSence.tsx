@@ -85,7 +85,7 @@ class Product3dSenceComponent extends React.PureComponent<
         const availableFurnitureComponentDiameter = selectedFurnitureComponent.diameter ?
             availableFurnitureComponents.reduce(
                 (list, current) => {
-                    if (!list!.includes(current.diameter!)) {
+                    if (current.diameter && !list.includes(current.diameter)) {
                         list.push(current.diameter! || selectedFurnitureComponent.diameter!);
                     }
 
@@ -98,7 +98,7 @@ class Product3dSenceComponent extends React.PureComponent<
         const availableFurnitureComponentHeight = selectedFurnitureComponent.height ?
             availableFurnitureComponents.reduce(
                 (list, current) => {
-                    if (!list!.includes(current.height!)) {
+                    if (current.height && !list.includes(current.height)) {
                         list.push(current.height! || selectedFurnitureComponent.height!);
                     }
 
@@ -111,7 +111,7 @@ class Product3dSenceComponent extends React.PureComponent<
         const availableFurnitureComponentLengthiness = selectedFurnitureComponent.lengthiness ?
             availableFurnitureComponents.reduce(
                 (list, current) => {
-                    if (!list!.includes(current.lengthiness!)) {
+                    if (current.lengthiness && !list.includes(current.lengthiness)) {
                         list.push(current.lengthiness! || selectedFurnitureComponent.lengthiness!);
                     }
 
@@ -146,7 +146,7 @@ class Product3dSenceComponent extends React.PureComponent<
 
     public componentDidMount() {
         const { setContext } = this.props;
-        
+
         setContext({
             takeProduct3DScreenshot: this._threeSence.current!.takeScreenshot
         });

@@ -29,7 +29,7 @@ class ProductVariantDiametersComponent extends React.PureComponent<
             selectedFurnitureComponentDiameter,
         } = this.props;
 
-        if (!availableFurnitureComponentDiameter) {
+        if (!availableFurnitureComponentDiameter || availableFurnitureComponentDiameter.length === 1) {
             return null;
         }
 

@@ -29,7 +29,7 @@ class ProductVariantLengthinesssComponent extends React.PureComponent<
             selectedFurnitureComponentLengthiness,
         } = this.props;
 
-        if (!availableFurnitureComponentLengthiness) {
+        if (!availableFurnitureComponentLengthiness || availableFurnitureComponentLengthiness.length === 1) {
             return null;
         }
 

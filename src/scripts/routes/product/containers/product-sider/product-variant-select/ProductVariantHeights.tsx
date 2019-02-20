@@ -29,7 +29,7 @@ class ProductVariantHeightsComponent extends React.PureComponent<
             selectedFurnitureComponentHeight,
         } = this.props;
 
-        if (!availableFurnitureComponentHeight) {
+        if (!availableFurnitureComponentHeight || availableFurnitureComponentHeight.length === 1) {
             return null;
         }
 

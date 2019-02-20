@@ -1,16 +1,16 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import { RouteInfo } from '@/app';
 import { SlideUp } from '@/components';
 import { LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
-import { LoginFormControl } from '@/forms';
 
 import { AuthCard, AuthPageWrapper } from '../shared';
 
-type RouteLoginProps = AppPageProps;
+type RouteRegisterProps = AppPageProps;
 
-export class RouteLogin extends RoutePage<RouteLoginProps> {
+export class RouteRegister extends RoutePage<RouteRegisterProps> {
     static readonly routeInfo: RouteInfo = {
         path: LOGIN_URL,
         title: 'Đăng nhập',
@@ -23,7 +23,7 @@ export class RouteLogin extends RoutePage<RouteLoginProps> {
                 <div className="auth-page-content">
                     <SlideUp>
                         <AuthCard>
-                            <LoginFormControl />
+                            <div />
                         </AuthCard>
                     </SlideUp>
                 </div>
