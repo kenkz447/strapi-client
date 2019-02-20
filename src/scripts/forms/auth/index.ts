@@ -1,1 +1,2 @@
-export { LoginFormControl } from './LoginFormControl';
+export * from './login-form';
+export * from './register-form';

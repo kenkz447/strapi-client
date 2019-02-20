@@ -1,5 +1,8 @@
 export const AUTH_PATH = '/auth';
 export const LOGIN_URL = AUTH_PATH + '/login';
+export const AUTH_REGISTER_URL = AUTH_PATH + '/register';
+export const AUTH_CONFIRM_URL = AUTH_PATH + '/confirm';
+
 export const FORGOT_PASSWORD_URL = AUTH_PATH + '/forgot-password';
 export const RESET_PASSWORD_URL = AUTH_PATH + '/reset-password';
 

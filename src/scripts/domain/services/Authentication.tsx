@@ -1,8 +1,9 @@
 import * as jwtDecode from 'jwt-decode';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
+import { Redirect } from 'react-router';
 
-import { LOGIN_URL } from '@/configs';
+import { AUTH_CONFIRM_URL, LOGIN_URL } from '@/configs';
 import {
     AuthLoginResponseBody,
     authResources,
@@ -34,7 +35,7 @@ interface AuthenticationState {
 class Authentication extends React.PureComponent<
     AuthenticationProps,
     AuthenticationState
-> {
+    > {
     static readonly getAuthClient = (history: AuthenticationProps['history']) => {
         const authClient = new AuthClient<User>({
             history: history,
@@ -78,14 +79,30 @@ class Authentication extends React.PureComponent<
         };
     }
 
-    readonly authenticaton = async (authClient: AuthClient<User>) => {
+    private readonly isNeedConfirm = (user: User) => {
+        return !user.agency && user.role.name !== 'Administrator';
+    }
+
+    private readonly toConfirmPage = () => {
+        const { history } = this.props;
+        history.replace(AUTH_CONFIRM_URL);
+    }
+
+    private readonly authenticaton = async (authClient: AuthClient<User>) => {
         const { setContext, history } = this.props;
 
         try {
             const user = await authClient.getLoggedInUser();
+
+            const isNeedConfirm = this.isNeedConfirm(user);
+            if (isNeedConfirm) {
+                return this.toConfirmPage();
+            }
+
             setContext({
                 currentUser: user
             });
+            
         } catch (message) {
             const isOnAuthPage = history.location.pathname.startsWith('/auth');
             if (isOnAuthPage) {
@@ -106,6 +123,7 @@ class Authentication extends React.PureComponent<
 
     public render() {
         const { allowLoad } = this.state;
+
         if (!allowLoad) {
             return null;
         }

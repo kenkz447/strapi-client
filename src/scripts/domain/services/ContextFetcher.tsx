@@ -18,7 +18,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
     }
 
     public render() {
-        return this.props.children || null;
+        return null;
     }
 
     private readonly fetchContext = async () => {

@@ -26,7 +26,10 @@ const environment = setupEnvironment({
             method: requestInit.method
         });
 
-        if (requestInit.headers instanceof Headers) {
+        const requestURL = new URL(url);
+        const isLoginRequest = requestURL.pathname.startsWith('/auth/local');
+
+        if (requestInit.headers instanceof Headers && !isLoginRequest) {
             const token = getToken();
 
             if (token) {

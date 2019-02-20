@@ -1,10 +1,8 @@
 import { Formik, FormikBag } from 'formik';
 import * as React from 'react';
-import { WithContextProps } from 'react-context-service';
 
 import { RootContext } from '@/app';
 import { WithAuthClient } from '@/domain';
-import { request, userResources } from '@/restful';
 
 import {
     LoginForm,

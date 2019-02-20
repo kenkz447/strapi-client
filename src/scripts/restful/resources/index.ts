@@ -1,6 +1,7 @@
 export * from './agency';
 export * from './agencyLevel';
 export * from './auth';
+export * from './businessLicense';
 export * from './city';
 export * from './county';
 export * from './discountByQuantities';

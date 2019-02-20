@@ -21,7 +21,15 @@ const AuthCardWrapper = styled.div`
         }
 `;
 
-export function AuthCard(props) {
+interface AuthCardProps {
+    readonly children: React.ReactNode;
+    readonly title: string;
+    readonly description: string;
+}
+
+export function AuthCard(props: AuthCardProps) {
+    const { children, title, description } = props;
+
     return (
         <AuthCardWrapper>
             <div className="auth-card-logo">
@@ -29,14 +37,14 @@ export function AuthCard(props) {
             </div>
             <div className="auth-card-hello" style={{ marginBottom: 15 }}>
                 <h2 style={{ marginBottom: 0, color: 'black' }}>
-                    {text('Login')}
+                    {title}
                 </h2>
                 <p style={{ color: 'darkgray' }}>
-                    {text('LoginDescription')}
+                    {description}
                 </p>
             </div>
             <div>
-                {props.children}
+                {children}
             </div>
         </AuthCardWrapper>
     );

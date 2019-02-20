@@ -7,17 +7,16 @@ import {
     I18NLoader,
     RootProps
 } from './app';
-import { DEFAULT_APP_LANG } from './configs';
 import {
     Authentication,
     ContextFetcher,
     ErrorLogger,
     FirebaseNotification,
     GlobalModal,
+    MenusBuilder,
     policies,
     PrintHandler
 } from './domain';
-import MenusBuilder from './domain/services/MenusBuilder';
 import { getCurrentLanguage } from './i18n';
 import { RouterRoot } from './routes';
 
@@ -25,10 +24,10 @@ const browserHistory = createBrowserHistory();
 
 const AppContent = () => (
     <ErrorLogger>
-        <FirebaseNotification />
-        <ContextFetcher />
         <BreakpointDetector />
         <MenusBuilder />
+        <ContextFetcher />
+        <FirebaseNotification />
         <Authentication>
             <I18NLoader>
                 <RouterRoot />

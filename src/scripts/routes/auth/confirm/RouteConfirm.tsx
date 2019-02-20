@@ -1,54 +1,45 @@
 import { Divider } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { RouteInfo } from '@/app';
 import { BusinessController } from '@/business';
-import { registerUser } from '@/business/user';
+import { upsertBusinessLiscense } from '@/business/business-license';
 import { SlideUp } from '@/components';
-import { AUTH_REGISTER_URL, LOGIN_URL } from '@/configs';
+import { AUTH_CONFIRM_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
-import { RegisterFormControl } from '@/forms/auth';
 import { text } from '@/i18n';
-import { User, UserRegisterResponse } from '@/restful';
 
 import { AuthCard, AuthPageWrapper } from '../shared';
 
-type RouteRegisterProps = AppPageProps;
+type RouteConfirmProps = AppPageProps;
 
-export class RouteRegister extends RoutePage<RouteRegisterProps> {
+export class RouteConfirm extends RoutePage<RouteConfirmProps> {
     static readonly routeInfo: RouteInfo = {
-        path: AUTH_REGISTER_URL,
+        path: AUTH_CONFIRM_URL,
         title: 'Đăng ký',
         exact: true
     };
 
     render() {
-        const { history } = this.props;
         return (
             <AuthPageWrapper>
                 <div className="auth-page-content">
                     <SlideUp>
                         <AuthCard
-                            title={text('Register')}
-                            description={text('Wellcome to our website')}
+                            title={text('Registration successful!')}
+                            description={text('Registration_Successful')}
                         >
                             <BusinessController
-                                action={registerUser}
-                                onSuccess={({ user }: UserRegisterResponse) => {
-                                    history.push(`/confirm/${user.email}`);
+                                action={upsertBusinessLiscense}
+                                onSuccess={() => {
+                                    //
                                 }}
                             >
-                                {({ doBusiness }) => {
-                                    return (
-                                        <RegisterFormControl
-                                            submit={doBusiness}
-                                        />
-                                    );
+                                {() => {
+                                    return (null);
                                 }}
                             </BusinessController>
-
                             <Divider dashed={true} />
                             <div className="register-link">
                                 <Link to={LOGIN_URL}>

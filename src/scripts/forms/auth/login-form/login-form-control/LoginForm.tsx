@@ -14,6 +14,9 @@ export interface LoginFormOwnProps extends FormikProps<LoginFormValues> {
 
 const FormArea = styled.div`
     width: 100%;
+    .register-link {
+        line-height: 20px;
+    }
 `;
 
 export function LoginForm(props: LoginFormOwnProps) {
