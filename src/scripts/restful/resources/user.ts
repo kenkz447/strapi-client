@@ -15,6 +15,7 @@ export interface User extends Record {
     readonly agency?: Agency;
     readonly phone?: string;
     readonly license?: BusinessLicense;
+    readonly createdAt?: string;
 }
 
 export interface UserRegisterResponse {
@@ -38,6 +39,10 @@ export const userResourceType = new ResourceType<User>({
 });
 
 export const userResources = {
+    find: new Resource<User, User[]>({
+        resourceType: userResourceType,
+        url: '/users'
+    }),
     me: new Resource<User>({
         resourceType: userResourceType,
         url: '/users/me'
@@ -59,5 +64,5 @@ export const userResources = {
     resetPassword: new Resource({
         url: '/auth/reset-password',
         method: 'POST'
-    })
+    }),
 };

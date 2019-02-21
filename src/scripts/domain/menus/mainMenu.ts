@@ -1,5 +1,6 @@
 import {
     ACCOUNT_LIST_URL,
+    ACCOUNT_URL,
     AGENCY_LIST_URL,
     DASHBOARD_URL,
     ORDER_LIST_URL,
@@ -23,7 +24,7 @@ export const mainMenu = [{
     icon: 'shop',
     label: 'Agencies'
 }, {
-    url: ACCOUNT_LIST_URL,
+    url: ACCOUNT_URL,
     icon: 'team',
     label: 'Accounts'
 }];

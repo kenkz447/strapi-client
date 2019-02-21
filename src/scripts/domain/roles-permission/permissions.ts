@@ -1,5 +1,5 @@
 import {
-    ACCOUNT_LIST_URL,
+    ACCOUNT_URL,
     AGENCY_LIST_URL,
     DASHBOARD_URL,
     NOTIFICATION_URL,
@@ -37,7 +37,7 @@ const locationPermissions: Permissions = {
     },
     ACCOUNT_LIST: {
         key: 'ACCOUNT_LIST',
-        url: new RegExp(ACCOUNT_LIST_URL)
+        url: new RegExp(ACCOUNT_URL)
     },
     NOTIFICATION: {
         key: 'NOTIFICATION',

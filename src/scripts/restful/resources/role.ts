@@ -1,3 +1,4 @@
+import { Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
 export type RoleType = 'root' | 'authenticated';
@@ -15,3 +16,17 @@ export const roleSchema = yup.object<Role>().shape({
     name: yup.string().required(),
     type: yup.mixed().oneOf(['root', 'authenticated'] as RoleType[])
 });
+
+export const roleResourceType = new ResourceType<Role>({
+    name: nameof<Role>()
+});
+
+export const roleResources = {
+    find: new Resource<Role, { readonly roles: Role[] }>({
+        resourceType: roleResourceType,
+        url: '/users-permissions/roles',
+        mapDataToStore: (data: { readonly roles: Role[] }, resourceType, store) => {
+            store.dataMapping(resourceType, data.roles)
+        }
+    })
+};

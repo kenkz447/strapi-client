@@ -12,7 +12,7 @@ export interface DataModelPaginationProps {
     readonly currentPage: number;
     readonly totalItem: number;
     readonly pageSize: number;
-    readonly onPageChange: (pageNum: number, pageSize: number) => void;
+    readonly onPageChange: (pageNum: number, pageSize: number, currentPage: number) => void;
 }
 
 interface DataModelPaginationState {
@@ -52,7 +52,7 @@ export class DataModelPagination extends React.PureComponent<
                     pageSizeOptions={pageSizeOptions}
                     pageSize={pageSize}
                     onShowSizeChange={(current, nextPageSize) => {
-                        onPageChange(1, nextPageSize);
+                        onPageChange(1, nextPageSize, currentPage);
                         this.setState({
                             pageSize: nextPageSize
                         });
@@ -61,7 +61,7 @@ export class DataModelPagination extends React.PureComponent<
                     showTotal={showTotal}
                     current={currentPage}
                     total={totalItem}
-                    onChange={(nextPage) => onPageChange(nextPage, pageSize)}
+                    onChange={(nextPage) => onPageChange(nextPage, pageSize, currentPage)}
                 />
             </DataModelPaginationWrapper>
         );
