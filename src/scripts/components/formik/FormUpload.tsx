@@ -5,6 +5,7 @@ import Upload from 'antd/lib/upload';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { getToken } from '@/utilities';
 
 const FormUploadWrapper = styled.div`
@@ -62,7 +63,11 @@ function FormUploadComponent(props: FormFieldProps) {
     const input = (
         <FormUploadWrapper>
             <div className="upload-thumb">
-                {value ? <img src={value.url} /> : <img src="/static/assets/empty-photo.jpg" />}
+                {
+                    value
+                        ? <img src={getUploadedFileSrc({ uploadedFile: value.url })} />
+                        : <img src="/static/assets/empty-photo.jpg" />
+                }
             </div>
             <div>
                 <Upload
