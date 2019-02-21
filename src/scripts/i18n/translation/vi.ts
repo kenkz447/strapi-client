@@ -20,5 +20,8 @@ export const vi = {
     Type: 'Loại',
     Design: 'Thiết kế',
     Accounts: 'Tài khoản',
-    Registration_Successful: 'Quá trình đăng ký hoàn tất, nhân viên của chúng tôi sẽ liên hệ lại với bạn trong vòng 24h. Nhưng để bước xác nhận diễn ra nhanh hơn, vui vòng cung cấp sẵn thông tin về lĩnh vực kinh doanh của công ty bạn!'
+    Registration: 'Đăng ký tài khoản',
+    Registration_Basic: 'Vui lòng cung cấp thông tin cá nhân và tài khoản đăng nhập',
+    Registration_Confirm: 'Quá trình đăng ký sắp hoàn tất, vui vòng cung cấp thông tin kinh doanh của bạn:',
+    Registration_Successful: 'Quá trình đăng ký của bạn đã hoàn tất, nhân viên của chúng tôi sẽ liên hệ lại với bạn trong vòng 24h.'
 };

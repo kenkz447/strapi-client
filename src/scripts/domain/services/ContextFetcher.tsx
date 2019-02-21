@@ -23,6 +23,10 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
 
     private readonly fetchContext = async () => {
         const { setContext, currentUser } = this.props;
+        
+        if (!currentUser.confirmed) {
+            return;
+        }
 
         // tslint:disable-next-line:no-any
         const requests: Promise<any>[] = [

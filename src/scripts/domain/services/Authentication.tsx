@@ -80,7 +80,7 @@ class Authentication extends React.PureComponent<
     }
 
     private readonly isNeedConfirm = (user: User) => {
-        return !user.agency && user.role.name !== 'Administrator';
+        return user.role.name === 'Registered';
     }
 
     private readonly toConfirmPage = () => {
@@ -95,13 +95,17 @@ class Authentication extends React.PureComponent<
             const user = await authClient.getLoggedInUser();
 
             const isNeedConfirm = this.isNeedConfirm(user);
+
+            setContext({
+                currentUser: {
+                    ...user,
+                    confirmed: !isNeedConfirm
+                }
+            });
+
             if (isNeedConfirm) {
                 return this.toConfirmPage();
             }
-
-            setContext({
-                currentUser: user
-            });
             
         } catch (message) {
             const isOnAuthPage = history.location.pathname.startsWith('/auth');

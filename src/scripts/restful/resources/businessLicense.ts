@@ -10,6 +10,7 @@ export interface BusinessLicense extends Record {
     readonly companyName: string;
     readonly businessAreas: string;
     readonly businessLicense: UploadedFile;
+    readonly isBusiness: boolean;
 }
 
 export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
@@ -17,7 +18,8 @@ export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
     companyName: yup.string().required(),
     businessAreas: yup.string().required(),
     created_by: userSchema.nullable(true).default(null),
-    businessLicense: pploadedFileSchema.required()
+    businessLicense: pploadedFileSchema.required(),
+    isBusiness: yup.boolean()
 });
 
 export const businessLicenseResourceType = new ResourceType<BusinessLicense>(nameof<BusinessLicense>());

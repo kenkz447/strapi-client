@@ -11,13 +11,15 @@ import { AUTH_REGISTER_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { RegisterFormControl } from '@/forms/auth';
 import { text } from '@/i18n';
-import { User, UserRegisterResponse } from '@/restful';
+import { UserRegisterResponse } from '@/restful';
 
 import { AuthCard, AuthPageWrapper } from '../shared';
 
 type RouteRegisterProps = AppPageProps;
 
 export class RouteRegister extends RoutePage<RouteRegisterProps> {
+    static readonly withContext = ['authClient'];
+
     static readonly routeInfo: RouteInfo = {
         path: AUTH_REGISTER_URL,
         title: 'Đăng ký',
@@ -25,19 +27,19 @@ export class RouteRegister extends RoutePage<RouteRegisterProps> {
     };
 
     render() {
-        const { history } = this.props;
+        const { authClient } = this.props;
         return (
             <AuthPageWrapper>
                 <div className="auth-page-content">
                     <SlideUp>
                         <AuthCard
-                            title={text('Register')}
-                            description={text('Wellcome to our website')}
+                            title={text('Registration')}
+                            description={text('Registration_Basic')}
                         >
                             <BusinessController
                                 action={registerUser}
-                                onSuccess={({ user }: UserRegisterResponse) => {
-                                    history.push(`/confirm/${user.email}`);
+                                onSuccess={({ jwt }: UserRegisterResponse) => {
+                                    authClient.jwtLogin(jwt);
                                 }}
                             >
                                 {({ doBusiness }) => {

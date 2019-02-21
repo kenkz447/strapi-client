@@ -2,6 +2,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
 import { Agency } from './agency';
+import { BusinessLicense } from './businessLicense';
 import { Role, roleSchema } from './role';
 
 export interface User extends Record {
@@ -13,6 +14,7 @@ export interface User extends Record {
     readonly confirmed?: boolean;
     readonly agency?: Agency;
     readonly phone?: string;
+    readonly license?: BusinessLicense;
 }
 
 export interface UserRegisterResponse {

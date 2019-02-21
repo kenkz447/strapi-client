@@ -1,7 +1,7 @@
 import { Button, Form, message } from 'antd';
+import { ButtonProps } from 'antd/lib/button';
 import { FormItemProps } from 'antd/lib/form';
-import Upload, { UploadProps } from 'antd/lib/upload';
-import { string } from 'prop-types';
+import Upload from 'antd/lib/upload';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -22,6 +22,7 @@ const FormUploadWrapper = styled.div`
             max-width: 100%;
             width: 100%;
             height: auto;
+            border-radius: 4px;
         }
     }
     .upload-extra {
@@ -39,6 +40,7 @@ interface FormFieldProps extends FormItemProps {
     readonly setFieldValue: (fieldName: string, value: string, shouldValidate: boolean) => void;
     readonly useFieldWrapper?: boolean;
     readonly touched?: boolean;
+    readonly buttonType?: ButtonProps['type'];
 }
 
 function FormUploadComponent(props: FormFieldProps) {
@@ -53,29 +55,30 @@ function FormUploadComponent(props: FormFieldProps) {
         touched,
         value,
         setFieldValue,
-        name
+        name,
+        buttonType
     } = props;
 
     const input = (
         <FormUploadWrapper>
             <div className="upload-thumb">
-                {value ? <img src={value.url} /> : null}
+                {value ? <img src={value.url} /> : <img src="/static/assets/empty-photo.jpg" />}
             </div>
             <div>
                 <Upload
-                    action={`${API_ENTRY}/Photos`}
+                    name="files"
+                    action={`${API_ENTRY}/upload`}
                     headers={{
-                        authorization: `Bearer ${getToken()}`
+                        authorization: `Bearer ${getToken()}`,
+                        'X-Requested-With': null as any
                     }}
-                    name="fileImageCollect"
                     accept="image/png, image/jpeg"
                     multiple={false}
                     showUploadList={false}
                     onChange={(info) => {
                         if (info.file.status === 'done') {
-                            message.success(`${info.file.name} file uploaded successfully`);
                             const { response } = info.file;
-                            return void setFieldValue(name, response.data, true);
+                            return void setFieldValue(name, response[0], true);
                         }
 
                         if (info.file.status === 'error') {
@@ -83,14 +86,13 @@ function FormUploadComponent(props: FormFieldProps) {
                         }
                     }}
                 >
-                    <Button type="primary" icon="upload">Tải ảnh lên</Button>
+                    <Button type={buttonType} icon="upload">Tải ảnh lên</Button>
                 </Upload>
                 <p className="upload-extra">
                     Hỗ trợ các định dạng ảnh: <br />
                     (.PNG .JPG .JPEG)
                 </p>
             </div>
-
         </FormUploadWrapper>
     );
 
@@ -116,7 +118,8 @@ function FormUploadComponent(props: FormFieldProps) {
 }
 
 FormUploadComponent.defaultProps = {
-    useFieldWrapper: true
+    useFieldWrapper: true,
+    buttonType: 'primary'
 } as FormFieldProps;
 
 export const FormUpload = React.memo(FormUploadComponent);

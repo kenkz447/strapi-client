@@ -16,7 +16,7 @@ interface AuthClientProps<T> {
     readonly loginPath: string;
     readonly history: History;
     readonly getResponseToken: (response: any) => string;
-    readonly getCookiesOption?: (token: string, response: any) => CookiesOption;
+    readonly getCookiesOption?: (token: string, response?: any) => CookiesOption;
     readonly getUserResource: Resource<T>;
     readonly getUserEquestParams?: (token: string) => RequestParameter | RequestParameter[];
     readonly loginResource: Resource<{}>;
@@ -79,6 +79,18 @@ export class AuthClient<T> {
         } catch (error) {
             throw error;
         }
+    }
+
+    readonly jwtLogin = (token: string) => {
+        const { getCookiesOption } = this.props;
+
+        const tokenCookiesOption = getCookiesOption && getCookiesOption(token);
+
+        saveToken(token, tokenCookiesOption);
+
+        const returnUrlParam = getUrlSearchParam('returnUrl');
+        const returnPath = returnUrlParam ? returnUrlParam : '/';
+        redirect(returnPath);
     }
 
     readonly logout = () => {
