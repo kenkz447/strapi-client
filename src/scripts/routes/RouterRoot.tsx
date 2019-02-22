@@ -6,7 +6,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Route, Router, Switch } from 'react-router';
 
 import { PageLoading } from '@/components';
-import { AGENCY_PATH, ORDER_PATH } from '@/configs';
+import { AGENCIES_URL, ORDER_PATH } from '@/configs';
 import {
     DomainContext,
     WithCurrentBreakpoint,
@@ -46,7 +46,7 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                     <Route path={ORDER_PATH}>
                         {this.orderRouteComponent}
                     </Route>
-                    <Route path={AGENCY_PATH}>
+                    <Route path={AGENCIES_URL}>
                         {this.agenciesRouteComponent}
                     </Route>
                     <Route>
