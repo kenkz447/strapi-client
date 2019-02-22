@@ -2,15 +2,7 @@ import { Icon } from 'antd';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
-import { getAllOrderStatus } from '@/business/order';
-import {
-    FormBody,
-    FormDatePicker,
-    FormInput,
-    FormSelect,
-    FormSubmit,
-    verticalLayout
-} from '@/components';
+import { FormBody, FormInput, FormSubmit } from '@/components';
 import { text } from '@/i18n';
 import { User } from '@/restful';
 
@@ -26,7 +18,6 @@ export function RegisterForm(props: RegisterFormOwnProps) {
     const {
         values,
         errors,
-        setFieldValue,
         handleChange,
         isSubmitting
     } = props;
@@ -34,10 +25,10 @@ export function RegisterForm(props: RegisterFormOwnProps) {
     return (
         <FormBody formProps={props}>
             <FormInput
-                name={nameof.full<RegisterFormValues>(o => o.name)}
+                name={nameof.full<RegisterFormValues>(o => o.fullName)}
                 onChange={handleChange}
-                value={values.name}
-                validateStatus={errors.name ? 'error' : undefined}
+                value={values.fullName}
+                validateStatus={errors.fullName ? 'error' : undefined}
                 placeholder={text('Your full name')}
                 autoFocus={true}
                 required={true}

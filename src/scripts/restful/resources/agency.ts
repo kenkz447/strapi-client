@@ -12,7 +12,7 @@ export interface Agency extends Record {
     readonly phone: string;
     readonly email: string;
     readonly level: AgencyLevel;
-    readonly user: User;
+    readonly linkedUser: User;
     readonly city: City;
     readonly county: County;
     readonly createdAt: string;
@@ -28,5 +28,10 @@ export const agencyResources = {
     findOne: new Resource<Agency>({
         resourceType: agencyResourceType,
         url: '/agency/:id'
-    })
+    }),
+    create: new Resource<Agency>({
+        resourceType: agencyResourceType,
+        url: '/agency',
+        method: 'POST'
+    }),
 };

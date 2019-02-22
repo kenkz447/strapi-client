@@ -7,7 +7,7 @@ import { Role, roleSchema } from './role';
 
 export interface User extends Record {
     readonly _id: string;
-    readonly name?: string;
+    readonly fullName?: string;
     readonly email: string;
     readonly role: Role;
     readonly username: string;

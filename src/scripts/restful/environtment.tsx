@@ -16,6 +16,10 @@ const environment = setupEnvironment({
         if (value && value.id) {
             return value.id;
         }
+        
+        if (value && value._id) {
+            return value._id;
+        }
 
         return dateToString(value);
     },

@@ -4,7 +4,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { eventEmitter } from '@/app';
+import { BusinessController } from '@/business';
 import { AGENCY_DETAIL_URL } from '@/configs';
+import { AgencyFormButton } from '@/forms/agency/agency-create';
 import { text } from '@/i18n';
 import { Agency, User } from '@/restful';
 import { replaceRoutePath } from '@/utilities';
@@ -15,8 +18,9 @@ const AccountTableWrapper = styled.div`
 
 export interface AccountTableProps {
     readonly onDelete: () => void;
-    readonly agencys: User[];
+    readonly users: User[];
     readonly loading: boolean;
+    readonly reload: () => void;
 }
 
 interface AccountTableState {
@@ -27,19 +31,24 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
         super(props);
     }
 
+    private readonly reloadTable = () => {
+        const { reload } = this.props;
+        reload();
+    }
+
     public render() {
-        const { agencys, loading } = this.props;
+        const { users, loading } = this.props;
         return (
             <AccountTableWrapper>
                 <Table
-                    dataSource={agencys}
+                    dataSource={users}
                     loading={loading}
                     pagination={false}
                     rowKey="id"
                 >
                     <Table.Column
                         title={text('Name')}
-                        dataIndex={nameof<User>(o => o.name)}
+                        dataIndex={nameof<User>(o => o.fullName)}
                     />
                     <Table.Column
                         title={text('Email')}
@@ -77,14 +86,22 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                     <Table.Column
                         title={text('Operating')}
                         dataIndex={nameof.full<Agency>(o => o.id)}
-                        render={(id: string) => {
-                            return (
-                                <React.Fragment>
-                                    <Link to={replaceRoutePath(AGENCY_DETAIL_URL, { id })}>
-                                        {text('Details')}
-                                    </Link>
-                                </React.Fragment>
-                            );
+                        render={(id: string, user: User) => {
+                            if (user.role.name === 'Registered') {
+                                return (
+                                    <AgencyFormButton
+                                        initialValues={{
+                                            linkedUser: user
+                                        }}
+                                        label={text('Confirm')}
+                                        type="primary"
+                                        ghost={true}
+                                        onSuccess={this.reloadTable}
+                                    />
+                                );
+                            }
+
+                            return null;
                         }}
                     />
                 </Table>

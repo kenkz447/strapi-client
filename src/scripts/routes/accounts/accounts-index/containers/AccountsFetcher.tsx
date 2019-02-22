@@ -13,7 +13,12 @@ import {
 import { RootContext } from '@/app';
 import { DataModelPagination, Loading } from '@/components';
 import { sortById, WithHistory } from '@/domain';
-import { agencyResourceType, Role, userResources } from '@/restful';
+import {
+    agencyResourceType,
+    Role,
+    userResources,
+    userResourceType
+} from '@/restful';
 import { getUrlSearchParam } from '@/utilities';
 
 import { AccountFilter, AccountTable } from './accounts-fetcher';
@@ -145,16 +150,17 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
                             <React.Fragment>
                                 <Layout.Content>
                                     <RestfulDataContainer
-                                        resourceType={agencyResourceType}
+                                        resourceType={userResourceType}
                                         initDataSource={data || []}
                                         enablePaginationMode={true}
                                         sort={sortById}
                                     >
-                                        {(syncAgencies) => (
+                                        {(syncUsers) => (
                                             <AccountTable
                                                 loading={fetching}
-                                                agencys={syncAgencies}
+                                                users={syncUsers}
                                                 onDelete={() => refetch()}
+                                                reload={refetch}
                                             />
                                         )}
                                     </RestfulDataContainer>
