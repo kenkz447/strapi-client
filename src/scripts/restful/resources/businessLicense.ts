@@ -15,11 +15,11 @@ export interface BusinessLicense extends Record {
 
 export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
     id: yup.string(),
-    companyName: yup.string().required(),
-    businessAreas: yup.string().required(),
+    companyName: yup.string(),
+    businessAreas: yup.string(),
     created_by: userSchema.nullable(true).default(null),
-    businessLicense: pploadedFileSchema.required(),
-    isBusiness: yup.boolean()
+    businessLicense: pploadedFileSchema,
+    isBusiness: yup.boolean().required()
 });
 
 export const businessLicenseResourceType = new ResourceType<BusinessLicense>(nameof<BusinessLicense>());
