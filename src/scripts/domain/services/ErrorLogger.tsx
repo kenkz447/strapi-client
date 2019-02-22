@@ -7,13 +7,17 @@ export class ErrorLogger extends React.PureComponent {
         error: null
     };
 
-    componentDidCatch(error: Error, info: object) {
+    private readonly logging = (error: Error, info: object) => {
+        // logic
+    }
+
+    public componentDidCatch(error: Error, info: object) {
         this.setState({
             error: error
         });
     }
 
-    render() {
+    public render() {
         const { error } = this.state;
         if (!error) {
             return this.props.children;

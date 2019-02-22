@@ -1,33 +1,17 @@
-import firebase from 'firebase/app';
 import map from 'lodash/map';
 import * as React from 'react';
 import { withContext } from 'react-context-service';
 
-import { AppNotification, DomainContext, WithDomainContext } from '../base';
-
-require('firebase/database');
-
-const notificationsRefUrl = 'https://furnituremaker-eaafa.firebaseio.com';
-
-firebase.initializeApp({
-    apiKey: 'AIzaSyD6zN2cN7Y3-bPfgC085qjib2toP2BQ3uY',
-    authDomain: 'furnituremaker-eaafa.firebaseapp.com',
-    databaseURL: notificationsRefUrl,
-    projectId: 'furnituremaker-eaafa',
-    storageBucket: 'furnituremaker-eaafa.appspot.com',
-    messagingSenderId: '515981406117'
-});
+import {
+    AppNotification,
+    DomainContext,
+    firebaseAppRef,
+    WithDomainContext
+} from '../base';
 
 type FirebaseNotificationProps = WithDomainContext;
 
 class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps> {
-    readonly notificationRef!: firebase.database.Reference;
-
-    constructor(props: FirebaseNotificationProps) {
-        super(props);
-        const firebaseDB = firebase.database();
-        this.notificationRef = firebaseDB.refFromURL(notificationsRefUrl);
-    }
 
     private readonly snapshotValToObject = (value, key) => ({
         ...value,
@@ -35,7 +19,7 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
     })
 
     private readonly queryNotifications = async (ref: string, option?): Promise<AppNotification[]> => {
-        const notificationChildRef = this.notificationRef.child(`${ref}/notifications`);
+        const notificationChildRef = firebaseAppRef.child(`${ref}/notifications`);
 
         const snapshot = await notificationChildRef
             .orderByKey()
@@ -58,7 +42,7 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
         ref: string,
         callback: (notification: AppNotification[]) => void
     ) => {
-        this.notificationRef
+        firebaseAppRef
             .child(`${ref}/notifications`)
             .orderByKey()
             .limitToLast(8)
