@@ -2,10 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { LOGO } from '@/configs';
-import { text } from '@/i18n';
 
 const AuthCardWrapper = styled.div`
-        width: 340px;
+    width: 336px;
         .auth-card {
             &-logo {
                 margin-bottom: 14px;

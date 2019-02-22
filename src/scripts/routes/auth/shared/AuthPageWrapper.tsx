@@ -11,6 +11,6 @@ export const AuthPageWrapper = styled.div`
     background-position: center 110px;
     background-size: 100%;
     .auth-page-content {
-        padding: 24px;
+        padding: 12px;
     }
 `;

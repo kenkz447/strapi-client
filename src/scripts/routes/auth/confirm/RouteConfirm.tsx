@@ -46,9 +46,8 @@ export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState
         return (
             <AuthPageWrapper>
                 <div className="auth-page-content">
-                    <SlideUp>
+                    <SlideUp key={hasLicense ? 'hasLicense' : 'License'}>
                         <div>
-
                             {
                                 hasLicense
                                     ? (
