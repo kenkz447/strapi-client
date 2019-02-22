@@ -2,13 +2,7 @@ import { Icon, Menu } from 'antd';
 import * as React from 'react';
 
 import { RootContext } from '@/app';
-import {
-    ACCOUNT_LIST_URL,
-    AGENCY_LIST_URL,
-    DASHBOARD_URL,
-    ORDER_LIST_URL,
-    PRODUCT_PATH
-} from '@/configs';
+import { PRODUCT_PATH } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 

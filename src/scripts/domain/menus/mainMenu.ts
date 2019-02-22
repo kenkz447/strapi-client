@@ -1,5 +1,4 @@
 import {
-    ACCOUNT_LIST_URL,
     ACCOUNT_URL,
     AGENCY_LIST_URL,
     DASHBOARD_URL,
