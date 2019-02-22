@@ -1,9 +1,13 @@
 import { Col, Row } from 'antd';
+import { SelectValue } from 'antd/lib/select';
 import * as React from 'react';
 import styled from 'styled-components';
+import { string } from 'yup';
 
-import { FormInput } from '@/components';
+import { FormInput, FormSelect } from '@/components';
 import { text } from '@/i18n';
+
+import { RouteAgenciesContext } from '../../RouteAgenciesContext';
 
 const TableFilterWrapper = styled.div`
     .ant-form-item {
@@ -20,6 +24,8 @@ const TableFilterWrapper = styled.div`
 export interface AgencyFilterProps {
     readonly name: string | null;
     readonly onNameChange: (name: string | null) => void;
+    readonly level: string | null;
+    readonly onLevelChange: (level: string | null) => void;
 }
 
 export interface AgencyFilterState {
@@ -38,13 +44,13 @@ export class AgencyFilter extends React.PureComponent<
         };
     }
 
-    readonly onNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    private readonly onNameChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             name: e.target.value
         });
     }
 
-    componentDidUpdate(prevProps: AgencyFilterProps, prevState: AgencyFilterState) {
+    public componentDidUpdate(prevProps: AgencyFilterProps, prevState: AgencyFilterState) {
         const { name: currentName } = this.state;
         if (prevState.name === currentName) {
             return;
@@ -55,6 +61,7 @@ export class AgencyFilter extends React.PureComponent<
     }
 
     render() {
+        const { level, onLevelChange } = this.props;
         return (
             <TableFilterWrapper>
                 <Row gutter={24}>
@@ -65,6 +72,25 @@ export class AgencyFilter extends React.PureComponent<
                             placeholder={text('input name...')}
                             onChange={this.onNameChange}
                         />
+                    </Col>
+                    <Col span={6}>
+                        <RouteAgenciesContext.Consumer>
+                            {({ agencyLevels }) => {
+                                const selectOptions = agencyLevels.map(
+                                    o => ({ value: o.id, title: text(o.name) }));
+
+                                return (
+                                    <FormSelect
+                                        value={level || undefined}
+                                        label={text('Role')}
+                                        placeholder={text('select role')}
+                                        options={selectOptions}
+                                        allowClear={true}
+                                        onChange={onLevelChange as (value: SelectValue) => void}
+                                    />
+                                );
+                            }}
+                        </RouteAgenciesContext.Consumer>
                     </Col>
                 </Row>
             </TableFilterWrapper>

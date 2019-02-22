@@ -35,11 +35,20 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
 
     static readonly getDefaultRequestParams = (): RequestParameter[] => {
         const nameFilter = getUrlSearchParam('name');
+        const levelFilter = getUrlSearchParam('level');
 
         return [{
             type: 'query',
             parameter: 'name',
             value: nameFilter || undefined!
+        }, {
+            type: 'query',
+            parameter: 'level',
+            value: levelFilter || undefined!
+        }, {
+            type: 'query',
+            parameter: '_sort',
+            value: 'id:DESC'
         }];
     }
 
@@ -55,29 +64,34 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
         this.unListenHistory = history.listen(this.historyChange);
     }
 
-    readonly historyChange = () => {
+    private readonly historyChange = () => {
         if (this._unmounting) {
             return;
         }
 
         const nextNameFilter = getUrlSearchParam('name') || undefined;
+        const nextLevelFilter = getUrlSearchParam('level') || undefined;
 
         const { params } = this.state;
         const name = getParamsValue(params, 'query', 'name');
+        const level = getParamsValue(params, 'query', 'level');
 
         const isNameChanged = name !== nextNameFilter;
+        const isLevelChanged = level !== nextLevelFilter;
 
-        if (!isNameChanged) {
+        if (!isNameChanged && !isLevelChanged) {
             return;
         }
 
         let nextParams = upsertRequestParams(params, 'query', 'name', nextNameFilter);
+        nextParams = upsertRequestParams(nextParams, 'query', 'level', nextLevelFilter);
+
         this.setState({
             params: nextParams
         });
     }
 
-    readonly onNameChange = debounce(
+    private readonly onNameChange = debounce(
         (name: string) => {
             const { history } = this.context;
 
@@ -88,7 +102,20 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
         500
     );
 
-    componentWillUnmount() {
+    private readonly onLevelChange = (role: string) => {
+        const { history } = this.context;
+
+        const nextUrlSearchParams = new URLSearchParams(location.search);
+        if (role) {
+            nextUrlSearchParams.set('level', role);
+        } else {
+            nextUrlSearchParams.delete('level');
+        }
+
+        history.replace(`?${nextUrlSearchParams.toString()}`);
+    }
+
+    public componentWillUnmount() {
         this._unmounting = true;
         this.unListenHistory();
     }
@@ -102,6 +129,8 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
                     <AgencyFilter
                         name={getParamsValue(params, 'query', 'name')}
                         onNameChange={this.onNameChange}
+                        level={getParamsValue(params, 'query', 'level')}
+                        onLevelChange={this.onLevelChange}
                     />
                 </Layout.Header>
                 <RestfulRender

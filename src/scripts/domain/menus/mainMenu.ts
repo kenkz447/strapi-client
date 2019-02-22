@@ -1,6 +1,6 @@
 import {
     ACCOUNT_URL,
-    AGENCY_LIST_URL,
+    AGENCIES_URL,
     DASHBOARD_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH
@@ -19,7 +19,7 @@ export const mainMenu = [{
     icon: 'appstore',
     label: 'Orders'
 }, {
-    url: AGENCY_LIST_URL,
+    url: AGENCIES_URL,
     icon: 'shop',
     label: 'Agencies'
 }, {

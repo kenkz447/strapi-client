@@ -14,9 +14,8 @@ export const ORDER_PATH = '/orders';
 export const ORDER_LIST_URL = ORDER_PATH + '/list';
 export const ORDER_DETAIL_URL = ORDER_PATH + '/detail/:id';
 
-export const AGENCY_PATH = '/agencies';
-export const AGENCY_LIST_URL = AGENCY_PATH + '/agency-list';
-export const AGENCY_DETAIL_URL = AGENCY_PATH + '/detail/:id';
+export const AGENCIES_URL = '/agencies';
+export const AGENCY_DETAIL_URL = AGENCIES_URL + '/detail/:id';
 
 export const ACCOUNT_URL = '/accounts';
 export const ACCOUNT_DETAIL_URL = ACCOUNT_URL + '/detail/:id';

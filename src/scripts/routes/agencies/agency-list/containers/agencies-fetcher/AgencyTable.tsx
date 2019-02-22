@@ -49,6 +49,10 @@ export class AgencyTable extends React.PureComponent<AgencyTableProps, AgencyTab
                         dataIndex={nameof.full<Agency>(o => o.phone)}
                     />
                     <Table.Column
+                        title={text('Level')}
+                        dataIndex={nameof.full<Agency>(o => o.level.name)}
+                    />
+                    <Table.Column
                         title={text('Created at')}
                         dataIndex={nameof.full<Agency>(o => o.createdAt)}
                         render={(date) => formatDate(date, DATE_FORMAT)}

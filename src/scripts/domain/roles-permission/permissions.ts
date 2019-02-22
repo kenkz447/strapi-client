@@ -1,6 +1,6 @@
 import {
     ACCOUNT_URL,
-    AGENCY_LIST_URL,
+    AGENCIES_URL,
     DASHBOARD_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
@@ -33,7 +33,7 @@ const locationPermissions: Permissions = {
     },
     AGENCY_LIST: {
         key: 'AGENCY_LIST',
-        url: new RegExp(AGENCY_LIST_URL)
+        url: new RegExp(AGENCIES_URL)
     },
     ACCOUNT_LIST: {
         key: 'ACCOUNT_LIST',

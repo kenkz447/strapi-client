@@ -3,10 +3,10 @@ import { Switch } from 'react-router';
 
 import { routeFrom } from '@/app';
 
-import { RouteAgencyList } from './agency-list';
+import { RouteAgencies } from './agency-list';
 
 const routes = routeFrom([
-    RouteAgencyList
+    RouteAgencies
 ]);
 
 export default () => (
