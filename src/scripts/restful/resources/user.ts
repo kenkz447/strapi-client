@@ -23,10 +23,10 @@ export interface UserRegisterResponse {
     readonly user: User;
 }
 
-export const userSchema = yup.object<User>().shape({
+export const userSchema = yup.object().shape<User>({
     _id: yup.string(),
     email: yup.string().email().required(),
-    name: yup.string().required(),
+    fullName : yup.string().required(),
     confirmed: yup.bool(),
     role: roleSchema.nullable(true).default(null),
     username: yup.string().required(),
