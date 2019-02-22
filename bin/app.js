@@ -8,11 +8,13 @@ const app = express();
 
 const publicFolder = path.join(__dirname, 'static');
 
-const serveGzip = contentType => (req, res, next) => {
+const getGzipFile = contentType => (req, res, next) => {
   const gzFile = req.url + '.gz';
-  const gzFileExist = fs.existsSync(path.join(__dirname, gzFile));
+  const fileLocation = path.join(__dirname, gzFile);
+  const gzFileExist = fs.existsSync(fileLocation);
+
   if (!gzFileExist) {
-    return void next()
+    return res.sendFile(req.url, { root: __dirname })
   }
 
   req.url = gzFile;
@@ -26,8 +28,8 @@ app.get('*/service-worker.js', function (req, res) {
   res.sendFile(req.url, { root: __dirname });
 });
 
-app.get('*.js', serveGzip('text/javascript'));
-app.get('*.css', serveGzip('text/css'));
+app.get('*.js', getGzipFile('text/javascript'));
+app.get('*.css', getGzipFile('text/css'));
 
 app.use('/static', express.static(publicFolder));
 
