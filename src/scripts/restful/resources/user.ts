@@ -16,6 +16,7 @@ export interface User extends Record {
     readonly phone?: string;
     readonly license?: BusinessLicense;
     readonly createdAt?: string;
+    readonly blocked?: boolean;
 }
 
 export interface UserRegisterResponse {

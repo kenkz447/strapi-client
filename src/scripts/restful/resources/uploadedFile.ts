@@ -1,3 +1,4 @@
+import { Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
 export interface UploadedFile {
@@ -13,7 +14,7 @@ export interface UploadedFile {
     readonly img1024x1024: string;
 }
 
-export const pploadedFileSchema = yup.object().shape<UploadedFile>({
+export const uploadedFileSchema = yup.object().shape<UploadedFile>({
     id: yup.string(),
     name: yup.string(),
     hash: yup.string(),
@@ -27,3 +28,12 @@ export const pploadedFileSchema = yup.object().shape<UploadedFile>({
 });
 
 export type ImgSize = 'img256x256' | 'img512x512' | 'img1024x1024';
+
+export const uploadedResourceType = new ResourceType<UploadedFile>(nameof<UploadedFile>());
+
+export const uploadedResources = {
+    findOne: new Resource<UploadedFile>({
+        resourceType: uploadedResourceType,
+        url: '/upload/files/:id'
+    })
+};

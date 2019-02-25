@@ -1,16 +1,22 @@
-import { Badge, Table } from 'antd';
+import 'ant-design-pro/lib/DescriptionList/style/css';
+
+import DescriptionList from 'ant-design-pro/lib/DescriptionList';
+import { Badge, Button, Col, Row, Switch, Table } from 'antd';
 import { BadgeProps } from 'antd/lib/badge';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { RestfulRender } from 'react-restful';
 import styled from 'styled-components';
 
-import { eventEmitter } from '@/app';
 import { BusinessController } from '@/business';
-import { AGENCY_DETAIL_URL } from '@/configs';
+import { rejectBusinessLiscense } from '@/business/business-license';
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { AgencyFormButton } from '@/forms/agency/agency-create';
 import { text } from '@/i18n';
-import { Agency, User } from '@/restful';
-import { replaceRoutePath } from '@/utilities';
+import { Agency, businessLicenseResources, User } from '@/restful';
+
+import { AccountExpandedRow } from './accounts-table';
+
+const { Description } = DescriptionList;
 
 const AccountTableWrapper = styled.div`
     margin: 0 0 24px 0;
@@ -45,6 +51,9 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                     loading={loading}
                     pagination={false}
                     rowKey="id"
+                    expandedRowRender={(user: User) => {
+                        return <AccountExpandedRow user={user} onAccepted={this.reloadTable} />;
+                    }}
                 >
                     <Table.Column
                         title={text('Name')}
@@ -84,24 +93,14 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                         }}
                     />
                     <Table.Column
-                        title={text('Operating')}
+                        title={text('Activating')}
                         dataIndex={nameof.full<Agency>(o => o.id)}
                         render={(id: string, user: User) => {
                             if (user.role.name === 'Registered') {
-                                return (
-                                    <AgencyFormButton
-                                        initialValues={{
-                                            linkedUser: user
-                                        }}
-                                        label={text('Confirm')}
-                                        type="primary"
-                                        ghost={true}
-                                        onSuccess={this.reloadTable}
-                                    />
-                                );
+                                return null;
                             }
 
-                            return null;
+                            return <Switch size="small" checked={!user.blocked}/>;
                         }}
                     />
                 </Table>

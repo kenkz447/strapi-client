@@ -1,7 +1,7 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
-import { pploadedFileSchema, UploadedFile } from './uploadedFile';
+import { UploadedFile, uploadedFileSchema } from './uploadedFile';
 import { User, userSchema } from './user';
 
 export interface BusinessLicense extends Record {
@@ -11,6 +11,7 @@ export interface BusinessLicense extends Record {
     readonly businessAreas: string;
     readonly businessLicense: UploadedFile;
     readonly isBusiness: boolean;
+    readonly status?: 'pending' | 'accepted' | 'rejected';
 }
 
 export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
@@ -18,7 +19,7 @@ export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
     companyName: yup.string(),
     businessAreas: yup.string(),
     created_by: userSchema.nullable(true).default(null),
-    businessLicense: pploadedFileSchema,
+    businessLicense: uploadedFileSchema,
     isBusiness: yup.boolean().required()
 });
 
@@ -30,10 +31,20 @@ export const businessLicenseResources = {
         method: 'GET',
         url: '/businessLicenses'
     }),
+    findOne: new Resource<BusinessLicense>({
+        resourceType: businessLicenseResourceType,
+        method: 'GET',
+        url: '/businessLicenses/:id'
+    }),
     create: new Resource<BusinessLicense>({
         resourceType: businessLicenseResourceType,
         method: 'POST',
         url: '/businessLicenses',
         bodySchema: businessLicenseSchema
+    }),
+    changeStatus: new Resource<BusinessLicense>({
+        resourceType: businessLicenseResourceType,
+        method: 'PUT',
+        url: '/businessLicenses/status/:id/:status'
     })
 };
