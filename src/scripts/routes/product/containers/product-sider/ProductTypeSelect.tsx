@@ -130,10 +130,9 @@ export class ProductTypeSelect extends React.PureComponent<
             }
 
             const defaultProductDesign = allProductDesign.find(o => {
-                if (typeof o.productType === 'string') {
+                if (!o.productType || typeof o.productType === 'string') {
                     return o.productType === currentProductType;
                 }
-
                 return o.productType.id === currentProductType;
             });
 
