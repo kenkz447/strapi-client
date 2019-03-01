@@ -355,7 +355,7 @@ class ProductFetcherComponent extends React.PureComponent<
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
-        const disableAddToCart = modulesCode!.includes('999');
+        const disableAddToCart = modulesCode && modulesCode!.includes('999');
 
         return (
             <SlideUp className="h-100 w-100 d-flex">

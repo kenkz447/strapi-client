@@ -1,7 +1,6 @@
 import * as jwtDecode from 'jwt-decode';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
-import { Redirect } from 'react-router';
 
 import { AUTH_CONFIRM_URL, LOGIN_URL } from '@/configs';
 import {
