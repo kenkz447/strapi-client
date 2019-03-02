@@ -12,6 +12,9 @@ export interface FurnitureComponentGroup {
     readonly mattressMaterial?: string;
     readonly foamType?: string;
     readonly sittingSurfaceSize?: string;
+    readonly handHeight?: number;
+    readonly legHeight?: number;
+    readonly sittingHeight?: number;
 }
 
 export const furnitureComponentGroupResourceType = new ResourceType<FurnitureComponentGroup>(

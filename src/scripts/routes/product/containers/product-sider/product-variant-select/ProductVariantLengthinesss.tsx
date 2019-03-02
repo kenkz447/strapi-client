@@ -47,7 +47,7 @@ class ProductVariantLengthinesssComponent extends React.PureComponent<
                                 checked={value === selectedFurnitureComponentLengthiness}
                                 onChange={this.onVariantChange}
                             >
-                                {value}
+                                {value} mm
                             </Radio>
                         </List.Item>
                     );

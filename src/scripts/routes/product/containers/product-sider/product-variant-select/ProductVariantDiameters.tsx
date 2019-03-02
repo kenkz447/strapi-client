@@ -47,7 +47,7 @@ class ProductVariantDiametersComponent extends React.PureComponent<
                                 checked={value === selectedFurnitureComponentDiameter}
                                 onChange={this.onVariantChange}
                             >
-                                {value}
+                                {value} mm
                             </Radio>
                         </List.Item>
                     );

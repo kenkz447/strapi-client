@@ -47,7 +47,7 @@ class ProductVariantHeightsComponent extends React.PureComponent<
                                 checked={value === selectedFurnitureComponentHeight}
                                 onChange={this.onVariantChange}
                             >
-                                {value}
+                                {value} mm
                             </Radio>
                         </List.Item>
                     );

@@ -37,13 +37,36 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
         const { material, component } = seatModule;
         const productType = selectedProduct!.productType;
 
-        return {
-            'Vật liệu bọc': material.materialType && material.name,
-            'Chất liệu nệm': productType.mattressMaterial,
-            'Loại foam': productType.foamType,
-            'Kích thước mặt ngồi': selectedFurnitureComponentGroup!.sittingSurfaceSize,
-            'Chiều cao tay (mm)': component.handHeight || selectedProduct!.design.handHeight
-        };
+        return [
+            {
+                title: 'Vật liệu bọc',
+                value: material.materialType && material.name
+            },
+            {
+                title: 'Chất liệu nệm',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup.mattressMaterial
+                    : productType.mattressMaterial
+            },
+            {
+                title: 'Loại foam',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup.foamType
+                    : productType.foamType,
+            },
+            {
+                title: 'Chiều cao tay (mm)',
+                value: component.handHeight
+                    || (selectedFurnitureComponentGroup && selectedFurnitureComponentGroup.handHeight)
+                    || selectedProduct!.design.handHeight,
+            },
+            {
+                title: 'Chiều cao ngồi (mm)',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup.handHeight
+                    : ''
+            }
+        ];
     }
 
     private readonly getLegsInfo = () => {
@@ -65,10 +88,16 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
 
         const { material, component } = legModules;
 
-        return {
-            'Vật liệu chân': material.materialType && material.name,
-            'Chiều cao chân (mm)': component.height
-        };
+        return [
+            {
+                title: 'Vật liệu chân',
+                value: material.materialType && material.name
+            },
+            {
+                title: 'Chiều cao chân (mm)',
+                value: component.displayHeight || component.height
+            }
+        ];
     }
 
     private readonly getTopInfo = () => {
@@ -90,36 +119,69 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
 
         const { material, component } = legModules;
 
-        return {
-            'Vật liệu mặt bàn': material.materialType && material.name,
-            'Đường kính mặt bàn': component.diameter + ' mm'
-        };
+        return [
+            {
+                title: 'Vật liệu mặt bàn',
+                value: material.materialType && material.name
+            },
+            {
+                title: 'Đường kính mặt bàn',
+                value: component.diameter + ' mm'
+            }
+        ];
     }
 
     private readonly getDetails = () => {
         const { selectedFurnitureComponentGroup } = this.context;
 
-        const common = {
-            'Kích thước sản phẩm': selectedFurnitureComponentGroup ?
-                selectedFurnitureComponentGroup.productSize : null,
-            'Kích thước bao bì': selectedFurnitureComponentGroup ?
-                selectedFurnitureComponentGroup.packagingSize : null,
-            'Trọng lượng (kg)': selectedFurnitureComponentGroup ?
-                selectedFurnitureComponentGroup.weight : null
-        };
+        const common = [
+            {
+                title: 'Kích thước sản phẩm',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup.productSize
+                    : null
+            },
+            {
+                title: 'Kích thước bao bì',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup.packagingSize
+                    : null
+            },
+            {
+                title: 'Trọng lượng (kg)',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup.weight
+                    : null
+            },
+            {
+                title: 'Kích thước mặt ngồi',
+                value: selectedFurnitureComponentGroup
+                    ? selectedFurnitureComponentGroup!.sittingSurfaceSize
+                    : ''
+            }
+        ];
 
         const leg = this.getLegsInfo();
         const top = this.getTopInfo();
         const seat = this.getSeatInfo();
 
-        const details = {
-            ...top,
-            ...seat,
-            ...leg,
-            ...common
-        };
+        let details = [
+            ...common,
+            ...top /**   */ || [],
+            ...seat /**  */ || [],
+            ...leg /**   */ || []
+        ];
 
-        return map(details, (value, label) => ({ label, value }));
+        details = details.sort((item1, item2) => {
+            const title1 = item1.title.toUpperCase();
+            const title2 = item2.title.toUpperCase();
+            return (title1 < title2) ? -1 : (title1 > title2) ? 1 : 0;
+        });
+
+        return details.map(o => ({
+            label: o.title,
+            value: o.value
+        }));
     }
 
     public render() {
