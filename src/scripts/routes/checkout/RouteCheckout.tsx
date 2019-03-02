@@ -69,7 +69,7 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
         const initialValues: Partial<Order> = {
             orderDetails: initOrderDetails,
             agencyOrderer: currentAgency,
-            shippingDate: formatDate(shippingDate, 'DD/MM/YYYY'),
+            shippingDate: shippingDate.toISOString(),
             status: 'new'
         };
 

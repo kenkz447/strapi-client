@@ -355,7 +355,9 @@ class ProductFetcherComponent extends React.PureComponent<
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
-        const disableAddToCart = modulesCode && modulesCode!.includes('999');
+        const disableAddToCart = modulesCode
+            ? modulesCode!.includes('999')
+            : false;
 
         return (
             <SlideUp className="h-100 w-100 d-flex">
@@ -393,7 +395,7 @@ class ProductFetcherComponent extends React.PureComponent<
                                                         design: loadedProduct!.design.id,
                                                         product_type: loadedProduct!.productType.id,
                                                         productModulesCode: modulesCode!,
-                                                        status: 'temp'
+                                                        status: 'temp',
                                                     }}
                                                 />
                                             )

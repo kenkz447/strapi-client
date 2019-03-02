@@ -10,11 +10,11 @@ export const getOrderDiscount = (order: Partial<Order>, subTotal?: number) => {
         agencyOrderer,
         promotion
     } = order;
-
+    
     if (!subTotal) {
         subTotal = getOrderDetailsTotal(orderDetails);
     }
-
+    
     const promotionDiscount = promotion ? (promotion.discountPrice || 0) : 0;
     const productDiscount = getOrderDetailsDiscount(orderDetails);
 

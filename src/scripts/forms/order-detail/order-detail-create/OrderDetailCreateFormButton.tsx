@@ -62,7 +62,7 @@ export class OrderDetailCreateFormButton extends React.PureComponent<OrderDetail
                                     title: OrderDetailCreateFormButton.defaultProps.label,
                                     width: 400,
                                     okText: text('Add to cart'),
-                                    okButtonProps: {size: 'large', className: 'w-100', style: { marginLeft: 0 } },
+                                    okButtonProps: { size: 'large', className: 'w-100', style: { marginLeft: 0 } },
                                     cancelButtonProps: { style: { display: 'none' } },
                                     children: (
                                         <OrderDetailCreateFormControl

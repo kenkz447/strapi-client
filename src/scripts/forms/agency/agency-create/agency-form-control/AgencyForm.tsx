@@ -1,15 +1,8 @@
-import { Icon } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
-import {
-    FormBody,
-    FormInput,
-    FormSelect,
-    FormSubmit,
-    verticalLayout
-} from '@/components';
+import { FormBody, FormInput, FormSelect, verticalLayout } from '@/components';
 import { text } from '@/i18n';
 import { Agency } from '@/restful';
 

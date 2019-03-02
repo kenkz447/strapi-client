@@ -83,6 +83,7 @@ export const HeaderCartButton = React.memo((props) => {
                 <RestfulDataContainer
                     resourceType={orderDetailResourceType}
                     initDataSource={initOrderDetails}
+                    key={initOrderDetails.length}
                 >
                     {(orderDetails) => <HeaderCartButtonComponent orderDetails={orderDetails} />}
                 </RestfulDataContainer>
