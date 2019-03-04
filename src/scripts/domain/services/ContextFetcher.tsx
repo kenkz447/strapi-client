@@ -39,7 +39,11 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
             requests.push(
                 request(
                     agencyResources.findOne,
-                    [{ type: 'path', parameter: 'id', value: currentUser.agency.id! }]
+                    {
+                        type: 'path',
+                        parameter: 'id',
+                        value: currentUser.agency.id || currentUser.agency['_id']!
+                    }
                 )
             );
         }

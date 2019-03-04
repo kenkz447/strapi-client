@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { RouteInfo } from '@/app';
 import { SlideUp } from '@/components';
-import { AUTH_REGISTER_URL, LOGIN_URL } from '@/configs';
+import { AUTH_REGISTER_URL, FORGOT_PASSWORD_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { LoginFormControl } from '@/forms';
 import { text } from '@/i18n';
@@ -34,7 +34,13 @@ export class RouteLogin extends RoutePage<RouteLoginProps> {
                             <Divider dashed={true} />
                             <div className="register-link">
                                 <Link to={AUTH_REGISTER_URL}>
-                                    <u>{text('Register now!')}</u>
+                                    <u>{text('Register now')}</u>
+                                </Link>
+                                &nbsp;
+                                <span>{text('or')}</span>
+                                &nbsp;
+                                <Link to={FORGOT_PASSWORD_URL}>
+                                    <u>{text('forgotten password?')}</u>
                                 </Link>
                             </div>
                         </AuthCard>

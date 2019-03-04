@@ -2,9 +2,12 @@ import { Formik, FormikBag, isPromise } from 'formik';
 import * as React from 'react';
 import { SchemaError } from 'react-restful';
 
+import { text } from '@/i18n';
+
 import { FormTreeSelectOption } from './FormTreeSelect';
 
 export interface FormikControlBaseProps<V> {
+    readonly initialValues?: V;
     readonly submit: (formValue: V) => Promise<{}>;
 }
 
@@ -79,7 +82,7 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
             }
 
             formiKBag.setStatus({
-                error: error.toString()
+                error: text(error ? error.message : 'Unknow error!')
             });
 
         } finally {

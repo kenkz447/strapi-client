@@ -12,12 +12,12 @@ export interface AuthLoginResponseBody {
     readonly jwt: string;
 }
 
-export interface AuthForgotPasswordRequestBody {
+export interface AuthForgottenPasswordRequestBody {
     readonly email: string;
     readonly url: string;
 }
 
-export interface AuthForgotPasswordResponseBody {
+export interface AuthForgottenPasswordResponseBody {
 
 }
 
@@ -36,7 +36,7 @@ export const authResources = {
         url: '/auth/local',
         method: 'POST'
     }),
-    forgotPassword: new Resource<AuthForgotPasswordRequestBody, AuthForgotPasswordResponseBody>({
+    forgottenPassword: new Resource<AuthForgottenPasswordRequestBody, AuthForgottenPasswordResponseBody>({
         url: '/auth/forgot-password',
         method: 'POST'
     }),
