@@ -3,7 +3,7 @@ import { Moment } from 'moment';
 import { WithContextProps } from 'react-context-service';
 import { RouteComponentProps } from 'react-router';
 
-import { AppCoreContext, PageProps } from '@/app';
+import { AppCoreContext } from '@/app';
 import {
     Agency,
     FurnitureComponent,
@@ -98,5 +98,4 @@ export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;
 
 export type AppPageProps<T = {}, P = {}> =
     RouteComponentProps<T> &
-    WithDomainContext<P> &
-    PageProps; 
+    WithDomainContext<P>;

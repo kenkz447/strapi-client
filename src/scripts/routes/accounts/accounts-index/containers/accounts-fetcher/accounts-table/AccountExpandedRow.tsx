@@ -90,7 +90,7 @@ export class AccountExpandedRow extends React.PureComponent<
                                     parameters={{
                                         type: 'path',
                                         parameter: 'id',
-                                        value: license.id || license._id
+                                        value: license.id || license['_id']
                                     }}
                                 >
                                     {({ data }) => {

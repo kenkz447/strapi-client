@@ -3,12 +3,12 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Redirect, Route } from 'react-router-dom';
 
 import { AccessControl } from '../containers';
-import { PageProps, RouteInfo } from './Types';
+import { RouteInfo } from './Types';
 
 type PageContructor = {
     readonly withContext?: Array<string>;
     readonly routeInfo: RouteInfo;
-    readonly getPageKey?: (props: PageProps) => string | number | undefined;
+    readonly getPageKey?: (props) => string | number | undefined;
 };
 
 // tslint:disable-next-line:no-any
