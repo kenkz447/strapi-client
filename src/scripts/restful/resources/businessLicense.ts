@@ -18,6 +18,7 @@ export interface BusinessLicense extends Record {
 export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
     id: yup.string(),
     companyName: yup.string(),
+    companyAddress: yup.string(),
     businessAreas: yup.string(),
     created_by: userSchema.nullable(true).default(null),
     businessLicense: uploadedFileSchema,
