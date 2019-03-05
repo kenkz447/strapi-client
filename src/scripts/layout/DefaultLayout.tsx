@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DASHBOARD_URL, LOGO } from '@/configs';
+import { DASHBOARD_URL, LOGO_TEXT } from '@/configs';
 import { DomainContext } from '@/domain';
 
 import {
@@ -41,6 +41,7 @@ const SiderLogo = styled.div`
         display: inline-block;
         vertical-align: middle;
         height: 32px;
+        filter: invert(100%);
     }
 
     h1 {
@@ -72,7 +73,7 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
             <React.Fragment>
                 <SiderLogo>
                     <Link to={DASHBOARD_URL}>
-                        <img src={LOGO} alt="logo" /> <h1>Furniture Maker</h1>
+                        <img src={LOGO_TEXT} alt="logo" />
                     </Link>
                 </SiderLogo>
                 <DefaultLayoutSiderMenu

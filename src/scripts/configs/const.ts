@@ -9,3 +9,4 @@ export const DEFAULT_APP_LANG = 'en';
 
 // tslint:disable-next-line:max-line-length
 export const LOGO = '/static/assets/logo.png';
+export const LOGO_TEXT = '/static/assets/logo-text.png';

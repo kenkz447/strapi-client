@@ -41,7 +41,7 @@ export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState
         }
 
         const { licenseResult } = this.state;
-        const hasLicense = !!(licenseResult || currentUser.license);
+        const hasLicense = !!licenseResult;
 
         return (
             <AuthPageWrapper>

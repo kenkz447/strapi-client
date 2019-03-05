@@ -9,6 +9,7 @@ export const AuthPageWrapper = styled.div`
     background-repeat: no-repeat;
     background-position: center 110px;
     background-size: 100%;
+    min-height: 100%;
     .auth-page-content {
         padding: 12px;
     }
