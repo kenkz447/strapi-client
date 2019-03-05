@@ -2,7 +2,6 @@ import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
 import { Agency } from './agency';
-import { BusinessLicense } from './businessLicense';
 import { Role, roleSchema } from './role';
 
 export interface User extends Record {
@@ -14,7 +13,6 @@ export interface User extends Record {
     readonly confirmed?: boolean;
     readonly agency?: Agency;
     readonly phone?: string;
-    readonly license?: BusinessLicense;
     readonly createdAt?: string;
     readonly blocked?: boolean;
 }
@@ -52,18 +50,5 @@ export const userResources = {
         resourceType: userResourceType,
         url: '/users/:id',
         method: 'PUT'
-    }),
-    register: new Resource<User>({
-        url: '/auth/local/register',
-        method: 'POST',
-        bodySchema: userSchema
-    }),
-    forgotPassword: new Resource({
-        url: '/auth/forgot-password',
-        method: 'POST'
-    }),
-    resetPassword: new Resource({
-        url: '/auth/reset-password',
-        method: 'POST'
-    }),
+    })
 };

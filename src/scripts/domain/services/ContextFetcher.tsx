@@ -23,7 +23,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
 
     private readonly fetchContext = async () => {
         const { setContext, currentUser } = this.props;
-        
+
         if (!currentUser.confirmed) {
             return;
         }
@@ -38,11 +38,11 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
         if (currentUser.agency) {
             requests.push(
                 request(
-                    agencyResources.findOne,
+                    agencyResources.find,
                     {
-                        type: 'path',
-                        parameter: 'id',
-                        value: currentUser.agency.id || currentUser.agency['_id']!
+                        type: 'query',
+                        parameter: 'linkedUser',
+                        value: currentUser._id
                     }
                 )
             );
@@ -50,13 +50,13 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
 
         const [
             orderDetails,
-            currentAgency
+            fetcherAgencies
         ] = await Promise.all(requests);
 
         try {
             setContext({
                 initOrderDetails: orderDetails,
-                currentAgency: currentAgency,
+                currentAgency: fetcherAgencies && fetcherAgencies[0],
                 appState: 'READY'
             });
         } catch (error) {

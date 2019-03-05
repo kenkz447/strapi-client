@@ -1,4 +1,4 @@
-import { eventEmitter } from '@/app';
+import { events } from '@/app';
 
 import { FetchEventArgs } from '../base';
 
@@ -12,5 +12,5 @@ export const restfulEmitEvent = (props: {
         method: props.method
     };
 
-    eventEmitter.emit(props.type, eventArgs);
+    events.emit(props.type, eventArgs);
 };

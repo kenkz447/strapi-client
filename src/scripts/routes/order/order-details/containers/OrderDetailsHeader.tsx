@@ -4,12 +4,14 @@ import DescriptionList from 'ant-design-pro/lib/DescriptionList';
 import { Col, Row } from 'antd';
 import * as React from 'react';
 
+import { AccessControl } from '@/app';
 import {
     getOrderStatusLabel,
     getOrderTransactionMoney
 } from '@/business/order';
 import { PageHeader } from '@/components';
 import { DATE_FORMAT, ORDER_LIST_URL } from '@/configs';
+import { policies } from '@/domain';
 import { OrderFormButton } from '@/forms/order/order';
 import { text } from '@/i18n';
 import { Order } from '@/restful';
@@ -27,11 +29,21 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
         const { order } = this.props;
         return (
             <React.Fragment>
-                <OrderFormButton
-                    initialValues={order}
-                    icon="edit"
-                    type="primary"
-                />
+                <AccessControl policy={policies.functionAllowed} key="FUNC_UPDATE_ORDER">
+                    {(canAccess) => {
+                        if (!canAccess) {
+                            return null;
+                        }
+                        
+                        return (
+                            <OrderFormButton
+                                initialValues={order}
+                                icon="edit"
+                                type="primary"
+                            />
+                        );
+                    }}
+                </AccessControl>
             </React.Fragment>
         );
     }

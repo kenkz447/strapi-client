@@ -1,16 +1,12 @@
-import { Order, request, User, userResources } from '@/restful';
+import { authResources, request, User } from '@/restful';
 
 export const registerUser = (newUser: Partial<User>) => {
 
     return request(
-        userResources.register,
+        authResources.register,
         {
             type: 'body',
-            value: {
-                ...newUser,
-                username: newUser.email,
-                gender: 'male'
-            }
+            value: newUser
         }
     );
 };

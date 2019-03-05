@@ -2,7 +2,7 @@ import React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import { isArray } from 'util';
 
-import { eventEmitter } from '@/app';
+import { events } from '@/app';
 import {
     getFurnitureComponentById,
     getFurnitureComponentsByType
@@ -34,7 +34,7 @@ class Product3dSenceComponent extends React.PureComponent<
 
     private readonly on3dComponentSelect = async (selected3DObject: THREE.Group | null) => {
         if (!selected3DObject) {
-            eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
+            events.emit(CLEAR_3D_SENCE_SELECT_EVENT);
             return;
         }
 

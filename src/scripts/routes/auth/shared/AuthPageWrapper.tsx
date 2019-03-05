@@ -5,7 +5,6 @@ export const AuthPageWrapper = styled.div`
     justify-content:center;
     flex-direction: column;
     align-items: center;
-    height: 100%;
     background-image: url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg);
     background-repeat: no-repeat;
     background-position: center 110px;

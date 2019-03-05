@@ -1,32 +1,78 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Badge, Button, Col, Row, Table, Tag } from 'antd';
-import { BadgeProps } from 'antd/lib/badge';
+import { Button, Col, Icon, Row, Tag } from 'antd';
 import * as React from 'react';
 import { RestfulRender } from 'react-restful';
-import styled from 'styled-components';
 
 import { BusinessController } from '@/business';
 import { rejectBusinessLiscense } from '@/business/business-license';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { AgencyFormButton } from '@/forms/agency/agency-create';
 import { text } from '@/i18n';
-import { Agency, businessLicenseResources, User } from '@/restful';
+import {
+    BusinessLicense,
+    businessLicenseResources,
+    request,
+    User
+} from '@/restful';
 
 const { Description } = DescriptionList;
 
-export interface AccountExpandedRowProps {
+interface AccountExpandedRowProps {
     readonly user: User;
     readonly onAccepted: () => void;
 }
 
-export class AccountExpandedRow extends React.PureComponent<AccountExpandedRowProps> {
-    public render() {
-        const { user, onAccepted } = this.props;
-        const { license } = user;
+interface AccountExpandedRowState {
+    readonly license?: BusinessLicense;
+    readonly isNoLicense?: boolean;
+}
+
+export class AccountExpandedRow extends React.PureComponent<
+    AccountExpandedRowProps,
+    AccountExpandedRowState
+    > {
+
+    constructor(props: AccountExpandedRowProps) {
+        super(props);
+        this.state = {};
+        this.fetchResources();
+    }
+
+    private readonly fetchResources = async () => {
+        const { user } = this.props;
+
+        const [license] = await request(
+            businessLicenseResources.find,
+            {
+                type: 'query',
+                parameter: nameof<BusinessLicense>(o => o.created_by),
+                value: user._id
+            }
+        );
 
         if (!license) {
+            this.setState({
+                isNoLicense: true
+            });
+            return;
+        }
+
+        this.setState({
+            license: license
+        });
+    }
+
+    public render() {
+        const { onAccepted, user } = this.props;
+        const { license, isNoLicense } = this.state;
+
+        if (!license) {
+            return <Icon type="loading" spin={true} />;
+        }
+
+        if (isNoLicense) {
             return <p>Không có thông tin đăng ký</p>;
         }
 
@@ -44,7 +90,7 @@ export class AccountExpandedRow extends React.PureComponent<AccountExpandedRowPr
                                     parameters={{
                                         type: 'path',
                                         parameter: 'id',
-                                        value: license.id || license['_id']
+                                        value: license.id || license._id
                                     }}
                                 >
                                     {({ data }) => {
@@ -112,7 +158,7 @@ export class AccountExpandedRow extends React.PureComponent<AccountExpandedRowPr
                                         <Button
                                             type="danger"
                                             ghost={true}
-                                            onClick={() => doBusiness(user.license)}
+                                            onClick={() => doBusiness(license)}
 
                                         >
                                             {text('Reject')}

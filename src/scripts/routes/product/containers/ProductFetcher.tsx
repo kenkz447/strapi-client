@@ -5,7 +5,7 @@ import { UnregisterCallback } from 'history';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { eventEmitter } from '@/app';
+import { events } from '@/app';
 import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign
@@ -282,7 +282,7 @@ class ProductFetcherComponent extends React.PureComponent<
     }
 
     private readonly onComponentChanged = () => {
-        eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
+        events.emit(CLEAR_3D_SENCE_SELECT_EVENT);
     }
 
     private readonly onShoppingClick = () => {

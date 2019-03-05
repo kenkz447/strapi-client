@@ -33,7 +33,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 autoFocus={true}
                 required={true}
                 size="large"
-                prefix={<Icon type="user" />}
+                prefix={<Icon type="font-colors" />}
             />
             <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.phone)}
@@ -45,6 +45,17 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 required={true}
                 size="large"
                 prefix={<Icon type="phone" />}
+            />
+            <FormInput
+                name={nameof.full<RegisterFormValues>(o => o.username)}
+                onChange={handleChange}
+                value={values.username}
+                validateStatus={errors.username ? 'error' : undefined}
+                placeholder={text('Username')}
+                autoFocus={true}
+                required={true}
+                size="large"
+                prefix={<Icon type="user" />}
             />
             <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.email)}

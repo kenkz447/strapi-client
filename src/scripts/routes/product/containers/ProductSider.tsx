@@ -3,7 +3,7 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
-import { eventEmitter } from '@/app';
+import { events } from '@/app';
 import { DomainContext } from '@/domain';
 import {
     productDesignResources,
@@ -112,7 +112,7 @@ class ProductSiderComponent extends React.PureComponent<
     }
 
     private readonly onDesignChange = () => {
-        eventEmitter.emit(CLEAR_3D_SENCE_SELECT_EVENT);
+        events.emit(CLEAR_3D_SENCE_SELECT_EVENT);
     }
 
     public componentWillUnmount() {

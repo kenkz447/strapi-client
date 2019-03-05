@@ -57,7 +57,6 @@ export function ConfirmForm(props: ConfirmFormOwnProps) {
                                     useFieldWrapper={false}
                                 />
                             </div>
-
                             <br />
                             <div>
                                 <FormInput
@@ -66,6 +65,18 @@ export function ConfirmForm(props: ConfirmFormOwnProps) {
                                     value={values.companyName}
                                     validateStatus={errors.companyName ? 'error' : undefined}
                                     placeholder={text('Company name')}
+                                    size="large"
+                                    useFieldWrapper={false}
+                                />
+                            </div>
+                            <br />
+                            <div>
+                                <FormInput
+                                    name={nameof.full<ConfirmFormValues>(o => o.companyAddress)}
+                                    onChange={handleChange}
+                                    value={values.companyAddress}
+                                    validateStatus={errors.companyAddress ? 'error' : undefined}
+                                    placeholder={text('Company address')}
                                     size="large"
                                     useFieldWrapper={false}
                                 />

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { eventEmitter, RouteInfo } from '@/app';
+import { events, RouteInfo } from '@/app';
 import { PageContent, PageWrapper, SlideUp } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
@@ -27,8 +27,8 @@ export class RouteProduct extends RoutePage<RouteProps> {
     };
 
     private readonly registerEvent = () => {
-        eventEmitter.on(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
-        eventEmitter.on(CLEAR_3D_SENCE_SELECT_EVENT, this.clear3dSenceSelect);
+        events.on(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
+        events.on(CLEAR_3D_SENCE_SELECT_EVENT, this.clear3dSenceSelect);
     }
 
     private readonly clear3dSenceSelect = () => {
@@ -66,8 +66,8 @@ export class RouteProduct extends RoutePage<RouteProps> {
 
     public componentWillUnmount() {
         this.clear3DSenceContext();
-        eventEmitter.removeListener(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
-        eventEmitter.removeListener(CLEAR_3D_SENCE_SELECT_EVENT, this.clear3dSenceSelect);
+        events.removeListener(CLEAR_3D_SENCE_CONTEXT_EVENT, this.clear3DSenceContext);
+        events.removeListener(CLEAR_3D_SENCE_SELECT_EVENT, this.clear3dSenceSelect);
     }
 
     public render() {

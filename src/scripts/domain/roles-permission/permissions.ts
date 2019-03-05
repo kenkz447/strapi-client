@@ -51,6 +51,9 @@ export const functionPermissions: Permissions = {
     },
     FUNC_ORDERS_FILTER_BY_AGENCY: {
         key: 'FUNC_ORDERS_FILTER_BY_AGENCY'
+    },
+    FUNC_UPDATE_ORDER: {
+        key: 'FUNC_UPDATE_ORDER'
     }
 };
 

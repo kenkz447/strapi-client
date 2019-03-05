@@ -34,11 +34,6 @@ export interface RouteInfo<P = {}, S = {}> extends RouteProps {
     readonly isActive?: () => boolean;
 }
 
-export interface PageProps {
-    // tslint:disable-next-line:no-any
-    readonly routeInfo: RouteInfo<any>;
-}
-
 export interface Menu<P = {}> {
     readonly isRoot?: boolean;
     readonly label?: JSX.Element | string;
@@ -46,4 +41,15 @@ export interface Menu<P = {}> {
     readonly children?: Menu[];
     readonly component: React.ComponentType<P>;
     readonly componentProps?: P;
+}
+
+export interface Permission {
+    readonly key: string;
+    readonly url?: RegExp;
+}
+
+export interface Role {
+    readonly key: string;
+    readonly allowed: Permission[];
+    readonly redirects?: Array<{ readonly test: RegExp; readonly target: string; }>;
 }

@@ -1,6 +1,6 @@
 import { Resource } from 'react-restful';
 
-import { User } from './user';
+import { User, userSchema } from './user';
 
 export interface AuthLoginRequestBody {
     readonly identifier: string;
@@ -43,5 +43,10 @@ export const authResources = {
     resetPassword: new Resource<AuthResetPasswordRequestBody, AuthResetPasswordReponseBody>({
         url: '/auth/reset-password',
         method: 'POST'
+    }),
+    register: new Resource<User>({
+        url: '/auth/local/register',
+        method: 'POST',
+        bodySchema: userSchema
     })
 };
