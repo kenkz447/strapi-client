@@ -35,7 +35,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
             )
         ];
 
-        if (currentUser.agency) {
+        if (currentUser._id) {
             requests.push(
                 request(
                     agencyResources.find,
