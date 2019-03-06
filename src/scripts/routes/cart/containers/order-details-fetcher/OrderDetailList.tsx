@@ -59,6 +59,10 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
     }
 
     private readonly renderOrderDetail = (orderDetail: OrderDetail) => {
+        if (typeof orderDetail.product_type === 'string') {
+            return null;
+        }
+        
         const productTitle = orderDetail.product_type!.name;
         return (
             <List.Item
