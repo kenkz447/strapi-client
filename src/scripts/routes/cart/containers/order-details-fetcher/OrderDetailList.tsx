@@ -1,16 +1,15 @@
-import { Button, Card, InputNumber, List } from 'antd';
+import { Card, List } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { COLOR_PRIMARY_700, COLOR_PRIMARY_800 } from '@/configs';
-import { text } from '@/i18n';
+import { COLOR_PRIMARY_700 } from '@/configs';
 import { OrderDetail } from '@/restful';
 import { formatCurrency } from '@/utilities';
 
-import { OrderDetailListItemQuantity } from './order-detail-list';
 import {
-    OrderDetailListItemDelete
-} from './order-detail-list/OrderDetailListItemDelete';
+    OrderDetailListItemDelete,
+    OrderDetailListItemQuantity
+} from './order-detail-list';
 
 const OrderDetailListWrapper = styled.div`
     .order-detail {
@@ -60,7 +59,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
     }
 
     private readonly renderOrderDetail = (orderDetail: OrderDetail) => {
-        const productTitle = orderDetail.product_type!['name'];
+        const productTitle = orderDetail.product_type!.name;
         return (
             <List.Item
                 key={orderDetail.id}
