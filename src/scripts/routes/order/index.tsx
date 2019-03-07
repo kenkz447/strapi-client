@@ -1,7 +1,6 @@
+import { routeFrom } from 'qoobee';
 import * as React from 'react';
 import { Switch } from 'react-router';
-
-import { routeFrom } from '@/app';
 
 import { RouteOrderDetails } from './order-details';
 import { RouteOrderList } from './order-list';

@@ -2,10 +2,10 @@ import './ProductFetcher.scss';
 
 import { Button, Layout } from 'antd';
 import { UnregisterCallback } from 'history';
+import { events } from 'qoobee';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { events } from '@/app';
 import {
     getFurnitureComponentByCode,
     getFurnitureComponentByDesign

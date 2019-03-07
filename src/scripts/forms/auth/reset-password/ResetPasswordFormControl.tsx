@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 
-import { RootContext } from '@/app';
 import { FormikControlBase, FormikControlBaseProps } from '@/components';
 import { WithAuthClient } from '@/domain';
 

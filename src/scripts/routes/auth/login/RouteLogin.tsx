@@ -1,8 +1,8 @@
 import { Divider } from 'antd';
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { RouteInfo } from '@/app';
 import { SlideUp } from '@/components';
 import { AUTH_REGISTER_URL, FORGOT_PASSWORD_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';

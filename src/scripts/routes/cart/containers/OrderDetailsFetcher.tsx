@@ -1,8 +1,8 @@
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
 import { RestfulDataContainer, RestfulRender } from 'react-restful';
 
-import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
 import {
     OrderDetail,

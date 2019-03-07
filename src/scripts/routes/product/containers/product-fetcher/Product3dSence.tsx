@@ -1,8 +1,8 @@
+import { events } from 'qoobee';
 import React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import { isArray } from 'util';
 
-import { events } from '@/app';
 import {
     getFurnitureComponentById,
     getFurnitureComponentsByType

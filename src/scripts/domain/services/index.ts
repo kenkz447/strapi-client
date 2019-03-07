@@ -1,4 +1,3 @@
-export * from './ErrorLogger';
 export { default as MenusBuilder } from './MenusBuilder';
 export { default as Authentication } from './Authentication';
 export { default as ContextFetcher } from './ContextFetcher';

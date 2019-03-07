@@ -1,6 +1,5 @@
+import { Omit } from 'qoobee';
 import { Resource, ResourceType } from 'react-restful';
-
-import { Omit } from '@/app';
 
 import { FurnitureComponent } from './furnitureComponent';
 import { FurnitureMaterial } from './furnitureMaterial';

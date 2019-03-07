@@ -2,9 +2,9 @@ import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
 import { Col, Row } from 'antd';
+import { AccessControl } from 'qoobee';
 import * as React from 'react';
 
-import { AccessControl } from '@/app';
 import {
     getOrderStatusLabel,
     getOrderTransactionMoney

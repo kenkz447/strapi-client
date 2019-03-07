@@ -3,9 +3,8 @@ import { FormItemProps } from 'antd/lib/form';
 import { TimePickerProps } from 'antd/lib/time-picker';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Omit } from 'qoobee';
 import * as React from 'react';
-
-import { Omit } from '@/app';
 
 interface FormFieldProps extends Omit<TimePickerProps, 'value'>, FormItemProps {
     readonly id?: string;

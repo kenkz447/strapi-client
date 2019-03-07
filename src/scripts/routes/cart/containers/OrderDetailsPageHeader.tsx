@@ -1,9 +1,9 @@
 import { PageHeader } from 'ant-design-pro';
 import { Button, Col, Row } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
-import { RootContext } from '@/app';
 import { getOrderDetailsTotal } from '@/business/order-detail';
 import { CHECKOUT_URL } from '@/configs';
 import { DomainContext } from '@/domain';

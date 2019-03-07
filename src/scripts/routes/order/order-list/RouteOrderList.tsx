@@ -1,7 +1,7 @@
 import { Button, Divider } from 'antd';
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { RouteInfo } from '@/app';
 import {
     PageContent,
     PageHeader,

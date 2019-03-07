@@ -1,6 +1,7 @@
 import { Layout } from 'antd';
 import { UnregisterCallback } from 'history';
 import debounce from 'lodash/debounce';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import {
     getParamsValue,
@@ -10,7 +11,6 @@ import {
     upsertRequestParams
 } from 'react-restful';
 
-import { RootContext } from '@/app';
 import { DataModelPagination, Loading } from '@/components';
 import { sortById, WithHistory } from '@/domain';
 import { Agency, agencyResources, agencyResourceType } from '@/restful';

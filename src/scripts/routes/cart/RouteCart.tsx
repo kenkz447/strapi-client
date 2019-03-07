@@ -1,7 +1,7 @@
 import { PageHeader } from 'ant-design-pro';
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { RouteInfo } from '@/app';
 import { PageContent, PageWrapper } from '@/components';
 import { CART_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';

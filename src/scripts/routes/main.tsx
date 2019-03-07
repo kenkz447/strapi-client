@@ -1,7 +1,7 @@
+import { routeFrom } from 'qoobee';
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
 
-import { routeFrom } from '@/app';
 import { NotFoundPage } from '@/components';
 
 import { RouteAccounts } from './accounts';

@@ -1,8 +1,8 @@
 import { Badge, Button, Icon } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
 
 const HeaderNotificationWrapper = styled.div`

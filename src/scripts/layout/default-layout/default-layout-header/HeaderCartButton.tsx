@@ -1,9 +1,9 @@
 import { Button, Tooltip } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { ContextRender } from 'react-context-service';
 import { RestfulDataContainer } from 'react-restful';
 
-import { RootContext } from '@/app';
 import { getOrderDetailsQuantity } from '@/business/order-detail';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';

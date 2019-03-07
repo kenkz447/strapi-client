@@ -1,8 +1,8 @@
 import { Button, InputNumber } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
 
-import { RootContext } from '@/app';
 import { BusinessController } from '@/business';
 import { deleteOrderDetail, upsertOrderDetail } from '@/business/order-detail';
 import { DomainContext } from '@/domain';

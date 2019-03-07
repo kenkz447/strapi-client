@@ -1,7 +1,6 @@
+import { MenuItem } from 'qoobee';
 import * as React from 'react';
 import { withContext } from 'react-context-service';
-
-import { MenuItem } from '@/app';
 
 import { DomainContext, WithDomainContext } from '../base';
 import { mainMenu } from '../menus';

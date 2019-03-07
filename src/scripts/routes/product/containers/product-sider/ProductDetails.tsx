@@ -1,9 +1,9 @@
 import './ProductDetails.scss';
 
 import map from 'lodash/map';
+import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 
-import { AccessControl, RootContext } from '@/app';
 import { DomainContext } from '@/domain';
 import { functionAllowed } from '@/domain/policies';
 

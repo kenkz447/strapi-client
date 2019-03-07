@@ -1,8 +1,8 @@
 import debounce from 'lodash/debounce';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
 
-import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
 import { confirm, ConfirmType, showNotification } from '@/effects';
 

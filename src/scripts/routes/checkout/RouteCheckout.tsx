@@ -1,8 +1,8 @@
 import { Card, Col, Row } from 'antd';
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { Redirect } from 'react-router';
 
-import { RouteInfo } from '@/app';
 import { BusinessController } from '@/business';
 import { getOrderShippingDate, upsertOrder } from '@/business/order';
 import { PageContent, PageWrapper } from '@/components';

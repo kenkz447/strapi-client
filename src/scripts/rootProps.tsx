@@ -1,16 +1,17 @@
 import { createBrowserHistory } from 'history';
-import * as React from 'react';
-
 import {
     AppCoreContext,
     BreakpointDetector,
+    ErrorLogger,
     I18NLoader,
     RootProps
-} from './app';
+} from 'qoobee';
+import * as React from 'react';
+
+import { ErrorPage } from './components';
 import {
     Authentication,
     ContextFetcher,
-    ErrorLogger,
     FirebaseNotification,
     GlobalModal,
     MenusBuilder,
@@ -23,7 +24,9 @@ import { RouterRoot } from './routes';
 const browserHistory = createBrowserHistory();
 
 const AppContent = () => (
-    <ErrorLogger>
+    <ErrorLogger
+        ErrorPage={ErrorPage}
+    >
         <BreakpointDetector />
         <MenusBuilder />
         <ContextFetcher />

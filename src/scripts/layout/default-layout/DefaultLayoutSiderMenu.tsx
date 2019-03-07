@@ -1,7 +1,7 @@
 import { Icon, Menu } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 
-import { RootContext } from '@/app';
 import { PRODUCT_PATH } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';

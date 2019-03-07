@@ -1,8 +1,8 @@
 import { Divider } from 'antd';
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { RouteInfo } from '@/app';
 import { BusinessController } from '@/business';
 import { upsertBusinessLiscense } from '@/business/business-license';
 import { SlideUp } from '@/components';

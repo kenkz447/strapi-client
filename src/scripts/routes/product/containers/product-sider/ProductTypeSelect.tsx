@@ -2,9 +2,9 @@ import './ProductTypeSelect.scss';
 
 import { Form, Select } from 'antd';
 import { UnregisterCallback } from 'history';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 
-import { RootContext } from '@/app';
 import { WithHistory } from '@/domain';
 import { text } from '@/i18n';
 import { ProductDesign, ProductType, ProductTypeGroup } from '@/restful';

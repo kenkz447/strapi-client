@@ -1,6 +1,6 @@
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { RouteInfo } from '@/app';
 import { PageContent, PageWrapper } from '@/components';
 import { LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';

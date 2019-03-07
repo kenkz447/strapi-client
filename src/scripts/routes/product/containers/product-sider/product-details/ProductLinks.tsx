@@ -1,8 +1,8 @@
 import map from 'lodash/map';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { RootContext } from '@/app';
 import { DomainContext } from '@/domain';
 import { FurnitureComponentGroup } from '@/restful';
 

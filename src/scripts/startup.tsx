@@ -1,4 +1,4 @@
-import { render } from '@/app';
+import { render } from 'qoobee';
 
 import { getRootProps } from './rootProps';
 

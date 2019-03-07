@@ -1,9 +1,8 @@
 import { Form, Radio } from 'antd';
 import { FormItemProps } from 'antd/lib/form';
 import { RadioGroupProps } from 'antd/lib/radio';
+import { Omit } from 'qoobee';
 import * as React from 'react';
-
-import { Omit } from '@/app';
 
 interface FormFieldProps extends Omit<RadioGroupProps, 'value'>, FormItemProps {
     readonly id?: string;

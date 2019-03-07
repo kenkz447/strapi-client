@@ -1,6 +1,6 @@
+import { events, RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { events, RouteInfo } from '@/app';
 import { PageContent, PageWrapper, SlideUp } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';

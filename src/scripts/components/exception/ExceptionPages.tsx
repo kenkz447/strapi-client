@@ -2,6 +2,7 @@ import 'ant-design-pro/lib/Exception/style/css';
 
 import Exception from 'ant-design-pro/lib/Exception';
 import { Button, Icon } from 'antd';
+import { ErrorPageProps } from 'qoobee';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -17,10 +18,6 @@ export const NotFoundPage = () => {
         </React.Fragment>
     );
 };
-
-interface ErrorPageProps {
-    readonly error?: string;
-}
 
 export const ErrorPage = (props: ErrorPageProps) => {
     return (
@@ -43,5 +40,5 @@ export const ErrorPage = (props: ErrorPageProps) => {
 };
 
 ErrorPage.defaultProps = {
-    error: 'Tính năng hiện tại không khả dụng!'
+    error: new Error('Tính năng hiện tại không khả dụng!')
 };

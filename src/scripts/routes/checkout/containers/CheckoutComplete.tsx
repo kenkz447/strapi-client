@@ -2,10 +2,10 @@ import 'ant-design-pro/lib/Result/style/css';
 
 import Result from 'ant-design-pro/lib/Result';
 import { Button, Form } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { RootContext } from '@/app';
 import { verticalLayout } from '@/components';
 import { ORDER_DETAIL_URL, PRODUCT_PATH } from '@/configs';
 import { DomainContext } from '@/domain';

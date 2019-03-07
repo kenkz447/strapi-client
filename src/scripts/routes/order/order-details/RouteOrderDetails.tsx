@@ -1,7 +1,7 @@
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
-import { RouteInfo } from '@/app';
 import { PageContent, PageLoading, PageWrapper, SlideUp } from '@/components';
 import { ORDER_DETAIL_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';

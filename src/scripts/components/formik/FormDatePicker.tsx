@@ -3,9 +3,9 @@ import { DatePickerProps } from 'antd/lib/date-picker/interface';
 import { FormItemProps } from 'antd/lib/form';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Omit } from 'qoobee';
 import * as React from 'react';
 
-import { Omit } from '@/app';
 import { DATE_FORMAT } from '@/configs';
 
 interface FormFieldProps extends Omit<DatePickerProps, 'value'>, FormItemProps {

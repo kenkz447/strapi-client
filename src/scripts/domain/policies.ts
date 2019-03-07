@@ -1,4 +1,4 @@
-import { Policy } from '@/app';
+import { Policy } from 'qoobee';
 
 import { DomainContext } from './base';
 import { roles } from './roles-permission';

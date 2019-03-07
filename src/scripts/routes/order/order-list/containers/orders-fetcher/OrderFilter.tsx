@@ -1,9 +1,9 @@
 import { Col, Row } from 'antd';
 import { OptionProps } from 'antd/lib/select';
+import { AccessControl } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { AccessControl } from '@/app';
 import { getAllAgency } from '@/business/agency';
 import { getAllOrderStatus } from '@/business/order';
 import { FormInput, FormSelect } from '@/components';

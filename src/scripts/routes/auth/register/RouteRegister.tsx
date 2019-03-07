@@ -1,9 +1,9 @@
 import { Divider } from 'antd';
+import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { RouteInfo } from '@/app';
 import { BusinessController } from '@/business';
 import { registerUser } from '@/business/user';
 import { SlideUp } from '@/components';

@@ -1,8 +1,8 @@
 import { OptionProps } from 'antd/lib/select';
 import { Formik } from 'formik';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 
-import { RootContext } from '@/app';
 import { getDiscountByQuantityLabel } from '@/business/discount-by-quantity';
 import { FormikControlBase, FormikControlBaseProps } from '@/components';
 import { DomainContext } from '@/domain';
