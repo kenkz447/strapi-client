@@ -54,6 +54,9 @@ export const functionPermissions: Permissions = {
     },
     FUNC_UPDATE_ORDER: {
         key: 'FUNC_UPDATE_ORDER'
+    },
+    FUNC_ORDER_TRANSACTION_CONFIRM: {
+        key: 'FUNC_ORDER_TRANSACTION_CONFIRM'
     }
 };
 

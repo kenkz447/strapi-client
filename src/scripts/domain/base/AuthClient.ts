@@ -96,7 +96,7 @@ export class AuthClient<T> {
     readonly logout = () => {
         const { loginPath } = this.props;
         clearToken();
-        location.href = loginPath;
+        location.href = loginPath + '?' + 'returnUrl=' + location.href;
     }
 
     readonly gotoLoginPage = this.logout;

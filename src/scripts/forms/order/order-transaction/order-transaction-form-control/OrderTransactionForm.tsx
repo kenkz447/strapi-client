@@ -11,6 +11,7 @@ import {
     FormTextArea,
     verticalLayout
 } from '@/components';
+import { FormUpload } from '@/components/formik/FormUpload';
 import { text } from '@/i18n';
 import { OrderTransaction } from '@/restful';
 
@@ -69,6 +70,16 @@ export function OrderTransactionForm(props: OrderTransactionFormOwnProps) {
                 placeholder={text('Select date')}
                 label={text('Date')}
                 className="w-100"
+            />
+            <FormUpload
+                name={nameof.full<OrderTransactionFormValues>(o => o.attachment)}
+                setFieldValue={setFieldValue}
+                value={values.attachment}
+                validateStatus={errors.attachment ? 'error' : undefined}
+                label={text('Attachment')}
+                buttonType="default"
+                wrapperCol={verticalLayout.wrapperCol}
+                labelCol={verticalLayout.labelCol}
             />
             <FormTextArea
                 name={nameof<OrderTransactionFormValues>(o => o.note)}

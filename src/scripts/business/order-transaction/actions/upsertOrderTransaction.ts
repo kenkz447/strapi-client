@@ -10,10 +10,13 @@ export const upsertOrderTransaction = (
 ) => {
     const orderTransactionExisting = !!orderTransaction.id;
     if (orderTransactionExisting) {
-        return request(orderTransactionResources.update, {
-            type: 'body',
-            value: orderTransactionExisting
-        });
+        return request(
+            orderTransactionResources.update,
+            {
+                type: 'body',
+                value: orderTransaction
+            }
+        );
     }
 
     return request(orderTransactionResources.create, {

@@ -31,10 +31,6 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
             <React.Fragment>
                 <AccessControl policy={policies.functionAllowed} key="FUNC_UPDATE_ORDER">
                     {(canAccess) => {
-                        if (!canAccess) {
-                            return null;
-                        }
-                        
                         return (
                             <OrderFormButton
                                 initialValues={order}

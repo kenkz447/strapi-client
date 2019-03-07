@@ -56,6 +56,7 @@ export class OrderTransactionFormButton extends React.PureComponent<OrderTransac
                             onClick={() => setContext({
                                 globalModalVisibled: true,
                                 globalModal: {
+                                    width: 600,
                                     title: OrderTransactionFormButton.defaultProps.label,
                                     children: (
                                         <OrderTransactionFormControl

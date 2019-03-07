@@ -52,3 +52,31 @@ export const functionAllowed: Policy = (context: DomainContext, funcKey: string)
 
     return !!userRole.allowed.find(o => o.key === funcKey);
 };
+
+export const isOwner: Policy = (
+    context: DomainContext,
+    funcKey: string,
+    values?: { readonly created_by: any; }
+) => {
+    const { currentUser } = context;
+    if (!currentUser || !values) {
+        return false;
+    }
+
+    if (!values.created_by) {
+        return false;
+    }
+
+    const value = values.created_by;
+    if (value === currentUser._id) {
+        return true;
+    }
+
+    if (typeof value === 'object') {
+        if (value.id === currentUser._id) {
+            return true;
+        }
+    }
+
+    return false;
+};

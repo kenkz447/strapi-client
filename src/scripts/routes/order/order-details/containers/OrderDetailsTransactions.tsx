@@ -1,16 +1,23 @@
-import { Button, Card, Table } from 'antd';
+import { Button, Card, Icon, Table, Tooltip } from 'antd';
+import { AccessControl } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
 import { BusinessController } from '@/business';
-import { deleteOrderTransaction } from '@/business/order-transaction';
+import {
+    confirmOrderTransaction,
+    deleteOrderTransaction
+} from '@/business/order-transaction';
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { DATE_FORMAT } from '@/configs';
+import { policies } from '@/domain';
 import { OrderTransactionFormButton } from '@/forms/order/order-transaction';
 import { text } from '@/i18n';
 import {
     Order,
     OrderTransaction,
-    orderTransactionResourceType
+    orderTransactionResourceType,
+    UploadedFile
 } from '@/restful';
 import { formatCurrency, formatDate } from '@/utilities';
 
@@ -49,8 +56,39 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                             size="middle"
                         >
                             <Table.Column
-                                title={text('Transaction code')}
+                                title={text('Code')}
                                 dataIndex={nameof<OrderTransaction>(o => o.code)}
+                                render={(code: string, orderTransaction: OrderTransaction) => {
+                                    if (orderTransaction.confirmed) {
+                                        return (
+                                            <span style={{ color: '#52c41a' }}>
+                                                <Icon
+                                                    style={{ fontSize: 18 }}
+                                                    type="check-circle"
+                                                    theme="twoTone"
+                                                    twoToneColor="#52c41a"
+                                                />
+                                                &nbsp;
+                                                {code}
+                                            </span>
+                                        );
+                                    }
+
+                                    return (
+                                        <span>
+                                            <Tooltip title={text('This transaction is being reviewed')}>
+                                                <Icon
+                                                    style={{ fontSize: 18 }}
+                                                    type="question-circle"
+                                                    theme="twoTone"
+                                                />
+                                            </Tooltip>
+                                            &nbsp;
+                                            {code}
+                                        </span>
+
+                                    );
+                                }}
                             />
                             <Table.Column
                                 title={text('Type')}
@@ -67,6 +105,24 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                                 render={(money) => formatCurrency(money)}
                             />
                             <Table.Column
+                                title={text('Attachement')}
+                                dataIndex={nameof<OrderTransaction>(o => o.attachment)}
+                                render={(attachment: UploadedFile) => {
+                                    if (!attachment) {
+                                        return <span>{text('No attachment')}</span>;
+                                    }
+
+                                    return (
+                                        <a
+                                            target="_blank"
+                                            href={getUploadedFileSrc({ uploadedFile: attachment })}
+                                        >
+                                            Xem
+                                        </a>
+                                    );
+                                }}
+                            />
+                            <Table.Column
                                 title={text('Note')}
                                 dataIndex={nameof<OrderTransaction>(o => o.note)}
                                 render={(note) => {
@@ -77,24 +133,61 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                                 }}
                             />
                             <Table.Column
-                                title={text('Operating')}
+                                title=""
                                 dataIndex={nameof<OrderTransaction>(o => o.id)}
-                                render={(id, transaction) => {
+                                render={(id: string, transaction: OrderTransaction) => {
                                     return (
                                         <React.Fragment>
-                                            <BusinessController
-                                                action={deleteOrderTransaction}
-                                                needsConfirm={true}
-                                                params={transaction}
-                                            >
-                                                {({ doBusiness }) => (
-                                                    <Button
-                                                        type="danger"
-                                                        icon="delete"
-                                                        onClick={() => doBusiness()}
-                                                    />
-                                                )}
-                                            </BusinessController>
+                                            {
+                                                <AccessControl
+                                                    policy={policies.functionAllowed}
+                                                    funcKey="FUNC_ORDER_TRANSACTION_CONFIRM"
+                                                >
+                                                    {() => {
+                                                        return (
+                                                            <BusinessController
+                                                                action={confirmOrderTransaction}
+                                                                needsConfirm={true}
+                                                                params={transaction}
+                                                            >
+                                                                {({ doBusiness }) => (
+                                                                    <Tooltip
+                                                                        title={text('Confirm this transaction')}
+                                                                    >
+                                                                        <Button
+                                                                            type="primary"
+                                                                            icon="check"
+                                                                            ghost={true}
+                                                                            onClick={() => doBusiness()}
+                                                                            disabled={transaction.confirmed}
+                                                                        />
+                                                                    </Tooltip>
+                                                                )}
+                                                            </BusinessController>
+                                                        );
+                                                    }}
+                                                </AccessControl>
+                                            }
+                                            <AccessControl policy={policies.isOwner} values={transaction}>
+                                                {() => {
+                                                    return (
+                                                        <BusinessController
+                                                            action={deleteOrderTransaction}
+                                                            needsConfirm={true}
+                                                            params={transaction}
+                                                        >
+                                                            {({ doBusiness }) => (
+                                                                <Button
+                                                                    type="danger"
+                                                                    icon="delete"
+                                                                    onClick={() => doBusiness()}
+                                                                    disabled={transaction.confirmed}
+                                                                />
+                                                            )}
+                                                        </BusinessController>
+                                                    );
+                                                }}
+                                            </AccessControl>
                                         </React.Fragment>
                                     );
                                 }}
