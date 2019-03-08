@@ -1,3 +1,4 @@
+import { Radio } from 'antd';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
@@ -7,6 +8,7 @@ import {
     FormDatePicker,
     FormInput,
     FormInputMoney,
+    FormRadioGroup,
     FormSelect,
     FormTextArea,
     verticalLayout
@@ -32,19 +34,18 @@ export function OrderTransactionForm(props: OrderTransactionFormOwnProps) {
 
     return (
         <FormBody formProps={props}>
-            <FormSelect
+            <FormRadioGroup
                 name={nameof<OrderTransactionFormValues>(o => o.type)}
                 value={values.type}
-                setFieldValue={setFieldValue}
-                options={allOrderTransactionOptions}
+                onChange={handleChange}
                 wrapperCol={verticalLayout.wrapperCol}
                 labelCol={verticalLayout.labelCol}
+                label={text('Loại giao dịch')}
                 required={true}
-                help={errors.type}
-                validateStatus={errors.type ? 'error' : undefined}
-                label={text('Transaction type')}
-                placeholder={text('Select')}
-            />
+            >
+                <Radio value="deposit">{text('deposit')}</Radio>
+                <Radio value="payment">{text('payment')}</Radio>
+            </FormRadioGroup>
             <FormInputMoney
                 name={nameof<OrderTransactionFormValues>(o => o.money)}
                 value={values.money}

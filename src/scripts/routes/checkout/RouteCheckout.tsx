@@ -5,6 +5,7 @@ import { Redirect } from 'react-router';
 
 import { BusinessController } from '@/business';
 import { getOrderShippingDate, upsertOrder } from '@/business/order';
+import { getOrderDetailsTotal } from '@/business/order-detail';
 import { PageContent, PageWrapper } from '@/components';
 import { CART_URL, CHECKOUT_URL, PRODUCT_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
@@ -66,6 +67,7 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
         }
 
         const shippingDate = getOrderShippingDate();
+
         const initialValues: Partial<Order> = {
             orderDetails: initOrderDetails,
             agencyOrderer: currentAgency,

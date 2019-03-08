@@ -22,6 +22,13 @@ export const locationAllowed: Policy = (context: DomainContext, funcKey?: string
 
     const fullPermisstion = userRole.allowed.find(o => o.key === 'ALL');
     if (fullPermisstion) {
+        const isDenyPermission = userRole.denied
+            && !!userRole.denied.find(o => o.key === funcKey);
+
+        if (isDenyPermission) {
+            return false;
+        }
+        
         return true;
     }
 
@@ -46,7 +53,15 @@ export const functionAllowed: Policy = (context: DomainContext, funcKey: string)
     }
 
     const fullPermisstion = userRole.allowed.find(o => o.key === 'ALL');
+
     if (fullPermisstion) {
+        const isDenyPermission = userRole.denied
+            && !!userRole.denied.find(o => o.key === funcKey);
+
+        if (isDenyPermission) {
+            return false;
+        }
+
         return true;
     }
 

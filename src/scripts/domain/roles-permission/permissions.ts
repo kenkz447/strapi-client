@@ -1,3 +1,5 @@
+import { Permission } from 'qoobee';
+
 import {
     ACCOUNT_URL,
     AGENCIES_URL,
@@ -6,11 +8,6 @@ import {
     ORDER_LIST_URL,
     PRODUCT_PATH
 } from '@/configs';
-
-export interface Permission {
-    readonly key: string;
-    readonly url?: RegExp;
-}
 
 type Permissions = { readonly [key: string]: Permission };
 
@@ -57,6 +54,9 @@ export const functionPermissions: Permissions = {
     },
     FUNC_ORDER_TRANSACTION_CONFIRM: {
         key: 'FUNC_ORDER_TRANSACTION_CONFIRM'
+    },
+    FUNC_ORDER_TRANSACTION_CREATE: {
+        key: 'FUNC_ORDER_TRANSACTION_CREATE'
     }
 };
 

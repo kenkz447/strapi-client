@@ -1,6 +1,8 @@
 import { Order, orderResources, request } from '@/restful';
 import { genCodeWithCurrentDate } from '@/utilities';
 
+import { getOrderDeposit } from '../getters/getOrderDeposit';
+
 export const upsertOrder = (order: Partial<Order>) => {
     const orderExisting = !!order.id;
     if (orderExisting) {
@@ -14,7 +16,8 @@ export const upsertOrder = (order: Partial<Order>) => {
         type: 'body',
         value: {
             ...order,
-            code: genCodeWithCurrentDate()
-        }
+            code: genCodeWithCurrentDate(),
+            depositRequired: getOrderDeposit(order)
+        } as Order
     });
 };

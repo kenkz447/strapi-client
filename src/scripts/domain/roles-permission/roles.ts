@@ -1,14 +1,14 @@
-import { Permission, permissions } from './permissions';
+import { Role } from 'qoobee';
 
-export interface Role {
-    readonly key: string;
-    readonly allowed: Permission[];
-}
+import { permissions } from './permissions';
 
 const admin: Role = {
     key: 'Administrator',
     allowed: [
         permissions.ALL
+    ],
+    denied: [
+        permissions.FUNC_ORDER_TRANSACTION_CREATE
     ]
 };
 
@@ -17,7 +17,8 @@ const authenticated: Role = {
     allowed: [
         permissions.PRODUCT,
         permissions.ORDER_LIST,
-        permissions.NOTIFICATION
+        permissions.NOTIFICATION,
+        permissions.FUNC_ORDER_TRANSACTION_CREATE
     ]
 };
 

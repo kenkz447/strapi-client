@@ -53,7 +53,6 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                 <Description term="Tổng giá trị sản phẩm">{formatCurrency(order.totalPrice)}</Description>
                 <Description term="Giảm giá sản phẩm">{formatCurrency(order.totalDiscount)}</Description>
                 <Description term="Phí vận chuyển">{formatCurrency(order.shippingFee)}</Description>
-                <Description term="Yêu cầu đặt cọc">{formatCurrency(order.depositRequired)}</Description>
                 <Description term="Dự kiến giao hàng">{formatDate(order.shippingDate, DATE_FORMAT)}</Description>
                 <Description term="Điện thoại">{order.phone}</Description>
                 <Description term="Email">{order.email}</Description>
@@ -64,6 +63,7 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                 <Description term="Tình trạng">
                     {getOrderStatusLabel(order)}
                 </Description>
+                <Description term="Yêu cầu đặt cọc">{formatCurrency(order.depositRequired)}</Description>
             </DescriptionList>
         );
     }

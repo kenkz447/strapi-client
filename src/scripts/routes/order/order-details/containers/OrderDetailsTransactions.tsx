@@ -40,13 +40,18 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                         bordered={false}
                         title={text('Transaction history')}
                         extra={(
-                            <OrderTransactionFormButton
-                                initialValues={{
-                                    order: order.id as string
-                                }}
-                                type="default"
-                                icon="plus"
-                            />
+                            <AccessControl
+                                policy={policies.functionAllowed}
+                                funcKey="FUNC_ORDER_TRANSACTION_CREATE"
+                            >
+                                <OrderTransactionFormButton
+                                    initialValues={{
+                                        order: order.id as string
+                                    }}
+                                    type="default"
+                                    icon="plus"
+                                />
+                            </AccessControl>
                         )}
                     >
                         <Table
