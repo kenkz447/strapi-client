@@ -1,10 +1,10 @@
-import { MenuItem } from 'qoobee';
+import { MenuItem, Role } from 'qoobee';
 import * as React from 'react';
 import { withContext } from 'react-context-service';
 
 import { DomainContext, WithDomainContext } from '../base';
 import { mainMenu } from '../menus';
-import { Role, roles } from '../roles-permission';
+import { roles } from '../roles-permission';
 
 type MenusBuilderProps =
     WithDomainContext

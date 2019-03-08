@@ -5,7 +5,6 @@ import './ThreeSence.scss';
 
 import { Spin } from 'antd';
 import * as React from 'react';
-import { Material } from 'three';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import {
@@ -279,7 +278,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
     private readonly createInitModulesOnLoadHandler = (
         productModule: ProductModule,
-        materials: Material[]
+        materials: THREE.Material[]
     ) => (event) => {
         const root = event.detail.loaderRootNode;
 
