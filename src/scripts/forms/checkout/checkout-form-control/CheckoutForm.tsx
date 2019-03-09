@@ -7,6 +7,7 @@ import { Order } from '@/restful';
 
 import {
     CheckoutFormAddress,
+    CheckoutFormFinish,
     CheckoutFormPayment,
     CheckoutFormSteps
 } from './checkout-form';
@@ -44,7 +45,7 @@ export class CheckoutForm extends React.PureComponent<CheckoutFormOwnProps, Chec
     constructor(props: CheckoutFormOwnProps) {
         super(props);
         this.state = {
-            currentStep: 1,
+            currentStep: 3
         };
     }
 
@@ -68,13 +69,29 @@ export class CheckoutForm extends React.PureComponent<CheckoutFormOwnProps, Chec
                         {
                             currentStep === 1
                                 ? <CheckoutFormAddress {...this.props} onNextClick={this.next} />
-                                : (
+                                : null
+                        }
+                        {
+                            currentStep === 2
+                                ? (
                                     <CheckoutFormPayment
                                         {...this.props}
                                         onNextClick={this.next}
                                         onPrevClick={this.prev}
                                     />
                                 )
+                                : null
+                        }
+                        {
+                            currentStep === 3
+                                ? (
+                                    <CheckoutFormFinish
+                                        {...this.props}
+                                        onNextClick={this.next}
+                                        onPrevClick={this.prev}
+                                    />
+                                )
+                                : null
                         }
                     </div>
                 </FormBody>

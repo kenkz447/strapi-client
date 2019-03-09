@@ -27,7 +27,7 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
             values,
             isSubmitting,
             onPrevClick,
-            handleSubmit
+            onNextClick
         } = this.props;
 
         const orderTotal = getOrderTotalPayment(values);
@@ -118,18 +118,15 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                             <i>{text('VAT included')}</i>
                         </small>
                     </div>
-
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayoutNoLabel.wrapperCol}
                 >
                     <Button
                         type="primary"
-                        icon="check"
-                        onClick={() => handleSubmit()}
-                        loading={isSubmitting}
+                        onClick={onNextClick}
                     >
-                        {text('Checkout')}
+                        {text('Next')}
                     </Button>
                     <Button
                         onClick={onPrevClick}

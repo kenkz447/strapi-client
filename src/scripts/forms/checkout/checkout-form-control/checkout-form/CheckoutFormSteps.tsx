@@ -10,6 +10,8 @@ const steps = [{
     title: text('Shipping info')
 }, {
     title: text('Payment')
+}, {
+    title: text('Finish')
 }];
 
 const CheckoutFormStepsWrapper = styled.div`

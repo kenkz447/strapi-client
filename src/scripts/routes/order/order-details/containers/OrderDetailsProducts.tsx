@@ -1,5 +1,5 @@
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Card, Table } from 'antd';
+import { Card, Table, Typography } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -23,15 +23,17 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                 bordered={false}
                 title={text('Details')}
             >
-                <DescriptionList title={text('Contact information')} style={{ marginBottom: 24 }}>
-                    <DescriptionList.Description term={text('Person')}>
-                        {order.contactTo || '...'}
-                    </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Phone')}>
-                        {order.contactToPhone || '...'}
-                    </DescriptionList.Description>
-                </DescriptionList>
-
+                {
+                    order.note
+                        ? (
+                            <DescriptionList col={1} title={text('Customer note')} style={{ marginBottom: 24 }}>
+                                <DescriptionList.Description term="">
+                                    {order.note}
+                                </DescriptionList.Description>
+                            </DescriptionList>
+                        )
+                        : null
+                }
                 <DescriptionList title={text('Billing information')} style={{ marginBottom: 24 }}>
                     <DescriptionList.Description term={text('Organization')}>
                         {order.billingOrganization || '...'}

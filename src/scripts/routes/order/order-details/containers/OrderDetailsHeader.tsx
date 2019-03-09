@@ -47,7 +47,7 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
     private readonly renderDescription = () => {
         const { order } = this.props;
         return (
-            <DescriptionList title={order.note} size="small" col={2}>
+            <DescriptionList title="Thông tin đơn hàng" size="small" col={2}>
                 <Description term="Ngày đặt">{formatDate(order.createdAt, DATE_FORMAT)}</Description>
                 <Description term="Số lượng">{order.orderDetails.length} {text('product')}</Description>
                 <Description term="Tổng giá trị sản phẩm">{formatCurrency(order.totalPrice)}</Description>
