@@ -70,9 +70,10 @@ module.exports = function getBuildConfig(options) {
         runtimeCaching: [
             {
                 urlPattern: /\.*/,
-                handler: 'networkFirst'
+                handler: 'NetworkFirst'
             }
         ],
+        exclude: [/runtime\.(.*)\.js$/],
         clientsClaim: true,
         skipWaiting: true,
     }));
