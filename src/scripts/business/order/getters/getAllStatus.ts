@@ -4,7 +4,7 @@ export const getAllOrderStatus = (): OptionProps[] => {
     return [
         { value: 'new', title: 'Mới' },
         { value: 'confirmed', title: 'Đã xác nhận' },
-        { value: 'produce', title: 'Đang lắp ráp' },
+        { value: 'produce', title: 'Đã lắp ráp' },
         { value: 'payment', title: 'Đợi thanh toán' },
         { value: 'shipping', title: 'Đang chuyển hàng' },
         { value: 'done', title: 'Hoàn thành' }

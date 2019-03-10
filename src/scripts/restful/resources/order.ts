@@ -67,9 +67,14 @@ export const orderResources = {
     }),
     update: new Resource<Order>({
         resourceType: orderResourceType,
-        url: '/order/:id',
+        url: '/order/:id/:field',
         method: 'PUT',
         getDefaultParams: getDefaultParamsForUpdate
+    }),
+    updateStatus: new Resource<Order>({
+        resourceType: orderResourceType,
+        url: '/order/status/:id/:status',
+        method: 'PUT'
     }),
     delete: new Resource<Order>({
         resourceType: orderResourceType,

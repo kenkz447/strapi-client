@@ -1,7 +1,7 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Col, Row } from 'antd';
+import { Button, Col, Dropdown, Icon, Menu, Popover, Row } from 'antd';
 import { AccessControl } from 'qoobee';
 import * as React from 'react';
 
@@ -13,6 +13,8 @@ import { PageHeader } from '@/components';
 import { DATE_FORMAT, ORDER_LIST_URL } from '@/configs';
 import { policies } from '@/domain';
 import { OrderFormButton } from '@/forms/order/order';
+import { OrderDeliveryDateFormButton } from '@/forms/order/order-delivery-date';
+import { OrderStatusFormButton } from '@/forms/order/order-status';
 import { text } from '@/i18n';
 import { Order } from '@/restful';
 import { formatCurrency, formatDate } from '@/utilities';
@@ -30,13 +32,30 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
         return (
             <React.Fragment>
                 <AccessControl policy={policies.functionAllowed} key="FUNC_UPDATE_ORDER">
-                    {(canAccess) => {
+                    {() => {
                         return (
-                            <OrderFormButton
-                                initialValues={order}
-                                icon="edit"
-                                type="primary"
-                            />
+                            <Dropdown
+                                placement="bottomRight"
+                                overlay={(
+                                    <Menu>
+                                        <Menu.Item>
+                                            <OrderStatusFormButton
+                                                initialValues={order}
+                                            />
+                                        </Menu.Item>
+                                        <Menu.Divider />
+                                        <Menu.Item>
+                                            <OrderDeliveryDateFormButton
+                                                initialValues={order}
+                                            />
+                                        </Menu.Item>
+                                    </Menu>
+                                )}
+                            >
+                                <Button>
+                                    {text('Cập nhật')} <Icon type="down" />
+                                </Button>
+                            </Dropdown>
                         );
                     }}
                 </AccessControl>
