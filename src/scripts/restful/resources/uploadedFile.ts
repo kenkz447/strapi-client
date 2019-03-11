@@ -35,5 +35,10 @@ export const uploadedResources = {
     findOne: new Resource<UploadedFile>({
         resourceType: uploadedResourceType,
         url: '/upload/files/:id'
-    })
+    }),
+    delete: new Resource<UploadedFile>({
+        resourceType: uploadedResourceType,
+        method: 'DELETE',
+        url: '/upload/files/:id'
+    }),
 };

@@ -9,8 +9,10 @@ import { text } from '@/i18n';
 import { Order, orderResourceType, request } from '@/restful';
 import { orderResources } from '@/restful';
 
+import order from '../';
 import {
     OrderDetailsHeader,
+    OrderDetailsPhotos,
     OrderDetailsProducts,
     OrderDetailsTransactions
 } from './containers';
@@ -20,6 +22,7 @@ type RouteProps = AppPageProps<{ readonly id: number }>;
 interface RouteOrderDetailsState {
     readonly allowLoad: boolean;
     readonly initOrder: Order | null;
+    readonly currentTab: string;
 }
 
 export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsState> {
@@ -41,7 +44,8 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
 
     readonly state = {
         allowLoad: false,
-        initOrder: null
+        initOrder: null,
+        currentTab: 'details'
     };
 
     constructor(props: RouteProps) {
@@ -71,6 +75,8 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
             return <PageLoading />;
         }
 
+        const { currentTab } = this.state;
+
         return (
             <RestfulDataContainer
                 resourceType={orderResourceType}
@@ -82,13 +88,29 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                         <OrderDetailsHeader
                             pageTitle={this.title}
                             order={syncOrder}
+                            onTabChange={(tab) => this.setState({ currentTab: tab })}
                         />
                         <PageContent>
-                            <SlideUp className="w-100 d-flex">
-                                <div className="w-100">
-                                    <OrderDetailsProducts order={syncOrder} />
-                                    <OrderDetailsTransactions order={syncOrder} />
-                                </div>
+                            <SlideUp key="currentTab" className="w-100 d-flex">
+                                {
+                                    currentTab === 'details'
+                                        ? (
+                                            <div className="w-100">
+                                                <OrderDetailsProducts order={syncOrder} />
+                                                <OrderDetailsTransactions order={syncOrder} />
+                                            </div>
+                                        )
+                                        : null
+                                }
+                                {
+                                    currentTab === 'photos'
+                                        ? (
+                                            <div className="w-100">
+                                                <OrderDetailsPhotos order={syncOrder} />
+                                            </div>
+                                        )
+                                        : null
+                                }
                             </SlideUp>
                         </PageContent>
                     </PageWrapper>

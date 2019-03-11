@@ -20,10 +20,18 @@ import { Order } from '@/restful';
 import { formatCurrency, formatDate } from '@/utilities';
 
 const { Description } = DescriptionList;
+const tabList = [{
+    key: 'details',
+    tab: text('Details'),
+}, {
+    key: 'photos',
+    tab: text('Photos'),
+}];
 
 export interface OrderDetailsHeaderProps {
     readonly pageTitle: string;
     readonly order: Order;
+    readonly onTabChange: (tab: string) => void;
 }
 
 export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderProps> {
@@ -110,15 +118,16 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
     }
 
     public render() {
-        const { pageTitle } = this.props;
+        const { pageTitle, onTabChange } = this.props;
         return (
             <PageHeader
                 title={pageTitle}
                 content={this.renderDescription()}
                 action={this.renderHeaderActions()}
                 extraContent={this.renderExtra()}
-
+                tabList={tabList}
                 logo={<img src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
+                onTabChange={onTabChange}
                 breadcrumbList={[{
                     title: 'Home',
                     href: '/'

@@ -7,6 +7,7 @@ import { County } from './county';
 import { OrderDetail } from './orderDetail';
 import { OrderTransaction } from './orderTransaction';
 import { Promotion } from './promotion';
+import { UploadedFile } from './uploadedFile';
 import { User } from './user';
 
 export interface Order extends Record {
@@ -47,6 +48,7 @@ export interface Order extends Record {
     readonly billingAddress?: string;
 
     readonly addressType: 'apartment' | 'home';
+    readonly photos: UploadedFile[];
 }
 
 export const orderResourceType = new ResourceType<Order>(nameof<Order>());
