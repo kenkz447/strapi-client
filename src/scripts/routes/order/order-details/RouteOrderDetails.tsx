@@ -1,10 +1,10 @@
-import { RouteInfo } from 'qoobee';
+import { AccessControl, RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
 import { PageContent, PageLoading, PageWrapper, SlideUp } from '@/components';
 import { ORDER_DETAIL_URL } from '@/configs';
-import { AppPageProps, DomainContext, RoutePage } from '@/domain';
+import { AppPageProps, DomainContext, policies, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 import { Order, orderResourceType, request } from '@/restful';
 import { orderResources } from '@/restful';
@@ -13,6 +13,7 @@ import order from '../';
 import {
     OrderDetailsHeader,
     OrderDetailsPhotos,
+    OrderDetailsPhotosUpload,
     OrderDetailsProducts,
     OrderDetailsTransactions
 } from './containers';
@@ -106,7 +107,13 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                                     currentTab === 'photos'
                                         ? (
                                             <div className="w-100">
-                                                <OrderDetailsPhotos order={syncOrder} />
+                                                <AccessControl
+                                                    policy={policies.functionAllowed}
+                                                    funcKey="FUNC_ORDER_PHOTO_UPLOAD"
+                                                    renderDeny={() => <OrderDetailsPhotos order={syncOrder} />}
+                                                >
+                                                    {() => <OrderDetailsPhotosUpload order={syncOrder} />}
+                                                </AccessControl>
                                             </div>
                                         )
                                         : null

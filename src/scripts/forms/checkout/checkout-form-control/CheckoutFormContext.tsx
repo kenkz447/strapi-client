@@ -1,7 +1,7 @@
 import { OptionProps } from 'antd/lib/select';
 import * as React from 'react';
 
-import { City, County } from '@/restful';
+import { City } from '@/restful';
 
 export interface CheckoutFormContextProps {
     readonly cities: City[];

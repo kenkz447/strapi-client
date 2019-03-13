@@ -26,5 +26,6 @@ export const vi = {
     Registration_Successful: 'Quá trình đăng ký của bạn đã hoàn tất, nhân viên của chúng tôi sẽ liên hệ lại với bạn trong vòng 24h.',
     Role_Administrator: 'Quản trị',
     Role_Registered: 'Đăng ký mới',
-    Role_Authenticated: 'Tài khoản đại lý'
+    Role_Authenticated: 'Tài khoản đại lý',
+    County: 'Quận'
 };
