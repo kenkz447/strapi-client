@@ -45,7 +45,7 @@ export class CheckoutForm extends React.PureComponent<CheckoutFormOwnProps, Chec
     constructor(props: CheckoutFormOwnProps) {
         super(props);
         this.state = {
-            currentStep: 3
+            currentStep: 1
         };
     }
 
