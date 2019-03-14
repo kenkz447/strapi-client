@@ -15,6 +15,7 @@ import {
     OrderDetailsPhotos,
     OrderDetailsPhotosUpload,
     OrderDetailsProducts,
+    OrderDetailsStatus,
     OrderDetailsTransactions
 } from './containers';
 
@@ -97,6 +98,7 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                                     currentTab === 'details'
                                         ? (
                                             <div className="w-100">
+                                                <OrderDetailsStatus order={syncOrder} />
                                                 <OrderDetailsProducts order={syncOrder} />
                                                 <OrderDetailsTransactions order={syncOrder} />
                                             </div>

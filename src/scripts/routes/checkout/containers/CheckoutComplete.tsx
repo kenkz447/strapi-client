@@ -1,7 +1,7 @@
 import 'ant-design-pro/lib/Result/style/css';
 
 import Result from 'ant-design-pro/lib/Result';
-import { Button, Form } from 'antd';
+import { Button, Form, Typography } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ export class CheckoutComplete extends React.PureComponent<CheckoutCompleteProps>
                     title={<div>{text('Completed')}</div>}
                     description={
                         <div>
-                            {text('The request has been sent, we will contact you as soon as possible!')}
+                            {text('CheckoutCompleted')}
                         </div>
                     }
                     extra={(
@@ -61,6 +61,15 @@ export class CheckoutComplete extends React.PureComponent<CheckoutCompleteProps>
                                 label={text('Total of payment')}
                             >
                                 <span className="total">{order ? formatCurrency(order.totalOfPayment) : 0}</span>
+                            </Form.Item>
+                            <Form.Item
+                                wrapperCol={verticalLayout.wrapperCol}
+                                labelCol={verticalLayout.labelCol}
+                                label={text('Deposit required')}
+                            >
+                                <Typography.Text strong={true} mark={true}>
+                                    {order ? formatCurrency(order.depositRequired) : 0}
+                                </Typography.Text>
                             </Form.Item>
                         </div>
                     )}

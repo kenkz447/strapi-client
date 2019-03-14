@@ -27,5 +27,6 @@ export const vi = {
     Role_Administrator: 'Quản trị',
     Role_Registered: 'Đăng ký mới',
     Role_Authenticated: 'Tài khoản đại lý',
-    County: 'Quận'
+    County: 'Quận',
+    CheckoutCompleted: 'Đơn đặt hàng của bạn đã được gởi đi, nhân viên của chúng tôi sẽ liên hệ với bạn trong vòng 24h.'
 };

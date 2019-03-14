@@ -1,7 +1,16 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Button, Col, Dropdown, Icon, Menu, Popover, Row } from 'antd';
+import {
+    Button,
+    Col,
+    Dropdown,
+    Icon,
+    Menu,
+    Popover,
+    Row,
+    Typography
+} from 'antd';
 import { AccessControl } from 'qoobee';
 import * as React from 'react';
 
@@ -73,6 +82,8 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
 
     private readonly renderDescription = () => {
         const { order } = this.props;
+        const paidAmount = getOrderTransactionMoney(order);
+
         return (
             <DescriptionList title="Thông tin đơn hàng" size="small" col={2}>
                 <Description term="Ngày đặt">{formatDate(order.createdAt, DATE_FORMAT)}</Description>
@@ -90,7 +101,21 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                 <Description term="Tình trạng">
                     {getOrderStatusLabel(order)}
                 </Description>
-                <Description term="Yêu cầu đặt cọc">{formatCurrency(order.depositRequired)}</Description>
+                <Description term="Yêu cầu đặt cọc">
+                    {
+                        paidAmount >= order.depositRequired
+                            ? (
+                                <Typography.Text strong={true}>
+                                    {formatCurrency(order.depositRequired)} <Icon type="check" />
+                                </Typography.Text>
+                            )
+                            : (
+                                <Typography.Text mark={true} strong={true}>
+                                    {formatCurrency(order.depositRequired)}
+                                </Typography.Text>
+                            )
+                    }
+                </Description>
             </DescriptionList>
         );
     }

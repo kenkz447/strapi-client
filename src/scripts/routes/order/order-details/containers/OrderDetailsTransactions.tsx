@@ -1,4 +1,4 @@
-import { Button, Card, Icon, Table, Tooltip } from 'antd';
+import { Button, Card, Icon, Table, Tooltip, Typography } from 'antd';
 import { AccessControl } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
@@ -12,6 +12,9 @@ import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { DATE_FORMAT } from '@/configs';
 import { policies } from '@/domain';
 import { OrderTransactionFormButton } from '@/forms/order/order-transaction';
+import {
+    OrderTransactionRejectFormButton
+} from '@/forms/order/order-transaction-reject';
 import { text } from '@/i18n';
 import {
     Order,
@@ -64,6 +67,21 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                                 title={text('Code')}
                                 dataIndex={nameof<OrderTransaction>(o => o.code)}
                                 render={(code: string, orderTransaction: OrderTransaction) => {
+                                    if (orderTransaction.rejected) {
+                                        return (
+                                            <span>
+                                                <Icon
+                                                    style={{ fontSize: 18 }}
+                                                    type="close-circle"
+                                                    theme="twoTone"
+                                                    twoToneColor="red"
+                                                />
+                                                &nbsp;
+                                                {code}
+                                            </span>
+                                        );
+                                    }
+
                                     if (orderTransaction.confirmed) {
                                         return (
                                             <span style={{ color: '#52c41a' }}>
@@ -130,10 +148,27 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                             <Table.Column
                                 title={text('Note')}
                                 dataIndex={nameof<OrderTransaction>(o => o.note)}
-                                render={(note) => {
+                                render={(note, transaction: OrderTransaction) => {
+                                    if (transaction.rejectReason) {
+                                        return (
+                                            <React.Fragment>
+                                                {
+                                                    note && (
+                                                        <p>{note}</p>
+                                                    )
+                                                }
+                                                <Typography.Text type="danger">
+                                                    *{transaction.rejectReason}
+                                                </Typography.Text>
+                                            </React.Fragment>
+
+                                        );
+                                    }
+
                                     if (!note) {
                                         return '...';
                                     }
+
                                     return note;
                                 }}
                             />
@@ -141,6 +176,10 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                                 title=""
                                 dataIndex={nameof<OrderTransaction>(o => o.id)}
                                 render={(id: string, transaction: OrderTransaction) => {
+                                    if (transaction.confirmed || transaction.rejected) {
+                                        return <Icon type="ellipsis" />;
+                                    }
+
                                     return (
                                         <React.Fragment>
                                             {
@@ -150,25 +189,36 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                                                 >
                                                     {() => {
                                                         return (
-                                                            <BusinessController
-                                                                action={confirmOrderTransaction}
-                                                                needsConfirm={true}
-                                                                params={transaction}
-                                                            >
-                                                                {({ doBusiness }) => (
-                                                                    <Tooltip
-                                                                        title={text('Confirm this transaction')}
-                                                                    >
-                                                                        <Button
-                                                                            type="primary"
-                                                                            icon="check"
-                                                                            ghost={true}
-                                                                            onClick={() => doBusiness()}
-                                                                            disabled={transaction.confirmed}
-                                                                        />
-                                                                    </Tooltip>
-                                                                )}
-                                                            </BusinessController>
+                                                            <React.Fragment>
+                                                                <Tooltip
+                                                                    title={text('Reject this transaction')}
+                                                                >
+                                                                    <OrderTransactionRejectFormButton
+                                                                        type="danger"
+                                                                        icon="close"
+                                                                        ghost={true}
+                                                                        initialValues={transaction}
+                                                                    />
+                                                                </Tooltip>
+                                                                <BusinessController
+                                                                    action={confirmOrderTransaction}
+                                                                    needsConfirm={true}
+                                                                    params={transaction}
+                                                                >
+                                                                    {({ doBusiness }) => (
+                                                                        <Tooltip
+                                                                            title={text('Confirm this transaction')}
+                                                                        >
+                                                                            <Button
+                                                                                type="primary"
+                                                                                icon="check"
+                                                                                ghost={true}
+                                                                                onClick={() => doBusiness()}
+                                                                            />
+                                                                        </Tooltip>
+                                                                    )}
+                                                                </BusinessController>
+                                                            </React.Fragment>
                                                         );
                                                     }}
                                                 </AccessControl>

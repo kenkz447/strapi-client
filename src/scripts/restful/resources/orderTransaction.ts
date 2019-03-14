@@ -15,6 +15,8 @@ export interface OrderTransaction {
     readonly code: string;
     readonly confirmed?: boolean;
     readonly attachment?: UploadedFile;
+    readonly rejected?: boolean;
+    readonly rejectReason?: string;
 }
 
 export const orderTransactionResourceType = new ResourceType<OrderTransaction>(nameof<OrderTransaction>());
@@ -38,6 +40,12 @@ export const orderTransactionResources = {
     confirm: new Resource<OrderTransaction>({
         resourceType: orderTransactionResourceType,
         url: '/orderTransaction/confirm/:id',
+        method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate
+    }),
+    reject: new Resource<OrderTransaction>({
+        resourceType: orderTransactionResourceType,
+        url: '/orderTransaction/reject/:id',
         method: 'PUT',
         getDefaultParams: getDefaultParamsForUpdate
     }),
