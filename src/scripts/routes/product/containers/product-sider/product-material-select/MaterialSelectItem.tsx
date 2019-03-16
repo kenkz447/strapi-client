@@ -1,4 +1,4 @@
-import { List } from 'antd';
+import { List, Tooltip } from 'antd';
 import * as classNames from 'classnames';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
@@ -6,6 +6,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { Product3DSenceContext, WithHistory } from '@/domain';
+import { text } from '@/i18n';
 import { FurnitureMaterial } from '@/restful';
 import { replaceRoutePath } from '@/utilities';
 
@@ -64,7 +65,8 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 
         if (
             selectedFurnitureComponent.id !== preveProps.selectedFurnitureComponent!.id &&
-            preveProps.currentProductModulesCode!.indexOf(preveProps.selectedFurnitureComponent!.code + '-' + furnitureMaterial.code) >= 0
+            preveProps.currentProductModulesCode!
+                .indexOf(preveProps.selectedFurnitureComponent!.code + '-' + furnitureMaterial.code) >= 0
         ) {
             setContext({
                 selectedFurnitureMaterial: furnitureMaterial
@@ -85,7 +87,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
         if (!selectedFurnitureComponent || !selectedFurnitureMaterialType) {
             return null;
         }
-        
+
         if (!selectedFurnitureMaterial || !selectedFurnitureMaterial.materialType) {
             return;
         }
@@ -108,17 +110,19 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
         const { furnitureMaterial, isSelected } = this.props;
         return (
             <List.Item>
-                <div
-                    onClick={this.onMaterialSelect}
-                    className={
-                        classNames(
-                            'product-component-select-item',
-                            'ant-select-selection',
-                            { 'selected': isSelected }
-                        )}
-                >
-                    <Img file={furnitureMaterial.texture} size="img256x256" />
-                </div>
+                <Tooltip title={furnitureMaterial.name}>
+                    <div
+                        onClick={this.onMaterialSelect}
+                        className={
+                            classNames(
+                                'product-component-select-item',
+                                'ant-select-selection',
+                                { 'selected': isSelected }
+                            )}
+                    >
+                        <Img file={furnitureMaterial.texture} size="img256x256" />
+                    </div>
+                </Tooltip>
             </List.Item>
         );
     }

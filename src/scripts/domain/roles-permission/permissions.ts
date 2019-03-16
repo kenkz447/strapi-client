@@ -4,6 +4,7 @@ import {
     ACCOUNT_URL,
     AGENCIES_URL,
     DASHBOARD_URL,
+    ISSUE_TICKET_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH
@@ -27,6 +28,10 @@ const locationPermissions: Permissions = {
     ORDER_LIST: {
         key: 'ORDER_LIST',
         url: new RegExp(ORDER_LIST_URL)
+    },
+    ISSUE_TITKET_LIST: {
+        key: 'ISSUE_TITKET_LIST',
+        url: new RegExp(ISSUE_TICKET_URL)
     },
     AGENCY_LIST: {
         key: 'AGENCY_LIST',

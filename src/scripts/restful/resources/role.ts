@@ -24,9 +24,6 @@ export const roleResourceType = new ResourceType<Role>({
 export const roleResources = {
     find: new Resource<Role, { readonly roles: Role[] }>({
         resourceType: roleResourceType,
-        url: '/users-permissions/roles',
-        mapDataToStore: (data: { readonly roles: Role[] }, resourceType, store) => {
-            store.dataMapping(resourceType, data.roles)
-        }
+        url: '/users-permissions/roles'
     })
 };

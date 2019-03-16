@@ -28,3 +28,6 @@ export const CART_URL = '/cart';
 export const CHECKOUT_URL = '/checkout';
 
 export const NOTIFICATION_URL = '/notification';
+
+export const ISSUE_TICKET_URL = '/tickets';
+export const ISSUE_TICKET_DETAIL_URL = ISSUE_TICKET_URL + '/:id';

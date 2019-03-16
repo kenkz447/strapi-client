@@ -11,6 +11,7 @@ export * from './furnitureComponentGroup';
 export * from './furnitureComponentType';
 export * from './furnitureMaterial';
 export * from './furnitureMaterialType';
+export * from './issueTicket';
 export * from './order';
 export * from './orderDetail';
 export * from './orderTransaction';
