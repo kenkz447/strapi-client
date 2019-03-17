@@ -42,6 +42,18 @@ export class IssueTicketCreateForm extends React.PureComponent<IssueTicketCreate
                     placeholder={text('Input title')}
                     required={true}
                     autoFocus={true}
+                    disabled={!!values.order}
+                />
+                <FormInput
+                    name={nameof<IssueTicketCreateFormValues>(o => o.orderCode)}
+                    onChange={handleChange}
+                    value={values.orderCode}
+                    help={errors.orderCode}
+                    validateStatus={errors.orderCode ? 'error' : undefined}
+                    label={text('Order code')}
+                    placeholder={text('Input title')}
+                    required={true}
+                    disabled={!!values.order}
                 />
                 <FormTextArea
                     name={nameof<IssueTicketCreateFormValues>(o => o.description)}
@@ -52,6 +64,7 @@ export class IssueTicketCreateForm extends React.PureComponent<IssueTicketCreate
                     label={text('Description')}
                     placeholder={text('input description')}
                     required={true}
+                    autoFocus={true}
                 />
             </FormBody>
         );

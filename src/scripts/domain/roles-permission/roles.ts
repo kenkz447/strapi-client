@@ -8,7 +8,9 @@ const admin: Role = {
         permissions.ALL
     ],
     denied: [
-        permissions.FUNC_ORDER_TRANSACTION_CREATE
+        permissions.FUNC_ORDER_TRANSACTION_CREATE,
+        permissions.FUNC_ORDER_COMPLAIN,
+        permissions.FUNC_ORDER_CANCEL
     ]
 };
 
@@ -19,7 +21,9 @@ const authenticated: Role = {
         permissions.ORDER_LIST,
         permissions.NOTIFICATION,
         permissions.FUNC_ORDER_TRANSACTION_CREATE,
-        permissions.ISSUE_TITKET_LIST
+        permissions.ISSUE_TITKET_LIST,
+        permissions.FUNC_ORDER_COMPLAIN,
+        permissions.FUNC_ORDER_CANCEL
     ]
 };
 

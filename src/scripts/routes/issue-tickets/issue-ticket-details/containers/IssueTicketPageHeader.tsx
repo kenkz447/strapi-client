@@ -3,10 +3,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { PageHeader } from '@/components';
-import { DATETIME_FORMAT, ISSUE_TICKET_URL } from '@/configs';
+import { DATETIME_FORMAT, ISSUE_TICKET_URL, ORDER_DETAIL_URL } from '@/configs';
 import { text } from '@/i18n';
 import { IssueTicket } from '@/restful';
-import { formatDate } from '@/utilities';
+import { formatDate, replaceRoutePath } from '@/utilities';
 
 import { IssueTichetCloseButton, IssueTicketStatusLabel } from '../../shared';
 
@@ -37,7 +37,19 @@ export class IssueTicketPageHeader extends React.PureComponent<
                 }
                 title={initIssueTicket.title}
                 content={(
-                    <DescriptionList title={initIssueTicket.description} col={3}>
+                    <DescriptionList
+                        title={'Nội dung: ' + initIssueTicket.description}
+                        col={3}
+                    >
+                        {
+                            initIssueTicket.order && (
+                                <DescriptionList.Description term="Mã đơn hàng">
+                                    <Link to={replaceRoutePath(ORDER_DETAIL_URL, initIssueTicket.order)}>
+                                        {initIssueTicket.orderCode}
+                                    </Link>
+                                </DescriptionList.Description>
+                            )
+                        }
                         <DescriptionList.Description term="Thời gian tạo">
                             {formatDate(initIssueTicket.openDate, DATETIME_FORMAT)}
                         </DescriptionList.Description>
@@ -47,6 +59,20 @@ export class IssueTicketPageHeader extends React.PureComponent<
                         <DescriptionList.Description term="Tình trạng">
                             <IssueTicketStatusLabel status={initIssueTicket.status} />
                         </DescriptionList.Description>
+                        {
+                            initIssueTicket.closedAt && (
+                                <DescriptionList.Description term="Thời gian đóng">
+                                    {formatDate(initIssueTicket.closedAt, DATETIME_FORMAT)}
+                                </DescriptionList.Description>
+                            )
+                        }
+                        {
+                            initIssueTicket.closedBy && (
+                                <DescriptionList.Description term="Người đóng">
+                                    {initIssueTicket.closedBy.fullName}
+                                </DescriptionList.Description>
+                            )
+                        }
                     </DescriptionList>
                 )}
                 action={this.renderHeaderActions()}

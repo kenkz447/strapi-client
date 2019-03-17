@@ -60,6 +60,10 @@ export class IssueTicketTable extends React.PureComponent<IssueTicketTableProps,
                         dataIndex={nameof<IssueTicket>(o => o.title)}
                     />
                     <Table.Column
+                        title={text('Mã đơn hàng')}
+                        dataIndex={nameof<IssueTicket>(o => o.orderCode)}
+                    />
+                    <Table.Column
                         title={text('Open date')}
                         dataIndex={nameof<IssueTicket>(o => o.openDate)}
                         render={(date) => formatDate(date, DATE_FORMAT)}

@@ -1,17 +1,8 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import {
-    Button,
-    Col,
-    Dropdown,
-    Icon,
-    Menu,
-    Popover,
-    Row,
-    Typography
-} from 'antd';
-import { AccessControl } from 'qoobee';
+import { Button, Col, Dropdown, Icon, Menu, Row, Typography } from 'antd';
+import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 
 import {
@@ -19,14 +10,19 @@ import {
     getOrderTransactionMoney
 } from '@/business/order';
 import { PageHeader } from '@/components';
-import { DATE_FORMAT, ORDER_LIST_URL } from '@/configs';
-import { policies } from '@/domain';
-import { OrderFormButton } from '@/forms/order/order';
+import {
+    DATE_FORMAT,
+    ISSUE_TICKET_DETAIL_URL,
+    ORDER_LIST_URL
+} from '@/configs';
+import { policies, WithHistory } from '@/domain';
+import { confirm } from '@/effects';
+import { IssueTicketCreateFormButton } from '@/forms/issue-ticket';
 import { OrderDeliveryDateFormButton } from '@/forms/order/order-delivery-date';
 import { OrderStatusFormButton } from '@/forms/order/order-status';
 import { text } from '@/i18n';
 import { Order } from '@/restful';
-import { formatCurrency, formatDate } from '@/utilities';
+import { formatCurrency, formatDate, replaceRoutePath } from '@/utilities';
 
 const { Description } = DescriptionList;
 const tabList = [{
@@ -44,11 +40,21 @@ export interface OrderDetailsHeaderProps {
 }
 
 export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderProps> {
+    static readonly contextType = RootContext;
+    readonly context!: WithHistory;
+
     private readonly renderHeaderActions = () => {
         const { order } = this.props;
+        const { history } = this.context;
+
+        const { issueTickets } = order;
+
+        const complainIssueTicket = issueTickets && issueTickets.find(o => o.type === 'order_complain');
+        const cancelIssueTicket = issueTickets && issueTickets.find(o => o.type === 'order_cancel');
+
         return (
             <React.Fragment>
-                <AccessControl policy={policies.functionAllowed} key="FUNC_UPDATE_ORDER">
+                <AccessControl policy={policies.functionAllowed} funcKey="FUNC_UPDATE_ORDER">
                     {() => {
                         return (
                             <Dropdown
@@ -73,6 +79,111 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                                     {text('Cập nhật')} <Icon type="down" />
                                 </Button>
                             </Dropdown>
+                        );
+                    }}
+                </AccessControl>
+                <AccessControl
+                    policy={policies.functionAllowed}
+                    funcKey="FUNC_ORDER_COMPLAIN"
+                >
+                    {() => {
+                        if (complainIssueTicket) {
+                            return (
+                                <Button
+                                    icon="link"
+                                    onClick={() => {
+                                        history.push(
+                                            replaceRoutePath(ISSUE_TICKET_DETAIL_URL, complainIssueTicket)
+                                        );
+                                    }}
+                                >
+                                    {text('Khiếu nại hàng hóa')}
+                                </Button>
+                            );
+                        }
+
+                        return (
+                            <IssueTicketCreateFormButton
+                                label={text('Khiếu nại hàng hóa')}
+                                initialValues={{
+                                    title: 'Khiếu nại về hàng hóa',
+                                    order: order,
+                                    orderCode: order.code,
+                                    type: 'order_complain'
+                                }}
+                                onSuccess={async (result) => {
+                                    const isToIssueTicketDetails = await confirm(
+                                        'Yêu cầu của bạn đã được gởi',
+                                        // tslint:disable-next-line:max-line-length
+                                        'Để chúng tôi có thể hỗ trợ bạn được tốt nhất, vui lòng đến trang hỗ trợ để cung cấp thêm thông tin và hình ảnh về vấn đề đang gặp phải!'
+                                    );
+
+                                    if (!isToIssueTicketDetails) {
+                                        return;
+                                    }
+
+                                    history.push(
+                                        replaceRoutePath(ISSUE_TICKET_DETAIL_URL, result)
+                                    );
+                                }}
+                            >
+                                {text('Khiếu nại hàng hóa')}
+                            </IssueTicketCreateFormButton>
+                        );
+                    }}
+                </AccessControl>
+                <AccessControl
+                    policy={policies.functionAllowed}
+                    funcKey="FUNC_ORDER_CANCEL"
+                >
+                    {() => {
+                        if (cancelIssueTicket) {
+                            return (
+                                <Button
+                                    type="danger"
+                                    ghost={true}
+                                    icon="link"
+                                    onClick={() => {
+                                        history.push(
+                                            replaceRoutePath(ISSUE_TICKET_DETAIL_URL, cancelIssueTicket)
+                                        );
+                                    }}
+                                >
+                                    {text('Yêu cầu hủy đơn')}
+                                </Button>
+                            );
+                        }
+
+                        return (
+                            <IssueTicketCreateFormButton
+                                type="danger"
+                                ghost={true}
+                                label={text('Yêu cầu hủy đơn')}
+                                initialValues={{
+                                    title: 'Yêu cầu hủy đơn',
+                                    order: order,
+                                    orderCode: order.code,
+                                    type: 'order_cancel'
+                                }}
+                                onSuccess={async (result) => {
+                                    const isToIssueTicketDetails = await confirm(
+                                        'Yêu cầu của bạn đã được gởi',
+                                        // tslint:disable-next-line:max-line-length
+                                        'Để chúng tôi có thể hỗ trợ bạn được tốt nhất, vui lòng đến trang hỗ trợ để cung cấp thêm thông tin và hình ảnh về vấn đề đang gặp phải!'
+                                    );
+
+                                    if (!isToIssueTicketDetails) {
+                                        return;
+                                    }
+
+
+                                    history.push(
+                                        replaceRoutePath(ISSUE_TICKET_DETAIL_URL, result)
+                                    );
+                                }}
+                            >
+                                {text('Yêu cầu hủy đơn')}
+                            </IssueTicketCreateFormButton>
                         );
                     }}
                 </AccessControl>

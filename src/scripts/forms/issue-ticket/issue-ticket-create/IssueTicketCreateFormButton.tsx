@@ -5,6 +5,7 @@ import * as React from 'react';
 import { BusinessController } from '@/business';
 import { createIssueTicket } from '@/business/issue-ticket';
 import { text } from '@/i18n';
+import { IssueTicket } from '@/restful';
 
 import {
     IssueTicketCreateFormValues
@@ -14,6 +15,7 @@ import { IssueTicketCreateFormControl } from './IssueTicketCreateFormControl';
 type IssueTicketCreateFormButtonProps = ButtonProps & {
     readonly initialValues?: IssueTicketCreateFormValues;
     readonly label?: string;
+    readonly onSuccess?: (issueTicket: IssueTicket) => void;
 };
 
 export class IssueTicketCreateFormButton extends React.PureComponent<IssueTicketCreateFormButtonProps> {
@@ -24,7 +26,7 @@ export class IssueTicketCreateFormButton extends React.PureComponent<IssueTicket
     readonly form = React.createRef<IssueTicketCreateFormControl>();
 
     public render() {
-        const { initialValues, label, ...buttonProps } = this.props;
+        const { initialValues, label, onSuccess, ...buttonProps } = this.props;
 
         return (
             <BusinessController
@@ -34,7 +36,11 @@ export class IssueTicketCreateFormButton extends React.PureComponent<IssueTicket
                         globalModalProgressing: true
                     });
                 }}
-                onSuccess={(result, { setContext }) => {
+                onSuccess={(result: IssueTicket, { setContext }) => {
+                    if (onSuccess) {
+                        onSuccess(result);
+                    }
+
                     setContext({
                         globalModalVisibled: false,
                         globalModalProgressing: false
@@ -69,9 +75,7 @@ export class IssueTicketCreateFormButton extends React.PureComponent<IssueTicket
                                     }
                                 }
                             })}
-                        >
-                            {label}
-                        </Button>
+                        />
                     );
                 }}
             </BusinessController>

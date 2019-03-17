@@ -4,6 +4,7 @@ import { getDefaultParamsForUpdate } from '../base';
 import { Agency } from './agency';
 import { City } from './city';
 import { County } from './county';
+import { IssueTicket } from './issueTicket';
 import { OrderDetail } from './orderDetail';
 import { OrderTransaction } from './orderTransaction';
 import { Promotion } from './promotion';
@@ -49,6 +50,8 @@ export interface Order extends Record {
 
     readonly addressType: 'apartment' | 'home';
     readonly photos: UploadedFile[];
+
+    readonly issueTickets?: IssueTicket[];
 }
 
 export const orderResourceType = new ResourceType<Order>(nameof<Order>());

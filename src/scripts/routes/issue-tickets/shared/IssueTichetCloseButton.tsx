@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 import * as React from 'react';
 
 import { BusinessController } from '@/business';
@@ -24,9 +24,9 @@ export function IssueTichetCloseButton({ issueTicket }: IssueTichetCloseButtonPr
                 <Button
                     onClick={() => doBusiness(issueTicket)}
                     loading={loading}
-                    icon="check"
+                    type="primary"
                 >
-                    {text('Close')}
+                    {text('Close')} <Icon type="check" />
                 </Button>
             )}
         </BusinessController>

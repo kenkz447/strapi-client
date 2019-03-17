@@ -9,21 +9,24 @@ import { UploadedFile } from './uploadedFile';
 import { User, userSchema } from './user';
 
 export type IssueTicketStatus = 'open' | 'processing' | 'close';
+export type IssueTicketType = 'order_complain' | 'order_cancel';
 
 export interface IssueTicket {
     readonly id?: string;
     readonly title: string;
     readonly description: string;
     readonly openDate: Date | string;
-    readonly closeDate?: string;
     readonly attachments?: UploadedFile[];
     readonly status: IssueTicketStatus;
     readonly created_by: User;
-    readonly receivedBy?: User;
+    readonly closedAt?: string;
+    readonly closedBy?: User;
     readonly agency: Agency;
     readonly code: string;
     readonly issueTicketReplies?: IssueTicketReply[];
     readonly order?: Order;
+    readonly orderCode?: string;
+    readonly type?: IssueTicketType;
 }
 
 export const issueTicketSchema = yup.object().shape<IssueTicket>({
@@ -35,6 +38,7 @@ export const issueTicketSchema = yup.object().shape<IssueTicket>({
     created_by: userSchema.nullable(true).default(null),
     agency: yup.object(),
     code: yup.string().required(),
+    type: yup.mixed().oneOf(['order_complain', 'order_cancel'] as IssueTicketType[]),
 });
 
 export const issueTicketResourceType = new ResourceType<IssueTicket>({

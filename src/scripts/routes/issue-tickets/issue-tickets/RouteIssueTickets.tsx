@@ -43,7 +43,7 @@ export class RouteIssueTickets extends RoutePage<RouteIssueTicketsProps> {
     private readonly renderHeaderActions = () => {
         return (
             <div className="button-group">
-                <IssueTicketCreateFormButton />
+                {}
             </div>
         );
     }
