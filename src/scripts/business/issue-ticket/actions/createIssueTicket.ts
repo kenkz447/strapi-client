@@ -1,13 +1,24 @@
+import { DomainContext } from '@/domain';
 import { IssueTicket, issueTicketResources, request } from '@/restful';
+import { genCodeWithCurrentDate } from '@/utilities';
 
-export const createIssueTicket = (ticket: Partial<IssueTicket>) => {
+export const createIssueTicket = (
+    ticket: Partial<IssueTicket>,
+    context: DomainContext
+) => {
+    const { currentAgency } = context;
+    
+    const body: Partial<IssueTicket> = {
+        ...ticket,
+        openDate: new Date(),
+        code: genCodeWithCurrentDate(),
+        agency: currentAgency
+    };
+
     return request(
         issueTicketResources.create,
         {
             type: 'body',
-            value: {
-                ...ticket,
-                date: new Date(),
-            }
+            value: body
         });
 };

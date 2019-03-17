@@ -58,7 +58,7 @@ export class AgencyTable extends React.PureComponent<AgencyTableProps, AgencyTab
                         render={(date) => formatDate(date, DATE_FORMAT)}
                     />
                     <Table.Column
-                        title={text('Operating')}
+                        title=""
                         dataIndex={nameof.full<Agency>(o => o.id)}
                         render={(id: string) => {
                             return (

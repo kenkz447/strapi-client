@@ -8,7 +8,7 @@ import { RouteAccounts } from './accounts';
 import { RouteCart } from './cart';
 import { RouteCheckout } from './checkout';
 import { RouteDashboard } from './dashboard';
-import { RouteIssueTickets } from './issue-tickets';
+import { IssueTicketDetails, RouteIssueTickets } from './issue-tickets';
 import { RouteProduct } from './product';
 
 export const routes = routeFrom([
@@ -17,7 +17,8 @@ export const routes = routeFrom([
     RouteCart,
     RouteCheckout,
     RouteAccounts,
-    RouteIssueTickets
+    RouteIssueTickets,
+    IssueTicketDetails
 ]);
 
 export default () => (

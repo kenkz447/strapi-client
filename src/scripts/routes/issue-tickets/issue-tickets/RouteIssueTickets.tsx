@@ -8,6 +8,8 @@ import { AppPageProps, RoutePage } from '@/domain';
 import { IssueTicketCreateFormButton } from '@/forms/issue-ticket';
 import { text } from '@/i18n';
 
+import { IssueTicketsFetcher } from './containers';
+
 type RouteIssueTicketsProps = AppPageProps;
 
 export class RouteIssueTickets extends RoutePage<RouteIssueTicketsProps> {
@@ -32,7 +34,7 @@ export class RouteIssueTickets extends RoutePage<RouteIssueTicketsProps> {
                     }]}
                 />
                 <PageContent>
-                    {null}
+                    <IssueTicketsFetcher />
                 </PageContent>
             </PageWrapper>
         );

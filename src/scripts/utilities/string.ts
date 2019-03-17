@@ -15,7 +15,6 @@ export const randomString = (
 
 export const genCodeWithCurrentDate = () => {
     const currentMoment = moment();
-    let code = currentMoment.format('YYMMDDHHmm');
-    const randomCode = randomString(2);
-    return code + randomCode;
+    const code = currentMoment.format('YYMMDD-HHmmss');
+    return code;
 };

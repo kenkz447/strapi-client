@@ -4,30 +4,32 @@ import * as React from 'react';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { deleteUploadedFile } from '@/business/uploaded-file/actions';
-import { Order, UploadedFile } from '@/restful';
+import { IssueTicket, UploadedFile } from '@/restful';
 import { getToken } from '@/utilities';
 
-interface OrderDetailsPhotosUploadProps {
-    readonly order: Order;
+interface IssueTicketAttachmentsUploadProps {
+    readonly issueTicket: IssueTicket;
 }
 
-interface OrderDetailsPhotosUploadState {
+interface IssueTicketAttachmentsUploadState {
     readonly previewVisible: boolean;
     readonly previewImage: string;
     readonly fileList: UploadFile[];
 }
 
-export class OrderDetailsPhotosUpload extends React.PureComponent<
-    OrderDetailsPhotosUploadProps,
-    OrderDetailsPhotosUploadState
+export class IssueTicketAttachmentsUpload extends React.PureComponent<
+    IssueTicketAttachmentsUploadProps,
+    IssueTicketAttachmentsUploadState
     > {
-    constructor(props: OrderDetailsPhotosUploadProps) {
+    constructor(props: IssueTicketAttachmentsUploadProps) {
         super(props);
-        const { order } = props;
+        const { issueTicket } = props;
         this.state = {
             previewVisible: false,
             previewImage: '',
-            fileList: order.photos.map(this.uploadedFileToUploadFile)
+            fileList: issueTicket.attachments
+                ? issueTicket.attachments.map(this.uploadedFileToUploadFile)
+                : []
         };
     }
 
@@ -78,7 +80,7 @@ export class OrderDetailsPhotosUpload extends React.PureComponent<
     }
 
     public render() {
-        const { order } = this.props;
+        const { issueTicket } = this.props;
         const { previewVisible, previewImage, fileList } = this.state;
         const uploadButton = (
             <div>
@@ -102,9 +104,9 @@ export class OrderDetailsPhotosUpload extends React.PureComponent<
                     onPreview={this.handlePreview}
                     onChange={this.handleChange}
                     data={{
-                        refId: order.id,
-                        ref: 'order',
-                        field: 'photos'
+                        refId: issueTicket.id,
+                        ref: 'issueTicket',
+                        field: nameof<IssueTicket>(o => o.attachments)
                     }}
                     multiple={true}
                     onRemove={(file) => {

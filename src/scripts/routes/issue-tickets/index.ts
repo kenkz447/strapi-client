@@ -1,1 +1,2 @@
-export * from './RouteIssueTickets';
+export * from './issue-tickets';
+export * from './issue-ticket-details';
