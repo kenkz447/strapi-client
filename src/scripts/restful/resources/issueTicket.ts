@@ -21,7 +21,7 @@ export interface IssueTicket {
     readonly created_by: User;
     readonly closedAt?: string;
     readonly closedBy?: User;
-    readonly agency: Agency;
+    readonly issueTicketAgency: Agency;
     readonly code: string;
     readonly issueTicketReplies?: IssueTicketReply[];
     readonly order?: Order;
@@ -36,7 +36,7 @@ export const issueTicketSchema = yup.object().shape<IssueTicket>({
     status: yup.mixed().oneOf(['open', 'processing', 'close'] as IssueTicketStatus[]),
     openDate: yup.date().required(),
     created_by: userSchema.nullable(true).default(null),
-    agency: yup.object(),
+    issueTicketAgency: yup.object(),
     code: yup.string().required(),
     type: yup.mixed().oneOf(['order_complain', 'order_cancel'] as IssueTicketType[]),
 });

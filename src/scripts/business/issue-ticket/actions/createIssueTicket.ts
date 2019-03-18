@@ -12,7 +12,7 @@ export const createIssueTicket = (
         ...ticket,
         openDate: new Date(),
         code: genCodeWithCurrentDate(),
-        agency: currentAgency
+        issueTicketAgency: currentAgency
     };
 
     return request(

@@ -7,7 +7,7 @@ module.exports = {
         paths: [path.resolve(__dirname, "node_modules")],
         javascriptEnabled: true,
         modifyVars: {
-            '@primary-color': 'rgb(213, 155, 1)'
+            '@primary-color': '#476B81'
         }
     },
     modules: {

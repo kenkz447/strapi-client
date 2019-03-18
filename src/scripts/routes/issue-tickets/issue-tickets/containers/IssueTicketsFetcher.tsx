@@ -40,7 +40,7 @@ export class IssueTicketsFetcher extends React.PureComponent<IssueTicketsFetcher
     static readonly getDefaultRequestParams = (): RequestParameter[] => {
         const codeFilter = getUrlSearchParam('code');
         const statusFilter = getUrlSearchParam('status');
-        const agency = getUrlSearchParam(nameof<IssueTicket>(o => o.agency));
+        const agency = getUrlSearchParam(nameof<IssueTicket>(o => o.issueTicketAgency));
 
         return [{
             type: 'query',
@@ -56,7 +56,7 @@ export class IssueTicketsFetcher extends React.PureComponent<IssueTicketsFetcher
             value: statusFilter || undefined!
         }, {
             type: 'query',
-            parameter: nameof<IssueTicket>(o => o.agency),
+            parameter: nameof<IssueTicket>(o => o.issueTicketAgency),
             value: agency || undefined!
         }];
     }
@@ -80,12 +80,12 @@ export class IssueTicketsFetcher extends React.PureComponent<IssueTicketsFetcher
 
         const nextCodeFilter = getUrlSearchParam('code') || undefined;
         const nextStatusFilter = getUrlSearchParam('status') || undefined;
-        const nextAgencyFilter = getUrlSearchParam(nameof<IssueTicket>(o => o.agency)) || undefined;
+        const nextAgencyFilter = getUrlSearchParam(nameof<IssueTicket>(o => o.issueTicketAgency)) || undefined;
 
         const { params } = this.state;
         const code = getParamsValue(params, 'query', 'code');
         const status = getParamsValue(params, 'query', 'status');
-        const agency = getParamsValue(params, 'query', nameof<IssueTicket>(o => o.agency));
+        const agency = getParamsValue(params, 'query', nameof<IssueTicket>(o => o.issueTicketAgency));
 
         const isCodeChanged = code !== nextCodeFilter;
         const isStatusChanged = status !== nextStatusFilter;
@@ -100,7 +100,7 @@ export class IssueTicketsFetcher extends React.PureComponent<IssueTicketsFetcher
         nextParams = upsertRequestParams(
             nextParams,
             'query',
-            nameof<IssueTicket>(o => o.agency),
+            nameof<IssueTicket>(o => o.issueTicketAgency),
             nextAgencyFilter
         );
 
@@ -138,12 +138,12 @@ export class IssueTicketsFetcher extends React.PureComponent<IssueTicketsFetcher
         const { history } = this.context;
 
         const nextUrlSearchParams = new URLSearchParams(location.search);
-        nextUrlSearchParams.set(nameof<IssueTicket>(o => o.agency), agency);
+        nextUrlSearchParams.set(nameof<IssueTicket>(o => o.issueTicketAgency), agency);
 
         if (agency) {
-            nextUrlSearchParams.set(nameof<IssueTicket>(o => o.agency), agency);
+            nextUrlSearchParams.set(nameof<IssueTicket>(o => o.issueTicketAgency), agency);
         } else {
-            nextUrlSearchParams.delete(nameof<IssueTicket>(o => o.agency));
+            nextUrlSearchParams.delete(nameof<IssueTicket>(o => o.issueTicketAgency));
         }
 
         history.replace(`?${nextUrlSearchParams.toString()}`);
@@ -163,7 +163,7 @@ export class IssueTicketsFetcher extends React.PureComponent<IssueTicketsFetcher
                     <IssueTicketFilter
                         code={getParamsValue(params, 'query', 'code')}
                         status={getParamsValue(params, 'query', 'status')}
-                        agency={getParamsValue(params, 'query', nameof<IssueTicket>(o => o.agency))}
+                        agency={getParamsValue(params, 'query', nameof<IssueTicket>(o => o.issueTicketAgency))}
                         onCodeChange={this.onCodeChange}
                         onStatusChange={this.onStatusChange}
                         onAgencyChange={this.onAgencyChange}
