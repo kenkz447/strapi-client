@@ -72,6 +72,15 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                                                 initialValues={order}
                                             />
                                         </Menu.Item>
+                                        {
+                                            cancelIssueTicket && (
+                                                <Menu.Item>
+                                                    <Typography.Text type="danger">
+                                                        {text('Close this order!')}
+                                                    </Typography.Text>
+                                                </Menu.Item>
+                                            )
+                                        }
                                     </Menu>
                                 )}
                             >

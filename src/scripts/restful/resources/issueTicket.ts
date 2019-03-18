@@ -30,7 +30,7 @@ export interface IssueTicket {
 }
 
 export const issueTicketSchema = yup.object().shape<IssueTicket>({
-    description: yup.string(),
+    description: yup.string().required(),
     id: yup.string().required(),
     title: yup.string().required(),
     status: yup.mixed().oneOf(['open', 'processing', 'close'] as IssueTicketStatus[]),

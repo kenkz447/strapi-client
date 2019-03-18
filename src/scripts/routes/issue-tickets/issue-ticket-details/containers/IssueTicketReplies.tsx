@@ -26,14 +26,16 @@ export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesPr
 
     readonly customerAvatar = (
         <Avatar
-            src="https://i.pinimg.com/236x/af/25/49/af25490494d3338afef00869c59fdd37.jpg"
+            // src="https://i.pinimg.com/236x/af/25/49/af25490494d3338afef00869c59fdd37.jpg"
+            src="https://cdn.onlinewebfonts.com/svg/img_508630.png"
             alt="Han Solo"
         />
     );
 
     readonly supportAvatar = (
         <Avatar
-            src="https://i.pinimg.com/236x/45/d9/8a/45d98aa922bef6b5213b488dc36a8764.jpg"
+            // src="https://i.pinimg.com/236x/45/d9/8a/45d98aa922bef6b5213b488dc36a8764.jpg"
+            src="https://cdn.onlinewebfonts.com/svg/img_508630.png"
             alt="Han Solo"
         />
     );
@@ -70,7 +72,7 @@ export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesPr
 
                                         return (
                                             <Comment
-                                                avatar={isCurrentAuthor ? this.customerAvatar : this.supportAvatar}
+                                                avatar={this.customerAvatar }
                                                 content={<p dangerouslySetInnerHTML={{ __html: props.content }} />}
                                                 author={
                                                     isCurrentAuthor ?
@@ -94,7 +96,7 @@ export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesPr
                     {
                         issueTicket.status !== 'close' && (
                             <Comment
-                                avatar={isSupport ? this.supportAvatar : this.customerAvatar}
+                                avatar={null}
                                 content={(
                                     <BusinessController
                                         action={createIssueTicketReply}
