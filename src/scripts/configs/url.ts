@@ -20,9 +20,6 @@ export const AGENCY_DETAIL_URL = AGENCIES_URL + '/detail/:id';
 export const ACCOUNT_URL = '/accounts';
 export const ACCOUNT_DETAIL_URL = ACCOUNT_URL + '/detail/:id';
 
-export const USER_PATH = '/user';
-export const USER_PROFILE_URL = USER_PATH + '/profile';
-
 export const CART_URL = '/cart';
 
 export const CHECKOUT_URL = '/checkout';
@@ -31,3 +28,9 @@ export const NOTIFICATION_URL = '/notification';
 
 export const ISSUE_TICKET_URL = '/tickets';
 export const ISSUE_TICKET_DETAIL_URL = ISSUE_TICKET_URL + '/:id';
+
+export const PROFILE_URL = '/profile';
+export const PROFILE_ACCOUNT_URL = PROFILE_URL + '/account';
+export const PROFILE_AGENCY_URL = PROFILE_URL + '/agency';
+export const PROFILE_PASSWORD_URL = PROFILE_URL + '/password';
+export const PROFILE_ADDRESS_BOOK_URL = PROFILE_URL + '/address';

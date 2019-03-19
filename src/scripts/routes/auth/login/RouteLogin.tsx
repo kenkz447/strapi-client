@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { SlideUp } from '@/components';
 import { AUTH_REGISTER_URL, FORGOT_PASSWORD_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
-import { LoginFormControl } from '@/forms';
+import { LoginFormControl } from '@/forms/auth';
 import { text } from '@/i18n';
 
 import { AuthCard, AuthPageWrapper } from '../shared';

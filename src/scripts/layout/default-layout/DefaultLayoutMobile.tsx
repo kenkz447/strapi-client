@@ -40,11 +40,11 @@ export class DefaultLayoutMobile extends React.Component<DefaultLayoutMobileProp
         });
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this._unListenHistory();
     }
 
-    render() {
+    public render() {
         const { siderProps, children, header } = this.props;
         return (
             <React.Fragment>

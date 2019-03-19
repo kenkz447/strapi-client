@@ -68,20 +68,20 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
         return false;
     }
 
-    readonly getSiderContent = () => {
-        return (
-            <React.Fragment>
-                <SiderLogo>
-                    <Link to={DASHBOARD_URL}>
-                        <img src={LOGO_TEXT} alt="logo" />
-                    </Link>
-                </SiderLogo>
-                <DefaultLayoutSiderMenu
-                    onMenuItemClick={this.onMenuItemClick}
-                />
-            </React.Fragment>
-        );
-    }
+    private readonly siderContent = (
+        <React.Fragment>
+            <SiderLogo>
+                <Link to={DASHBOARD_URL}>
+                    <img src={LOGO_TEXT} alt="logo" />
+                </Link>
+            </SiderLogo>
+            <DefaultLayoutSiderMenu
+                onMenuItemClick={this.onMenuItemClick}
+            />
+        </React.Fragment>
+    );
+
+    private readonly header = <DefaultLayoutHeader />;
 
     readonly onMenuItemClick = (url: string) => {
         const { history } = this.props;
@@ -90,8 +90,6 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
 
     render() {
         const { children, history } = this.props;
-        const siderContent = this.getSiderContent();
-        const header = <DefaultLayoutHeader />;
         const isMobile = this.isMobileViewport();
 
         return (
@@ -103,9 +101,9 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
                                 siderProps={{
                                     trigger: null,
                                     width: 256,
-                                    children: siderContent
+                                    children: this.siderContent
                                 }}
-                                header={header}
+                                header={this.header}
                                 history={history}
                             >
                                 {children}
@@ -116,10 +114,10 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
                                 siderProps={{
                                     trigger: null,
                                     collapsible: true,
-                                    children: siderContent,
+                                    children: this.siderContent,
                                     width: 256,
                                 }}
-                                header={header}
+                                header={this.header}
                             >
                                 {children}
                             </DefaultLayoutDesktop>

@@ -6,7 +6,12 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Route, Router, Switch } from 'react-router';
 
 import { PageLoading } from '@/components';
-import { AGENCIES_URL, ORDER_PATH } from '@/configs';
+import {
+    AGENCIES_URL,
+    ORDER_PATH,
+    PROFILE_ACCOUNT_URL,
+    PROFILE_URL
+} from '@/configs';
 import {
     DomainContext,
     WithCurrentBreakpoint,
@@ -14,11 +19,13 @@ import {
     WithHistory
 } from '@/domain';
 import { BlankLayout, DefaultLayout } from '@/layout';
+import { ProfileLayout } from '@/layout/child-layout';
 
 const AuthRoutes = React.lazy(() => import('./auth'));
 const MainRoutes = React.lazy(() => import('./main'));
 const OrderRoutes = React.lazy(() => import('./order'));
 const AgencyRoutes = React.lazy(() => import('./agencies'));
+const ProfileRoutes = React.lazy(() => import('./profile'));
 
 type RouterRootContextProps =
     WithCurrentUser &
@@ -43,6 +50,7 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                             </React.Suspense>
                         </BlankLayout>
                     </Route>
+                    <Route path={PROFILE_URL} component={this.profileRouteComponent} />
                     <Route path={ORDER_PATH}>
                         {this.orderRouteComponent}
                     </Route>
@@ -74,7 +82,7 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                 </React.Suspense>
             </DefaultLayout>
         );
-    }
+    };
 
     readonly orderRouteComponent = () => {
         const { appState, history, currentBreakpoint } = this.props;
@@ -110,6 +118,27 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                 <React.Suspense fallback={<PageLoading />}>
                     <AgencyRoutes />
                 </React.Suspense>
+            </DefaultLayout>
+        );
+    }
+
+    readonly profileRouteComponent = () => {
+        const { appState, history, currentBreakpoint } = this.props;
+
+        if (appState !== 'READY') {
+            return null;
+        }
+
+        return (
+            <DefaultLayout
+                currentBreakpoint={currentBreakpoint}
+                history={history}
+            >
+                <ProfileLayout>
+                    <React.Suspense fallback={<PageLoading />}>
+                        <ProfileRoutes />
+                    </React.Suspense>
+                </ProfileLayout>
             </DefaultLayout>
         );
     }

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
-import { USER_PROFILE_URL } from '@/configs';
+import { PROFILE_ACCOUNT_URL, USER_PROFILE_URL } from '@/configs';
 import { WithAuthClient, WithCurrentUser, WithHistory } from '@/domain';
 import { text } from '@/i18n';
 
@@ -39,7 +39,7 @@ function HeaderUserActions(props: WithContextProps<HeaderUserActionsContext>) {
                         history.push(key);
                     }}
                 >
-                    <Menu.Item key={USER_PROFILE_URL}>
+                    <Menu.Item key={PROFILE_ACCOUNT_URL}>
                         <Icon type="user" />
                         {text('Profile')}
                     </Menu.Item>

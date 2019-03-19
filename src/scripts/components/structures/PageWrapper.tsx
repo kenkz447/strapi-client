@@ -16,9 +16,8 @@ const PageWrapperContent = styled.div`
     background-color: ${(props: PageWrapperContentProps) => props.backgroundColor};
     display: flex;
     flex-direction: column;
-    /* flex-flow: row wrap;
-    overflow-y: overlay; */
 `;
+
 interface PageWrapperProps extends PageWrapperContentProps {
     readonly className?: string;
     readonly style?: React.CSSProperties;
