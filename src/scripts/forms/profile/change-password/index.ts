@@ -1,0 +1,1 @@
+export { ChangePasswordFormControl } from './ChangePasswordFormControl';

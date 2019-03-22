@@ -2,33 +2,34 @@ import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
 import { BusinessController } from '@/business';
+import { upsertAgency } from '@/business/agency';
 import { updateUser } from '@/business/profile';
 import { PageContent, PageWrapper } from '@/components';
-import { PROFILE_ACCOUNT_URL } from '@/configs';
+import { PROFILE_AGENCY_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { showMessage } from '@/effects';
-import { AccountFormControl } from '@/forms/profile';
+import { AgencyUpdateFormControl } from '@/forms/agency/agency-update';
 import { text } from '@/i18n';
 
-type RouteProfileAccountProps = AppPageProps;
+type RouteProfileAgencyProps = AppPageProps;
 
-export class RouteProfileAccount extends RoutePage<RouteProfileAccountProps> {
-    public static readonly withContext = ['currentUser'];
+export class RouteProfileAgency extends RoutePage<RouteProfileAgencyProps> {
+    public static readonly withContext = ['currentAgency'];
 
     static readonly routeInfo: RouteInfo = {
-        path: PROFILE_ACCOUNT_URL,
-        title: text('Account'),
+        path: PROFILE_AGENCY_URL,
+        title: text('Agency'),
         exact: true
     };
 
     public render() {
-        const { currentUser } = this.props;
+        const { currentAgency } = this.props;
 
         return (
             <PageWrapper backgroundColor="#fff">
                 <PageContent>
                     <BusinessController
-                        action={updateUser}
+                        action={upsertAgency}
                         onSuccess={() => {
                             showMessage({
                                 type: 'success',
@@ -37,8 +38,8 @@ export class RouteProfileAccount extends RoutePage<RouteProfileAccountProps> {
                         }}
                     >
                         {({ doBusiness }) => (
-                            <AccountFormControl
-                                initialValues={currentUser}
+                            <AgencyUpdateFormControl
+                                initialValues={currentAgency}
                                 submit={doBusiness}
                             />
                         )}

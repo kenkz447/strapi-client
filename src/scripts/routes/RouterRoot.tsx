@@ -82,7 +82,7 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                 </React.Suspense>
             </DefaultLayout>
         );
-    };
+    }
 
     readonly orderRouteComponent = () => {
         const { appState, history, currentBreakpoint } = this.props;

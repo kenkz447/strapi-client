@@ -1,5 +1,6 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
+import { getDefaultParamsForUpdate } from '../base';
 import { AgencyLevel } from './agencyLevel';
 import { BusinessLicense } from './businessLicense';
 import { City } from './city';
@@ -35,5 +36,11 @@ export const agencyResources = {
         resourceType: agencyResourceType,
         url: '/agency',
         method: 'POST'
+    }),
+    update: new Resource<Agency>({
+        resourceType: agencyResourceType,
+        url: '/agency/:id',
+        method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate
     }),
 };

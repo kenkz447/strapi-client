@@ -6,7 +6,7 @@ import { FormBody, FormInput, FormSelect, verticalLayout } from '@/components';
 import { text } from '@/i18n';
 import { Agency } from '@/restful';
 
-import { AgencyCityAndCounty } from './checout-form-address';
+import { AgencyCityAndCounty } from './agency-form';
 
 export type AgencyFormValues = Partial<Agency>;
 

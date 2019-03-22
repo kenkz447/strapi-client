@@ -2,33 +2,30 @@ import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
 import { BusinessController } from '@/business';
-import { updateUser } from '@/business/profile';
+import { upsertAgency } from '@/business/agency';
+import { changePassword } from '@/business/profile/actions/changePassword';
 import { PageContent, PageWrapper } from '@/components';
-import { PROFILE_ACCOUNT_URL } from '@/configs';
+import { PROFILE_PASSWORD_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { showMessage } from '@/effects';
-import { AccountFormControl } from '@/forms/profile';
+import { ChangePasswordFormControl } from '@/forms/profile/change-password';
 import { text } from '@/i18n';
 
-type RouteProfileAccountProps = AppPageProps;
+type RouteChangePasswordProps = AppPageProps;
 
-export class RouteProfileAccount extends RoutePage<RouteProfileAccountProps> {
-    public static readonly withContext = ['currentUser'];
-
+export class RouteChangePassword extends RoutePage<RouteChangePasswordProps> {
     static readonly routeInfo: RouteInfo = {
-        path: PROFILE_ACCOUNT_URL,
-        title: text('Account'),
+        path: PROFILE_PASSWORD_URL,
+        title: text('Change password'),
         exact: true
     };
 
     public render() {
-        const { currentUser } = this.props;
-
         return (
             <PageWrapper backgroundColor="#fff">
                 <PageContent>
                     <BusinessController
-                        action={updateUser}
+                        action={changePassword}
                         onSuccess={() => {
                             showMessage({
                                 type: 'success',
@@ -37,8 +34,7 @@ export class RouteProfileAccount extends RoutePage<RouteProfileAccountProps> {
                         }}
                     >
                         {({ doBusiness }) => (
-                            <AccountFormControl
-                                initialValues={currentUser}
+                            <ChangePasswordFormControl
                                 submit={doBusiness}
                             />
                         )}

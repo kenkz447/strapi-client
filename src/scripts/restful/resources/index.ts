@@ -22,6 +22,7 @@ export * from './productDesign';
 export * from './productDesignGroup';
 export * from './productType';
 export * from './productTypeGroup';
+export * from './profile';
 export * from './promotion';
 export * from './role';
 export * from './uploadedFile';
