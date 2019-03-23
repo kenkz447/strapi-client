@@ -19,7 +19,7 @@ const locationPermissions: Permissions = {
     },
     DASHBOARD: {
         key: 'DASHBOARD',
-        url: new RegExp(DASHBOARD_URL)
+        url: /\/$/i
     },
     PRODUCT: {
         key: 'PRODUCT',

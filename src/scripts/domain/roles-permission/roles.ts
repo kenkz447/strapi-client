@@ -17,6 +17,7 @@ const admin: Role = {
 const authenticated: Role = {
     key: 'Authenticated',
     allowed: [
+        permissions.DASHBOARD,
         permissions.PRODUCT,
         permissions.ORDER_LIST,
         permissions.NOTIFICATION,
