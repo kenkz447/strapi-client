@@ -1,4 +1,4 @@
-import { Button, Form, Radio } from 'antd';
+import { Button, Divider, Form, Radio } from 'antd';
 import * as React from 'react';
 
 import {
@@ -9,23 +9,38 @@ import {
     verticalLayoutNoLabel
 } from '@/components';
 import { text } from '@/i18n';
-import { Order } from '@/restful';
+import { Address, Order } from '@/restful';
 
 import { CheckoutFormOwnProps } from '../CheckoutForm';
 import { AddressCityAndCounty } from './checout-form-address';
+import { AddressBook } from './checout-form-address/AddressBook';
 
 interface CheckoutFormAddressProps extends CheckoutFormOwnProps {
     readonly onNextClick: () => void;
 }
 
 export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddressProps> {
+
+    private readonly onAddressSelect = (address: Address) => {
+        const { setFieldValue } = this.props;
+
+        setFieldValue(nameof<Order>(o => o.addressType), address.type);
+        setFieldValue(nameof<Order>(o => o.phone), address.phone);
+        setFieldValue(nameof<Order>(o => o.email), address.email);
+        setFieldValue(nameof<Order>(o => o.shippingToCity), address.city);
+        setFieldValue(nameof<Order>(o => o.shippingToCounty), address.county);
+        setFieldValue(nameof<Order>(o => o.shippingAddress), address.fullAddress);
+        setFieldValue(nameof<Order>(o => o.addressType), address.type);
+    }
+
     public render() {
         const {
             setFieldValue,
             handleChange,
             values,
             errors,
-            onNextClick
+            onNextClick,
+            resetForm
         } = this.props;
 
         const isValid = !!(values.phone
@@ -33,9 +48,11 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
             && values.shippingToCity
             && values.shippingToCounty
             && values.shippingAddress);
-        
+
         return (
             <div>
+                <AddressBook onAddressSelect={this.onAddressSelect} />
+                <Divider dashed={true} />
                 <FormInput
                     name={nameof<Order>(o => o.phone)}
                     onChange={handleChange}
@@ -101,6 +118,11 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                         disabled={!isValid}
                     >
                         {text('Next')}
+                    </Button>
+                    <Button
+                        onClick={() => resetForm()}
+                    >
+                        {text('Clear')}
                     </Button>
                 </Form.Item>
             </div>

@@ -4,7 +4,13 @@ import * as React from 'react';
 
 import { getOrderTotalPayment } from '@/business/order';
 import { FormikControlBase, FormikControlBaseProps } from '@/components';
-import { City, cityResources, request } from '@/restful';
+import {
+    Address,
+    addressResources,
+    City,
+    cityResources,
+    request
+} from '@/restful';
 
 import { CheckoutForm, CheckoutFormValues } from './checkout-form-control';
 import {
@@ -18,6 +24,8 @@ interface CheckoutFormControlProps extends FormikControlBaseProps<CheckoutFormVa
 interface CheckoutFormControlState {
     readonly cities: City[];
     readonly cityOptions: OptionProps[];
+    readonly addresses: Address[];
+    readonly addressOptions: OptionProps[];
 }
 
 export class CheckoutFormControl extends FormikControlBase<
@@ -29,20 +37,25 @@ export class CheckoutFormControl extends FormikControlBase<
         super(props);
         this.state = {
             cities: [],
-            cityOptions: []
+            cityOptions: [],
+            addressOptions: [],
+            addresses: []
         };
 
         this.fetchResources();
     }
 
     private readonly fetchResources = async () => {
-        const [cities] = await Promise.all([
-            request(cityResources.find)
+        const [cities, addresses] = await Promise.all([
+            request(cityResources.find),
+            request(addressResources.find)
         ]);
 
         this.setState({
             cities,
-            cityOptions: this.listToOptions(cities)
+            cityOptions: this.listToOptions(cities),
+            addresses: addresses,
+            addressOptions: this.listToOptions(addresses)
         });
     }
 
@@ -71,13 +84,15 @@ export class CheckoutFormControl extends FormikControlBase<
             initialValues
         } = this.props;
 
-        const { cities, cityOptions } = this.state;
+        const { cities, cityOptions, addressOptions, addresses } = this.state;
 
         return (
             <CheckoutFormContext.Provider
                 value={{
                     cities,
-                    cityOptions
+                    cityOptions,
+                    addresses,
+                    addressOptions
                 }}
             >
                 <Formik

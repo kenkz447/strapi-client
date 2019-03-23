@@ -1,10 +1,11 @@
+import { Col, Form, Row } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikActions } from 'formik';
 import * as React from 'react';
 
 import { FormSelect, verticalLayout } from '@/components';
 import { text } from '@/i18n';
-import { City, County, Order } from '@/restful';
+import { City, County } from '@/restful';
 
 import { CheckoutFormValues } from '../../CheckoutForm';
 import {

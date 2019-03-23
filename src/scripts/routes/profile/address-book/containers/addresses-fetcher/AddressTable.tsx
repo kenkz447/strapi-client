@@ -69,23 +69,20 @@ export class AddressTable extends React.PureComponent<AddressTableProps, Address
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar>#{index + 1}</Avatar>}
-                                    title={address.fullAddress}
+                                    title={address.name}
                                     description={(
-                                        <DescriptionList title="">
-                                            <DescriptionList.Description term={text('Contact to')}>
-                                                {address.name}
-                                            </DescriptionList.Description>
+                                        <DescriptionList title={address.fullAddress} col={2}>
                                             <DescriptionList.Description term={text('Email')}>
                                                 {address.email || '...'}
                                             </DescriptionList.Description>
                                             <DescriptionList.Description term={text('Phone')}>
                                                 {address.phone || '...'}
                                             </DescriptionList.Description>
-                                            <DescriptionList.Description term={text('County')}>
-                                                {address.county.name}
-                                            </DescriptionList.Description>
                                             <DescriptionList.Description term={text('City')}>
                                                 {address.city.name}
+                                            </DescriptionList.Description>
+                                            <DescriptionList.Description term={text('County')}>
+                                                {address.county.name}
                                             </DescriptionList.Description>
                                         </DescriptionList>
                                     )}
