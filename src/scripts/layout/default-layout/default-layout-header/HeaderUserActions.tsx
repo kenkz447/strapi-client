@@ -3,7 +3,7 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
-import { PROFILE_ACCOUNT_URL, USER_PROFILE_URL } from '@/configs';
+import { PROFILE_ACCOUNT_URL } from '@/configs';
 import { WithAuthClient, WithCurrentUser, WithHistory } from '@/domain';
 import { text } from '@/i18n';
 

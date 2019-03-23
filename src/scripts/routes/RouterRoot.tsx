@@ -1,4 +1,5 @@
 import 'antd/dist/antd.less';
+import 'ant-design-pro/lib/DescriptionList/style/css';
 import './RouterRoot.scss';
 
 import * as React from 'react';

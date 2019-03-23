@@ -1,6 +1,7 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
 import { getDefaultParamsForUpdate } from '../base';
+import { AddressType } from './address';
 import { Agency } from './agency';
 import { City } from './city';
 import { County } from './county';
@@ -48,7 +49,7 @@ export interface Order extends Record {
     readonly billingTaxcode?: string;
     readonly billingAddress?: string;
 
-    readonly addressType: 'apartment' | 'home';
+    readonly addressType: AddressType;
     readonly photos: UploadedFile[];
 
     readonly issueTickets?: IssueTicket[];

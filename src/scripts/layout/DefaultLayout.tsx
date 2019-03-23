@@ -68,6 +68,11 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
         return false;
     }
 
+    readonly onMenuItemClick = (url: string) => {
+        const { history } = this.props;
+        history.push(url);
+    }
+
     private readonly siderContent = (
         <React.Fragment>
             <SiderLogo>
@@ -82,11 +87,6 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
     );
 
     private readonly header = <DefaultLayoutHeader />;
-
-    readonly onMenuItemClick = (url: string) => {
-        const { history } = this.props;
-        history.push(url);
-    }
 
     render() {
         const { children, history } = this.props;
