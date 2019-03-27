@@ -83,6 +83,10 @@ class ProductComponentSelectComponent extends React.PureComponent<
             }
         }
 
+        filteredComponentByGroup = filteredComponentByGroup.filter(o => {
+            return o.componentGroup && o.componentGroup['disabled'] !== true;
+        });
+
         return filteredComponentByGroup.sort((i1, i2) => (i1.variantIndex || 0) - (i2.variantIndex || 0));
     }
 
@@ -138,7 +142,6 @@ class ProductComponentSelectComponent extends React.PureComponent<
                 dataSource={filteredFurnitureComponents}
                 grid={{ column: 4, gutter: 5 }}
                 renderItem={(furnitureComponent: FurnitureComponent, index: number) => {
-
                     const isSelected = furnitureComponent === nextSelectedFurnitureComponent;
 
                     return (
