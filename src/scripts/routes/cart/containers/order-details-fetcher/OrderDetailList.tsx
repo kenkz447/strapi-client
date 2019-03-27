@@ -62,7 +62,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
         if (typeof orderDetail.product_type === 'string') {
             return null;
         }
-        
+
         const productTitle = orderDetail.product_type!.name;
         return (
             <List.Item
@@ -96,7 +96,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
                     )}
                 />
                 <div className="order-detail-total">
-                    {formatCurrency(orderDetail.quantity * orderDetail.totalPrice)}
+                    {formatCurrency(orderDetail.quantity * orderDetail.subTotalPrice)}
                 </div>
             </List.Item>
         );

@@ -38,7 +38,7 @@ export class OrderDetailListItemQuantity extends React.PureComponent<
                                 return;
                             }
 
-                            if (nextValue <= 1) {
+                            if (nextValue < 1) {
                                 return;
                             }
 
