@@ -38,9 +38,14 @@ class Product3dSenceComponent extends React.PureComponent<
             return;
         }
 
-        const { setContext } = this.props;
+        const { setContext, productModules } = this.props;
 
         const selectedFurnitureComponent = await getFurnitureComponentById(selected3DObject.name);
+        const selectedModule = productModules.find(o => o.component.id === selectedFurnitureComponent.id);
+
+        if (!selectedModule) {
+            return;
+        }
 
         if (!selectedFurnitureComponent) {
             throw new Error('No FurnitureComponent found!');
@@ -61,8 +66,11 @@ class Product3dSenceComponent extends React.PureComponent<
             object3DShape.material[0] as THREE.MeshPhongMaterial :
             object3DShape.material as THREE.MeshPhongMaterial;
 
-        const selectedFurnitureMaterialType = selectedFurnitureComponent.materialTypes[0];
-        const availableFurnitureMaterials = await getFurnitureMaterialByType(selectedFurnitureMaterialType);
+        const nextSelectedFurnitureMaterialType = (selectedModule.material && selectedModule.material.materialType) ?
+            selectedModule.material.materialType
+            : selectedFurnitureComponent.materialTypes[0];
+
+        const availableFurnitureMaterials = await getFurnitureMaterialByType(nextSelectedFurnitureMaterialType);
 
         let selectedFurnitureMaterial = availableFurnitureMaterials.find(o => {
             if (
@@ -126,7 +134,7 @@ class Product3dSenceComponent extends React.PureComponent<
 
             selectedFurnitureComponent,
             selectedFurnitureMaterial,
-            selectedFurnitureMaterialType,
+            selectedFurnitureMaterialType: nextSelectedFurnitureMaterialType,
             selectedFurnitureComponentType,
             selectedFurnitureComponentGroup,
 
