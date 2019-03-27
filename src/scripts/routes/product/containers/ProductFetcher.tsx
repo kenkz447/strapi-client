@@ -396,6 +396,7 @@ class ProductFetcherComponent extends React.PureComponent<
                                                         product_type: loadedProduct!.productType.id,
                                                         productModulesCode: modulesCode!,
                                                         status: 'temp',
+                                                        productPrice: loadedProduct!.totalPrice
                                                     }}
                                                 />
                                             )

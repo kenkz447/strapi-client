@@ -48,6 +48,12 @@ export const orderDetailResources = {
         method: 'PUT',
         getDefaultParams: getDefaultParamsForUpdate
     }),
+    updateQuantity: new Resource<OrderDetail>({
+        resourceType: orderDetailResourceType,
+        url: '/orderDetail/update-quantity/:id',
+        method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate
+    }),
     delete: new Resource<OrderDetail>({
         resourceType: orderDetailResourceType,
         url: '/orderDetail/:id',

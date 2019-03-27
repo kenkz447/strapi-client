@@ -77,13 +77,13 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
                             <div className="order-detail-meta">
                                 <span className="order-detail-meta-name">Giá cũ:</span>
                                 <span className="order-detail-meta-value">
-                                    {formatCurrency(orderDetail.subTotalPrice)}
+                                    {formatCurrency(orderDetail.productPrice)}
                                 </span>
                             </div>
                             <div className="order-detail-meta">
                                 <span className="order-detail-meta-name">Giá mới:</span>
                                 <span className="order-detail-meta-value new-price">
-                                    {formatCurrency(orderDetail.subTotalPrice - orderDetail.totalDiscountPerProduct)}
+                                    {formatCurrency(orderDetail.productPrice - orderDetail.totalDiscountPerProduct)}
                                 </span>
                             </div>
                             <div className="order-detail-meta">
@@ -96,7 +96,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
                     )}
                 />
                 <div className="order-detail-total">
-                    {formatCurrency(orderDetail.quantity * orderDetail.subTotalPrice)}
+                    {formatCurrency(orderDetail.totalPrice)}
                 </div>
             </List.Item>
         );

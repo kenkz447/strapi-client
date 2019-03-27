@@ -33,7 +33,7 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
 
         setFieldValue(
             'subTotalPrice',
-            productOriginPrice
+            productOriginPrice * (values.quantity || 1)
         );
 
         setFieldValue(

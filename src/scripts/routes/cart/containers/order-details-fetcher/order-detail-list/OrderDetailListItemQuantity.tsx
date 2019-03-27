@@ -2,7 +2,10 @@ import { InputNumber } from 'antd';
 import * as React from 'react';
 
 import { BusinessController } from '@/business';
-import { upsertOrderDetail } from '@/business/order-detail';
+import {
+    updateOrderDetailQuantity,
+    upsertOrderDetail
+} from '@/business/order-detail';
 import { OrderDetail } from '@/restful';
 
 interface OrderDetailListItemQuantityProps {
@@ -27,7 +30,7 @@ export class OrderDetailListItemQuantity extends React.PureComponent<
         const { orderDetail } = this.props;
         return (
             <BusinessController
-                action={upsertOrderDetail}
+                action={updateOrderDetailQuantity}
                 delay={500}
             >
                 {({ doBusiness }) => (
