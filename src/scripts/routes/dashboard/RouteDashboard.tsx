@@ -2,12 +2,13 @@ import { Col, Row } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { PageContent, PageWrapper } from '@/components';
+import { PageContent, PageWrapper, SlideUp } from '@/components';
 import { DASHBOARD_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
+import { getUrlSearchParam } from '@/utilities';
 
-import { DashboardAccountInfo } from './containers';
+import { DashboardAccountInfo, DashboardPost } from './containers';
 import { DashboardContent } from './containers/DashboardContent';
 
 type RouteDashboardProps = AppPageProps;
@@ -20,6 +21,8 @@ export class RouteDashboard extends RoutePage<RouteDashboardProps> {
     };
 
     render() {
+        const currentPost = getUrlSearchParam('post');
+
         return (
             <PageWrapper>
                 <PageContent>
@@ -29,7 +32,16 @@ export class RouteDashboard extends RoutePage<RouteDashboardProps> {
                                 <DashboardAccountInfo />
                             </Col>
                             <Col span={16} className="mh-100">
-                                <DashboardContent />
+                                {
+                                    currentPost ?
+                                        (
+                                            <SlideUp className="mh-100">
+                                                <DashboardPost postSlug={currentPost} />
+                                            </SlideUp>
+                                        ) : (
+                                            <DashboardContent />
+                                        )
+                                }
                             </Col>
                         </Row>
                     </div>

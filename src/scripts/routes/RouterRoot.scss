@@ -121,7 +121,18 @@ button+button {
     }
 }
 
-.text .text .ant-table-row {
+.white-space {
+    &-2 {
+        display: block;
+        padding: 12px;
+    }
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.ant-table-row {
     >th:first-child,
     >td:first-child {
         text-align: left;

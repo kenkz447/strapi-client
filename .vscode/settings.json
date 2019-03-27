@@ -23,7 +23,7 @@
                             "port": {
                                 "type": "number",
                                 "description": "The port of the webpack-dev-server",
-                                "default": 3000
+                                "default": 3001
                             },
                             "host": {
                                 "type": "string",

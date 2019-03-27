@@ -8,6 +8,10 @@ import styled from 'styled-components';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 
+import {
+    DashboardPostsFetcher
+} from './dashboard-content/DashboardPostsFetcher';
+
 const DashboardContentHeadline = styled.h4`
     text-decoration: none;
     font-size: 20px;
@@ -26,7 +30,6 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
     public readonly context!: DomainContext;
 
     public render() {
-        const { currentUser } = this.context;
 
         return (
             <Card
@@ -34,13 +37,12 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
                 bordered={false}
                 title={(
                     <Tabs size="large">
-                        <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="1" />
+                        <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="1"/>
                         <Tabs.TabPane tab="Chính sách đại lý" key="2" />
-                        <Tabs.TabPane tab="Biểu phí vận chuyển" key="3" />
                     </Tabs>
                 )}
             >
-                {null}
+                <DashboardPostsFetcher />
             </Card>
         );
     }

@@ -18,6 +18,7 @@ export * from './issueTicketReply';
 export * from './order';
 export * from './orderDetail';
 export * from './orderTransaction';
+export * from './post';
 export * from './product';
 export * from './productDesign';
 export * from './productDesignGroup';
