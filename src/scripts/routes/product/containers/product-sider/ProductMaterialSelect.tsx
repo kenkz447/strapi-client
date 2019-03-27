@@ -1,4 +1,4 @@
-import { List } from 'antd';
+import { List, Select } from 'antd';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
@@ -27,11 +27,27 @@ class ProductMaterialSelectComponent extends React.Component<
         });
     }
 
+    private readonly onMaterialTypeChange = (materialTypeId: string) => {
+        const {
+            selectedFurnitureComponent
+        } = this.props;
+        
+        if (!selectedFurnitureComponent) {
+            return;
+        }
+
+        const nextMaterialType = selectedFurnitureComponent!.materialTypes.find(o => o.id === materialTypeId);
+        if (!nextMaterialType) {
+            return;
+        }
+
+        this.fetchMaterials(nextMaterialType);
+    }
+
     public componentDidUpdate(prevProps: WithContextProps<Product3DSenceContext, ProductMaterialSelectProps>) {
         const {
             selectedFurnitureComponent,
-            selectedFurnitureMaterialType,
-            setContext
+            selectedFurnitureMaterialType
         } = this.props;
 
         if (!selectedFurnitureComponent) {
@@ -58,7 +74,9 @@ class ProductMaterialSelectComponent extends React.Component<
     public render() {
         const {
             availableFurnitureMaterials,
-            selectedFurnitureMaterial
+            selectedFurnitureMaterial,
+            selectedFurnitureMaterialType,
+            selectedFurnitureComponent
         } = this.props;
 
         if (!selectedFurnitureMaterial) {
@@ -68,7 +86,31 @@ class ProductMaterialSelectComponent extends React.Component<
         return (
             <List
                 className="product-component-select"
-                header="Materials:"
+                header={
+                    <div className="display-flex">
+                        <div className="flex-grow-1">Materials:</div>
+                        {
+                            (
+                                selectedFurnitureComponent!.materialTypes
+                                && selectedFurnitureComponent!.materialTypes.length > 1
+                            ) && (
+                                <Select
+                                    value={selectedFurnitureMaterialType!.id}
+                                    onChange={this.onMaterialTypeChange}
+                                >
+                                    {
+                                        selectedFurnitureComponent!.materialTypes.map((m) => {
+                                            return (
+                                                <Select.Option key={m.id} value={m.id}>
+                                                    {m.name}
+                                                </Select.Option>
+                                            );
+                                        })
+                                    }
+                                </Select>
+                            )}
+                    </div>
+                }
                 dataSource={availableFurnitureMaterials}
                 grid={{ column: 4, gutter: 5 }}
                 renderItem={(furnitureMaterial: FurnitureMaterial, index: number) => {
