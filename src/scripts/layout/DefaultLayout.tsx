@@ -13,7 +13,7 @@ import {
 import { DefaultLayoutHeader } from './default-layout';
 
 const DefaultLayoutWrapper = styled.div`
-    --sider-width: 256px;
+    --sider-width: 200px;
     --sider-width-collapse: 80px;
     height: 100vh;
     .ant-drawer-body {

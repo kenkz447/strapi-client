@@ -24,7 +24,7 @@ import { ProductDetails } from './product-sider/ProductDetails';
 import { ProductVariantSelect } from './product-sider/ProductVariantSelect';
 
 const ProductSiderWrapper = styled.div`
-    flex-basis: 400px;
+    flex-basis: 350px;
     background: #fff;
     padding: 24px 24px 0 24px;
     overflow-x: hidden;

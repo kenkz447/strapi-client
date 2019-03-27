@@ -24,7 +24,7 @@ const ProfileLayoutWrapper = styled.div`
     background-color: #fff;
     margin: 24px 24px 0 24px;
     .ant-menu {
-        width: 256px;
+        width: 200px;
         &-item-selected {
             font-weight: bold;
         }

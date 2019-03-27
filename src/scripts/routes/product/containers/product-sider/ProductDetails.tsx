@@ -63,7 +63,7 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
             {
                 title: 'Chiều cao ngồi (mm)',
                 value: selectedFurnitureComponentGroup
-                    ? selectedFurnitureComponentGroup.handHeight
+                    ? selectedFurnitureComponentGroup.sittingHeight
                     : ''
             }
         ];
@@ -71,7 +71,8 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
 
     private readonly getLegsInfo = () => {
         const {
-            selectedProduct
+            selectedProduct,
+            selectedFurnitureComponentGroup
         } = this.context;
 
         const legModules = selectedProduct!.modules.find(o => {
@@ -95,7 +96,9 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
             },
             {
                 title: 'Chiều cao chân (mm)',
-                value: component.displayHeight || component.height
+                value: component.displayHeight
+                    || component.height
+                    || (selectedFurnitureComponentGroup && selectedFurnitureComponentGroup!.legHeight)
             }
         ];
     }
@@ -154,7 +157,7 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                     : null
             },
             {
-                title: 'Kích thước mặt ngồi',
+                title: 'Kích thước nệm ngồi',
                 value: selectedFurnitureComponentGroup
                     ? selectedFurnitureComponentGroup!.sittingSurfaceSize
                     : ''
@@ -212,8 +215,8 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                             );
                         })}
                 </div>
-                <AccessControl policy={functionAllowed} funcKey="PRODUCT_RELATED_LINK">
-                    {(allowed) => allowed ? <ProductLinks /> : null}
+                <AccessControl policy={functionAllowed} funcKey="FUNC_PRODUCT_RELATED_LINK">
+                    <ProductLinks />
                 </AccessControl>
             </div>
         );

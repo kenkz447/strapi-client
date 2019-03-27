@@ -38,7 +38,7 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
                 title={(
                     <Tabs size="large">
                         <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="1"/>
-                        <Tabs.TabPane tab="Chính sách đại lý" key="2" />
+                        <Tabs.TabPane tab="Chính sách đại lý" key="2" disabled={true} />
                     </Tabs>
                 )}
             >
