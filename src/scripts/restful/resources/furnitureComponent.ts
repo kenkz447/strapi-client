@@ -38,7 +38,12 @@ export const furnitureComponentResources = {
     find: new Resource<FurnitureComponent, FurnitureComponent[]>({
         resourceType: furnitureComponentResourceType,
         url: '/components',
-        method: 'GET'
+        method: 'GET',
+        getDefaultParams: () => ({
+            type: 'query',
+            parameter: 'disabled',
+            value: false
+        })
     }),
     findOne: new Resource<FurnitureComponent, FurnitureComponent>({
         resourceType: furnitureComponentResourceType,

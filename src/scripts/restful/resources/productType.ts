@@ -41,6 +41,11 @@ export const productTypeResources = {
     find: new Resource<ProductType, ProductType[]>({
         resourceType: productTypeResourceType,
         url: '/producttype',
+        getDefaultParams: () => ({
+            type: 'query',
+            parameter: 'disabled',
+            value: false
+        })
     }),
     findOne: new Resource<ProductType, ProductType>({
         resourceType: productTypeResourceType,

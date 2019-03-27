@@ -210,9 +210,10 @@ export class ProductTypeSelect extends React.PureComponent<
                         placeholder={text('Select')}
                         size="large"
                     >
-                        {allProductTypeGroups.map(o => (
-                            <Select.Option key={o.id} value={o.id}>{o.name}</Select.Option>
-                        ))}
+                        {allProductTypeGroups
+                            .map(o => (
+                                <Select.Option key={o.id} value={o.id}>{o.name}</Select.Option>
+                            ))}
                     </Select>
                 </Form.Item>
                 <Form.Item label={text('Type')}>

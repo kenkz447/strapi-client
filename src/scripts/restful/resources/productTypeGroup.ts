@@ -16,5 +16,10 @@ export const productTypeGroupResources = {
     find: new Resource<ProductTypeGroup, ProductTypeGroup[]>({
         resourceType: productTypeGroupResourceType,
         url: '/producttypegroup',
+        getDefaultParams: () => ({
+            type: 'query',
+            parameter: 'disabled',
+            value: false
+        })
     })
 };
