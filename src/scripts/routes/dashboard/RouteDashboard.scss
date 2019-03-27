@@ -1,0 +1,12 @@
+.route-dashboard {
+    min-height: 100%;
+    height: 1px;
+    display: flex;
+    padding: 24px 0 0 24px;
+    > :first-child {
+        flex-basis: 25%;
+    }
+    > :last-child {
+        flex-basis: 75%;
+    }
+}

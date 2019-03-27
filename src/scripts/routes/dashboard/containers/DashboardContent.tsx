@@ -12,16 +12,6 @@ import {
     DashboardPostsFetcher
 } from './dashboard-content/DashboardPostsFetcher';
 
-const DashboardContentHeadline = styled.h4`
-    text-decoration: none;
-    font-size: 20px;
-    color: #333740;
-    letter-spacing: 0;
-    transition: color .2s ease;
-    border-bottom: 3px solid #f0b41e;
-    display: inline-block;
-`;
-
 interface DashboardContentProps {
 }
 
@@ -33,7 +23,7 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
 
         return (
             <Card
-                className="mh-100 dashboard-content"
+                className="dashboard-content"
                 bordered={false}
                 title={(
                     <Tabs size="large">

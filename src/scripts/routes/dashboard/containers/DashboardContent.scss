@@ -1,4 +1,9 @@
 .dashboard-content {
+    min-height: 100%;
+    height: auto;
+    .ant-card-body{
+        background: #fff;
+    }
     .ant-card-head-title {
         padding: 0;
     }
