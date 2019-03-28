@@ -41,8 +41,8 @@ export const furnitureComponentResources = {
         method: 'GET',
         getDefaultParams: () => ({
             type: 'query',
-            parameter: 'disabled',
-            value: false
+            parameter: 'disabled_ne',
+            value: true
         })
     }),
     findOne: new Resource<FurnitureComponent, FurnitureComponent>({
