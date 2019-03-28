@@ -84,7 +84,11 @@ class ProductComponentSelectComponent extends React.PureComponent<
         }
 
         filteredComponentByGroup = filteredComponentByGroup.filter(o => {
-            return o.componentGroup && o.componentGroup['disabled'] !== true;
+            if (!o.componentGroup) {
+                return true;
+            }
+
+            return o.componentGroup['disabled'] !== true;
         });
 
         return filteredComponentByGroup.sort((i1, i2) => (i1.variantIndex || 0) - (i2.variantIndex || 0));
