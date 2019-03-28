@@ -1,0 +1,23 @@
+#dashboardAgencyLevelList {
+    .agency-level-item {
+        &:not(:last-child) {
+            padding-bottom: 24px;
+            margin-bottom: 24px;
+            border-bottom: 1px dashed lightgray;
+        }
+        display: flex;
+        &[data-disabled="true"] {
+            opacity: .5;
+        }
+
+        > :nth-child(1) {
+            width: auto;
+            height: 80px;
+            margin-right: 24px;
+        }
+
+        > :nth-child(2) {
+            flex-grow: 1;
+        }
+    }
+}

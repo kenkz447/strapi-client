@@ -1,5 +1,4 @@
 import { Card, Icon, Typography } from 'antd';
-import Item from 'antd/lib/list/Item';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { RestfulRender } from 'react-restful';

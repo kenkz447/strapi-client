@@ -6,7 +6,8 @@ export const AUTH_CONFIRM_URL = AUTH_PATH + '/confirm';
 export const FORGOT_PASSWORD_URL = AUTH_PATH + '/forgot-password';
 export const RESET_PASSWORD_URL = AUTH_PATH + '/reset-password';
 
-export const DASHBOARD_URL = '/';
+export const DASHBOARD_BASE_PATH = '/dashboard';
+export const DASHBOARD_URL = DASHBOARD_BASE_PATH + '/:activeTab?';
 export const PRODUCT_PATH = '/product';
 export const PRODUCT_URL = PRODUCT_PATH + '/:modulesCode?';
 

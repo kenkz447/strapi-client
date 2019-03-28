@@ -1,38 +1,56 @@
 import './DashboardContent.scss';
 
-import { Card, Tabs, Typography } from 'antd';
+import { Card, Tabs } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
-import styled from 'styled-components';
 
+import { DASHBOARD_BASE_PATH } from '@/configs';
 import { DomainContext } from '@/domain';
-import { text } from '@/i18n';
 
+import { DashboardPostsFetcher } from './dashboard-content';
 import {
-    DashboardPostsFetcher
-} from './dashboard-content/DashboardPostsFetcher';
+    DashboardAgencyLevelsFetcher
+} from './dashboard-content/DashboardAgencyLevelsFetcher';
 
-interface DashboardContentProps {
+export interface DashboardContentProps {
+    readonly activeTab: 'posts' | 'agency-policies';
 }
 
 export class DashboardContent extends React.PureComponent<DashboardContentProps> {
     public static readonly contextType = RootContext;
     public readonly context!: DomainContext;
 
+    private readonly onTabClick = (tabKey: DashboardContentProps['activeTab']) => {
+        const { history } = this.context;
+
+        history.replace(`${DASHBOARD_BASE_PATH}/${tabKey}`);
+    }
+
     public render() {
+        const { activeTab } = this.props;
 
         return (
             <Card
                 className="dashboard-content"
                 bordered={false}
                 title={(
-                    <Tabs size="large">
-                        <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="1"/>
-                        <Tabs.TabPane tab="Chính sách đại lý" key="2" disabled={true} />
+                    <Tabs
+                        size="large"
+                        activeKey={activeTab}
+                        defaultActiveKey="posts"
+                        onTabClick={this.onTabClick}
+                    >
+                        <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="posts" />
+                        <Tabs.TabPane tab="Chính sách đại lý" key="agency-policies" />
                     </Tabs>
                 )}
             >
-                <DashboardPostsFetcher />
+                {
+                    activeTab === 'posts'
+                        ? <DashboardPostsFetcher />
+                        : <DashboardAgencyLevelsFetcher />
+                }
+
             </Card>
         );
     }

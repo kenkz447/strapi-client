@@ -10,7 +10,10 @@ import { text } from '@/i18n';
 import { getUrlSearchParam } from '@/utilities';
 
 import { DashboardAccountInfo, DashboardPost } from './containers';
-import { DashboardContent } from './containers/DashboardContent';
+import {
+    DashboardContent,
+    DashboardContentProps
+} from './containers/DashboardContent';
 
 const RouteDashboardWrapper = styled.div`
     min-height: 100%;
@@ -31,7 +34,7 @@ const RouteDashboardWrapper = styled.div`
     }
 `;
 
-type RouteDashboardProps = AppPageProps;
+type RouteDashboardProps = AppPageProps<{ readonly activeTab: DashboardContentProps['activeTab'] }>;
 
 export class RouteDashboard extends RoutePage<RouteDashboardProps> {
     static readonly routeInfo: RouteInfo = {
@@ -41,6 +44,9 @@ export class RouteDashboard extends RoutePage<RouteDashboardProps> {
     };
 
     render() {
+        const { match } = this.props;
+
+        const activeTab = match.params.activeTab || 'posts';
         const currentPost = getUrlSearchParam('post');
 
         return (
@@ -54,7 +60,7 @@ export class RouteDashboard extends RoutePage<RouteDashboardProps> {
                                     <DashboardPost postSlug={currentPost} />
                                 </SlideUp>
                             ) : (
-                                <DashboardContent />
+                                <DashboardContent activeTab={activeTab} />
                             )
                     }
                 </RouteDashboardWrapper>

@@ -3,7 +3,7 @@ import { Permission } from 'qoobee';
 import {
     ACCOUNT_URL,
     AGENCIES_URL,
-    DASHBOARD_URL,
+    DASHBOARD_BASE_PATH,
     ISSUE_TICKET_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
@@ -19,7 +19,7 @@ const locationPermissions: Permissions = {
     },
     DASHBOARD: {
         key: 'DASHBOARD',
-        url: /\/$/i
+        url: new RegExp(DASHBOARD_BASE_PATH)
     },
     PRODUCT: {
         key: 'PRODUCT',

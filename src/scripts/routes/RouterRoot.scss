@@ -90,6 +90,11 @@ button+button {
 }
 
 .flex {
+    &-direction {
+        &-column {
+            flex-direction: column!important;
+        }
+    }
     &-grow {
         &-1 {
             flex-grow: 1 !important;

@@ -1,14 +1,14 @@
 import {
     ACCOUNT_URL,
     AGENCIES_URL,
-    DASHBOARD_URL,
+    DASHBOARD_BASE_PATH,
     ISSUE_TICKET_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH
 } from '@/configs';
 
 export const mainMenu = [{
-    url: DASHBOARD_URL,
+    url: DASHBOARD_BASE_PATH,
     icon: 'home',
     label: 'Home'
 }, {
