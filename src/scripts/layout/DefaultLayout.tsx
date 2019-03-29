@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DASHBOARD_URL, LOGO_TEXT } from '@/configs';
+import { DASHBOARD_BASE_PATH, DASHBOARD_URL, LOGO_TEXT } from '@/configs';
 import { DomainContext } from '@/domain';
 
 import {
@@ -76,7 +76,7 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
     private readonly siderContent = (
         <React.Fragment>
             <SiderLogo>
-                <Link to={DASHBOARD_URL}>
+                <Link to={DASHBOARD_BASE_PATH}>
                     <img src={LOGO_TEXT} alt="logo" />
                 </Link>
             </SiderLogo>

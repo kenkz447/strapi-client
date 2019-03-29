@@ -1,9 +1,12 @@
 import { Role } from 'qoobee';
 
+import { DASHBOARD_BASE_PATH } from '@/configs';
+
 import { permissions } from './permissions';
 
 const admin: Role = {
     key: 'Administrator',
+    defaultUrl: DASHBOARD_BASE_PATH,
     allowed: [
         permissions.ALL
     ],
@@ -16,6 +19,7 @@ const admin: Role = {
 
 const authenticated: Role = {
     key: 'Authenticated',
+    defaultUrl: DASHBOARD_BASE_PATH,
     allowed: [
         permissions.DASHBOARD,
         permissions.PRODUCT,
