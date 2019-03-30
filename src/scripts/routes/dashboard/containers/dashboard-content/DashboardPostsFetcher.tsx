@@ -15,7 +15,7 @@ export class DashboardPostsFetcher extends React.PureComponent<DashboardPostsFet
             <RestfulRender
                 resource={postResources.find}
                 render={(renderProps) => {
-                    const { data, fetching, refetch } = renderProps;
+                    const { data } = renderProps;
 
                     if (!data) {
                         return <Loading />;

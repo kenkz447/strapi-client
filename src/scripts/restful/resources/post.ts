@@ -20,7 +20,12 @@ export const postResourceType = new ResourceType<Post>(nameof<Post>());
 export const postResources = {
     find: new Resource<Post, Post[]>({
         resourceType: postResourceType,
-        url: '/posts'
+        url: '/posts',
+        getDefaultParams: () => ({
+            type: 'query',
+            parameter: '_sort',
+            value: 'id:DESC'
+        })
     }),
     findOne: new Resource<Post>({
         resourceType: postResourceType,

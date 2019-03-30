@@ -1,8 +1,12 @@
+import './DashboardPost.scss';
+
 import { Card, Icon, Typography } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { RestfulRender } from 'react-restful';
 
+import { getPostHTMLContent } from '@/business/post';
+import { Loading } from '@/components';
 import { DASHBOARD_URL, DATE_FORMAT } from '@/configs';
 import { DomainContext } from '@/domain';
 import { postResources } from '@/restful';
@@ -36,15 +40,17 @@ export class DashboardPost extends React.PureComponent<DashboardPostProps> {
                     value: postSlug
                 }}
             >
-                {({ data }) => {
+                {({ data, fetching }) => {
                     if (!data || !data.length) {
-                        return null;
+                        return <Loading />;
                     }
 
                     const [post] = data;
+                    const postContent = getPostHTMLContent(post);
+
                     return (
                         <Card
-                            className="mh-100"
+                            style={{ minHeight: '100%' }}
                             bordered={false}
                             title={<Icon onClick={this.goBackBtnClick} className="clickable" type="arrow-left" />}
                         >
@@ -54,9 +60,10 @@ export class DashboardPost extends React.PureComponent<DashboardPostProps> {
                                     Ngày đăng: {formatDate(post.updatedAt, DATE_FORMAT)}
                                 </Typography.Text>
                                 <div className="white-space-2" />
-                                <Typography.Paragraph>
-                                    {post.content}
-                                </Typography.Paragraph>
+                                <article
+                                    className="dashboard-post-content"
+                                    dangerouslySetInnerHTML={{ __html: postContent }}
+                                />
                             </div>
                         </Card>
                     );

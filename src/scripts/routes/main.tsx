@@ -8,10 +8,12 @@ import { RouteAccounts } from './accounts';
 import { RouteCart } from './cart';
 import { RouteCheckout } from './checkout';
 import { RouteDashboard } from './dashboard';
+import { RouteHome } from './home';
 import { IssueTicketDetails, RouteIssueTickets } from './issue-tickets';
 import { RouteProduct } from './product';
 
 export const routes = routeFrom([
+    RouteHome,
     RouteDashboard,
     RouteProduct,
     RouteCart,
