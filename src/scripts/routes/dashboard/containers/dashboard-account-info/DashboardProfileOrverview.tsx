@@ -3,10 +3,15 @@ import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { Loading } from '@/components';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { request } from '@/restful';
-import { statisticsResources } from '@/restful/resources/statistics';
+import {
+    StatisticsProfileOverviewResponse,
+    statisticsResources
+} from '@/restful/resources/statistics';
+import { formatCurrency } from '@/utilities';
 
 const DashboardAccountProgressWrapper = styled.div`
     display: flex;
@@ -31,12 +36,30 @@ const DashboardAccountProgressWrapper = styled.div`
 interface DashboardProfileOverviewProps {
 }
 
-export class DashboardProfileOverview extends React.PureComponent<DashboardProfileOverviewProps> {
+interface DashboardProfileOverviewState {
+    readonly data: StatisticsProfileOverviewResponse | null;
+}
+
+export class DashboardProfileOverview extends React.PureComponent<
+    DashboardProfileOverviewProps,
+    DashboardProfileOverviewState
+    > {
+    
     public static readonly contextType = RootContext;
     public readonly context!: DomainContext;
 
+    constructor(props: DashboardProfileOverviewProps) {
+        super(props);
+        this.state = {
+            data: null
+        };
+    }
+
     private readonly fetchResources = async () => {
-        await request(statisticsResources.profileOverview);
+        const data = await request(statisticsResources.profileOverview);
+        this.setState({
+            data
+        });
     }
 
     public componentDidMount() {
@@ -51,9 +74,13 @@ export class DashboardProfileOverview extends React.PureComponent<DashboardProfi
 
     public render() {
         const { currentAgency } = this.context;
-
+        const { data } = this.state;
         if (!currentAgency) {
             return null;
+        }
+
+        if (!data) {
+            return <Loading />;
         }
 
         return (
@@ -65,16 +92,16 @@ export class DashboardProfileOverview extends React.PureComponent<DashboardProfi
                             {currentAgency.level.name}
                             <br />
                             <Typography.Text type="secondary">
-                                Giảm {currentAgency.level.discountPercent}% trên tổng đơn hàng
+                                Giảm {currentAgency.level.discountPercent}% mỗi đơn hàng
                         </Typography.Text>
                         </p>
                         <p>
                             <Icon type="dollar" theme="twoTone" twoToneColor="orange" />
-                            {text('Your point')}: 68,000,000
+                            {text('Your point')}: {formatCurrency(data.totalTransactionMoney)}
                     </p>
                         <p>
                             <Icon type="rocket" theme="twoTone" twoToneColor="orange" />
-                            {text('Point to next level')}: 150,000,000
+                            {text('Point to next level')}: 50,000,000
                     </p>
                     </div>
                 </DashboardAccountProgressWrapper>
@@ -83,15 +110,15 @@ export class DashboardProfileOverview extends React.PureComponent<DashboardProfi
                     <div className="account-progress-info"  >
                         <p>
                             <Icon type="folder" theme="twoTone" twoToneColor="#87d068" />
-                            {text('Order')}: 9
+                            {text('Order')}: {data.orderCount}
                     </p>
                         <p>
                             <Icon type="appstore" theme="twoTone" twoToneColor="#87d068" />
-                            {text('Products')}: 68
+                            {text('Products')}: {data.totalProduct}
                     </p>
                         <p>
                             <Icon type="gift" theme="twoTone" twoToneColor="#87d068" />
-                            {text('Promotion')}: 23,000,000
+                            {text('Promotion')}: {formatCurrency(data.totalDiscount)}
                     </p>
                     </div>
                 </DashboardAccountProgressWrapper>
