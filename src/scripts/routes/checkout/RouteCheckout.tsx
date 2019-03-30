@@ -1,18 +1,16 @@
-import { Card, Col, Row } from 'antd';
+import { Card } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { Redirect } from 'react-router';
 
 import { BusinessController } from '@/business';
 import { getOrderShippingDate, upsertOrder } from '@/business/order';
-import { getOrderDetailsTotal } from '@/business/order-detail';
 import { PageContent, PageWrapper } from '@/components';
-import { CART_URL, CHECKOUT_URL, PRODUCT_URL } from '@/configs';
+import { CART_URL, CHECKOUT_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
 import { CheckoutFormControl } from '@/forms/checkout/CheckoutFormControl';
 import { text } from '@/i18n';
 import { Order } from '@/restful';
-import { formatDate, getUrlSearchParam } from '@/utilities';
 
 import { CheckoutComplete, CheckoutPageHeader } from './containers';
 
@@ -66,13 +64,8 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
             return <Redirect to={CART_URL} />;
         }
 
-        const shippingDate = getOrderShippingDate();
-
         const initialValues: Partial<Order> = {
-            orderDetails: initOrderDetails,
-            agencyOrderer: currentAgency,
-            shippingDate: shippingDate.toISOString(),
-            status: 'new'
+            orderDetails: initOrderDetails
         };
 
         return (

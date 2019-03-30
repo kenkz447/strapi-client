@@ -71,6 +71,8 @@ export class CheckoutFormControl extends FormikControlBase<
 
         return {
             ...values,
+            agencyCommissionPercent: discounts.agency.percent,
+            agencyCommissionValue: discounts.agency.discount,
             shippingFee: transportFee ? transportFee.total : 0,
             promotionDiscount: discounts.promotion,
             totalDiscount: discounts.total,

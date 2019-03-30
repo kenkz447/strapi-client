@@ -1,4 +1,5 @@
 export * from './getAllStatus';
+export * from './getOrderDeposit';
 export * from './getOrderDiscount';
 export * from './getOrderPayment';
 export * from './getOrderShippingDate';

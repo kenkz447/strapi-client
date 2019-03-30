@@ -52,6 +52,8 @@ export interface Order extends Record {
     readonly photos: UploadedFile[];
 
     readonly issueTickets?: IssueTicket[];
+
+    readonly totalProduct: number;
 }
 
 export const orderResourceType = new ResourceType<Order>(nameof<Order>());
