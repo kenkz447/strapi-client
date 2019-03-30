@@ -12,7 +12,7 @@ export interface OrderDetail extends Record {
     readonly quantity: number;
     readonly productModulesCode: string;
     readonly product_type: ProductType | string;
-    readonly design: ProductDesign | string;
+    readonly productDesign: ProductDesign | string;
     readonly subTotalPrice: number;
     readonly totalPrice: number;
     readonly productPrice: number;

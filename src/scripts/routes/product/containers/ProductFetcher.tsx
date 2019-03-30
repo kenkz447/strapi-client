@@ -392,7 +392,7 @@ class ProductFetcherComponent extends React.PureComponent<
                                                     disabled={disableAddToCart}
                                                     onClick={this.onShoppingClick}
                                                     initialValues={{
-                                                        design: loadedProduct!.design.id,
+                                                        productDesign: loadedProduct!.design.id,
                                                         product_type: loadedProduct!.productType.id,
                                                         productModulesCode: modulesCode!,
                                                         status: 'temp',

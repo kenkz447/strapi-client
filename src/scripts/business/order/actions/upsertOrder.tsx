@@ -32,7 +32,6 @@ export const upsertOrder = (order: Partial<Order>, context: DomainContext) => {
                 0
             ),
             shippingDate: shippingDate.toISOString(),
-            agencyOrderer: currentAgency,
             status: 'new'
         } as Order
     });

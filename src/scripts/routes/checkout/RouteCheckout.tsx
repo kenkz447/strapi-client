@@ -65,7 +65,8 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
         }
 
         const initialValues: Partial<Order> = {
-            orderDetails: initOrderDetails
+            orderDetails: initOrderDetails,
+            agencyOrderer: currentAgency
         };
 
         return (

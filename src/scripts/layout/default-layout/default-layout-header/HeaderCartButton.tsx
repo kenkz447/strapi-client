@@ -84,11 +84,11 @@ export const HeaderCartButton = React.memo((props) => {
                     resourceType={orderDetailResourceType}
                     initDataSource={initOrderDetails}
                     key={initOrderDetails.length}
+                    filter={(orderDetail) => !orderDetail.order}
                 >
                     {(orderDetails) => <HeaderCartButtonComponent orderDetails={orderDetails} />}
                 </RestfulDataContainer>
             )}
         </ContextRender>
-
     );
 });

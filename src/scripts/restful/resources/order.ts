@@ -54,6 +54,7 @@ export interface Order extends Record {
     readonly issueTickets?: IssueTicket[];
 
     readonly totalProduct: number;
+    readonly locked?: boolean;
 }
 
 export const orderResourceType = new ResourceType<Order>(nameof<Order>());
@@ -82,6 +83,12 @@ export const orderResources = {
         resourceType: orderResourceType,
         url: '/order/status/:id/:status',
         method: 'PUT'
+    }),
+    lock: new Resource<Order>({
+        resourceType: orderResourceType,
+        url: '/order/lock/:id',
+        method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate
     }),
     delete: new Resource<Order>({
         resourceType: orderResourceType,

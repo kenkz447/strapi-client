@@ -6,7 +6,12 @@ import { PageContent, PageLoading, PageWrapper, SlideUp } from '@/components';
 import { ORDER_DETAIL_URL } from '@/configs';
 import { AppPageProps, DomainContext, policies, RoutePage } from '@/domain';
 import { text } from '@/i18n';
-import { Order, orderResourceType, request } from '@/restful';
+import {
+    Order,
+    orderResourceType,
+    productTypeResources,
+    request
+} from '@/restful';
 import { orderResources } from '@/restful';
 
 import order from '../';
@@ -62,7 +67,7 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                 type: 'path',
                 parameter: 'id',
                 value: match.params.id
-            }),
+            })
         ]);
 
         this.setState({

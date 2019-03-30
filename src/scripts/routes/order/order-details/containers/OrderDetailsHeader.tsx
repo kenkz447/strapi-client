@@ -5,9 +5,11 @@ import { Button, Col, Dropdown, Icon, Menu, Row, Typography } from 'antd';
 import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 
+import { BusinessController } from '@/business';
 import {
     getOrderStatusLabel,
-    getOrderTransactionMoney
+    getOrderTransactionMoney,
+    lockOrder
 } from '@/business/order';
 import { PageHeader } from '@/components';
 import {
@@ -75,9 +77,23 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                                         {
                                             cancelIssueTicket && (
                                                 <Menu.Item>
-                                                    <Typography.Text type="danger">
-                                                        {text('Close this order!')}
-                                                    </Typography.Text>
+                                                    <BusinessController
+                                                        action={lockOrder}
+                                                        params={order}
+                                                    >
+                                                        {({ doBusiness }) => {
+                                                            return (
+                                                                <div onClick={() => doBusiness()}>
+                                                                    <Typography.Text
+                                                                        type="danger"
+                                                                    >
+                                                                        {text('Lock this order!')}
+                                                                    </Typography.Text>
+                                                                </div>
+                                                            );
+                                                        }}
+                                                    </BusinessController>
+
                                                 </Menu.Item>
                                             )
                                         }
