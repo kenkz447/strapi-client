@@ -9,6 +9,6 @@ export interface StatisticsProfileOverviewResponse {
 
 export const statisticsResources = {
     profileOverview: new Resource<{}, StatisticsProfileOverviewResponse>({
-        url: '/statistics/profile-oveview'
+        url: '/statistics/profile-overview'
     })
 };
