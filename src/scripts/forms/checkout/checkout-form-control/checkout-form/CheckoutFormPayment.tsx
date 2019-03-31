@@ -1,10 +1,10 @@
 import { Button, Divider, Form, Icon, Tooltip } from 'antd';
 import * as React from 'react';
 
-import { getOrderTotalPayment } from '@/business/order/getters/getOrderPayment';
+import { getOrderTotalPayment } from '@/business/order';
 import { verticalLayout, verticalLayoutNoLabel } from '@/components';
 import { text } from '@/i18n';
-import { formatCurrency } from '@/utilities';
+import { formatCurrency, roundTo } from '@/utilities';
 
 import { CheckoutFormOwnProps } from '../CheckoutForm';
 import { PaymentPromotionField } from './checkout-form-payment';
@@ -99,7 +99,21 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                     labelCol={verticalLayout.labelCol}
                     label={text('Transport fee')}
                 >
-                    {transportFee ? formatCurrency(transportFee.total) : 0}
+                    {
+                        transportFee
+                            ? (
+                                <div>
+                                    <span>
+                                        {formatCurrency(transportFee.total)}
+                                    </span>
+                                    <br />
+                                    <small style={{ lineHeight: 1, display: 'block' }}>
+                                        <i>{text('Tổng khối lượng đơn hàng')} : {roundTo(transportFee.totalVolume, 2)}</i>
+                                    </small>
+                                </div>
+                            )
+                            : 0
+                    }
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}

@@ -28,7 +28,10 @@ function HeaderSelectLanguage(props: WithContextProps<HeaderSelectLanguageContex
                     {
                         avaliableLanguages.map(lang => {
                             return (
-                                <Menu.Item key={lang.name}>
+                                <Menu.Item
+                                    key={lang.name}
+                                    disabled={lang.name === 'en'}
+                                >
                                     <SymbolLang>{lang.symbol}</SymbolLang> {lang.label}
                                 </Menu.Item>
                             );

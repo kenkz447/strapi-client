@@ -24,6 +24,7 @@ export const getOrderTransportFee = (order: Partial<Order>) => {
     const result = totalTransportFee - lastThreeNumber;
     
     return {
-        total: result
+        total: result,
+        totalVolume: totalVolume
     };
 };
