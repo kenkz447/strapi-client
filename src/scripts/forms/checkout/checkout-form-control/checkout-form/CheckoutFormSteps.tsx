@@ -27,7 +27,7 @@ export class CheckoutFormSteps extends React.PureComponent<CheckoutFormStepsProp
         const { currentStep } = this.props;
         return (
             <CheckoutFormStepsWrapper>
-                <Steps current={currentStep}>
+                <Steps progressDot={true} current={currentStep}>
                     {steps.map(item => <Steps.Step key={item.title} title={item.title} />)}
                 </Steps>
             </CheckoutFormStepsWrapper>

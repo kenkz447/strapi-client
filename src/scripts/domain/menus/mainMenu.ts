@@ -10,7 +10,7 @@ import {
 export const mainMenu = [{
     url: DASHBOARD_BASE_PATH,
     icon: 'home',
-    label: 'Home'
+    label: 'Dashboard'
 }, {
     url: PRODUCT_PATH,
     icon: 'gold',

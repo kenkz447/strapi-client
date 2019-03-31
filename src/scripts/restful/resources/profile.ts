@@ -15,8 +15,7 @@ export const profileResources = {
         getDefaultParams: getDefaultParamsForUpdate
     }),
     changePassword: new Resource({
-        url: '/profile/change-password/:id',
-        method: 'PUT',
-        getDefaultParams: getDefaultParamsForUpdate
+        url: '/profile/change-password',
+        method: 'PUT'
     })
 };

@@ -23,7 +23,10 @@ export function RegisterForm(props: RegisterFormOwnProps) {
     } = props;
 
     return (
-        <FormBody formProps={props}>
+        <FormBody
+            formProps={props}
+            autoComplete="disabled"
+        >
             <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.fullName)}
                 onChange={handleChange}
@@ -56,6 +59,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 required={true}
                 size="large"
                 prefix={<Icon type="user" />}
+                autoComplete="disabled"
             />
             <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.email)}
@@ -67,6 +71,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 required={true}
                 size="large"
                 prefix={<Icon type="mail" />}
+                autoComplete="off"
             />
             <FormInput
                 type="password"

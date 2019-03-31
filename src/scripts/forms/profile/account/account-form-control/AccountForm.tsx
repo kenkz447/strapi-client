@@ -34,7 +34,7 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
         return (
             <FormBody formProps={this.props}>
                 <Typography.Title level={4}>
-                    {text('Account setting')}
+                    {text('Account settings')}
                 </Typography.Title>
                 <AccountFormWrapper>
                     <div>

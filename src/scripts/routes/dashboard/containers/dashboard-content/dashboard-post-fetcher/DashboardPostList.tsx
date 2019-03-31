@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { DATE_FORMAT } from '@/configs';
+import { text } from '@/i18n';
 import { Post } from '@/restful';
 import { formatDate } from '@/utilities';
 
@@ -39,7 +40,7 @@ export class DashboardPostList extends React.PureComponent<DashboardPostListProp
                                 // tslint:disable-next-line:max-line-length
                                 avatar={<Avatar src="/static/assets/news-icon.png" />}
                                 title={<Link to={postURL}>{item.title}</Link>}
-                                description={`Ngày đăng: ${formatDate(item.updatedAt, DATE_FORMAT)}`}
+                                description={`${text('Date Submitted')}: ${formatDate(item.updatedAt, DATE_FORMAT)}`}
                             />
                             {item.brief}
                         </List.Item>

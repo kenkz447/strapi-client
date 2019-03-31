@@ -61,7 +61,7 @@ export class ProfileLayout extends React.PureComponent<ProfileLayoutProps> {
                         {text('Tài khoản')}
                     </Menu.Item>
                     <Menu.Item key={PROFILE_PASSWORD_URL}>
-                        {text('Đổi mật khẩu')}
+                        {text('Change password')}
                     </Menu.Item>
                     <Menu.Item key={PROFILE_AGENCY_URL}>
                         {text('Thông tin đại lý')}

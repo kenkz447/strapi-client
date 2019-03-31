@@ -128,7 +128,7 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                                 render={(money) => formatCurrency(money)}
                             />
                             <Table.Column
-                                title={text('Attachement')}
+                                title={text('Attachment')}
                                 dataIndex={nameof<OrderTransaction>(o => o.attachment)}
                                 render={(attachment: UploadedFile) => {
                                     if (!attachment) {

@@ -7,10 +7,10 @@ import * as React from 'react';
 import { DASHBOARD_BASE_PATH } from '@/configs';
 import { DomainContext } from '@/domain';
 
-import { DashboardPostsFetcher } from './dashboard-content';
 import {
-    DashboardAgencyLevelsFetcher
-} from './dashboard-content/DashboardAgencyLevelsFetcher';
+    DashboardAgencyLevelsFetcher,
+    DashboardPostsFetcher
+} from './dashboard-content';
 
 export interface DashboardContentProps {
     readonly activeTab: 'posts' | 'agency-policies';

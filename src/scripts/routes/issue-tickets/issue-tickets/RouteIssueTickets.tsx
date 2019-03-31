@@ -27,7 +27,7 @@ export class RouteIssueTickets extends RoutePage<RouteIssueTicketsProps> {
                     content="Các vấn đề về đơn hàng, bảo hành sản phẩm, chất lượng dịch vụ..."
                     action={this.renderHeaderActions()}
                     breadcrumbList={[{
-                        title: 'Home',
+                        title: text('Dashboard'),
                         href: '/'
                     }, {
                         title: text('Support')

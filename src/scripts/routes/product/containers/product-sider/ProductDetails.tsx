@@ -139,7 +139,7 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
 
         const common = [
             {
-                title: 'Kích thước sản phẩm',
+                title: 'Kích thước tổng thể WxDxH (mm)',
                 value: selectedFurnitureComponentGroup
                     ? selectedFurnitureComponentGroup.productSize
                     : null

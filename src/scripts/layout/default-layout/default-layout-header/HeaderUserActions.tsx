@@ -41,7 +41,7 @@ function HeaderUserActions(props: WithContextProps<HeaderUserActionsContext>) {
                 >
                     <Menu.Item key={PROFILE_ACCOUNT_URL}>
                         <Icon type="user" />
-                        {text('Profile')}
+                        {text('Account settings')}
                     </Menu.Item>
                     <Menu.Divider />
                     <Menu.Item key="logout">

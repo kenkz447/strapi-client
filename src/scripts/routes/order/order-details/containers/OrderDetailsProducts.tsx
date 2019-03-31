@@ -134,7 +134,7 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                     render={(totalDiscountPerProduct) => formatCurrency(totalDiscountPerProduct)}
                                 />
                                 <Table.Column
-                                    title={text('Total price')}
+                                    title={text('Total')}
                                     dataIndex={nameof<OrderDetail>(o => o.totalPrice)}
                                     render={(totalPrice) => formatCurrency(totalPrice)}
                                 />

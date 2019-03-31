@@ -78,7 +78,7 @@ export class RouteAgencies extends RoutePage<RouteProps, RouteAgenciesState> {
     }
 
     render() {
-        const { allowLoad, initAgenies, routeContext } = this.state;
+        const { allowLoad, initAgenies: initAgencies, routeContext } = this.state;
 
         if (!allowLoad) {
             return <PageLoading />;
@@ -91,15 +91,15 @@ export class RouteAgencies extends RoutePage<RouteProps, RouteAgenciesState> {
                         title={this.title}
                         action={this.renderHeaderActions()}
                         breadcrumbList={[{
-                            title: 'Home',
+                            title: text('Dashboard'),
                             href: '/'
                         }, {
-                            title: text('Agenies')
+                            title: text('Agencies')
                         }]}
                     />
                     <PageContent>
                         <SlideUp className="w-100 d-flex">
-                            <AgenciesFetcher initData={initAgenies} />
+                            <AgenciesFetcher initData={initAgencies} />
                         </SlideUp>
                     </PageContent>
                 </PageWrapper>

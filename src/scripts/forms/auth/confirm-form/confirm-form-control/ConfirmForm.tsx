@@ -1,4 +1,4 @@
-import { Icon } from 'antd';
+import { Divider, Icon, Typography } from 'antd';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
@@ -28,6 +28,7 @@ export function ConfirmForm(props: ConfirmFormOwnProps) {
             && values.companyName
         );
 
+    const checkboxHelp = 'Nếu bạn không có giấy phép kinh doanh, vui lòng bỏ chọn ô này!';
     return (
         <FormBody formProps={props}>
             <div >
@@ -35,16 +36,16 @@ export function ConfirmForm(props: ConfirmFormOwnProps) {
                     name={nameof.full<ConfirmFormValues>(o => o.isBusiness)}
                     value={values.isBusiness}
                     onChange={handleChange}
-                    useFieldWrapper={false}
+                    help={values.isBusiness && checkboxHelp}
                 >
                     Doanh nhiệp
                 </FormCheckbox>
             </div>
-            <br />
             {
                 values.isBusiness
                     ? (
                         <React.Fragment>
+                            <div className="white-space-2" />
                             <div>
                                 <FormInput
                                     name={nameof.full<ConfirmFormValues>(o => o.businessAreas)}

@@ -62,7 +62,7 @@ export class AddressFilter extends React.PureComponent<
                         <FormInput
                             value={this.state.code || undefined}
                             label={text('Code')}
-                            placeholder={text('input code...')}
+                            placeholder={text('input code')}
                             onChange={this.onCodeChange}
                         />
                     </Col>

@@ -84,7 +84,7 @@ export class IssueTicketFilter extends React.PureComponent<
                         <FormInput
                             value={this.state.code || undefined}
                             label={text('Code')}
-                            placeholder={text('input code...')}
+                            placeholder={text('input code')}
                             onChange={this.onCodeChange}
                         />
                     </Col>
@@ -93,7 +93,7 @@ export class IssueTicketFilter extends React.PureComponent<
                             <FormSelect
                                 value={agency || undefined}
                                 label={text('Agency')}
-                                placeholder={text('agency name...')}
+                                placeholder={text('agency name')}
                                 options={allAgencyOptions}
                                 allowClear={true}
                                 onChange={onAgencyChange}

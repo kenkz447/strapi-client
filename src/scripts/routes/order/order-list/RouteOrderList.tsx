@@ -70,7 +70,7 @@ export class RouteOrderList extends RoutePage<RouteProps> {
                     title={this.title}
                     action={this.renderHeaderActions()}
                     breadcrumbList={[{
-                        title: 'Home',
+                        title: text('Dashboard'),
                         href: '/'
                     }, {
                         title: text('Orders')

@@ -55,7 +55,7 @@ export function OrderTransactionForm(props: OrderTransactionFormOwnProps) {
                 labelCol={verticalLayout.labelCol}
                 help={errors.name}
                 validateStatus={errors.name ? 'error' : undefined}
-                placeholder={text('Input money')}
+                placeholder={text('input money')}
                 label={text('Money')}
                 className="w-100"
             />
@@ -68,7 +68,7 @@ export function OrderTransactionForm(props: OrderTransactionFormOwnProps) {
                 labelCol={verticalLayout.labelCol}
                 help={errors.date}
                 validateStatus={errors.date ? 'error' : undefined}
-                placeholder={text('Select date')}
+                placeholder={text('select date')}
                 label={text('Date')}
                 className="w-100"
             />

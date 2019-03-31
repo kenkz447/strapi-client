@@ -3,17 +3,18 @@ import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { PageContent, PageWrapper, SlideUp } from '@/components';
+import { PageWrapper, SlideUp } from '@/components';
 import { DASHBOARD_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 import { getUrlSearchParam } from '@/utilities';
 
-import { DashboardAccountInfo, DashboardPost } from './containers';
 import {
+    DashboardAccountInfo,
     DashboardContent,
-    DashboardContentProps
-} from './containers/DashboardContent';
+    DashboardContentProps,
+    DashboardPost
+} from './containers';
 
 const RouteDashboardWrapper = styled.div`
     min-height: 100%;

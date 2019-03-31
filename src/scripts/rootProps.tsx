@@ -1,4 +1,7 @@
+import { LocaleProvider } from 'antd';
+import vi_VN from 'antd/lib/locale-provider/vi_VN';
 import { createBrowserHistory } from 'history';
+import moment from 'moment';
 import {
     AppCoreContext,
     BreakpointDetector,
@@ -21,24 +24,28 @@ import {
 import { getCurrentLanguage } from './i18n';
 import { RouterRoot } from './routes';
 
+moment.locale('vi');
+
 const browserHistory = createBrowserHistory();
 
 const AppContent = () => (
-    <ErrorLogger
-        ErrorPage={ErrorPage}
-    >
-        <BreakpointDetector />
-        <MenusBuilder />
-        <ContextFetcher />
-        <FirebaseNotification />
-        <Authentication>
-            <I18NLoader>
-                <RouterRoot />
-                <GlobalModal />
-            </I18NLoader>
-        </Authentication>
-        <PrintHandler />
-    </ErrorLogger>
+    <LocaleProvider locale={vi_VN}>
+        <ErrorLogger
+            ErrorPage={ErrorPage}
+        >
+            <BreakpointDetector />
+            <MenusBuilder />
+            <ContextFetcher />
+            <FirebaseNotification />
+            <Authentication>
+                <I18NLoader>
+                    <RouterRoot />
+                    <GlobalModal />
+                </I18NLoader>
+            </Authentication>
+            <PrintHandler />
+        </ErrorLogger>
+    </LocaleProvider>
 );
 
 const initialContext: Partial<AppCoreContext> = {

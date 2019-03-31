@@ -289,7 +289,7 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                 logo={<img src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
                 onTabChange={onTabChange}
                 breadcrumbList={[{
-                    title: 'Home',
+                    title: text('Dashboard'),
                     href: '/'
                 }, {
                     title: text('Order list'),

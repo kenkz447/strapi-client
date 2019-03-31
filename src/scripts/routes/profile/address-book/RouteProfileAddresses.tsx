@@ -36,7 +36,7 @@ export class RouteProfileAddressBook extends RoutePage<RouteProfileAddressBookPr
                                 label={text('Add address')}
                                 icon="plus"
                             >
-                                Add address
+                                {text('Add address')}
                             </AddressFormButton>
                         </div>
                         <Divider dashed={true} />

@@ -30,7 +30,7 @@ export class IssueTicketReplyCreateForm extends React.PureComponent<IssueTicketR
                     value={values.content}
                     help={errors.content}
                     validateStatus={errors.content ? 'error' : undefined}
-                    placeholder={text('input description')}
+                    placeholder={text('comment')}
                     required={true}
                 />
                 <Button

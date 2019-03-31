@@ -52,7 +52,7 @@ export class RouteForgottenPassword extends RoutePage<
                                             showIcon={true}
                                             type="success"
                                             message="Ok"
-                                            description="Yêu cầu của bạn đã được gởi đi, vui lòng kiểm tra email!"
+                                            description="Yêu cầu của bạn đã được gởi đi, vui lòng kiểm tra mail và làm theo hướng dẫn!"
                                         />
                                     )
                                     : (

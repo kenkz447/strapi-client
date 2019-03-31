@@ -15,7 +15,10 @@ export const getDefaultParamsForUpdate = (params: RequestParameter[]): RequestPa
         throw new Error('Missing body params!');
     }
 
-    const bodyValue = requestBody.value as { readonly id: number };
+    const bodyValue = requestBody.value as {
+        readonly id: number,
+        readonly _id?: number;
+    };
     if (!requestBody) {
         throw new Error('Missing body value!');
     }
@@ -23,7 +26,7 @@ export const getDefaultParamsForUpdate = (params: RequestParameter[]): RequestPa
     return {
         type: 'path',
         parameter: 'id',
-        value: bodyValue.id!
+        value: bodyValue.id || bodyValue._id!
     };
 };
 

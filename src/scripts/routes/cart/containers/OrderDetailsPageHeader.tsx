@@ -12,7 +12,7 @@ import { OrderDetail, orderDetailResourceType } from '@/restful';
 import { formatCurrency } from '@/utilities';
 
 const breadcrumbList = [{
-    title: text('Home'),
+    title: text('Dashboard'),
     href: '/'
 }, {
     title: text('Shopping cart'),

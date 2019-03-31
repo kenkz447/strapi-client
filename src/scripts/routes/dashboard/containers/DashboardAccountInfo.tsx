@@ -37,8 +37,7 @@ export class DashboardAccountInfo extends React.PureComponent<DashboardAccountIn
                             {text('Welcome')} {currentUser.username}!
                         </DashboardAccountInfoHeadline>
                         <p className="text-justify">
-                            {/* tslint:disable-next-line:max-line-length */}
-                            We hope you are making progress on your project... We are giving our best to improve the product based on your feedback.
+                            {text('DashboardWelcome')}
                         </p>
                         <div className="white-space-2" />
                         <DashboardProfileOverview />

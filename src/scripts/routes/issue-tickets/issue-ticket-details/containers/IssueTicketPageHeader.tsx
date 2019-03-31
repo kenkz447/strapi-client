@@ -77,7 +77,7 @@ export class IssueTicketPageHeader extends React.PureComponent<
                 )}
                 action={this.renderHeaderActions()}
                 breadcrumbList={[{
-                    title: 'Home',
+                    title: text('Dashboard'),
                     href: '/'
                 }, {
                     title: text('Support'),

@@ -97,11 +97,11 @@ export class DashboardProfileOverview extends React.PureComponent<
                         </p>
                         <p>
                             <Icon type="dollar" theme="twoTone" twoToneColor="orange" />
-                            {text('Your point')}: {formatCurrency(data.totalTransactionMoney)}
+                            {text('You paid')}: {formatCurrency(data.totalTransactionMoney)}
                     </p>
                         <p>
                             <Icon type="rocket" theme="twoTone" twoToneColor="orange" />
-                            {text('Point to next level')}: 50,000,000
+                            {text('To the next level')}: 50,000,000
                     </p>
                     </div>
                 </DashboardAccountProgressWrapper>

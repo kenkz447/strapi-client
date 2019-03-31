@@ -5,12 +5,12 @@ import { Link, Redirect } from 'react-router-dom';
 
 import { BusinessController } from '@/business';
 import { upsertBusinessLiscense } from '@/business/business-license';
-import { SlideUp } from '@/components';
+import { Loading, SlideUp } from '@/components';
 import { AUTH_CONFIRM_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { ConfirmFormControl } from '@/forms/auth/confirm-form';
 import { text } from '@/i18n';
-import { BusinessLicense } from '@/restful';
+import { BusinessLicense, businessLicenseResources, request } from '@/restful';
 
 import { AuthCard, AuthPageWrapper } from '../shared';
 
@@ -18,6 +18,7 @@ type RouteConfirmProps = AppPageProps;
 
 interface RouteConfirmState {
     readonly licenseResult?: BusinessLicense;
+    readonly allowLoad?: boolean;
 }
 
 export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState> {
@@ -32,6 +33,21 @@ export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState
     constructor(props: RouteConfirmProps) {
         super(props);
         this.state = {};
+
+        this.fetchResources();
+    }
+
+    private readonly fetchResources = async () => {
+        const { currentUser } = this.props;
+
+        const [license] = await request(
+            businessLicenseResources.find
+        );
+
+        this.setState({
+            licenseResult: license,
+            allowLoad: true
+        });
     }
 
     render() {
@@ -40,7 +56,11 @@ export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState
             return <Redirect to={LOGIN_URL} />;
         }
 
-        const { licenseResult } = this.state;
+        const { licenseResult, allowLoad } = this.state;
+        if (!allowLoad) {
+            return null;
+        }
+        
         const hasLicense = !!licenseResult;
 
         return (

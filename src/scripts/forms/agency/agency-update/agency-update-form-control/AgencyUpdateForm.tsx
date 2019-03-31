@@ -33,7 +33,7 @@ export function AgencyUpdateForm(props: AgencyUpdateFormOwnProps) {
     return (
         <FormBody formProps={props}>
             <Typography.Title level={4}>
-                {text('Agency setting')}
+                {text('Agency settings')}
             </Typography.Title>
             <AccountFormWrapper>
                 <FormInput

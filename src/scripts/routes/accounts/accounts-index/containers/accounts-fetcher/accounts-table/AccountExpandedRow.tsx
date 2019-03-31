@@ -110,11 +110,14 @@ export class AccountExpandedRow extends React.PureComponent<
                                                 <Description term={text('Status')}>
                                                     <Tag color={statusColor}>{text(license.status)}</Tag>
                                                 </Description>
+                                                <Description term={text('Business area')}>
+                                                    <b>{license.businessAreas}</b>
+                                                </Description>
                                                 <Description term={text('Company')}>
                                                     <b>{license.companyName}</b>
                                                 </Description>
                                                 <Description term={text('Business area')}>
-                                                    <b>{license.businessAreas}</b>
+                                                    <b>{license.companyAddress}</b>
                                                 </Description>
                                                 <Description term={text('Business license')}>
                                                     <a

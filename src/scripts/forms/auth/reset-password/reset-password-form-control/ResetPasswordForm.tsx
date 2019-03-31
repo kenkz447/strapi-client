@@ -35,7 +35,7 @@ export function ResetPassword(props: ResetPasswordFormOwnProps) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
-                    prefix="adi-user"
+                    prefix="adi-key"
                     size="large"
                     placeholder={text('New password')}
                     type="password"
@@ -45,7 +45,7 @@ export function ResetPassword(props: ResetPasswordFormOwnProps) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.passwordConfirmation}
-                    prefix="adi-user"
+                    prefix="adi-key"
                     size="large"
                     placeholder={text('Password confirmation')}
                     type="password"

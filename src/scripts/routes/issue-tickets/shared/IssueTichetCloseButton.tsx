@@ -26,7 +26,7 @@ export function IssueTichetCloseButton({ issueTicket }: IssueTichetCloseButtonPr
                     loading={loading}
                     type="primary"
                 >
-                    {text('Close')} <Icon type="check" />
+                    {text('Close')} <Icon type="lock" />
                 </Button>
             )}
         </BusinessController>

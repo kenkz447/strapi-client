@@ -11,7 +11,7 @@ type RouteHomeProps = AppPageProps;
 export class RouteHome extends RoutePage<RouteHomeProps> {
     static readonly routeInfo: RouteInfo = {
         path: '/',
-        title: text('Home'),
+        title: text('Dashboard'),
         exact: true
     };
 

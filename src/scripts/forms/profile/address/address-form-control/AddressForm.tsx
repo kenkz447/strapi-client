@@ -36,8 +36,8 @@ export function AddressForm(props: AddressFormOwnProps) {
                     onChange={handleChange}
                     value={values.name}
                     validateStatus={errors.name ? 'error' : undefined}
-                    label={text('Contact to')}
-                    placeholder={text('input name')}
+                    label={text('Title')}
+                    placeholder={text('input title')}
                     autoFocus={true}
                     required={true}
                 />
@@ -76,14 +76,14 @@ export function AddressForm(props: AddressFormOwnProps) {
                     value={values.fullAddress}
                     validateStatus={errors.fullAddress ? 'error' : undefined}
                     label={text('Address')}
-                    placeholder={text('input agency address')}
+                    placeholder={text('input address')}
                     required={true}
                 />
                 <FormRadioGroup
                     name={nameof<AddressFormValues>(o => o.type)}
                     value={values.type}
                     onChange={handleChange}
-                    label={text('Loại địa chỉ')}
+                    label={text('Address type')}
                     required={true}
                 >
                     <Radio value="home">{text('House')}</Radio>

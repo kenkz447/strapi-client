@@ -4,10 +4,9 @@ import * as React from 'react';
 
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
-import { OrderDetail } from '@/restful';
 
 const breadcrumbList = [{
-    title: text('Home'),
+    title: text('Dashboard'),
     href: '/'
 }, {
     title: text('Checkout'),

@@ -9,6 +9,7 @@ import { getPostHTMLContent } from '@/business/post';
 import { Loading } from '@/components';
 import { DASHBOARD_URL, DATE_FORMAT } from '@/configs';
 import { DomainContext } from '@/domain';
+import { text } from '@/i18n';
 import { postResources } from '@/restful';
 import { formatDate } from '@/utilities';
 
@@ -57,7 +58,7 @@ export class DashboardPost extends React.PureComponent<DashboardPostProps> {
                             <div>
                                 <Typography.Title level={3}>{post.title}</Typography.Title>
                                 <Typography.Text type="secondary">
-                                    Ngày đăng: {formatDate(post.updatedAt, DATE_FORMAT)}
+                                    {text('Date Submitted')}: {formatDate(post.updatedAt, DATE_FORMAT)}
                                 </Typography.Text>
                                 <div className="white-space-2" />
                                 <article

@@ -56,7 +56,7 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
-                    label={text('Total')}
+                    label={text('Sub total')}
                 >
                     <span>{formatCurrency(subTotal)}</span>
                 </Form.Item>
@@ -71,7 +71,7 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                             <div>
                                 <div>
                                     <span style={formMetaStyle}>
-                                        {text('Products discount')}:
+                                        {text('Product discount')}:
                                     </span>
                                     {formatCurrency(discounts.products)}
                                 </div>
@@ -123,7 +123,6 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                     wrapperCol={verticalLayoutNoLabel.wrapperCol}
                 >
                     <Button
-                        type="primary"
                         onClick={onNextClick}
                     >
                         {text('Next')}
