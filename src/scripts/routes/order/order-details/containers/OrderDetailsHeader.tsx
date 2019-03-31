@@ -219,6 +219,8 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
         const { order } = this.props;
         const paidAmount = getOrderTransactionMoney(order);
 
+        const deposited = paidAmount >= order.depositRequired;
+
         return (
             <DescriptionList title="Thông tin đơn hàng" size="small" col={2}>
                 <Description term="Ngày đặt">{formatDate(order.createdAt, DATE_FORMAT)}</Description>
@@ -236,21 +238,23 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                 <Description term="Tình trạng">
                     {getOrderStatusLabel(order)}
                 </Description>
-                <Description term="Yêu cầu đặt cọc">
-                    {
-                        paidAmount >= order.depositRequired
-                            ? (
-                                <Typography.Text strong={true}>
-                                    {formatCurrency(order.depositRequired)} <Icon type="check" />
+                {
+                    deposited
+                        ? (
+                            <Description term={text('Deposited')}>
+                                <Typography.Text>
+                                    {formatCurrency(order.depositRequired)}
                                 </Typography.Text>
-                            )
-                            : (
+                            </Description>
+                        )
+                        : (
+                            <Description term={text('Deposit required')}>
                                 <Typography.Text mark={true} strong={true}>
                                     {formatCurrency(order.depositRequired)}
                                 </Typography.Text>
-                            )
-                    }
-                </Description>
+                            </Description>
+                        )
+                }
             </DescriptionList>
         );
     }

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { FormInput, verticalLayout } from '@/components';
 import { text } from '@/i18n';
 import { Order, Promotion, promotionResources, request } from '@/restful';
+import { formatCurrency } from '@/utilities';
 
 import { CheckoutFormValues } from '../../CheckoutForm';
 
@@ -14,12 +15,32 @@ export interface PaymentPromotionFieldProps {
     readonly handleChange: FormikHandlers['handleChange'];
 }
 
-export class PaymentPromotionField extends React.PureComponent<PaymentPromotionFieldProps> {
+interface PaymentPromotionFieldState {
+    readonly currentCode?: string;
+}
+
+export class PaymentPromotionField extends React.PureComponent<
+    PaymentPromotionFieldProps,
+    PaymentPromotionFieldState
+    > {
+
+    constructor(props: PaymentPromotionFieldProps) {
+        super(props);
+
+        this.state = {};
+    }
 
     private readonly trySetPromotion = debounce(
         async () => {
-            const { value, setFieldValue } = this.props;
-            if (!value) {
+            const { setFieldValue } = this.props;
+            const { currentCode } = this.state;
+
+            if (!currentCode || currentCode.length < 5) {
+                setFieldValue(
+                    nameof<Order>(o => o.promotion),
+                    null
+                );
+
                 return;
             }
 
@@ -28,54 +49,71 @@ export class PaymentPromotionField extends React.PureComponent<PaymentPromotionF
                 {
                     type: 'query',
                     parameter: 'code',
-                    value: value!.code
+                    value: currentCode
                 }
             );
 
-            if (!promoCodeEntity.length) {
-                setFieldValue(nameof<Order>(o => o.promotion), { code: value.code });
-                return;
-            }
-
             setFieldValue(
                 nameof<Order>(o => o.promotion),
-                promoCodeEntity[0]
+                promoCodeEntity[0] || null
             );
         },
         500
     );
 
     public componentDidUpdate(prevProps: PaymentPromotionFieldProps) {
-        const { value, setFieldValue } = this.props;
+        const { currentCode } = this.state;
 
-        if ((value && value.code) === (prevProps.value && prevProps.value.code)) {
-            return;
+        if (currentCode) {
+            this.trySetPromotion();
+        }
+    }
+
+    private readonly isCurrentPromoCodeValid = () => {
+        const { value } = this.props;
+
+        return value && !!value.id;
+    }
+
+    private readonly getHelpMessage = () => {
+        const { value } = this.props;
+        const isPromoCodeValid = this.isCurrentPromoCodeValid();
+
+        if (!isPromoCodeValid) {
+            return '';
         }
 
-        if (!value || !value.code) {
-            setFieldValue(nameof<Order>(o => o.promotion), null);
+        if (value!.discountPercent) {
+            return text(`Bạn được giảm ${value!.discountPercent}%`);
         }
 
-        this.trySetPromotion();
+        return text(`Bạn được giảm ${formatCurrency(value!.discountPrice)}`);
+    }
+
+    private readonly onInputChange = (e) => {
+        this.setState({
+            currentCode: e.target.value
+        });
     }
 
     public render() {
-        const { value, handleChange } = this.props;
+        const { currentCode } = this.state;
 
-        const isPromoCodeValid = value && value.id;
+        const isPromoCodeValid = this.isCurrentPromoCodeValid();
 
         return (
             <FormInput
                 className="w-50"
                 name={nameof.full<Order>(o => o.promotion!.code)}
-                onChange={handleChange}
-                value={value && value.code}
+                onChange={this.onInputChange}
+                value={currentCode}
                 wrapperCol={verticalLayout.wrapperCol}
                 labelCol={verticalLayout.labelCol}
                 validateStatus={isPromoCodeValid ? 'success' : undefined}
                 label={text('Promo code')}
                 placeholder={text('input your code')}
                 autoFocus={!isPromoCodeValid}
+                help={this.getHelpMessage()}
             />
         );
     }

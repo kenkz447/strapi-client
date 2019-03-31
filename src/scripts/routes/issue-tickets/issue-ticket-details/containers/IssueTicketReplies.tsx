@@ -19,10 +19,22 @@ interface IssueTicketRepliesProps {
     readonly issueTicket: IssueTicket;
 }
 
-export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesProps> {
+interface IssueTicketRepliesState {
+    readonly lastCommentId?: string;
+}
+
+export class IssueTicketReplies extends React.PureComponent<
+    IssueTicketRepliesProps,
+    IssueTicketRepliesState
+    > {
 
     static readonly contextType = RootContext;
     readonly context!: WithCurrentUser;
+
+    constructor(props: IssueTicketRepliesProps) {
+        super(props);
+        this.state = { };
+    }
 
     readonly customerAvatar = (
         <Avatar
@@ -45,8 +57,6 @@ export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesPr
         const { currentUser } = this.context;
 
         const { issueTicketReplies } = issueTicket;
-
-        const isSupport = currentUser.role.type === 'root';
 
         return (
             <Card className="h-100">
@@ -72,7 +82,7 @@ export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesPr
 
                                         return (
                                             <Comment
-                                                avatar={this.customerAvatar }
+                                                avatar={this.customerAvatar}
                                                 content={<p dangerouslySetInnerHTML={{ __html: props.content }} />}
                                                 author={
                                                     isCurrentAuthor ?
@@ -97,9 +107,15 @@ export class IssueTicketReplies extends React.PureComponent<IssueTicketRepliesPr
                         issueTicket.status !== 'close' && (
                             <Comment
                                 avatar={null}
+                                key={this.state.lastCommentId}
                                 content={(
                                     <BusinessController
                                         action={createIssueTicketReply}
+                                        onSuccess={(result: IssueTicketReply) => {
+                                            this.setState({
+                                                lastCommentId: result.id
+                                            });
+                                        }}
                                     >
                                         {({ doBusiness }) => (
                                             <IssueTicketReplyCreateFormControl

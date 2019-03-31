@@ -75,7 +75,7 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
 
     private readonly siderContent = (
         <React.Fragment>
-            <SiderLogo>
+            <SiderLogo className="side-logo">
                 <Link to={DASHBOARD_BASE_PATH}>
                     <img src={LOGO_TEXT} alt="logo" />
                 </Link>

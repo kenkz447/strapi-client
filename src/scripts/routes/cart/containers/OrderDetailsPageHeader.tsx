@@ -44,7 +44,6 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
                             title={text('Your cart')}
                             breadcrumbList={breadcrumbList}
                             content={<div />}
-                            extraContent={this.renderExtra(syncOrderDetails)}
                             action={
                                 <Button
                                     type="primary"
@@ -59,18 +58,6 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
                     );
                 }}
             </RestfulDataContainer>
-        );
-    }
-
-    private readonly renderExtra = (orderDetails: OrderDetail[]) => {
-        const total = getOrderDetailsTotal(orderDetails);
-        return (
-            <div>
-                <div style={{ color: 'rgba(0, 0, 0, 0.43)' }}>Tạm tính</div>
-                <div style={{ color: 'rgba(0, 0, 0, 0.85)', fontSize: 20 }}>
-                    {formatCurrency(total)}
-                </div>
-            </div>
         );
     }
 }

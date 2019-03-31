@@ -9,6 +9,7 @@ import { DomainContext } from '@/domain';
 import {
     discountByQuantitiesResources,
     DiscountByQuantity,
+    ProductExtended,
     request
 } from '@/restful';
 
@@ -19,6 +20,8 @@ import {
 
 interface OrderDetailCreateFormControlProps extends FormikControlBaseProps<OrderDetailCreateFormValues> {
     readonly initialValues?: OrderDetailCreateFormValues;
+    readonly product: ProductExtended;
+    readonly submitDisabled: boolean;
 }
 
 interface OrderDetailCreateFormControlState {
@@ -45,8 +48,8 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
     }
 
     private readonly fetchResources = async () => {
-        const { selectedProduct } = this.context;
-        if (!selectedProduct) {
+        const { product } = this.props;
+        if (!product) {
             return;
         }
 
@@ -56,7 +59,7 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
                 {
                     type: 'query',
                     parameter: 'productType',
-                    value: selectedProduct!.productType.id
+                    value: product.productType.id
                 }
             )
         ]);
@@ -65,7 +68,7 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
             loaded: true,
             allQuantity: allQuantity,
             allQuantityOptions: this.listToOptions(
-                allQuantity.map(o => ({ id: o.quantity, name: getDiscountByQuantityLabel(o, selectedProduct) }))
+                allQuantity.map(o => ({ id: o.quantity, name: getDiscountByQuantityLabel(o, product) }))
             )
         });
     }
@@ -75,7 +78,7 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
         if (!takeProduct3DScreenshot) {
             return values;
         }
-        
+
         const previewImg = await takeProduct3DScreenshot();
 
         return {
@@ -89,8 +92,8 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
     }
 
     public render() {
-        const { selectedProduct } = this.context;
-        if (!selectedProduct) {
+        const { product, submitDisabled } = this.props;
+        if (!product) {
             return null;
         }
 
@@ -106,9 +109,10 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
                 {(formProps) => (
                     <OrderDetailCreateForm
                         {...formProps}
+                        submitDisabled={submitDisabled}
                         allQuantity={allQuantity}
                         quantitySelectOptions={allQuantityOptions}
-                        product={selectedProduct}
+                        product={product}
                     />
                 )}
             </Formik>

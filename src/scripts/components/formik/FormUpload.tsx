@@ -19,6 +19,7 @@ const FormUploadWrapper = styled.div`
         margin-right: 15px;
         border-radius: 6px;
         padding: 5px;
+        overflow: hidden;
         img {
             max-width: 100%;
             width: 100%;

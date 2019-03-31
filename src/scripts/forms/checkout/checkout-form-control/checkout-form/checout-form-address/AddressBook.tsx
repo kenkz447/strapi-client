@@ -1,6 +1,8 @@
-import { Button, Col, Row, Select } from 'antd';
+import { Col, Icon, Row, Select } from 'antd';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
+import { PROFILE_ADDRESS_BOOK_URL } from '@/configs';
 import { text } from '@/i18n';
 import { Address } from '@/restful';
 
@@ -36,6 +38,7 @@ export class AddressBook extends React.PureComponent<AddressBookProps> {
             <Row>
                 <Col offset={8} span={16}>
                     <Select
+                        style={{ marginBottom: 6 }}
                         placeholder={text('Select from address book')}
                         onSelect={this.onAddressBookSelect}
                     >
@@ -45,6 +48,9 @@ export class AddressBook extends React.PureComponent<AddressBookProps> {
                             </Select.Option>
                         ))}
                     </Select>
+                    <Link to={PROFILE_ADDRESS_BOOK_URL}>
+                        <Icon type="link" /> Xem sổ địa chỉ
+                    </Link>
                 </Col>
             </Row>
         );

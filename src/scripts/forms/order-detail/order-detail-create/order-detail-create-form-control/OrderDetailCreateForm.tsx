@@ -1,17 +1,30 @@
+import { Button, Form } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import * as React from 'react';
+import styled from 'styled-components';
 
 import { getDiscountByQuantityValue } from '@/business/discount-by-quantity';
 import { getProductOriginPrice } from '@/business/product';
 import {
     FormBody,
-    FormInputMoney,
     FormSelect,
-    verticalLayout
+    verticalLayout,
+    verticalLayoutNoLabel
 } from '@/components';
 import { text } from '@/i18n';
 import { DiscountByQuantity, OrderDetail, ProductExtended } from '@/restful';
+import { formatCurrency } from '@/utilities';
+
+const OrderDetailCreateFormWrapper = styled.div`
+    .ant-form-item {
+        margin-bottom: 0;
+    }
+    .total-price {
+        font-size: 16px;
+        font-weight: bold;
+    }
+`;
 
 export type OrderDetailCreateFormValues = Partial<OrderDetail>;
 
@@ -19,6 +32,7 @@ export interface OrderDetailCreateFormOwnProps extends FormikProps<OrderDetailCr
     readonly allQuantity: DiscountByQuantity[];
     readonly quantitySelectOptions: OptionProps[];
     readonly product: ProductExtended;
+    readonly submitDisabled: boolean;
 }
 
 export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreateFormOwnProps> {
@@ -63,43 +77,67 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
             values,
             errors,
             setFieldValue,
-            quantitySelectOptions
+            quantitySelectOptions,
+            product,
+            handleSubmit,
+            isSubmitting,
+            submitDisabled
         } = this.props;
+
+        const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
 
         return (
             <FormBody formProps={this.props}>
-                <FormSelect
-                    name={nameof<OrderDetailCreateFormValues>(o => o.quantity)}
-                    value={values.quantity}
-                    setFieldValue={setFieldValue}
-                    options={quantitySelectOptions}
-                    wrapperCol={verticalLayout.wrapperCol}
-                    labelCol={verticalLayout.labelCol}
-                    help={errors.quantity}
-                    validateStatus={errors.quantity ? 'error' : undefined}
-                    label={text('Quantity')}
-                    placeholder={text('Select quantity')}
-                />
-                <FormInputMoney
-                    name={nameof<OrderDetailCreateFormValues>(o => o.discount)}
-                    value={values.discount}
-                    wrapperCol={verticalLayout.wrapperCol}
-                    labelCol={verticalLayout.labelCol}
-                    label={text('Total discount')}
-                    placeholder={text('...')}
-                    readOnly={true}
-                    className="w-100"
-                />
-                <FormInputMoney
-                    name={nameof<OrderDetailCreateFormValues>(o => o.totalPrice)}
-                    value={values.totalPrice}
-                    wrapperCol={verticalLayout.wrapperCol}
-                    labelCol={verticalLayout.labelCol}
-                    label={text('Total of payment')}
-                    placeholder={text('...')}
-                    readOnly={true}
-                    className="w-100"
-                />
+                <OrderDetailCreateFormWrapper>
+                    <Form.Item
+                        wrapperCol={verticalLayout.wrapperCol}
+                        labelCol={verticalLayout.labelCol}
+                        label={text('Price')}
+                    >
+                        {formatCurrency(product!.totalPrice)}
+                    </Form.Item>
+                    <FormSelect
+                        name={nameof<OrderDetailCreateFormValues>(o => o.quantity)}
+                        value={values.quantity}
+                        setFieldValue={setFieldValue}
+                        options={quantitySelectOptions}
+                        wrapperCol={verticalLayout.wrapperCol}
+                        labelCol={verticalLayout.labelCol}
+                        help={errors.quantity}
+                        validateStatus={errors.quantity ? 'error' : undefined}
+                        label={text('Quantity')}
+                        placeholder={text('Select quantity')}
+                    />
+                    <Form.Item
+                        wrapperCol={verticalLayout.wrapperCol}
+                        labelCol={verticalLayout.labelCol}
+                        label={text('Total discount')}
+                    >
+                        {formatCurrency(values.discount || 0)}
+                    </Form.Item>
+                    <Form.Item
+                        wrapperCol={verticalLayout.wrapperCol}
+                        labelCol={verticalLayout.labelCol}
+                        label={text('Total of payment')}
+                    >
+                        <span className="total-price">
+                            {formatCurrency(values.totalPrice || 0)}
+                        </span>
+                    </Form.Item>
+                    <div className="white-space-2" />
+                    <Form.Item
+                        wrapperCol={verticalLayoutNoLabel.wrapperCol}
+                    >
+                        <Button
+                            type="primary"
+                            onClick={() => handleSubmit()}
+                            disabled={!canSubmit}
+                            loading={isSubmitting}
+                        >
+                            {text('Add to cart')}
+                        </Button>
+                    </Form.Item>
+                </OrderDetailCreateFormWrapper>
             </FormBody>
         );
     }

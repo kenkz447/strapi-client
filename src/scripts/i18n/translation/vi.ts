@@ -134,7 +134,7 @@ export const vi = {
     comment: 'Bình luận',
     Close: 'Đóng',
     deposit: 'đặt cọc',
-    payment: 'thanh tóan',
+    payment: 'thanh toán',
     'input money': 'nhập số tiền',
     'select date': 'chọn ngày',
     Date: 'Ngày tháng',
@@ -142,5 +142,8 @@ export const vi = {
     DashboardWelcome: 'Chúng tôi hy vọng bạn đang đạt được tiến bộ cho dự án của mình ... Chúng tôi đang nỗ lực hết sức để cải thiện sản phẩm dựa trên phản hồi của bạn.',
     'You paid': 'Bạn đã thanh toán',
     'To the next level': 'Cấp độ tiếp theo',
-    'Date Submitted': 'Ngày đăng'
+    'Date Submitted': 'Ngày đăng',
+    'Deposited': 'Đã đặt cọc',
+    'Number of products': 'Số lượng sản phẩm',
+    'Total amount': 'Tổng tiền'
 };

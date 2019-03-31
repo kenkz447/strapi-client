@@ -1,10 +1,10 @@
-import { Alert, Button, Divider, Form, Icon, Tooltip } from 'antd';
+import { Button, Divider, Form, Icon, Tooltip } from 'antd';
 import * as React from 'react';
 
 import { getOrderTotalPayment } from '@/business/order/getters/getOrderPayment';
 import { verticalLayout, verticalLayoutNoLabel } from '@/components';
 import { text } from '@/i18n';
-import { formatCurrency, formatDate } from '@/utilities';
+import { formatCurrency } from '@/utilities';
 
 import { CheckoutFormOwnProps } from '../CheckoutForm';
 import { PaymentPromotionField } from './checkout-form-payment';
@@ -44,9 +44,6 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
 
         return (
             <div>
-                <Alert
-                    message={text('Estimated delivery time') + ': ' + formatDate(values.shippingDate, 'DD/MM/YYYY')}
-                />
                 <PaymentPromotionField
                     handleChange={handleChange}
                     value={values.promotion}

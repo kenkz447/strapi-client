@@ -1,4 +1,5 @@
 import { PageHeader } from 'ant-design-pro';
+import { Col, Row } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
@@ -7,7 +8,7 @@ import { CART_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 
-import { OrderDetailsPageHeader } from './containers';
+import { OrderDetailsPageHeader, OrderOverview } from './containers';
 import { OrderDetailsFetcher } from './containers/OrderDetailsFetcher';
 
 type RouteCartProps = AppPageProps;
@@ -28,7 +29,14 @@ export class RouteCart extends RoutePage<RouteCartProps> {
             <PageWrapper>
                 <OrderDetailsPageHeader initOrderDetails={initOrderDetails} />
                 <PageContent>
-                    <OrderDetailsFetcher initOrderDetails={initOrderDetails} />
+                    <Row gutter={24}>
+                        <Col span={18}>
+                            <OrderDetailsFetcher initOrderDetails={initOrderDetails} />
+                        </Col>
+                        <Col span={5}>
+                            <OrderOverview initOrderDetails={initOrderDetails} />
+                        </Col>
+                    </Row>
                 </PageContent>
             </PageWrapper>
         );

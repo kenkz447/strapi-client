@@ -47,7 +47,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
         const { orderDetails } = this.props;
         return (
             <OrderDetailListWrapper>
-                <Card>
+                <Card bordered={false}>
                     <List
                         size="large"
                         dataSource={orderDetails}
