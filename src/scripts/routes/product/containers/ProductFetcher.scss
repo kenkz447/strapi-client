@@ -6,4 +6,11 @@
         flex-direction: column;
         height: 100%;
     }
+
+    &-footter {
+        padding: 24px;
+        margin: 0 -24px;
+        min-height: 75px;
+        background: #fafafa;
+    }
 }

@@ -124,7 +124,6 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
                             {formatCurrency(values.totalPrice || 0)}
                         </span>
                     </Form.Item>
-                    <div className="white-space-2" />
                     <Form.Item
                         wrapperCol={verticalLayoutNoLabel.wrapperCol}
                     >

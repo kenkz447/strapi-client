@@ -1,6 +1,7 @@
 import { Resource, ResourceType } from 'react-restful';
 
 import { FurnitureComponent } from './furnitureComponent';
+import { UploadedFile } from './uploadedFile';
 
 export interface FurnitureComponentGroup {
     readonly id: string;
@@ -15,6 +16,7 @@ export interface FurnitureComponentGroup {
     readonly handHeight?: number;
     readonly legHeight?: number;
     readonly sittingHeight?: number;
+    readonly photos: UploadedFile[];
 }
 
 export const furnitureComponentGroupResourceType = new ResourceType<FurnitureComponentGroup>(

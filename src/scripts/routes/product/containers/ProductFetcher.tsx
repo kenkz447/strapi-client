@@ -39,6 +39,7 @@ import {
     ProductAddToCart,
     ProductPrice
 } from './product-fetcher';
+import { ProductPhotos } from './product-fetcher/ProductPhotos';
 import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
 
 interface ProductFetcherProps {
@@ -348,53 +349,56 @@ class ProductFetcherComponent extends React.PureComponent<
                 <PageLoading />
             );
         }
+
         const { selectedFurnitureComponent, modulesCode } = this.props;
         const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
+        if (allowLoadWithNoProduct) {
+            return <NoContent />;
+        }
+
         return (
             <div className="w-100 d-flex" style={{ minHeight: '100%' }}>
                 <Layout className="page-layout product-fetcher">
-                    {
-                        allowLoadWithProduct &&
-                        <Layout.Content className="h-100">
-                            <div className="product-fetcher-sence-wrapper">
-                                <Product3dSence
-                                    key={loadedProduct!.design.id}
-                                    productModules={loadedProduct!.modules}
-                                    productType={loadedProduct!.productType}
-                                />
+                    <Layout.Content className="h-100">
+                        <div className="product-fetcher-sence-wrapper">
+                            <Product3dSence
+                                key={loadedProduct!.design.id}
+                                productModules={loadedProduct!.modules}
+                                productType={loadedProduct!.productType}
+                            />
+                            <ProductPhotos
+                                key={modulesCode!}
+                                product={loadedProduct!}
+                                alwayVisibled={!!selectedFurnitureComponent}
+                            />
+                            {
+                                selectedFurnitureComponent
+                                    ? (
+                                        <ProductPrice
+                                            totalPrice={loadedProduct!.totalPrice}
+                                            actionTitle={text('Done')}
+                                            button={
+                                                <Button
+                                                    onClick={this.onComponentChanged}
+                                                    icon="check"
+                                                    shape="circle-outline"
+                                                    size="large"
+                                                />
+                                            }
+                                        />
+                                    )
+                                    : (
+                                        <ProductAddToCart
+                                            loadedProduct={loadedProduct!}
+                                            modulesCode={modulesCode!}
+                                        />
+                                    )
 
-                                {
-                                    selectedFurnitureComponent
-                                        ? (
-                                            <ProductPrice
-                                                totalPrice={loadedProduct!.totalPrice}
-                                                actionTitle={text('Done')}
-                                                button={
-                                                    <Button
-                                                        onClick={this.onComponentChanged}
-                                                        icon="check"
-                                                        shape="circle-outline"
-                                                        size="large"
-                                                    />
-                                                }
-                                            />
-                                        )
-                                        : (
-                                            <ProductAddToCart
-                                                loadedProduct={loadedProduct!}
-                                                modulesCode={modulesCode!}
-                                            />
-                                        )
-
-                                }
-                            </div>
-                        </Layout.Content>
-                    }
-                    {
-                        allowLoadWithNoProduct && <NoContent />
-                    }
+                            }
+                        </div>
+                    </Layout.Content>
                 </Layout>
             </div>
         );

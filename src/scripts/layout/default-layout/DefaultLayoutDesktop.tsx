@@ -12,7 +12,7 @@ export interface DefaultLayoutDesktopProps {
 
 export class DefaultLayoutDesktop extends React.PureComponent<DefaultLayoutDesktopProps> {
     readonly state = {
-        siderCollapsed: false
+        siderCollapsed: document.body.clientWidth <= 1536
     };
 
     readonly setSiderCollapsed = (isCollapsed: boolean) => {
