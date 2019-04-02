@@ -92,19 +92,36 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
     render() {
         const { children, history } = this.props;
         const isMobile = this.isMobileViewport();
+        if (isMobile) {
+            return (
+                <div style={{ padding: 24 }}>
+                    <Exception
+                        type="403"
+                        // tslint:disable-next-line:max-line-length
+                        desc="Thiết bị hiện tại của bạn chưa được hỗ trợ, vui lòng xử dụng máy tính để bàn!"
+                        actions={<a/>}
+
+                    />
+                </div>
+            );
+        }
 
         return (
             <DefaultLayoutWrapper>
                 {
                     isMobile ?
                         (
-                            <div style={{ padding: 24 }}>
-                                <Exception
-                                    type="403"
-                                    // tslint:disable-next-line:max-line-length
-                                    desc="Thiết bị hiện tại của bạn chưa được hỗ trợ, vui lòng xử dụng máy tính để bàn!"
-                                />
-                            </div>
+                            <DefaultLayoutMobile
+                                siderProps={{
+                                    trigger: null,
+                                    width: 256,
+                                    children: this.siderContent
+                                }}
+                                header={this.header}
+                                history={history}
+                            >
+                                {children}
+                            </DefaultLayoutMobile>
                         ) :
                         (
                             <DefaultLayoutDesktop
