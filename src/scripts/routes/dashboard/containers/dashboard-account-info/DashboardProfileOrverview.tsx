@@ -44,7 +44,7 @@ export class DashboardProfileOverview extends React.PureComponent<
     DashboardProfileOverviewProps,
     DashboardProfileOverviewState
     > {
-    
+
     public static readonly contextType = RootContext;
     public readonly context!: DomainContext;
 
@@ -88,7 +88,7 @@ export class DashboardProfileOverview extends React.PureComponent<
                 <DashboardAccountProgressWrapper>
                     <div className="account-progress-info"  >
                         <p>
-                            <Icon type="shop" theme="twoTone" twoToneColor="orange" />
+                            <Icon type="shop" theme="twoTone" twoToneColor="#87d068" />
                             {currentAgency.level.name}
                             <br />
                             <Typography.Text type="secondary">
@@ -96,30 +96,27 @@ export class DashboardProfileOverview extends React.PureComponent<
                         </Typography.Text>
                         </p>
                         <p>
-                            <Icon type="dollar" theme="twoTone" twoToneColor="orange" />
-                            {text('You paid')}: {formatCurrency(data.totalTransactionMoney)}
-                    </p>
+                            <Icon type="dollar" theme="twoTone" twoToneColor="#87d068" />
+                            {text('Total paid')}: {formatCurrency(data.totalTransactionMoney)}
+                        </p>
                         <p>
-                            <Icon type="rocket" theme="twoTone" twoToneColor="orange" />
-                            {text('To the next level')}: 50,000,000
-                    </p>
+                            <Icon type="gift" theme="twoTone" twoToneColor="#87d068" />
+                            {text('Promotion')}: {formatCurrency(data.totalDiscount)}
+                        </p>
                     </div>
                 </DashboardAccountProgressWrapper>
                 <div className="white-space-2" />
                 <DashboardAccountProgressWrapper>
                     <div className="account-progress-info"  >
                         <p>
-                            <Icon type="folder" theme="twoTone" twoToneColor="#87d068" />
+                            <Icon type="folder" theme="twoTone" twoToneColor="orange" />
                             {text('Order')}: {data.orderCount}
-                    </p>
+                        </p>
                         <p>
-                            <Icon type="appstore" theme="twoTone" twoToneColor="#87d068" />
+                            <Icon type="appstore" theme="twoTone" twoToneColor="orange" />
                             {text('Products')}: {data.totalProduct}
-                    </p>
-                        <p>
-                            <Icon type="gift" theme="twoTone" twoToneColor="#87d068" />
-                            {text('Promotion')}: {formatCurrency(data.totalDiscount)}
-                    </p>
+                        </p>
+
                     </div>
                 </DashboardAccountProgressWrapper>
             </div>

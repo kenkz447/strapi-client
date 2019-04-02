@@ -140,7 +140,7 @@ export const vi = {
     Date: 'Ngày tháng',
     Dashboard: 'Tổng quan',
     DashboardWelcome: 'Chúng tôi hy vọng bạn đang đạt được tiến bộ cho dự án của mình ... Chúng tôi đang nỗ lực hết sức để cải thiện sản phẩm dựa trên phản hồi của bạn.',
-    'You paid': 'Bạn đã thanh toán',
+    'Total paid': 'Tổng thanh toán',
     'To the next level': 'Cấp độ tiếp theo',
     'Date Submitted': 'Ngày đăng',
     'Deposited': 'Đã đặt cọc',
