@@ -1,3 +1,4 @@
+import { Exception } from 'ant-design-pro';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -97,17 +98,13 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
                 {
                     isMobile ?
                         (
-                            <DefaultLayoutMobile
-                                siderProps={{
-                                    trigger: null,
-                                    width: 256,
-                                    children: this.siderContent
-                                }}
-                                header={this.header}
-                                history={history}
-                            >
-                                {children}
-                            </DefaultLayoutMobile>
+                            <div style={{ padding: 24 }}>
+                                <Exception
+                                    type="403"
+                                    // tslint:disable-next-line:max-line-length
+                                    desc="Thiết bị hiện tại của bạn chưa được hỗ trợ, vui lòng xử dụng máy tính để bàn!"
+                                />
+                            </div>
                         ) :
                         (
                             <DefaultLayoutDesktop
