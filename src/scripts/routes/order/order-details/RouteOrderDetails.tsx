@@ -1,3 +1,4 @@
+import { Col, Row } from 'antd';
 import { AccessControl, RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
@@ -16,6 +17,7 @@ import { orderResources } from '@/restful';
 
 import order from '../';
 import {
+    OrderDetailPayment,
     OrderDetailsHeader,
     OrderDetailsPhotos,
     OrderDetailsPhotosUpload,
@@ -104,6 +106,13 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                                         ? (
                                             <div className="w-100">
                                                 <OrderDetailsStatus order={syncOrder} />
+                                                {/* <Row type="flex" gutter={24}>
+                                                    <Col span={18}>
+                                                        <OrderDetailPayment />
+                                                    </Col>
+                                                    <Col span={6}>
+                                                    </Col>
+                                                </Row> */}
                                                 <OrderDetailsProducts order={syncOrder} />
                                                 <OrderDetailsTransactions order={syncOrder} />
                                             </div>

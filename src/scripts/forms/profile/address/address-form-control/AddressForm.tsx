@@ -86,7 +86,7 @@ export function AddressForm(props: AddressFormOwnProps) {
                     label={text('Address type')}
                     required={true}
                 >
-                    <Radio value="home">{text('House')}</Radio>
+                    <Radio value="house">{text('House')}</Radio>
                     <Radio value="apartment">{text('Apartment')}</Radio>
                 </FormRadioGroup>
             </AccountFormWrapper>

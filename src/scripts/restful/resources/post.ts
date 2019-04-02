@@ -21,11 +21,15 @@ export const postResources = {
     find: new Resource<Post, Post[]>({
         resourceType: postResourceType,
         url: '/posts',
-        getDefaultParams: () => ({
+        getDefaultParams: () => [{
             type: 'query',
             parameter: '_sort',
             value: 'id:DESC'
-        })
+        }, {
+            type: 'query',
+            parameter: 'public',
+            value: true
+        }]
     }),
     findOne: new Resource<Post>({
         resourceType: postResourceType,

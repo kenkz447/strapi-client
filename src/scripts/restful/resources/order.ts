@@ -55,6 +55,7 @@ export interface Order extends Record {
 
     readonly totalProduct: number;
     readonly locked?: boolean;
+    readonly recipientName: string;
 }
 
 export const orderResourceType = new ResourceType<Order>(nameof<Order>());

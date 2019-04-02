@@ -49,7 +49,8 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                             >
                                 <OrderTransactionFormButton
                                     initialValues={{
-                                        order: order.id as string
+                                        order: order.id as string,
+                                        date: (new Date()).toISOString()
                                     }}
                                     type="default"
                                     icon="plus"

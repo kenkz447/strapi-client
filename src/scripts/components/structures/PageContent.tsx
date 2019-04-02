@@ -4,8 +4,10 @@ import styled from 'styled-components';
 export const PageContentWrapper = styled.div`
     display: block;
     position: relative;
-    overflow-y: overlay;
     flex-grow: 1;
+    &.scroll {
+        overflow-y: overlay;
+    }
     .page-content-child {
         height: 100%;
         width: 100%;
@@ -33,7 +35,7 @@ export const PageContent: React.FunctionComponent = (props) => {
 
 export const PageContentScroll: React.FunctionComponent = (props) => {
     return (
-        <PageContentWrapper>
+        <PageContentWrapper className="scroll">
             <div className="page-content-child-scroll">
                 {props.children}
             </div>

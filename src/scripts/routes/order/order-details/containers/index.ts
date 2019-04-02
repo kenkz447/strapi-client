@@ -1,3 +1,4 @@
+export * from './OrderDetailPayment';
 export * from './OrderDetailsHeader';
 export * from './OrderDetailsPhotos';
 export * from './OrderDetailsPhotosUpload';

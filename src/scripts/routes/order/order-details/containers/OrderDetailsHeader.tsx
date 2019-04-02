@@ -224,17 +224,8 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
         return (
             <DescriptionList title="Thông tin đơn hàng" size="small" col={2}>
                 <Description term="Ngày đặt">{formatDate(order.createdAt, DATE_FORMAT)}</Description>
-                <Description term="Số lượng">{order.totalProduct} {text('product')}</Description>
-                <Description term="Tổng giá trị sản phẩm">{formatCurrency(order.totalPrice)}</Description>
-                <Description term="Giảm giá sản phẩm">{formatCurrency(order.totalDiscount)}</Description>
-                <Description term="Phí vận chuyển">{formatCurrency(order.shippingFee)}</Description>
+                <Description term="Số lượng">{order.totalProduct} {text('products')}</Description>
                 <Description term="Dự kiến giao hàng">{formatDate(order.shippingDate, DATE_FORMAT)}</Description>
-                <Description term="Điện thoại">{order.phone}</Description>
-                <Description term="Email">{order.email}</Description>
-                <Description term="Tỉnh thành">
-                    {order.shippingToCity.name}/{order.shippingToCounty.name}
-                </Description>
-                <Description term="Địa chỉ nhận hàng">{order.shippingAddress}</Description>
                 <Description term="Tình trạng">
                     {getOrderStatusLabel(order)}
                 </Description>

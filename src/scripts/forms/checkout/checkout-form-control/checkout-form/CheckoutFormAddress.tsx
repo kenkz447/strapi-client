@@ -106,7 +106,7 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     labelCol={verticalLayout.labelCol}
                     label={text('Loại địa chỉ')}
                 >
-                    <Radio value="home">{text('House')}</Radio>
+                    <Radio value="house">{text('House')}</Radio>
                     <Radio value="apartment">{text('Apartment')}</Radio>
                 </FormRadioGroup>
                 <Form.Item

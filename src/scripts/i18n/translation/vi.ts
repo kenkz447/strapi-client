@@ -115,7 +115,7 @@ export const vi = {
     'Payment': 'Thông tin thanh toán',
     'Finish': 'Hoàn thành',
     'Completed': 'Hoàn thành',
-    'Deposit required': 'yêu cầu thanh toán',
+    'Deposit required': 'Yêu cầu đặt cọc',
     'Expected delivery': 'Dự kiến giao hàng',
     'View the order': 'Xem đơn hàng',
     'Buy more': 'Mua thêm',
@@ -145,5 +145,12 @@ export const vi = {
     'Date Submitted': 'Ngày đăng',
     'Deposited': 'Đã đặt cọc',
     'Number of products': 'Số lượng sản phẩm',
-    'Total amount': 'Tổng tiền'
+    'Total amount': 'Tổng tiền',
+    'Shipping information': 'Thông tin vận chuyển',
+    'Payment information': 'Thông tin thanh toán',
+    'Recipient\'s name': 'Người nhận',
+    'Discount by agency policy': 'Giảm giá bởi chính sách đại lý',
+    'Original price': 'Giá ban đầu',
+    'products': 'sản phẩm',
+    'View product': 'Xem sản phẩm'
 };

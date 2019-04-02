@@ -1,5 +1,7 @@
+import './OrderDetailsProducts.scss';
+
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Card, Table, Typography } from 'antd';
+import { Card, Col, Row, Table, Typography } from 'antd';
 import * as React from 'react';
 import { RestfulRender } from 'react-restful';
 import { Link } from 'react-router-dom';
@@ -11,6 +13,7 @@ import {
     Order,
     OrderDetail,
     orderDetailResources,
+    ProductDesign,
     ProductType
 } from '@/restful';
 import { formatCurrency, replaceRoutePath } from '@/utilities';
@@ -40,17 +43,76 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                         )
                         : null
                 }
-                <DescriptionList title={text('Billing information')} style={{ marginBottom: 24 }}>
-                    <DescriptionList.Description term={text('Organization')}>
-                        {order.billingOrganization || '...'}
-                    </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Address')}>
-                        {order.billingAddress || '...'}
-                    </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Tax code')}>
-                        {order.billingTaxcode || '...'}
-                    </DescriptionList.Description>
-                </DescriptionList>
+                <Row gutter={24}>
+                    <Col span={10} className="order-detail-payment-infomation">
+                        <DescriptionList
+                            title={text('Payment information')}
+                            style={{ marginBottom: 24 }}
+                            col={1}
+                        >
+                            <DescriptionList.Description term={text('Original price')}>
+                                {formatCurrency(order.totalPrice)}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Product discount')}>
+                                - {formatCurrency(order.productsDiscount)}
+                            </DescriptionList.Description>
+                            {
+                                order.promotion && (
+                                    <DescriptionList.Description term={text('Promo code') + ` #${order.promotion.code}`}>
+                                        - {formatCurrency(order.promotionDiscount)}
+                                    </DescriptionList.Description>
+                                )
+                            }
+                            <DescriptionList.Description term={text('Discount by agency policy')}>
+                                - {formatCurrency(order.agencyCommissionValue)}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Transport fee')}>
+                                {formatCurrency(order.shippingFee)}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Total amount')}>
+                                <b>{formatCurrency(order.totalOfPayment)}</b>
+                            </DescriptionList.Description>
+                        </DescriptionList>
+                    </Col>
+                    <Col span={8}>
+                        <DescriptionList title={text('Shipping information')} style={{ marginBottom: 24 }} col={1}>
+                            <DescriptionList.Description term={text('Recipient\'s name')}>
+                                {order.recipientName || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Phone')}>
+                                {order.phone || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Email')}>
+                                {order.email || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('City')}>
+                                {order.shippingToCity.name || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('County')}>
+                                {order.shippingToCounty.name || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Address')}>
+                                {order.shippingAddress || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Address type')}>
+                                {text(order.addressType)}
+                            </DescriptionList.Description>
+                        </DescriptionList>
+                    </Col>
+                    <Col span={6}>
+                        <DescriptionList title={text('Billing information')} style={{ marginBottom: 24 }} col={1}>
+                            <DescriptionList.Description term={text('Organization')}>
+                                {order.billingOrganization || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Address')}>
+                                {order.billingAddress || '...'}
+                            </DescriptionList.Description>
+                            <DescriptionList.Description term={text('Tax code')}>
+                                {order.billingTaxcode || '...'}
+                            </DescriptionList.Description>
+                        </DescriptionList>
+                    </Col>
+                </Row>
                 <RestfulRender
                     resource={orderDetailResources.find}
                     parameters={{
@@ -101,19 +163,20 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                             modulesCode: orderDetail.productModulesCode
                                         });
 
+                                        const design = orderDetail.productDesign as ProductDesign;
                                         return (
                                             <div>
                                                 <p>
                                                     <Typography.Text >
-                                                        Loại: {type.name}
+                                                        {text('Type')}: {type.name}
                                                     </Typography.Text>
                                                     <br />
                                                     <Typography.Text type="secondary">
-                                                        Thiết kế: {orderDetail.productDesign['name']}
+                                                        {text('Design')}: {design.name}
                                                     </Typography.Text>
                                                 </p>
                                                 <Link to={productUrl + '?' + uRLSearchParams.toString()}>
-                                                    Xem sản phẩm
+                                                    {text('View product')}
                                                 </Link>
                                             </div>
                                         );
