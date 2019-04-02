@@ -1,7 +1,12 @@
 import { events, RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { PageContent, PageWrapper, SlideUp } from '@/components';
+import {
+    PageContent,
+    PageContentScroll,
+    PageWrapper,
+    SlideUp
+} from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
@@ -80,11 +85,11 @@ export class RouteProduct extends RoutePage<RouteProps> {
         return (
             <RouteProductContext.Provider value={routeProductContextValue}>
                 <PageWrapper style={{ flexDirection: 'row' }}>
-                    <PageContent>
+                    <PageContentScroll>
                         <ProductFetcher
                             modulesCode={routeProductContextValue.currentModulesCode}
                         />
-                    </PageContent>
+                    </PageContentScroll>
                     <ProductSider />
                 </PageWrapper>
             </RouteProductContext.Provider>

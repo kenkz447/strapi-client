@@ -353,7 +353,7 @@ class ProductFetcherComponent extends React.PureComponent<
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
         return (
-            <SlideUp className="h-100 w-100 d-flex">
+            <div className="w-100 d-flex" style={{ minHeight: '100%' }}>
                 <Layout className="page-layout product-fetcher">
                     {
                         allowLoadWithProduct &&
@@ -396,7 +396,7 @@ class ProductFetcherComponent extends React.PureComponent<
                         allowLoadWithNoProduct && <NoContent />
                     }
                 </Layout>
-            </SlideUp>
+            </div>
         );
     }
 }

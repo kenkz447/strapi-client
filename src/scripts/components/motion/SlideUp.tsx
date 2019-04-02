@@ -22,7 +22,8 @@ export function SlideUp(props: SlideUpProps) {
         <Motion
             defaultStyle={{
                 translateY: 50,
-                opacity: 0
+                opacity: 0,
+                height: 1
             }}
             style={{
                 translateY: spring(0, config),
