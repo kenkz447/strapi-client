@@ -2,6 +2,14 @@ import * as marked from 'marked';
 
 import { Post } from '@/restful';
 
+const renderer = new marked.Renderer();
+
+renderer.image = (href: string, title: string, text: string) => {
+    return `
+        <img src="${href}" alt="${title}" style="max-width: 100%;" />
+    `;
+};
+
 marked.setOptions({
     'baseUrl': null,
     'breaks': false,
@@ -18,7 +26,8 @@ marked.setOptions({
     'smartLists': false,
     'smartypants': false,
     'tables': true,
-    'xhtml': false
+    'xhtml': false,
+    renderer: renderer
 });
 
 export const getPostHTMLContent = (post: Post) => {
