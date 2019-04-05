@@ -9,6 +9,7 @@ import { RouteCart } from './cart';
 import { RouteCheckout } from './checkout';
 import { RouteDashboard } from './dashboard';
 import { RouteHome } from './home';
+import { RouteInvitations } from './invitations';
 import { IssueTicketDetails, RouteIssueTickets } from './issue-tickets';
 import { RouteProduct } from './product';
 
@@ -20,7 +21,8 @@ export const routes = routeFrom([
     RouteCheckout,
     RouteAccounts,
     RouteIssueTickets,
-    IssueTicketDetails
+    IssueTicketDetails,
+    RouteInvitations
 ]);
 
 export default () => (

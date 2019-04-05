@@ -2,6 +2,7 @@ import {
     ACCOUNT_URL,
     AGENCIES_URL,
     DASHBOARD_BASE_PATH,
+    INVITATION_URL,
     ISSUE_TICKET_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH
@@ -31,4 +32,8 @@ export const mainMenu = [{
     url: ACCOUNT_URL,
     icon: 'team',
     label: 'Accounts'
+}, {
+    url: INVITATION_URL,
+    icon: 'book',
+    label: 'Invitation'
 }];

@@ -2,6 +2,7 @@ export const AUTH_PATH = '/auth';
 export const LOGIN_URL = AUTH_PATH + '/login';
 export const AUTH_REGISTER_URL = AUTH_PATH + '/register';
 export const AUTH_CONFIRM_URL = AUTH_PATH + '/confirm';
+export const AUTH_INVITATION_URL = AUTH_PATH + '/invitation/:code';
 
 export const FORGOT_PASSWORD_URL = AUTH_PATH + '/forgot-password';
 export const RESET_PASSWORD_URL = AUTH_PATH + '/reset-password';
@@ -20,6 +21,8 @@ export const AGENCY_DETAIL_URL = AGENCIES_URL + '/detail/:id';
 
 export const ACCOUNT_URL = '/accounts';
 export const ACCOUNT_DETAIL_URL = ACCOUNT_URL + '/detail/:id';
+
+export const INVITATION_URL = '/invitation';
 
 export const CART_URL = '/cart';
 

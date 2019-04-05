@@ -30,6 +30,12 @@ export const getDefaultParamsForUpdate = (params: RequestParameter[]): RequestPa
     };
 };
 
+export const getDefaultParams = (): RequestParameter => ({
+    type: 'query',
+    parameter: '_sort',
+    value: '_id:DESC'
+});
+
 interface IsRecordEqualRecord {
     readonly id: string;
 }

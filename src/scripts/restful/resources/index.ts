@@ -13,6 +13,7 @@ export * from './furnitureComponentGroup';
 export * from './furnitureComponentType';
 export * from './furnitureMaterial';
 export * from './furnitureMaterialType';
+export * from './invitation';
 export * from './issueTicket';
 export * from './issueTicketReply';
 export * from './order';

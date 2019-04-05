@@ -152,5 +152,7 @@ export const vi = {
     'Discount by agency policy': 'Giảm giá bởi chính sách đại lý',
     'Original price': 'Giá ban đầu',
     'products': 'sản phẩm',
-    'View product': 'Xem sản phẩm'
+    'View product': 'Xem sản phẩm',
+    'Receiver fullname': 'Tên đầy đủ của người nhận',
+    'input receiver fullname': 'nhập tên đầy đủ của người nhận',
 };
