@@ -53,6 +53,7 @@ export class RouteInvitations extends RoutePage<RouteAccountProps, RouteInvitati
             <PageWrapper>
                 <PageHeader
                     title={this.title}
+                    content="Các inviation-link sẽ hết hạn sau 7 ngày!"
                     action={this.renderHeaderActions()}
                     breadcrumbList={[{
                         title: text('Dashboard'),

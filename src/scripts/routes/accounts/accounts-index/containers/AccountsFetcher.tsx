@@ -31,20 +31,22 @@ interface AccountsFetcherState {
 }
 
 export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, AccountsFetcherState> {
-    static readonly contextType = RootContext;
-    readonly context!: WithHistory;
+    public static readonly contextType = RootContext;
+    public readonly context!: WithHistory;
 
-    readonly unListenHistory: UnregisterCallback;
-    _unmounting: boolean = false;
-
-    static readonly getDefaultRequestParams = (): RequestParameter[] => {
+    public static readonly getDefaultRequestParams = (): RequestParameter[] => {
         const nameFilter = getUrlSearchParam('name');
+        const emailFilter = getUrlSearchParam('email');
         const roleFilter = getUrlSearchParam('role');
 
         return [{
             type: 'query',
             parameter: 'name_containss',
             value: nameFilter || undefined!
+        }, {
+            type: 'query',
+            parameter: 'email_containss',
+            value: emailFilter || undefined!
         }, {
             type: 'query',
             parameter: 'role',
@@ -56,6 +58,9 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         }];
     }
 
+    private readonly unListenHistory: UnregisterCallback;
+    private _unmounting: boolean = false;
+    
     constructor(props: AgenciesFetcherProps, context: WithHistory) {
         super(props);
 
@@ -68,26 +73,30 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         this.unListenHistory = history.listen(this.historyChange);
     }
 
-    readonly historyChange = () => {
+    private readonly historyChange = () => {
         if (this._unmounting) {
             return;
         }
 
         const nextNameFilter = getUrlSearchParam('name') || undefined;
+        const nextEmailFilter = getUrlSearchParam('email') || undefined;
         const nextRoleFilter = getUrlSearchParam('role') || undefined;
 
         const { params } = this.state;
         const name = getParamsValue(params, 'query', 'name');
+        const email = getParamsValue(params, 'query', 'email');
         const role = getParamsValue(params, 'query', 'role');
 
         const isNameChanged = name !== nextNameFilter;
+        const isEmailChanged = email !== nextEmailFilter;
         const isRoleChanged = role !== nextRoleFilter;
 
-        if (!isNameChanged && !isRoleChanged) {
+        if (!isNameChanged && !isRoleChanged && !isEmailChanged) {
             return;
         }
 
         let nextParams = upsertRequestParams(params, 'query', 'name_containss', nextNameFilter);
+        nextParams = upsertRequestParams(nextParams, 'query', 'email_containss', nextRoleFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'role', nextRoleFilter);
 
         this.setState({
@@ -95,7 +104,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         });
     }
 
-    readonly onNameChange = debounce(
+    private readonly onNameChange = debounce(
         (name: string) => {
             const { history } = this.context;
 
@@ -106,7 +115,18 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         500
     );
 
-    readonly onRoleChange = (role: string) => {
+    private readonly onEmailChange = debounce(
+        (email: string) => {
+            const { history } = this.context;
+
+            const nextUrlSearchParams = new URLSearchParams(location.search);
+            nextUrlSearchParams.set('email', email);
+            history.replace(`?${nextUrlSearchParams.toString()}`);
+        },
+        500
+    );
+
+    private readonly onRoleChange = (role: string) => {
         const { history } = this.context;
 
         const nextUrlSearchParams = new URLSearchParams(location.search);
@@ -119,7 +139,18 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         history.replace(`?${nextUrlSearchParams.toString()}`);
     }
 
-    componentWillUnmount() {
+    private readonly onPageChange = (nextPage: number, pageSize: number, currentPage: number) => {
+        const { params } = this.state;
+
+        let nextParams = upsertRequestParams(params, 'query', '_start', (currentPage - 1) * pageSize);
+        nextParams = upsertRequestParams(nextParams, 'query', '_limit', pageSize);
+
+        this.setState({
+            params: nextParams
+        });
+    }
+
+    public componentWillUnmount() {
         this._unmounting = true;
         this.unListenHistory();
     }
@@ -130,8 +161,10 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
             <Layout className="page-layout">
                 <Layout.Header>
                     <AccountFilter
-                        name={getParamsValue(params, 'query', 'name')}
+                        name={getParamsValue(params, 'query', 'name_containss')}
                         onNameChange={this.onNameChange}
+                        email={getParamsValue(params, 'query', 'email_containss')}
+                        onEmailChange={this.onEmailChange}
                         role={getParamsValue(params, 'query', 'role')}
                         onRoleChange={this.onRoleChange}
                     />
@@ -178,16 +211,5 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
                 />
             </Layout>
         );
-    }
-
-    readonly onPageChange = (nextPage: number, pageSize: number, currentPage: number) => {
-        const { params } = this.state;
-
-        let nextParams = upsertRequestParams(params, 'query', '_start', (currentPage - 1) * pageSize);
-        nextParams = upsertRequestParams(nextParams, 'query', '_limit', pageSize);
-
-        this.setState({
-            params: nextParams
-        });
     }
 }

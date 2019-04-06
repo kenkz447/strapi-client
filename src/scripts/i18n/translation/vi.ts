@@ -153,6 +153,10 @@ export const vi = {
     'Original price': 'Giá ban đầu',
     'products': 'sản phẩm',
     'View product': 'Xem sản phẩm',
-    'Receiver fullname': 'Tên đầy đủ của người nhận',
+    'Receiver': 'Tên người nhận',
     'input receiver fullname': 'nhập tên đầy đủ của người nhận',
+    'InvitationJoinDescription': 'Cảm ơn bạn đã nhận lời mời từ [M]Furniture, vui lòng cung cấp thông tin đăng nhập...',
+    'Re-enter the password': 'Nhập lại mật khẩu',
+    'JoinedViaInvitationDesciption': 'Cảm ơn bạn đã đăng ký tài khoản, vui lòng bấm vào link phía dưới để bắt đầu sử dụng dịch vụ.',
+    'input agency name': 'nhập tên đại lý'
 };

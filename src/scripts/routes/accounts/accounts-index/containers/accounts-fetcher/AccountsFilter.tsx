@@ -22,12 +22,15 @@ const TableFilterWrapper = styled.div`
 export interface AccountFilterProps {
     readonly name: string | null;
     readonly onNameChange: (name: string | null) => void;
+    readonly email: string | null;
+    readonly onEmailChange: (name: string | null) => void;
     readonly role: string | null;
     readonly onRoleChange: (role: string) => void;
 }
 
 export interface AccountFilterState {
     readonly name: string | null;
+    readonly email: string | null;
 }
 
 export class AccountFilter extends React.PureComponent<
@@ -38,7 +41,8 @@ export class AccountFilter extends React.PureComponent<
         super(props);
 
         this.state = {
-            name: this.props.name
+            name: this.props.name,
+            email: this.props.email
         };
     }
 
@@ -48,14 +52,31 @@ export class AccountFilter extends React.PureComponent<
         });
     }
 
+    readonly onEmailChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        this.setState({
+            email: e.target.value
+        });
+    }
+
     componentDidUpdate(prevProps: AccountFilterProps, prevState: AccountFilterState) {
-        const { name: currentName } = this.state;
-        if (prevState.name === currentName) {
+        const { name: currentName, email: currentEmail } = this.state;
+
+        const isNameChanged = prevState.name !== currentName;
+        const isEmailChanged = prevState.email !== currentEmail;
+
+        if (!isNameChanged && !isEmailChanged) {
             return;
         }
 
-        const { onNameChange } = this.props;
-        onNameChange(currentName);
+        if (isNameChanged) {
+            const { onNameChange } = this.props;
+            onNameChange(currentName);
+        }
+
+        if (isEmailChanged) {
+            const { onEmailChange } = this.props;
+            onEmailChange(currentEmail);
+        }
     }
 
     render() {
@@ -68,8 +89,16 @@ export class AccountFilter extends React.PureComponent<
                         <FormInput
                             value={this.state.name || undefined}
                             label={text('Name')}
-                            placeholder={text('input name...')}
+                            placeholder={text('input name')}
                             onChange={this.onNameChange}
+                        />
+                    </Col>
+                    <Col span={6}>
+                        <FormInput
+                            value={this.state.email || undefined}
+                            label={text('Email')}
+                            placeholder={text('input email')}
+                            onChange={this.onEmailChange}
                         />
                     </Col>
                     <Col span={6}>
@@ -78,7 +107,7 @@ export class AccountFilter extends React.PureComponent<
                                 const filteredRoles = roles.filter(o => o.name !== 'Public');
                                 const selectOptions = filteredRoles.map(
                                     o => ({ value: o.id, title: text('Role_' + o.name) }));
-                                
+
                                 return (
                                     <FormSelect
                                         value={role || undefined}

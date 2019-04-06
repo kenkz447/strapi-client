@@ -38,8 +38,6 @@ export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState
     }
 
     private readonly fetchResources = async () => {
-        const { currentUser } = this.props;
-
         const [license] = await request(
             businessLicenseResources.find
         );

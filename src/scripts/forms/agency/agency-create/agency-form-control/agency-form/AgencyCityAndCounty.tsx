@@ -12,10 +12,12 @@ import {
     AgencyFormContextProps
 } from '../AgencyFormContext';
 
-export interface AgencyCityAndCountyProps {
-    readonly setFieldValue?: FormikActions<AgencyFormValues>['setFieldValue'];
+export interface AgencyCityAndCountyProps<P> {
+    readonly setFieldValue?: FormikActions<P>['setFieldValue'];
     readonly city?: City;
+    readonly cityFieldName: string;
     readonly county?: County;
+    readonly countryFieldName: string;
     readonly cityError?: string;
     readonly countyError?: string;
 }
@@ -24,15 +26,15 @@ interface AgencyCityAndCountyState {
     readonly countyOptions: OptionProps[];
 }
 
-export class AgencyCityAndCounty extends React.PureComponent<
-    AgencyCityAndCountyProps,
+export class AgencyCityAndCounty<P = {}> extends React.PureComponent<
+    AgencyCityAndCountyProps<P>,
     AgencyCityAndCountyState
     > {
 
     static readonly contextType = AgencyFormContext;
     readonly context!: AgencyFormContextProps;
 
-    constructor(props: AgencyCityAndCountyProps) {
+    constructor(props: AgencyCityAndCountyProps<P>) {
         super(props);
 
         this.state = {
@@ -75,13 +77,13 @@ export class AgencyCityAndCounty extends React.PureComponent<
         });
     }
 
-    public componentDidUpdate(prevProps: AgencyCityAndCountyProps) {
+    public componentDidUpdate(prevProps: AgencyCityAndCountyProps<P>) {
         const isCityChanged = this.props.city !== prevProps.city;
 
         if (!isCityChanged) {
             return;
         }
-        
+
         this.setCountyOptions();
     }
 
@@ -103,14 +105,16 @@ export class AgencyCityAndCounty extends React.PureComponent<
             countyError,
             city,
             county,
-            setFieldValue
+            setFieldValue,
+            cityFieldName,
+            countryFieldName
         } = this.props;
         const { cityOptions } = this.context;
         const { countyOptions } = this.state;
         return (
             <React.Fragment>
                 <FormSelect
-                    name={nameof.full<AgencyFormValues>(o => o.city!.id)}
+                    name={cityFieldName}
                     value={city && city.id}
                     setFieldValue={setFieldValue}
                     options={cityOptions}
@@ -123,7 +127,7 @@ export class AgencyCityAndCounty extends React.PureComponent<
                     required={true}
                 />
                 <FormSelect
-                    name={nameof.full<AgencyFormValues>(o => o.county!.id)}
+                    name={countryFieldName}
                     value={county && county.id}
                     setFieldValue={setFieldValue}
                     options={countyOptions}

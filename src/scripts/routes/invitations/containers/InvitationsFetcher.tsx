@@ -76,7 +76,7 @@ export class InvitationsFetcher extends React.PureComponent<AgenciesFetcherProps
                                         {(syncUsers) => (
                                             <InvitationTable
                                                 loading={fetching}
-                                                users={syncUsers}
+                                                invitations={syncUsers}
                                                 onDelete={() => refetch()}
                                                 reload={refetch}
                                             />

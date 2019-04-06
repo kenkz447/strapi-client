@@ -15,6 +15,9 @@ export interface User extends Record {
     readonly phone?: string;
     readonly createdAt?: string;
     readonly blocked?: boolean;
+
+    readonly password?: string;
+    readonly rePassword?: string;
 }
 
 export interface UserRegisterResponse {

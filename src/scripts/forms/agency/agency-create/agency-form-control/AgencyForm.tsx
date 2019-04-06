@@ -37,9 +37,11 @@ export function AgencyForm(props: AgencyFormOwnProps) {
                 autoFocus={true}
                 required={true}
             />
-            <AgencyCityAndCounty
+            <AgencyCityAndCounty<AgencyFormValues>
+                cityFieldName={nameof.full<AgencyFormValues>(o => o.city!.id)}
                 cityError={errors.city}
                 countyError={errors.county}
+                countryFieldName={nameof.full<AgencyFormValues>(o => o.county!.id)}
                 city={values.city}
                 county={values.county}
                 setFieldValue={setFieldValue}
