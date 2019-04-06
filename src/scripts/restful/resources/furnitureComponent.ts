@@ -30,6 +30,7 @@ export interface FurnitureComponent extends Record {
     readonly lengthiness?: number;
     readonly handHeight?: number;
     readonly displayHeight?: number;
+    readonly materialNorm?: number;
 }
 
 export const furnitureComponentResourceType = new ResourceType<FurnitureComponent>(nameof<FurnitureComponent>());

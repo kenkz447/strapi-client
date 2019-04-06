@@ -1,16 +1,13 @@
-import { ProductExtended, ProductModule } from '@/restful';
+import { getProductModulesPrice } from '@/business/product-modules';
+import { ProductExtended } from '@/restful';
 
 export const getProductOriginPrice = (product: ProductExtended) => {
     if (product.totalPrice) {
         return product.totalPrice;
     }
 
-    return product.modules.reduce(
-        (currentValue, productModule: ProductModule) => {
-            const { component, material } = productModule;
-
-            return currentValue += (component.price + material.price) || 0;
-        },
-        0
-    );
+    return getProductModulesPrice({
+        productModules: product.modules,
+        startPrice: 0
+    });
 };

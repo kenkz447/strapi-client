@@ -10,7 +10,12 @@ export const getProductModulesPrice = (props: {
     } = props;
 
     const reducer = (currentTotalPrice: number, currentModule: ProductModule) => {
-        currentTotalPrice += currentModule.componentPrice + currentModule.materialPrice;
+        const materialPrice = currentModule.component.materialNorm
+            ? currentModule.component.materialNorm * currentModule.materialPrice
+            : currentModule.materialPrice;
+
+        currentTotalPrice += currentModule.componentPrice + materialPrice;
+
         return currentTotalPrice;
     };
 
