@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { Col, Row } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import * as React from 'react';
@@ -32,9 +32,6 @@ export function AgencyUpdateForm(props: AgencyUpdateFormOwnProps) {
 
     return (
         <FormBody formProps={props}>
-            <Typography.Title level={4}>
-                {text('Agency settings')}
-            </Typography.Title>
             <AccountFormWrapper>
                 <FormInput
                     name={nameof.full<AgencyUpdateFormValues>(o => o.name)}
@@ -46,6 +43,30 @@ export function AgencyUpdateForm(props: AgencyUpdateFormOwnProps) {
                     autoFocus={true}
                     required={true}
                 />
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <FormInput
+                            name={nameof.full<AgencyUpdateFormValues>(o => o.email)}
+                            onChange={handleChange}
+                            value={values.email}
+                            validateStatus={errors.email ? 'error' : undefined}
+                            label={text('Email')}
+                            placeholder={text('input email')}
+                            required={true}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <FormInput
+                            name={nameof.full<AgencyUpdateFormValues>(o => o.phone)}
+                            onChange={handleChange}
+                            value={values.phone}
+                            validateStatus={errors.phone ? 'error' : undefined}
+                            label={text('Phone')}
+                            placeholder={text('input phone')}
+                            required={true}
+                        />
+                    </Col>
+                </Row>
                 <AgencyUpdateCityAndCounty
                     cityError={errors.city}
                     countyError={errors.county}

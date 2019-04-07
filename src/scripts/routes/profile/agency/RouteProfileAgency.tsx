@@ -1,3 +1,4 @@
+import { Typography } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
@@ -28,6 +29,12 @@ export class RouteProfileAgency extends RoutePage<RouteProfileAgencyProps> {
         return (
             <PageWrapper backgroundColor="#fff">
                 <PageContent>
+                    <Typography.Title level={4}>
+                        {text('Agency settings')}
+                    </Typography.Title>
+                    <Typography.Paragraph>
+                        {text('AgencySettingsDesctiption')}
+                    </Typography.Paragraph>
                     <BusinessController
                         action={upsertAgency}
                         onSuccess={() => {

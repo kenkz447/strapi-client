@@ -6,7 +6,7 @@ import { City } from './city';
 import { County } from './county';
 import { User } from './user';
 
-export type AddressType = 'apartment' | 'home';
+export type AddressType = 'apartment' | 'house';
 
 export interface Address {
     readonly id?: string;

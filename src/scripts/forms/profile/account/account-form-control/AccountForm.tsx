@@ -36,8 +36,21 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
                 <Typography.Title level={4}>
                     {text('Account settings')}
                 </Typography.Title>
+                <Typography.Paragraph>{text('AccountSettingsDescription')}</Typography.Paragraph>
                 <AccountFormWrapper>
                     <div>
+                        <FormInput
+                            name={nameof.full<AccountFormValues>(o => o.email)}
+                            onChange={handleChange}
+                            value={values.email}
+                            validateStatus={errors.email ? 'error' : undefined}
+                            label={text('Email')}
+                            placeholder="..."
+                            autoFocus={true}
+                            required={true}
+                            disabled={true}
+                            help={text('ChangeEmailFieldHelp')}
+                        />
                         <FormInput
                             name={nameof.full<AccountFormValues>(o => o.username)}
                             onChange={handleChange}
@@ -45,7 +58,9 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
                             validateStatus={errors.username ? 'error' : undefined}
                             label={text('Username')}
                             placeholder="..."
-                            disabled={true}
+                            autoFocus={true}
+                            required={true}
+                            help={text('ChangeUsernameFieldHelp')}
                         />
                         <FormInput
                             name={nameof.full<AccountFormValues>(o => o.fullName)}
@@ -53,16 +68,6 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
                             value={values.fullName}
                             validateStatus={errors.fullName ? 'error' : undefined}
                             label={text('Your full name')}
-                            placeholder="..."
-                            autoFocus={true}
-                            required={true}
-                        />
-                        <FormInput
-                            name={nameof.full<AccountFormValues>(o => o.email)}
-                            onChange={handleChange}
-                            value={values.email}
-                            validateStatus={errors.email ? 'error' : undefined}
-                            label={text('Email')}
                             placeholder="..."
                             autoFocus={true}
                             required={true}

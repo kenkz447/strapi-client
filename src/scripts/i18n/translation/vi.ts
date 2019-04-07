@@ -6,6 +6,7 @@ export const vi = {
     LoginDescription: 'Chúc bạn một này làm việc vui vẻ',
     User: 'Cá nhân',
     'Account settings': 'Cài đặt tài khoản',
+    'AccountSettingsDescription': 'Cài đặt thông tin đăng nhập và định danh cá nhân.',
     Meaning: 'Ý nghĩa',
     Example: 'Ví dụ',
     Source: 'Nguồn',
@@ -158,5 +159,8 @@ export const vi = {
     'InvitationJoinDescription': 'Cảm ơn bạn đã nhận lời mời từ [M]Furniture, vui lòng cung cấp thông tin đăng nhập...',
     'Re-enter the password': 'Nhập lại mật khẩu',
     'JoinedViaInvitationDesciption': 'Cảm ơn bạn đã đăng ký tài khoản, vui lòng bấm vào link phía dưới để bắt đầu sử dụng dịch vụ.',
-    'input agency name': 'nhập tên đại lý'
+    'input agency name': 'nhập tên đại lý',
+    'ChangeEmailFieldHelp': 'Email không thể thay đổi, trường hợp bạn muốn thay đổi email vui lòng liên hệ [M]Furniture để được hỗ trợ.',
+    'ChangeUsernameFieldHelp': 'Dùng để thay thế email email khi đăng nhập.',
+    'AgencySettingsDesctiption': 'Cài đặt thông tin đại lý và thông tin liên hệ về giao nhận, hàng hóa.'
 };
