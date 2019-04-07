@@ -65,7 +65,7 @@ export function AuthInvitaionForm(props: AuthInvitaionFormOwnProps) {
                 formProps={props}
                 disabled={isSubmitting}
             >
-                {text('AuthInvitaion')}
+                {text('Register')}
             </FormSubmit>
         </FormBody>
     );

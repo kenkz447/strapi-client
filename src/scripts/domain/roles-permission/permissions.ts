@@ -68,6 +68,9 @@ export const functionPermissions: Permissions = {
     },
     FUNC_ORDER_TRANSACTION_CREATE: {
         key: 'FUNC_ORDER_TRANSACTION_CREATE'
+    },
+    FUNC_ADD_TO_CART: {
+        key: 'FUNC_ADD_TO_CART'
     }
 };
 

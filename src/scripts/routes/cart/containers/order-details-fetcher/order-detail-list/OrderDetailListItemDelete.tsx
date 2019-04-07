@@ -24,9 +24,9 @@ export class OrderDetailListItemDelete extends React.PureComponent<OrderDetailLi
                 action={deleteOrderDetail}
                 delay={500}
                 onSuccess={() => {
-                    const { initOrderDetails, setContext } = this.context;
+                    const { cartOrderDetails, setContext } = this.context;
                     setContext({
-                        initOrderDetails: initOrderDetails.filter(o => o.id !== orderDetail.id)
+                        cartOrderDetails: cartOrderDetails.filter(o => o.id !== orderDetail.id)
                     });
                 }}
             >

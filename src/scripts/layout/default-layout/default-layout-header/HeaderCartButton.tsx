@@ -1,13 +1,17 @@
 import { Button, Tooltip } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
-import { ContextRender } from 'react-context-service';
-import { RestfulDataContainer } from 'react-restful';
+import { WithContextProps } from 'react-context-service';
+import { RestfulDataContainer, RestfulRender } from 'react-restful';
 
 import { getOrderDetailsQuantity } from '@/business/order-detail';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
-import { OrderDetail, orderDetailResourceType } from '@/restful';
+import {
+    OrderDetail,
+    orderDetailResources,
+    orderDetailResourceType
+} from '@/restful';
 
 const buttonStype = {
     marginRight: 10
@@ -23,7 +27,7 @@ interface HeaderCartButtonState {
 
 class HeaderCartButtonComponent extends React.PureComponent<HeaderCartButtonProps, HeaderCartButtonState> {
     static readonly contextType = RootContext;
-    readonly context!: DomainContext;
+    readonly context!: WithContextProps<DomainContext>;
 
     constructor(props: HeaderCartButtonProps) {
         super(props);
@@ -54,6 +58,15 @@ class HeaderCartButtonComponent extends React.PureComponent<HeaderCartButtonProp
         }
     }
 
+    public componentDidMount() {
+        const { setContext } = this.context;
+        const { orderDetails } = this.props;
+
+        setContext({
+            cartOrderDetails: orderDetails
+        });
+    }
+
     public render() {
         const { orderDetails } = this.props;
         const { message } = this.state;
@@ -68,7 +81,9 @@ class HeaderCartButtonComponent extends React.PureComponent<HeaderCartButtonProp
                     onClick={this.onButtonClick}
                     style={buttonStype}
                 >
-                    <span>{text('Your cart')}</span>&nbsp;[<b>{getOrderDetailsQuantity(orderDetails)}</b>]
+                    <span>{text('Your cart')}</span>
+                    &nbsp;
+                    [<b>{getOrderDetailsQuantity(orderDetails)}</b>]
                 </Button>
             </Tooltip>
         );
@@ -76,19 +91,47 @@ class HeaderCartButtonComponent extends React.PureComponent<HeaderCartButtonProp
 }
 
 export const HeaderCartButton = React.memo((props) => {
+    const context = React.useContext(RootContext) as WithContextProps<DomainContext>;
 
     return (
-        <ContextRender<DomainContext> keys={['initOrderDetails']}>
-            {({ initOrderDetails }) => (
-                <RestfulDataContainer
-                    resourceType={orderDetailResourceType}
-                    initDataSource={initOrderDetails}
-                    key={initOrderDetails.length}
-                    filter={(orderDetail) => !orderDetail.order}
-                >
-                    {(orderDetails) => <HeaderCartButtonComponent orderDetails={orderDetails} />}
-                </RestfulDataContainer>
-            )}
-        </ContextRender>
+        <RestfulRender
+            resource={orderDetailResources.find}
+        >
+            {(render) => {
+                const { data, fetching } = render;
+
+                if (fetching) {
+                    return (
+                        <Button
+                            icon="shopping-cart"
+                            style={buttonStype}
+                            loading={true}
+                        >
+                            {text('Loading')}
+                        </Button>
+                    );
+                }
+
+                return (
+                    <RestfulDataContainer
+                        resourceType={orderDetailResourceType}
+                        initDataSource={data || []}
+                        filter={(orderDetail) => !orderDetail.order}
+                        onNewRecordsMapping={(records) => {
+                            context.setContext({
+                                cartOrderDetails: context.cartOrderDetails.concat(records)
+                            });
+                        }}
+                        onRecordRemove={(record) => {
+                            context.setContext({
+                                cartOrderDetails: context.cartOrderDetails.filter(o => o.id !== record.id)
+                            });
+                        }}
+                    >
+                        {(orderDetails) => <HeaderCartButtonComponent orderDetails={orderDetails} />}
+                    </RestfulDataContainer>
+                );
+            }}
+        </RestfulRender>
     );
 });

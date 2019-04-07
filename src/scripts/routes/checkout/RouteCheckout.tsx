@@ -22,7 +22,7 @@ interface RouteCheckoutState {
 
 export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutState> {
     static readonly withContext = [
-        nameof<DomainContext>(o => o.initOrderDetails),
+        nameof<DomainContext>(o => o.cartOrderDetails),
         nameof<DomainContext>(o => o.currentAgency)
     ];
 
@@ -42,30 +42,30 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
             return;
         }
 
-        const { setContext, initOrderDetails } = this.props;
+        const { setContext, cartOrderDetails } = this.props;
 
-        if (!initOrderDetails.length) {
+        if (!cartOrderDetails.length) {
             return;
         }
 
         setContext({
-            initOrderDetails: []
+            cartOrderDetails: []
         });
     }
 
     public render() {
         const {
-            initOrderDetails,
+            cartOrderDetails,
             currentAgency
         } = this.props;
         const { checkoutResultOrder } = this.state;
 
-        if (!checkoutResultOrder && !initOrderDetails.length) {
+        if (!checkoutResultOrder && !cartOrderDetails.length) {
             return <Redirect to={CART_URL} />;
         }
 
         const initialValues: Partial<Order> = {
-            orderDetails: initOrderDetails,
+            orderDetails: cartOrderDetails,
             agencyOrderer: currentAgency
         };
 

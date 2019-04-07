@@ -38,35 +38,6 @@ export interface AppNotification {
     readonly fromAgencyName?: string;
     readonly viewedAt?: string;
 }
-export interface DomainContext extends AppCoreContext<User>, Product3DSenceContext {
-    readonly authClient: AuthClient<User>;
-    readonly drawerVisibled?: boolean;
-    readonly showPageLoading?: boolean;
-    readonly globalModal?: ModalProps & { readonly children?: React.ReactNode } | null;
-    readonly globalModalProgressing?: boolean;
-    readonly globalModalVisibled?: boolean;
-    readonly pageHeaderProps?: DefaultLayoutHeaderProps | null;
-    readonly selectedDate?: Moment | null;
-    readonly selectedDateRange?: [Moment, Moment] | null;
-    readonly showPrint?: Print | null;
-    readonly initOrderDetails: Array<OrderDetail>;
-    readonly currentAgency?: Agency;
-
-    readonly notifications: AppNotification[];
-}
-
-export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;
-export type WithCurrentUser = Pick<DomainContext, 'currentUser'>;
-export type WithAuthClient = Pick<DomainContext, 'authClient'>;
-export type WithHistory = Pick<DomainContext, 'history'>;
-export type WithGlobalModal =
-    Pick<DomainContext, 'globalModal'> &
-    Pick<DomainContext, 'globalModalProgressing'> &
-    Pick<DomainContext, 'globalModalVisibled'>;
-
-export type WithSelectedDate = Pick<DomainContext, 'selectedDate'>;
-export type WithSelectedDateRange = Pick<DomainContext, 'selectedDateRange'>;
-export type WithShowPrint = Pick<DomainContext, 'showPrint'>;
 
 export interface Product3DSenceContext {
     readonly selected3DObject: THREE.Object3D | null;
@@ -93,6 +64,37 @@ export interface Product3DSenceContext {
     readonly product3DSenceLoading: boolean | null;
     readonly takeProduct3DScreenshot: () => Promise<string>;
 }
+
+export interface DomainContext extends AppCoreContext<User>, Product3DSenceContext {
+    readonly authClient: AuthClient<User>;
+    readonly drawerVisibled?: boolean;
+    readonly showPageLoading?: boolean;
+    readonly globalModal?: ModalProps & { readonly children?: React.ReactNode } | null;
+    readonly globalModalProgressing?: boolean;
+    readonly globalModalVisibled?: boolean;
+    readonly pageHeaderProps?: DefaultLayoutHeaderProps | null;
+    readonly selectedDate?: Moment | null;
+    readonly selectedDateRange?: [Moment, Moment] | null;
+    readonly showPrint?: Print | null;
+    readonly cartOrderDetails: Array<OrderDetail>;
+    readonly currentAgency?: Agency;
+
+    readonly notifications: AppNotification[];
+}
+
+export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;
+export type WithCurrentUser = Pick<DomainContext, 'currentUser'>;
+export type WithAuthClient = Pick<DomainContext, 'authClient'>;
+export type WithHistory = Pick<DomainContext, 'history'>;
+export type WithGlobalModal =
+    Pick<DomainContext, 'globalModal'> &
+    Pick<DomainContext, 'globalModalProgressing'> &
+    Pick<DomainContext, 'globalModalVisibled'>;
+
+export type WithSelectedDate = Pick<DomainContext, 'selectedDate'>;
+export type WithSelectedDateRange = Pick<DomainContext, 'selectedDateRange'>;
+export type WithShowPrint = Pick<DomainContext, 'showPrint'>;
+
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;
 

@@ -13,7 +13,8 @@ const admin: Role = {
     denied: [
         permissions.FUNC_ORDER_TRANSACTION_CREATE,
         permissions.FUNC_ORDER_COMPLAIN,
-        permissions.FUNC_ORDER_CANCEL
+        permissions.FUNC_ORDER_CANCEL,
+        permissions.FUNC_ADD_TO_CART
     ]
 };
 
@@ -28,7 +29,8 @@ const authenticated: Role = {
         permissions.FUNC_ORDER_TRANSACTION_CREATE,
         permissions.ISSUE_TITKET_LIST,
         permissions.FUNC_ORDER_COMPLAIN,
-        permissions.FUNC_ORDER_CANCEL
+        permissions.FUNC_ORDER_CANCEL,
+        permissions.FUNC_ADD_TO_CART
     ]
 };
 

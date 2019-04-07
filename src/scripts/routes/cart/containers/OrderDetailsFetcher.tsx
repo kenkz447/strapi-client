@@ -13,7 +13,7 @@ import {
 import { OrderDetailList } from './order-details-fetcher';
 
 export interface OrderDetailsFetcherProps {
-    readonly initOrderDetails: OrderDetail[];
+    readonly cartOrderDetails: OrderDetail[];
 }
 
 export class OrderDetailsFetcher extends React.PureComponent<OrderDetailsFetcherProps> {
@@ -23,15 +23,15 @@ export class OrderDetailsFetcher extends React.PureComponent<OrderDetailsFetcher
     private readonly updateOrderDetailContext = (result: OrderDetail[]) => {
         const { setContext } = this.context;
         setContext({
-            initOrderDetails: result
+            cartOrderDetails: result
         });
     }
 
     public render() {
-        const { initOrderDetails } = this.props;
+        const { cartOrderDetails } = this.props;
         return (
             <RestfulRender
-                initData={initOrderDetails}
+                initData={cartOrderDetails}
                 initFetch={true}
                 resource={orderDetailResources.find}
                 onFetchCompleted={this.updateOrderDetailContext}

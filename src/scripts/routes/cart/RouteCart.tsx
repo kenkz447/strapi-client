@@ -20,21 +20,21 @@ export class RouteCart extends RoutePage<RouteCartProps> {
         exact: true
     };
 
-    static readonly withContext = [nameof<DomainContext>(o => o.initOrderDetails)];
+    static readonly withContext = [nameof<DomainContext>(o => o.cartOrderDetails)];
 
     render() {
-        const { initOrderDetails } = this.props;
+        const { cartOrderDetails } = this.props;
 
         return (
             <PageWrapper>
-                <OrderDetailsPageHeader initOrderDetails={initOrderDetails} />
+                <OrderDetailsPageHeader cartOrderDetails={cartOrderDetails} />
                 <PageContent>
                     <Row gutter={24}>
                         <Col span={18}>
-                            <OrderDetailsFetcher initOrderDetails={initOrderDetails} />
+                            <OrderDetailsFetcher cartOrderDetails={cartOrderDetails} />
                         </Col>
                         <Col span={5}>
-                            <OrderOverview initOrderDetails={initOrderDetails} />
+                            <OrderOverview cartOrderDetails={cartOrderDetails} />
                         </Col>
                     </Row>
                 </PageContent>

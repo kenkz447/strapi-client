@@ -19,7 +19,7 @@ const breadcrumbList = [{
 }];
 
 export interface OrderDetailsPageHeaderProps {
-    readonly initOrderDetails: OrderDetail[];
+    readonly cartOrderDetails: OrderDetail[];
 }
 
 export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPageHeaderProps> {
@@ -32,11 +32,11 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
     }
 
     public render() {
-        const { initOrderDetails } = this.props;
+        const { cartOrderDetails } = this.props;
         return (
             <RestfulDataContainer
                 resourceType={orderDetailResourceType}
-                initDataSource={initOrderDetails!}
+                initDataSource={cartOrderDetails!}
             >
                 {(syncOrderDetails) => {
                     return (
@@ -49,7 +49,7 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
                                     type="primary"
                                     icon="solution"
                                     onClick={this.onCheckoutClick}
-                                    disabled={!initOrderDetails.length}
+                                    disabled={!cartOrderDetails.length}
                                 >
                                     {text('Order now!')}
                                 </Button>

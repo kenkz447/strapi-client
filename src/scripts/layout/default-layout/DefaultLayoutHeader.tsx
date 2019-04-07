@@ -1,6 +1,9 @@
 import { Divider } from 'antd';
+import { AccessControl } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
+
+import { policies } from '@/domain';
 
 import {
     HeaderCartButton,
@@ -40,7 +43,9 @@ export function DefaultLayoutHeader(props: DefaultLayoutHeaderProps) {
     return (
         <DefaultLayoutHeaderWrapper>
             <div style={{ flexGrow: 1 }} />
-            <HeaderCartButton />
+            <AccessControl policy={policies.functionAllowed} funcKey="FUNC_ADD_TO_CART">
+                {() => <HeaderCartButton />}
+            </AccessControl>
             <HeaderUserActions />
             <HeaderNotification />
             <HeaderSelectLanguage />

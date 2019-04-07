@@ -28,12 +28,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
             return;
         }
 
-        // tslint:disable-next-line:no-any
-        const requests: Promise<any>[] = [
-            request(
-                orderDetailResources.find
-            )
-        ];
+        const requests: Promise<{}>[] = [];
 
         if (currentUser._id) {
             requests.push(
@@ -49,13 +44,11 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
         }
 
         const [
-            orderDetails,
             fetcherAgencies
         ] = await Promise.all(requests);
 
         try {
             setContext({
-                initOrderDetails: orderDetails,
                 currentAgency: fetcherAgencies && fetcherAgencies[0],
                 appState: 'READY'
             });
