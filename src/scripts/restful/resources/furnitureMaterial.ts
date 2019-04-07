@@ -1,7 +1,11 @@
-import { Record, Resource, ResourceType } from 'react-restful';
+import { Resource, ResourceType } from 'react-restful';
+import * as yup from 'yup';
 
-import { FurnitureMaterialType } from './furnitureMaterialType';
-import { UploadedFile } from './uploadedFile';
+import {
+    FurnitureMaterialType,
+    furnitureMaterialTypeSchema
+} from './furnitureMaterialType';
+import { UploadedFile, uploadedFileSchema } from './uploadedFile';
 
 export interface FurnitureMaterial {
     readonly id: string;
@@ -25,5 +29,20 @@ export const furnitureMaterialResources = {
     find: new Resource<FurnitureMaterial, FurnitureMaterial[]>({
         resourceType: furnitureMaterialResourceType,
         url: '/material'
-    })
+    }),
+    createExternal: new Resource<FurnitureMaterial>({
+        resourceType: furnitureMaterialResourceType,
+        method: 'POST',
+        url: '/material/external',
+        bodySchema: yup.object().shape<Partial<FurnitureMaterial>>({
+            displayName: yup.string().required(),
+            materialType: furnitureMaterialTypeSchema.required(),
+            texture: uploadedFileSchema.required()
+        })
+    }),
+    delete: new Resource<FurnitureMaterial>({
+        resourceType: furnitureMaterialResourceType,
+        url: '/material/:id',
+        method: 'DELETE'
+    }),
 };

@@ -167,4 +167,7 @@ export const vi = {
     'AgencySettingsDesctiption': 'Cài đặt thông tin đại lý và thông tin liên hệ về giao nhận, hàng hóa.',
     'Consignee name': 'Người nhận hàng',
     'input consignee name': 'nhập tên người nhận hàng',
+    'Material library': 'Thư viện vật liệu',
+    'Upload material': 'Tải lên vật liệu',
+    'Uploaded': 'Đã tải lên'
 };

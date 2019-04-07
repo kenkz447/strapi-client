@@ -4,6 +4,7 @@ import {
     DASHBOARD_BASE_PATH,
     INVITATION_URL,
     ISSUE_TICKET_URL,
+    MATERIAL_LIBRARY_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH
 } from '@/configs';
@@ -16,6 +17,10 @@ export const mainMenu = [{
     url: PRODUCT_PATH,
     icon: 'gold',
     label: 'Product'
+}, {
+    url: MATERIAL_LIBRARY_URL,
+    icon: 'folder-open',
+    label: 'Material library'
 }, {
     url: ORDER_LIST_URL,
     icon: 'appstore',

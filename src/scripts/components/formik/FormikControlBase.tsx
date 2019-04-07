@@ -14,6 +14,7 @@ export interface FormikControlBaseProps<V> {
 interface ListItem {
     readonly id?: number | string;
     readonly name: string;
+    readonly displayName?: string;
 }
 
 export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> extends React.PureComponent<P, S> {
@@ -24,7 +25,7 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
     };
 
     public readonly listToOptions = (list: Array<ListItem>) => {
-        return list.map(o => ({ value: o.id, title: o.name }));
+        return list.map(o => ({ value: o.id, title: o.displayName || o.name }));
     }
 
     public readonly listToTreeOptions = (

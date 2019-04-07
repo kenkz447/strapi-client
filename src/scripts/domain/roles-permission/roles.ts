@@ -24,6 +24,7 @@ const authenticated: Role = {
     allowed: [
         permissions.DASHBOARD,
         permissions.PRODUCT,
+        permissions.MATERIAL_LIBRARY,
         permissions.ORDER_LIST,
         permissions.NOTIFICATION,
         permissions.FUNC_ORDER_TRANSACTION_CREATE,

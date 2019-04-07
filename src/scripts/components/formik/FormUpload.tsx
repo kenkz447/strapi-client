@@ -102,9 +102,6 @@ function FormUploadComponent(props: FormFieldProps) {
         </FormUploadWrapper>
     );
 
-    const isError = validateStatus === 'error';
-    const helpMessage = (!isError && help) ? help : (isError && touched) && help;
-
     if (useFieldWrapper) {
         return (
             <Form.Item
@@ -112,8 +109,8 @@ function FormUploadComponent(props: FormFieldProps) {
                 wrapperCol={wrapperCol}
                 label={label}
                 required={required}
-                help={helpMessage}
-                validateStatus={touched ? validateStatus : undefined}
+                help={help}
+                validateStatus={validateStatus}
             >
                 {input}
             </Form.Item>

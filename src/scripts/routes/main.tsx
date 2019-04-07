@@ -11,6 +11,7 @@ import { RouteDashboard } from './dashboard';
 import { RouteHome } from './home';
 import { RouteInvitations } from './invitations';
 import { IssueTicketDetails, RouteIssueTickets } from './issue-tickets';
+import { RouteMaterialLibrary } from './material-library';
 import { RouteProduct } from './product';
 
 export const routes = routeFrom([
@@ -22,7 +23,8 @@ export const routes = routeFrom([
     RouteAccounts,
     RouteIssueTickets,
     IssueTicketDetails,
-    RouteInvitations
+    RouteInvitations,
+    RouteMaterialLibrary
 ]);
 
 export default () => (

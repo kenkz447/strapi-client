@@ -15,7 +15,7 @@ export interface UploadedFile {
 }
 
 export const uploadedFileSchema = yup.object().shape<UploadedFile>({
-    id: yup.string(),
+    id: yup.string().required(),
     name: yup.string(),
     hash: yup.string(),
     ext: yup.string(),

@@ -58,7 +58,9 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                             </DescriptionList.Description>
                             {
                                 order.promotion && (
-                                    <DescriptionList.Description term={text('Promo code') + ` #${order.promotion.code}`}>
+                                    <DescriptionList.Description
+                                        term={text('Promo code') + ` #${order.promotion.code}`}
+                                    >
                                         - {formatCurrency(order.promotionDiscount)}
                                     </DescriptionList.Description>
                                 )

@@ -10,6 +10,7 @@ export * from './FormSelect';
 export * from './FormSubmit';
 export * from './FormTextArea';
 export * from './FormTimePicker';
+export * from './FormUpload';
 export * from './FormikControlBase';
 export * from './Types';
 export * from './formLayouts';

@@ -5,6 +5,7 @@ import {
     AGENCIES_URL,
     DASHBOARD_BASE_PATH,
     ISSUE_TICKET_URL,
+    MATERIAL_LIBRARY_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH
@@ -20,6 +21,10 @@ const locationPermissions: Permissions = {
     DASHBOARD: {
         key: 'DASHBOARD',
         url: new RegExp(DASHBOARD_BASE_PATH)
+    },
+    MATERIAL_LIBRARY: {
+        key: 'MATERIAL_LIBRARY',
+        url: new RegExp(MATERIAL_LIBRARY_URL)
     },
     PRODUCT: {
         key: 'PRODUCT',

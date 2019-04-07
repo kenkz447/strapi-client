@@ -30,7 +30,7 @@ function FormInputComponent(props: FormFieldProps) {
     const input = <Input {...rest} prefix={inputPrefix} />;
 
     const isError = validateStatus === 'error';
-    const helpMessage = (!isError && help) ? help : (isError && touched) && help;
+    const helpMessage = (!isError && help) ? help : (isError) && help;
 
     if (useFieldWrapper) {
         return (

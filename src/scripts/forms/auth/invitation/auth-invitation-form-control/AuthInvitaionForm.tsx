@@ -28,7 +28,7 @@ export function AuthInvitaionForm(props: AuthInvitaionFormOwnProps) {
                 name={nameof.full<AuthInvitaionFormValues>(o => o.email)}
                 onChange={handleChange}
                 value={values.email}
-                help={errors.email}
+                help={errors.email || 'Email để đăng nhập cũng như nhận thông báo về đơn hàng.'}
                 validateStatus={errors.email ? 'error' : undefined}
                 placeholder={text('Your email')}
                 autoFocus={true}
@@ -48,7 +48,6 @@ export function AuthInvitaionForm(props: AuthInvitaionFormOwnProps) {
                 help={errors.password}
                 validateStatus={errors.rePassword && 'error'}
             />
-
             <FormInput
                 type="password"
                 name={nameof<AuthInvitaionFormValues>(o => o.rePassword)}
