@@ -49,6 +49,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
 
         try {
             setContext({
+                cartOrderDetails: [],
                 currentAgency: fetcherAgencies && fetcherAgencies[0],
                 appState: 'READY'
             });

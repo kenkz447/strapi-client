@@ -36,7 +36,6 @@ const SiderLogo = styled.div`
     line-height: 64px;
     padding-left: 24px;
     transition: all .3s;
-    background: #002140;
     overflow: hidden;
     img {
         display: inline-block;
@@ -76,11 +75,13 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
 
     private readonly siderContent = (
         <React.Fragment>
-            <SiderLogo className="side-logo">
-                <Link to={DASHBOARD_BASE_PATH}>
-                    <img src={LOGO_TEXT} alt="logo" />
-                </Link>
-            </SiderLogo>
+            <div style={{ background: '#002140' }}>
+                <SiderLogo className="side-logo">
+                    <Link to={DASHBOARD_BASE_PATH}>
+                        <img src={LOGO_TEXT} alt="logo" />
+                    </Link>
+                </SiderLogo>
+            </div>
             <DefaultLayoutSiderMenu
                 onMenuItemClick={this.onMenuItemClick}
             />
@@ -99,7 +100,7 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
                         type="403"
                         // tslint:disable-next-line:max-line-length
                         desc="Thiết bị hiện tại của bạn chưa được hỗ trợ, vui lòng xử dụng máy tính để bàn!"
-                        actions={<a/>}
+                        actions={<a />}
 
                     />
                 </div>
