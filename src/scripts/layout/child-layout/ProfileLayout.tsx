@@ -58,16 +58,16 @@ export class ProfileLayout extends React.PureComponent<ProfileLayoutProps> {
                     selectedKeys={[location.pathname]}
                 >
                     <Menu.Item key={PROFILE_ACCOUNT_URL}>
-                        {text('Tài khoản')}
+                        {text('Account settings')}
+                    </Menu.Item>
+                    <Menu.Item key={PROFILE_AGENCY_URL}>
+                        {text('Agency settings')}
+                    </Menu.Item>
+                    <Menu.Item key={PROFILE_ADDRESS_BOOK_URL}>
+                        {text('Address book')}
                     </Menu.Item>
                     <Menu.Item key={PROFILE_PASSWORD_URL}>
                         {text('Change password')}
-                    </Menu.Item>
-                    <Menu.Item key={PROFILE_AGENCY_URL}>
-                        {text('Thông tin đại lý')}
-                    </Menu.Item>
-                    <Menu.Item key={PROFILE_ADDRESS_BOOK_URL}>
-                        {text('Sổ địa chỉ')}
                     </Menu.Item>
                 </Menu>
                 <div className="profile-layout-content">

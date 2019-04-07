@@ -18,6 +18,7 @@ export interface Address {
     readonly created_by: User;
     readonly city: City;
     readonly county: County;
+    readonly consigneeName: string;
 }
 
 export const addressResourceType = new ResourceType<Address>(nameof<Address>());

@@ -84,7 +84,9 @@ export const vi = {
     'Open date': 'Ngày tạo',
     'Select from address book': 'Chọn từ sổ địa chỉ',
     House: 'Nhà riêng',
+    house: 'Nhà riêng',
     Apartment: 'Chung cư',
+    apartment: 'Chung cư',
     Clear: 'Đặt lại',
     Phone: 'Điện thoại',
     'input title': 'nhập tiêu đề',
@@ -162,5 +164,7 @@ export const vi = {
     'input agency name': 'nhập tên đại lý',
     'ChangeEmailFieldHelp': 'Email không thể thay đổi, trường hợp bạn muốn thay đổi email vui lòng liên hệ [M]Furniture để được hỗ trợ.',
     'ChangeUsernameFieldHelp': 'Dùng để thay thế email email khi đăng nhập.',
-    'AgencySettingsDesctiption': 'Cài đặt thông tin đại lý và thông tin liên hệ về giao nhận, hàng hóa.'
+    'AgencySettingsDesctiption': 'Cài đặt thông tin đại lý và thông tin liên hệ về giao nhận, hàng hóa.',
+    'Consignee name': 'Người nhận hàng',
+    'input consignee name': 'nhập tên người nhận hàng',
 };

@@ -32,12 +32,12 @@ export function AddressForm(props: AddressFormOwnProps) {
         <FormBody formProps={props}>
             <AccountFormWrapper>
                 <FormInput
-                    name={nameof.full<AddressFormValues>(o => o.name)}
+                    name={nameof.full<AddressFormValues>(o => o.consigneeName)}
                     onChange={handleChange}
-                    value={values.name}
-                    validateStatus={errors.name ? 'error' : undefined}
-                    label={text('Title')}
-                    placeholder={text('input title')}
+                    value={values.consigneeName}
+                    validateStatus={errors.consigneeName ? 'error' : undefined}
+                    label={text('Consignee name')}
+                    placeholder={text('Input consignee name')}
                     autoFocus={true}
                     required={true}
                 />

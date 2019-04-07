@@ -77,7 +77,7 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                     <Col span={8}>
                         <DescriptionList title={text('Shipping information')} style={{ marginBottom: 24 }} col={1}>
                             <DescriptionList.Description term={text('Recipient\'s name')}>
-                                {order.recipientName || '...'}
+                                {order.consigneeName || '...'}
                             </DescriptionList.Description>
                             <DescriptionList.Description term={text('Phone')}>
                                 {order.phone || '...'}

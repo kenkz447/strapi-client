@@ -24,7 +24,7 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
     private readonly onAddressSelect = (address: Address) => {
         const { setFieldValue } = this.props;
 
-        setFieldValue(nameof<Order>(o => o.addressType), address.type);
+        setFieldValue(nameof<Order>(o => o.consigneeName), address.consigneeName);
         setFieldValue(nameof<Order>(o => o.phone), address.phone);
         setFieldValue(nameof<Order>(o => o.email), address.email);
         setFieldValue(nameof<Order>(o => o.shippingToCity), address.city);
@@ -43,16 +43,33 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
             resetForm
         } = this.props;
 
-        const isValid = !!(values.phone
+        const isValid = !!(
+            values.consigneeName
+            && values.phone
             && values.email
             && values.shippingToCity
             && values.shippingToCounty
-            && values.shippingAddress);
+            && values.shippingAddress
+            && values.addressType
+        );
 
         return (
             <div>
                 <AddressBook onAddressSelect={this.onAddressSelect} />
                 <Divider dashed={true} />
+                <FormInput
+                    name={nameof<Order>(o => o.consigneeName)}
+                    onChange={handleChange}
+                    value={values.consigneeName}
+                    wrapperCol={verticalLayout.wrapperCol}
+                    labelCol={verticalLayout.labelCol}
+                    help={errors.consigneeName}
+                    validateStatus={errors.consigneeName ? 'error' : undefined}
+                    label={text('Consignee name')}
+                    placeholder={text('input consignee name')}
+                    required={true}
+                    autoFocus={true}
+                />
                 <FormInput
                     name={nameof<Order>(o => o.phone)}
                     onChange={handleChange}
@@ -61,8 +78,8 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     labelCol={verticalLayout.labelCol}
                     help={errors.phone}
                     validateStatus={errors.phone ? 'error' : undefined}
-                    label={text('Điện thoại')}
-                    placeholder={text('Nhập số điện thoại')}
+                    label={text('Phone')}
+                    placeholder={text('input phone')}
                     required={true}
                     autoFocus={true}
                 />
@@ -75,7 +92,7 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     help={errors.email}
                     validateStatus={errors.email ? 'error' : undefined}
                     label={text('Email')}
-                    placeholder={text('Nhập email')}
+                    placeholder={text('input email')}
                     required={true}
                 />
                 <AddressCityAndCounty
@@ -93,8 +110,8 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     labelCol={verticalLayout.labelCol}
                     help={errors.shippingAddress}
                     validateStatus={errors.shippingAddress ? 'error' : undefined}
-                    label={text('Địa chỉ')}
-                    placeholder={text('Nhập địa chỉ')}
+                    label={text('Address')}
+                    placeholder={text('input address')}
                     required={true}
                     autoFocus={true}
                 />
@@ -104,7 +121,7 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     onChange={handleChange}
                     wrapperCol={verticalLayout.wrapperCol}
                     labelCol={verticalLayout.labelCol}
-                    label={text('Loại địa chỉ')}
+                    label={text('Address type')}
                 >
                     <Radio value="house">{text('House')}</Radio>
                     <Radio value="apartment">{text('Apartment')}</Radio>

@@ -55,7 +55,7 @@ export class AddressTable extends React.PureComponent<AddressTableProps, Address
                                         action={deleteAddress}
                                         needsConfirm={true}
                                     >
-                                        {({doBusiness, loading}) => (
+                                        {({ doBusiness, loading }) => (
                                             <Button
                                                 icon="delete"
                                                 type="danger"
@@ -69,9 +69,12 @@ export class AddressTable extends React.PureComponent<AddressTableProps, Address
                             >
                                 <List.Item.Meta
                                     avatar={<Avatar>#{index + 1}</Avatar>}
-                                    title={address.name}
+                                    title={address.fullAddress}
                                     description={(
-                                        <DescriptionList title={address.fullAddress} col={2}>
+                                        <DescriptionList
+                                            title={text('Consignee name') + ': ' + address.consigneeName}
+                                            col={2}
+                                        >
                                             <DescriptionList.Description term={text('Email')}>
                                                 {address.email || '...'}
                                             </DescriptionList.Description>
@@ -88,9 +91,8 @@ export class AddressTable extends React.PureComponent<AddressTableProps, Address
                                     )}
                                 />
                             </List.Item>
-                        )
-                    }
-                    }
+                        );
+                    }}
                 />
             </AddressTableWrapper >
         );
