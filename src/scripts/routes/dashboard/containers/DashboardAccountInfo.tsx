@@ -4,6 +4,7 @@ import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { getUserFirstName } from '@/business/user';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 
@@ -34,7 +35,7 @@ export class DashboardAccountInfo extends React.PureComponent<DashboardAccountIn
                 <div>
                     <div>
                         <DashboardAccountInfoHeadline>
-                            {text('Welcome')} {currentUser.username}!
+                            {text('Welcome')} {getUserFirstName(currentUser)}!
                         </DashboardAccountInfoHeadline>
                         <p className="text-justify">
                             {text('DashboardWelcome')}
