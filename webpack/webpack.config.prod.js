@@ -2,8 +2,8 @@ const getBuildConfig = require('./getBuildConfigs');
 
 module.exports = getBuildConfig({
     definitions: {
-        'API_ENTRY': 'http://v2-api.furnituremaker.vn',
-        'FILE_HOST': 'http://v2-api.furnituremaker.vn'
+        'API_ENTRY': 'http://admin.mfurniture.vn',
+        'FILE_HOST': 'http://admin.mfurniture.vn'
     },
     sourceMap: true,
     compression: true
