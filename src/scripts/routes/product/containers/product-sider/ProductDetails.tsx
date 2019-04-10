@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { DomainContext } from '@/domain';
 import { functionAllowed } from '@/domain/policies';
+import { FurnitureMaterial, ProductModule } from '@/restful';
 
 import { ProductLinks } from './product-details';
 
@@ -187,6 +188,53 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
         }));
     }
 
+    private readonly renderMaterialNorms = () => {
+        const { selectedProduct } = this.context;
+
+        if (!selectedProduct) {
+            return null;
+        }
+
+        const { modules } = selectedProduct;
+
+        const materialNorms: ProductModule[] = [];
+
+        for (const productModule of modules) {
+            if (
+                !productModule.component.materialNorm
+                || !productModule.material.isExternal
+            ) {
+                continue;
+            }
+
+            materialNorms.push(productModule);
+        }
+
+        if (!materialNorms.length) {
+            return null;
+        }
+        
+        return (
+            <div>
+                <div className="white-space-2" />
+                <h4>Định mức vật liệu</h4>
+                {
+                    materialNorms.map((o, i) => {
+                        return (
+                            <div
+                                className="product-details-item d-flex"
+                                key={i}
+                            >
+                                <div className="flex-grow-1">{o.material.name} (m):</div>
+                                <div>{o.component.materialNorm}</div>
+                            </div>
+                        );
+                    })
+                }
+            </div>
+        );
+    }
+
     public render() {
         const {
             selectedProduct
@@ -215,6 +263,7 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                             );
                         })}
                 </div>
+                {this.renderMaterialNorms()}
                 <AccessControl policy={functionAllowed} funcKey="FUNC_PRODUCT_RELATED_LINK">
                     <ProductLinks />
                 </AccessControl>

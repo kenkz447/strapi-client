@@ -21,6 +21,7 @@ export interface FurnitureMaterial {
     readonly displayName?: string;
     readonly hideInLibrary?: boolean;
     readonly shininess?: number;
+    readonly isExternal?: boolean;
 }
 
 export const furnitureMaterialResourceType = new ResourceType<FurnitureMaterial>(nameof<FurnitureMaterial>());

@@ -22,7 +22,7 @@ import {
     getProductModulesPrice
 } from '@/business/product-modules';
 import { getProductTypeById } from '@/business/product-type';
-import { NoContent, PageLoading, SlideUp } from '@/components';
+import { NoContent, PageLoading } from '@/components';
 import { PRODUCT_PATH, PRODUCT_URL } from '@/configs';
 import { DomainContext, WithHistory } from '@/domain';
 import { text } from '@/i18n';
@@ -351,7 +351,6 @@ class ProductFetcherComponent extends React.PureComponent<
         }
 
         const { selectedFurnitureComponent, modulesCode } = this.props;
-        const allowLoadWithProduct = allowLoad && loadedProduct;
         const allowLoadWithNoProduct = allowLoad && !loadedProduct;
 
         if (allowLoadWithNoProduct) {

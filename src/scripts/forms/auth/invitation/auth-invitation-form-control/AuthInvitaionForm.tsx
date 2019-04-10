@@ -28,7 +28,7 @@ export function AuthInvitaionForm(props: AuthInvitaionFormOwnProps) {
                 name={nameof.full<AuthInvitaionFormValues>(o => o.email)}
                 onChange={handleChange}
                 value={values.email}
-                help={errors.email || 'Email để đăng nhập cũng như nhận thông báo về đơn hàng.'}
+                help={errors.email || 'Email đăng nhập cũng như nhận thông báo về đơn hàng.'}
                 validateStatus={errors.email ? 'error' : undefined}
                 placeholder={text('Your email')}
                 autoFocus={true}

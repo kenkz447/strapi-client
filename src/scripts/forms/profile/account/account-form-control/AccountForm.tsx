@@ -52,17 +52,6 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
                             help={text('ChangeEmailFieldHelp')}
                         />
                         <FormInput
-                            name={nameof.full<AccountFormValues>(o => o.username)}
-                            onChange={handleChange}
-                            value={values.username}
-                            validateStatus={errors.username ? 'error' : undefined}
-                            label={text('Username')}
-                            placeholder="..."
-                            autoFocus={true}
-                            required={true}
-                            help={text('ChangeUsernameFieldHelp')}
-                        />
-                        <FormInput
                             name={nameof.full<AccountFormValues>(o => o.fullName)}
                             onChange={handleChange}
                             value={values.fullName}
