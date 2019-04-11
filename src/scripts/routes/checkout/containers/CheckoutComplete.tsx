@@ -4,6 +4,7 @@ import Result from 'ant-design-pro/lib/Result';
 import { Button, Form, Typography } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
+import { WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
 import { verticalLayout } from '@/components';
@@ -30,7 +31,7 @@ interface CheckoutCompleteProps {
 
 export class CheckoutComplete extends React.PureComponent<CheckoutCompleteProps> {
     static readonly contextType = RootContext;
-    readonly context!: DomainContext;
+    readonly context!: WithContextProps<DomainContext>;
 
     public render() {
         const { order } = this.props;

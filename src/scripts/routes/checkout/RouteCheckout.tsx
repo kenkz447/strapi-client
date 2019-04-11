@@ -81,9 +81,13 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
                                 : (
                                     <BusinessController
                                         action={upsertOrder}
-                                        onSuccess={(result: Order) => {
+                                        onSuccess={(result: Order, context) => {
                                             this.setState({
                                                 checkoutResultOrder: result
+                                            });
+                                            
+                                            context.setContext({
+                                                cartOrderDetails: []
                                             });
                                         }}
                                     >

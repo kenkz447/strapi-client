@@ -2,6 +2,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 
 import { getDefaultParamsForUpdate } from '../base';
 import { Order } from './order';
+import { OrderDetailMaterialNorm } from './orderDetailMaterialNorm';
 import { Product } from './product';
 import { ProductDesign } from './productDesign';
 import { ProductType } from './productType';
@@ -27,6 +28,7 @@ export interface OrderDetail extends Record {
     readonly productCode?: string;
     readonly product?: Product;
     readonly updatedAt?: string;
+    readonly orderDetailMaterialNorms: OrderDetailMaterialNorm[];
 }
 
 export const orderDetailResourceType = new ResourceType<OrderDetail>(nameof<OrderDetail>());

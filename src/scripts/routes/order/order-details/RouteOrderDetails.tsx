@@ -106,13 +106,6 @@ export class RouteOrderDetails extends RoutePage<RouteProps, RouteOrderDetailsSt
                                         ? (
                                             <div className="w-100">
                                                 <OrderDetailsStatus order={syncOrder} />
-                                                {/* <Row type="flex" gutter={24}>
-                                                    <Col span={18}>
-                                                        <OrderDetailPayment />
-                                                    </Col>
-                                                    <Col span={6}>
-                                                    </Col>
-                                                </Row> */}
                                                 <OrderDetailsProducts order={syncOrder} />
                                                 <OrderDetailsTransactions order={syncOrder} />
                                             </div>

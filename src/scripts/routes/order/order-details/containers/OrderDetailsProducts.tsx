@@ -6,6 +6,7 @@ import * as React from 'react';
 import { RestfulRender } from 'react-restful';
 import { Link } from 'react-router-dom';
 
+import { getOrderDetailsMaterialNorms } from '@/business/order-detail';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { text } from '@/i18n';
@@ -27,104 +28,142 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
     public render() {
         const { order } = this.props;
         return (
-            <Card
-                style={{ marginBottom: 24 }}
-                bordered={false}
-                title={text('Details')}
+
+            <RestfulRender
+                resource={orderDetailResources.find}
+                parameters={{
+                    type: 'query',
+                    parameter: 'order',
+                    value: order.id
+                }}
             >
-                {
-                    order.note
-                        ? (
-                            <DescriptionList col={1} title={text('Customer note')} style={{ marginBottom: 24 }}>
-                                <DescriptionList.Description term="">
-                                    {order.note}
-                                </DescriptionList.Description>
-                            </DescriptionList>
-                        )
-                        : null
-                }
-                <Row gutter={24}>
-                    <Col span={10} className="order-detail-payment-infomation">
-                        <DescriptionList
-                            title={text('Payment information')}
+                {(render) => {
+                    const orderDetailsMaterialNorms = render.data ? getOrderDetailsMaterialNorms(render.data) : [];
+
+                    return (
+                        <Card
                             style={{ marginBottom: 24 }}
-                            col={1}
+                            bordered={false}
+                            title={text('Details')}
                         >
-                            <DescriptionList.Description term={text('Original price')}>
-                                {formatCurrency(order.totalPrice)}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Product discount')}>
-                                - {formatCurrency(order.productsDiscount)}
-                            </DescriptionList.Description>
                             {
-                                order.promotion && (
-                                    <DescriptionList.Description
-                                        term={text('Promo code') + ` #${order.promotion.code}`}
-                                    >
-                                        - {formatCurrency(order.promotionDiscount)}
-                                    </DescriptionList.Description>
-                                )
+                                order.note
+                                    ? (
+                                        <DescriptionList
+                                            col={1}
+                                            title={text('Customer note')}
+                                            style={{ marginBottom: 24 }}
+                                        >
+                                            <DescriptionList.Description term="">
+                                                {order.note}
+                                            </DescriptionList.Description>
+                                        </DescriptionList>
+                                    )
+                                    : null
                             }
-                            <DescriptionList.Description term={text('Discount by agency policy')}>
-                                - {formatCurrency(order.agencyCommissionValue)}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Transport fee')}>
-                                {formatCurrency(order.shippingFee)}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Total amount')}>
-                                <b>{formatCurrency(order.totalOfPayment)}</b>
-                            </DescriptionList.Description>
-                        </DescriptionList>
-                    </Col>
-                    <Col span={8}>
-                        <DescriptionList title={text('Shipping information')} style={{ marginBottom: 24 }} col={1}>
-                            <DescriptionList.Description term={text('Recipient\'s name')}>
-                                {order.consigneeName || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Phone')}>
-                                {order.phone || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Email')}>
-                                {order.email || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('City')}>
-                                {order.shippingToCity.name || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('County')}>
-                                {order.shippingToCounty.name || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Address')}>
-                                {order.shippingAddress || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Address type')}>
-                                {text(order.addressType)}
-                            </DescriptionList.Description>
-                        </DescriptionList>
-                    </Col>
-                    <Col span={6}>
-                        <DescriptionList title={text('Billing information')} style={{ marginBottom: 24 }} col={1}>
-                            <DescriptionList.Description term={text('Organization')}>
-                                {order.billingOrganization || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Address')}>
-                                {order.billingAddress || '...'}
-                            </DescriptionList.Description>
-                            <DescriptionList.Description term={text('Tax code')}>
-                                {order.billingTaxcode || '...'}
-                            </DescriptionList.Description>
-                        </DescriptionList>
-                    </Col>
-                </Row>
-                <RestfulRender
-                    resource={orderDetailResources.find}
-                    parameters={{
-                        type: 'query',
-                        parameter: 'order',
-                        value: order.id
-                    }}
-                >
-                    {(render) => {
-                        return (
+                            <Row gutter={24}>
+                                <Col span={10} className="order-detail-payment-infomation">
+                                    <DescriptionList
+                                        title={text('Payment information')}
+                                        style={{ marginBottom: 24 }}
+                                        col={1}
+                                    >
+                                        <DescriptionList.Description term={text('Original price')}>
+                                            {formatCurrency(order.totalPrice)}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Product discount')}>
+                                            - {formatCurrency(order.productsDiscount)}
+                                        </DescriptionList.Description>
+                                        {
+                                            order.promotion && (
+                                                <DescriptionList.Description
+                                                    term={text('Promo code') + ` #${order.promotion.code}`}
+                                                >
+                                                    - {formatCurrency(order.promotionDiscount)}
+                                                </DescriptionList.Description>
+                                            )
+                                        }
+                                        <DescriptionList.Description term={text('Discount by agency policy')}>
+                                            - {formatCurrency(order.agencyCommissionValue)}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Transport fee')}>
+                                            {formatCurrency(order.shippingFee)}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Total amount')}>
+                                            <b>{formatCurrency(order.totalOfPayment)}</b>
+                                        </DescriptionList.Description>
+                                    </DescriptionList>
+                                </Col>
+                                <Col span={8}>
+                                    <DescriptionList
+                                        title={text('Shipping information')}
+                                        style={{ marginBottom: 24 }}
+                                        col={1}
+                                    >
+                                        <DescriptionList.Description term={text('Recipient\'s name')}>
+                                            {order.consigneeName || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Phone')}>
+                                            {order.phone || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Email')}>
+                                            {order.email || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('City')}>
+                                            {order.shippingToCity.name || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('County')}>
+                                            {order.shippingToCounty.name || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Address')}>
+                                            {order.shippingAddress || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Address type')}>
+                                            {text(order.addressType)}
+                                        </DescriptionList.Description>
+                                    </DescriptionList>
+                                </Col>
+                                <Col span={6}>
+                                    {
+                                        orderDetailsMaterialNorms.length
+                                            ? (
+                                                <React.Fragment>
+                                                    <DescriptionList title="Vật liệu cần cung cấp" size="large" col={1}>
+                                                        {
+                                                            orderDetailsMaterialNorms.map(o => {
+                                                                return (
+                                                                    <DescriptionList.Description
+                                                                        key={o._materialId}
+                                                                        term={o._materialName}
+                                                                    >
+                                                                        {o._totalNorms}m
+                                                                    </DescriptionList.Description>
+                                                                );
+                                                            })
+                                                        }
+                                                    </DescriptionList>
+                                                    <div className="white-space-2" />
+                                                </React.Fragment>
+                                            )
+                                            : null
+                                    }
+                                    <DescriptionList
+                                        title={text('Billing information')}
+                                        style={{ marginBottom: 24 }}
+                                        col={1}
+                                    >
+                                        <DescriptionList.Description term={text('Organization')}>
+                                            {order.billingOrganization || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Address')}>
+                                            {order.billingAddress || '...'}
+                                        </DescriptionList.Description>
+                                        <DescriptionList.Description term={text('Tax code')}>
+                                            {order.billingTaxcode || '...'}
+                                        </DescriptionList.Description>
+                                    </DescriptionList>
+                                </Col>
+                            </Row>
                             <Table
                                 loading={render.fetching}
                                 dataSource={render.data || []}
@@ -204,10 +243,10 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                     render={(totalPrice) => formatCurrency(totalPrice)}
                                 />
                             </Table>
-                        );
-                    }}
-                </RestfulRender>
-            </Card>
+                        </Card>
+                    );
+                }}
+            </RestfulRender>
 
         );
     }

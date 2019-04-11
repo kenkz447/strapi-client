@@ -69,12 +69,18 @@ export const orderResources = {
     }),
     findOne: new Resource<Order>({
         resourceType: orderResourceType,
-        url: '/order/:id'
+        url: '/order/:id',
     }),
     create: new Resource<Order>({
         resourceType: orderResourceType,
         url: '/order',
-        method: 'POST'
+        method: 'POST',
+        innerMapping: {
+            orderDetails: (orderDetail, store) => {
+                const orderDetailResourceType = store.getRegisteredResourceType(nameof<OrderDetail>());
+                store.dataMapping(orderDetailResourceType, orderDetail);
+            }
+        }
     }),
     update: new Resource<Order>({
         resourceType: orderResourceType,
