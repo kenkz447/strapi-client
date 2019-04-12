@@ -28,5 +28,6 @@ export * from './productTypeGroup';
 export * from './profile';
 export * from './promotion';
 export * from './role';
+export * from './storedPromoCode';
 export * from './uploadedFile';
 export * from './user';

@@ -169,5 +169,7 @@ export const vi = {
     'input consignee name': 'nhập tên người nhận hàng',
     'Material library': 'Thư viện vật liệu',
     'Upload material': 'Tải lên vật liệu',
-    'Uploaded': 'Đã tải lên'
+    'Uploaded': 'Đã tải lên',
+    'Promo codes': 'Mã khuyến mại',
+    'Promotion and gifts': 'Khuyến mại và quà tặng'
 };

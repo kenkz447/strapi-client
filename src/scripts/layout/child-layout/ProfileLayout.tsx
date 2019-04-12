@@ -7,12 +7,11 @@ import {
     PROFILE_ACCOUNT_URL,
     PROFILE_ADDRESS_BOOK_URL,
     PROFILE_AGENCY_URL,
-    PROFILE_PASSWORD_URL
+    PROFILE_PASSWORD_URL,
+    PROFILE_PROMO_CODE_URL
 } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
-
-const { TabPane } = Tabs;
 
 const ProfileLayoutWrapper = styled.div`
     display: flex;
@@ -24,7 +23,7 @@ const ProfileLayoutWrapper = styled.div`
     background-color: #fff;
     margin: 24px 24px 0 24px;
     .ant-menu {
-        width: 200px;
+        width: 220px;
         &-item-selected {
             font-weight: bold;
         }
@@ -65,6 +64,9 @@ export class ProfileLayout extends React.PureComponent<ProfileLayoutProps> {
                     </Menu.Item>
                     <Menu.Item key={PROFILE_ADDRESS_BOOK_URL}>
                         {text('Address book')}
+                    </Menu.Item>
+                    <Menu.Item key={PROFILE_PROMO_CODE_URL}>
+                        {text('Promotion and gifts')}
                     </Menu.Item>
                     <Menu.Item key={PROFILE_PASSWORD_URL}>
                         {text('Change password')}

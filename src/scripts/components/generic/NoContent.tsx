@@ -1,3 +1,4 @@
+import { Empty } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -34,26 +35,13 @@ const NoContentWrapper = styled.div`
 
 interface NoContentProps {
     readonly children?: string;
-    readonly title?: string;
-    readonly icon?: React.ReactNode;
 }
+
 export function NoContent(props: NoContentProps) {
-    const { icon, title } = props;
+    const { children } = props;
     return (
         <NoContentWrapper>
-            {icon && (
-                <div className="no-content-icon">
-                    {icon}
-                </div>
-            )}
-            {
-                title && (
-                    <span className="no-content-title">{title}</span>
-                )
-            }
-            <p className="no-content-description">
-                {text(props.children)}!
-            </p>
+            <Empty description={children}/>
         </NoContentWrapper>
     );
 }

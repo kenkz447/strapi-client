@@ -38,5 +38,6 @@ export const PROFILE_ACCOUNT_URL = PROFILE_URL + '/account';
 export const PROFILE_AGENCY_URL = PROFILE_URL + '/agency';
 export const PROFILE_PASSWORD_URL = PROFILE_URL + '/password';
 export const PROFILE_ADDRESS_BOOK_URL = PROFILE_URL + '/address';
+export const PROFILE_PROMO_CODE_URL = PROFILE_URL + '/promo-codes';
 
 export const MATERIAL_LIBRARY_URL = '/materials';

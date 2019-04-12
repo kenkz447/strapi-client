@@ -6,12 +6,14 @@ import { RouteProfileAccount } from './account';
 import { RouteProfileAddressBook } from './address-book';
 import { RouteProfileAgency } from './agency';
 import { RouteChangePassword } from './change-password';
+import { RoutePromoCodes } from './promo-codes';
 
 const routes = routeFrom([
     RouteProfileAccount,
     RouteProfileAgency,
     RouteChangePassword,
-    RouteProfileAddressBook
+    RouteProfileAddressBook,
+    RoutePromoCodes
 ]);
 
 export default () => (

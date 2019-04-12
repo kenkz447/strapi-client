@@ -8,6 +8,8 @@ export interface Promotion extends Record {
     readonly discountPercent: number;
     readonly expirationDate: string;
     readonly enabled?: boolean;
+    readonly useFor: 'order' | 'orderDetail';
+    readonly description: string;
 }
 
 export const promotionResourceType = new ResourceType<Promotion>(nameof<Promotion>());
