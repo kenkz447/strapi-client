@@ -25,3 +25,15 @@ export const dateToString = (value: unknown) => {
 
     return value;
 };
+
+export const isFutureDate = (date: string | Date | moment.Moment) => {
+    const today = new Date();
+    const dateMoment = moment(date);
+
+    const currentMomentDate = dateMoment.toDate();
+    if (today < currentMomentDate) {
+        return true;
+    }
+
+    return false;
+};

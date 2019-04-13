@@ -2,7 +2,12 @@ import * as React from 'react';
 import { withContext } from 'react-context-service';
 
 import { DomainContext, WithDomainContext } from '@/domain';
-import { agencyResources, orderDetailResources, request } from '@/restful';
+import {
+    agencyResources,
+    orderDetailResources,
+    request,
+    storedPromoCodeResources
+} from '@/restful';
 
 type ContextFetcherProps = WithDomainContext & Pick<DomainContext, 'currentUser'>;
 
@@ -28,23 +33,35 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
             return;
         }
 
-        const requests: Promise<{}>[] = [];
+        const requests: Promise<{}>[] = [
+            request(
+                storedPromoCodeResources.find,
+                [{
+                    type: 'query',
+                    parameter: 'isUsed_ne',
+                    value: true
+                }, {
+                    type: 'query',
+                    parameter: 'expiredAt_gt',
+                    value: (new Date)
+                }]
+            )
+        ];
 
-        if (currentUser._id) {
-            requests.push(
-                request(
-                    agencyResources.find,
-                    {
-                        type: 'query',
-                        parameter: 'linkedUser',
-                        value: currentUser._id
-                    }
-                )
-            );
-        }
+        requests.push(
+            request(
+                agencyResources.find,
+                {
+                    type: 'query',
+                    parameter: 'linkedUser',
+                    value: currentUser._id || currentUser.id
+                }
+            )
+        );
 
         const [
-            fetcherAgencies
+            un,
+            fetcherAgencies,
         ] = await Promise.all(requests);
 
         try {

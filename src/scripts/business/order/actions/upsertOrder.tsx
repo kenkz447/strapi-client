@@ -25,7 +25,7 @@ export const upsertOrder = (order: Partial<Order>, context: DomainContext) => {
         type: 'body',
         value: {
             ...order,
-            code: genCodeWithCurrentDate(),
+            code: genCodeWithCurrentDate('HD'),
             depositRequired: getOrderDeposit(order),
             totalProduct: order.orderDetails.reduce(
                 (total, detail) => total + detail.quantity,

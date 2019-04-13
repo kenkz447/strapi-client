@@ -1,1 +1,1 @@
-export * from './PromoCodesFetcher';
+export * from './StoredPromoCodesFetcher';

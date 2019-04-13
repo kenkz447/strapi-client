@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { Divider, Typography } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
@@ -7,7 +7,7 @@ import { PROFILE_PROMO_CODE_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 
-import { PromoCodesFetcher } from './containers';
+import { StoredPromoCodesFetcher } from './containers';
 
 type RoutePromoCodesProps = AppPageProps;
 
@@ -32,8 +32,9 @@ export class RoutePromoCodes extends RoutePage<RoutePromoCodesProps> {
                         <Typography.Paragraph type="secondary">
                             {text('List of promotion and gift code')}
                         </Typography.Paragraph>
+                        <Divider dashed={true} />
                         <div>
-                            <PromoCodesFetcher />
+                            <StoredPromoCodesFetcher />
                         </div>
                     </div>
                 </PageContent>

@@ -6,14 +6,13 @@ import { User } from './user';
 
 export interface StoredPromoCode {
     readonly id: string;
-    readonly promoCode: string;
     readonly storedAt: string;
-    readonly expriedAt: string;
+    readonly expiredAt: string;
     readonly usedAt: string;
     readonly promotion: Promotion;
     readonly created_by: User;
     readonly storedByAgency: Agency;
-    readonly useFor: Promotion['useFor'];
+    readonly description?: string;
 }
 
 export const storedPromoCodeResourceType = new ResourceType<StoredPromoCode>({

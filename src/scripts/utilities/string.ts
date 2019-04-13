@@ -6,15 +6,15 @@ export const randomString = (
     let result = '';
 
     // random last two chars
-    for (var i = 0; i <= chars; i++) {
+    for (let i = 0; i <= chars; i++) {
         result += possible.charAt(Math.floor(Math.random() * possible.length));
     }
 
     return result;
 };
 
-export const genCodeWithCurrentDate = () => {
+export const genCodeWithCurrentDate = (prefix?: string) => {
     const currentMoment = moment();
-    const code = currentMoment.format('YYMMDD-HHmmss');
-    return code;
+    const code = currentMoment.format('YYMMDDHHmmss');
+    return prefix ? prefix + code : code;
 };

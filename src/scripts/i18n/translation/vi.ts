@@ -171,5 +171,9 @@ export const vi = {
     'Upload material': 'Tải lên vật liệu',
     'Uploaded': 'Đã tải lên',
     'Promo codes': 'Mã khuyến mại',
-    'Promotion and gifts': 'Khuyến mại và quà tặng'
+    'Promotion and gifts': 'Khuyến mại và quà tặng',
+    'List of promotion and gift code': 'Danh sách mã khuyến mại và quà tặng',
+    'Used': 'Đã sử dụng',
+    'Availability': 'Khả dụng',
+    'Expired': 'Đã hết hạn'
 };

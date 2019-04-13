@@ -14,14 +14,17 @@ import {
 
 import { StoredPromoCodeTable } from './promo-codes-fetcher';
 
-export interface PromoCodesFetcherProps {
+export interface StoredPromoCodesFetcherProps {
 }
 
-interface PromoCodesFetcherState {
+interface StoredPromoCodesFetcherState {
     readonly params: RequestParameter[];
 }
 
-export class PromoCodesFetcher extends React.PureComponent<PromoCodesFetcherProps, PromoCodesFetcherState> {
+export class StoredPromoCodesFetcher extends React.PureComponent<
+    StoredPromoCodesFetcherProps,
+    StoredPromoCodesFetcherState
+    > {
     public render() {
         return (
             <RestfulRender
