@@ -50,18 +50,6 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 prefix={<Icon type="phone" />}
             />
             <FormInput
-                name={nameof.full<RegisterFormValues>(o => o.username)}
-                onChange={handleChange}
-                value={values.username}
-                validateStatus={errors.username ? 'error' : undefined}
-                placeholder={text('Username')}
-                autoFocus={true}
-                required={true}
-                size="large"
-                prefix={<Icon type="user" />}
-                autoComplete="disabled"
-            />
-            <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.email)}
                 onChange={handleChange}
                 value={values.email}

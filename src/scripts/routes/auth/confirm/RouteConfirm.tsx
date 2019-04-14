@@ -72,9 +72,7 @@ export class RouteConfirm extends RoutePage<RouteConfirmProps, RouteConfirmState
                                         <AuthCard
                                             title={text('Registration')}
                                             description={text('Registration_Successful')}
-                                        >
-                                            {}
-                                        </AuthCard>
+                                        />
                                     )
                                     : (
                                         <AuthCard

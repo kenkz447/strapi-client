@@ -21,7 +21,7 @@ const AuthCardWrapper = styled.div`
 `;
 
 interface AuthCardProps {
-    readonly children: React.ReactNode;
+    readonly children?: React.ReactNode;
     readonly title: string;
     readonly description: string;
 }

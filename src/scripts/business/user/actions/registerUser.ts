@@ -1,4 +1,5 @@
 import { authResources, request, User } from '@/restful';
+import { genCodeWithCurrentDate } from '@/utilities';
 
 export const registerUser = (newUser: Partial<User>) => {
 
@@ -6,7 +7,10 @@ export const registerUser = (newUser: Partial<User>) => {
         authResources.register,
         {
             type: 'body',
-            value: newUser
+            value: {
+                ...newUser,
+                username: genCodeWithCurrentDate('TK')
+            }
         }
     );
 };
