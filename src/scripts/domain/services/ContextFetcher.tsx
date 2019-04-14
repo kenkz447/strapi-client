@@ -33,7 +33,10 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
             return;
         }
 
-        const requests: Promise<{}>[] = [
+        const [
+            availablePromoCodes,
+            fetcherAgencies,
+        ] = await Promise.all([
             request(
                 storedPromoCodeResources.find,
                 [{
@@ -45,10 +48,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
                     parameter: 'expiredAt_gt',
                     value: (new Date)
                 }]
-            )
-        ];
-
-        requests.push(
+            ),
             request(
                 agencyResources.find,
                 {
@@ -57,15 +57,11 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
                     value: currentUser._id || currentUser.id
                 }
             )
-        );
-
-        const [
-            un,
-            fetcherAgencies,
-        ] = await Promise.all(requests);
+        ]);
 
         try {
             setContext({
+                availablePromoCodes: availablePromoCodes,
                 cartOrderDetails: [],
                 currentAgency: fetcherAgencies && fetcherAgencies[0],
                 appState: 'READY'

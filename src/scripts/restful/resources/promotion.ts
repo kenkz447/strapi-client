@@ -1,5 +1,7 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
+import { ProductType } from './productType';
+
 export interface Promotion extends Record {
     readonly id: string;
     readonly code: string;
@@ -10,6 +12,8 @@ export interface Promotion extends Record {
     readonly enabled?: boolean;
     readonly useFor: 'order' | 'orderDetail';
     readonly description: string;
+    readonly forProductTypes: string[] | ProductType[];
+    readonly productQuantityOrdering?: number;
 }
 
 export const promotionResourceType = new ResourceType<Promotion>(nameof<Promotion>());

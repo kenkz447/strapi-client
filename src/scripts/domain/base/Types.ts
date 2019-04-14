@@ -13,6 +13,7 @@ import {
     FurnitureMaterialType,
     OrderDetail,
     ProductExtended,
+    StoredPromoCode,
     User
 } from '@/restful';
 
@@ -80,6 +81,7 @@ export interface DomainContext extends AppCoreContext<User>, Product3DSenceConte
     readonly currentAgency?: Agency;
 
     readonly notifications: AppNotification[];
+    readonly availablePromoCodes: StoredPromoCode[];
 }
 
 export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;

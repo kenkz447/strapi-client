@@ -1,4 +1,4 @@
-import { Button, Form } from 'antd';
+import { Alert, Button, Form } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import * as React from 'react';
@@ -85,10 +85,23 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
         } = this.props;
 
         const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
+        const isPromotion = !!values.storedPromotionCode;
 
         return (
             <FormBody formProps={this.props}>
                 <OrderDetailCreateFormWrapper>
+                    {
+                        isPromotion && (
+                            <Alert
+                                type="success"
+                                message={
+                                    <div>
+                                        Bạn nhận được ưu đãi cho sản phẩm này - <a>xem chi tiết</a>
+                                </div>
+                                }
+                            />
+                        )
+                    }
                     <Form.Item
                         wrapperCol={verticalLayout.wrapperCol}
                         labelCol={verticalLayout.labelCol}
@@ -96,18 +109,32 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
                     >
                         {formatCurrency(product!.totalPrice)}
                     </Form.Item>
-                    <FormSelect
-                        name={nameof<OrderDetailCreateFormValues>(o => o.quantity)}
-                        value={values.quantity}
-                        setFieldValue={setFieldValue}
-                        options={quantitySelectOptions}
-                        wrapperCol={verticalLayout.wrapperCol}
-                        labelCol={verticalLayout.labelCol}
-                        help={errors.quantity}
-                        validateStatus={errors.quantity ? 'error' : undefined}
-                        label={text('Quantity')}
-                        placeholder={text('Select quantity')}
-                    />
+                    {
+                        isPromotion
+                            ? (
+                                <Form.Item
+                                    wrapperCol={verticalLayout.wrapperCol}
+                                    labelCol={verticalLayout.labelCol}
+                                    label={text('Quantity')}
+                                >
+                                    {values.quantity} {text('products')}
+                                </Form.Item>
+                            )
+                            : (
+                                <FormSelect
+                                    name={nameof<OrderDetailCreateFormValues>(o => o.quantity)}
+                                    value={values.quantity}
+                                    setFieldValue={setFieldValue}
+                                    options={quantitySelectOptions}
+                                    wrapperCol={verticalLayout.wrapperCol}
+                                    labelCol={verticalLayout.labelCol}
+                                    help={errors.quantity}
+                                    validateStatus={errors.quantity ? 'error' : undefined}
+                                    label={text('Quantity')}
+                                    placeholder={text('Select quantity')}
+                                />
+                            )
+                    }
                     <Form.Item
                         wrapperCol={verticalLayout.wrapperCol}
                         labelCol={verticalLayout.labelCol}
@@ -127,14 +154,30 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
                     <Form.Item
                         wrapperCol={verticalLayoutNoLabel.wrapperCol}
                     >
-                        <Button
-                            type="primary"
-                            onClick={() => handleSubmit()}
-                            disabled={!canSubmit}
-                            loading={isSubmitting}
-                        >
-                            {text('Add to cart')}
-                        </Button>
+                        {
+                            isPromotion
+                                ? (
+                                    <Button
+                                        type="primary"
+                                        onClick={() => handleSubmit()}
+                                        disabled={!canSubmit}
+                                        loading={isSubmitting}
+                                        icon="gift"
+                                    >
+                                        {text('Receive incentives')}
+                                    </Button>
+                                )
+                                : (
+                                    <Button
+                                        type="primary"
+                                        onClick={() => handleSubmit()}
+                                        disabled={!canSubmit}
+                                        loading={isSubmitting}
+                                    >
+                                        {text('Add to cart')}
+                                    </Button>
+                                )
+                        }
                     </Form.Item>
                 </OrderDetailCreateFormWrapper>
             </FormBody>

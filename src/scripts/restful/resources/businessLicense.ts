@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { UploadedFile, uploadedFileSchema } from './uploadedFile';
 import { User, userSchema } from './user';
 
-export interface BusinessLicense extends Record {
+export interface BusinessLicense {
     readonly id: string;
     readonly created_by: User;
     readonly companyName: string;
@@ -21,7 +21,7 @@ export const businessLicenseSchema = yup.object().shape<BusinessLicense>({
     companyAddress: yup.string(),
     businessAreas: yup.string(),
     created_by: userSchema.nullable(true).default(null),
-    businessLicense: uploadedFileSchema,
+    businessLicense: uploadedFileSchema.nullable().default(null),
     isBusiness: yup.boolean().required()
 });
 

@@ -175,5 +175,6 @@ export const vi = {
     'List of promotion and gift code': 'Danh sách mã khuyến mại và quà tặng',
     'Used': 'Đã sử dụng',
     'Availability': 'Khả dụng',
-    'Expired': 'Đã hết hạn'
+    'Expired': 'Đã hết hạn',
+    'Receive incentives': 'Nhận ưu đãi'
 };

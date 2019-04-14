@@ -105,6 +105,7 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
                 ref={this.formInstance}
                 initialValues={initialValues!}
                 onSubmit={this.onSubmit}
+                enableReinitialize={true}
             >
                 {(formProps) => (
                     <OrderDetailCreateForm

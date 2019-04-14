@@ -6,6 +6,7 @@ import { OrderDetailMaterialNorm } from './orderDetailMaterialNorm';
 import { Product } from './product';
 import { ProductDesign } from './productDesign';
 import { ProductType } from './productType';
+import { StoredPromoCode } from './storedPromoCode';
 import { User } from './user';
 
 export interface OrderDetail extends Record {
@@ -29,6 +30,7 @@ export interface OrderDetail extends Record {
     readonly product?: Product;
     readonly updatedAt?: string;
     readonly orderDetailMaterialNorms: OrderDetailMaterialNorm[];
+    readonly storedPromotionCode?: StoredPromoCode;
 }
 
 export const orderDetailResourceType = new ResourceType<OrderDetail>(nameof<OrderDetail>());
