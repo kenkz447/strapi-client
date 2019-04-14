@@ -1,6 +1,6 @@
 import {
     getOrderDetailsDiscount,
-    getOrderDetailsTotal
+    getOrderDetailsSubTotal
 } from '@/business/order-detail';
 import { Order } from '@/restful';
 
@@ -12,7 +12,7 @@ export const getOrderDiscount = (order: Partial<Order>, subTotal?: number) => {
     } = order;
 
     if (!subTotal) {
-        subTotal = getOrderDetailsTotal(orderDetails);
+        subTotal = getOrderDetailsSubTotal(orderDetails);
     }
 
     const promotionDiscount = promotion ? (promotion.discountPrice || 0) : 0;

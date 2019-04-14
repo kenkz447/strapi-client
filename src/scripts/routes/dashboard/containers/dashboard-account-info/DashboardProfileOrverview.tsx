@@ -1,4 +1,4 @@
-import { Icon, Typography } from 'antd';
+import { Alert, Icon, Typography } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';

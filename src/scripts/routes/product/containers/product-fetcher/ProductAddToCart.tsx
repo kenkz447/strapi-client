@@ -1,9 +1,15 @@
+import { Alert } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
+import { WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
 import { BusinessController } from '@/business';
-import { upsertOrderDetail } from '@/business/order-detail';
+import {
+    getOrderDetailPromotionDiscount,
+    upsertOrderDetail
+} from '@/business/order-detail';
+import { PostContent } from '@/components';
 import { DomainContext } from '@/domain';
 import {
     OrderDetailCreateFormControl,
@@ -23,7 +29,7 @@ interface ProductAddToCartProps {
 
 export class ProductAddToCart extends React.PureComponent<ProductAddToCartProps> {
     public static readonly contextType = RootContext;
-    public readonly context!: DomainContext;
+    public readonly context!: WithContextProps<DomainContext>;
 
     private readonly getSelectProductTypeId = () => {
         return getUrlSearchParam('productType')!;
@@ -61,19 +67,68 @@ export class ProductAddToCart extends React.PureComponent<ProductAddToCartProps>
 
         const { promotion } = availableOrderDetailPromoCode;
 
-        return {
+        const productQuantity = promotion.productQuantityOrdering || 1;
+        const subTotal = loadedProduct!.totalPrice * productQuantity;
+
+        const initOrderDetailWithPromo: OrderDetail = {
             productDesign: loadedProduct!.design.id,
             product_type: loadedProduct!.productType.id,
             productModulesCode: modulesCode!,
             status: 'temp',
+
+            quantity: productQuantity,
+
             productPrice: loadedProduct!.totalPrice,
-            quantity: promotion.productQuantityOrdering,
-            storedPromotionCode: availableOrderDetailPromoCode
+            subTotalPrice: subTotal,
+            totalPrice: subTotal,
+
+            totalDiscountPerProduct: 0,
+            discount: 0,
+
+            orderDetailMaterialNorms: [],
+            storedPromoCode: availableOrderDetailPromoCode,
+        };
+
+        const discountByPromotion = getOrderDetailPromotionDiscount(initOrderDetailWithPromo);
+
+        return {
+            ...initOrderDetailWithPromo,
+            discount: discountByPromotion,
+            totalPrice: subTotal - discountByPromotion
         };
     }
 
-    public render() {
+    private readonly onViewPromoDetailClick = () => {
+        const { setContext } = this.context;
 
+        const { promotion } = this.getAvailableOrderDetailPromoCode()!;
+
+        if (!promotion.linkedPost) {
+            return;
+        }
+
+        setContext({
+            globalModalVisibled: true,
+            globalModal: {
+                className: 'full-screen',
+                width: 800,
+                title: promotion.description,
+                closable: false,
+                children: (
+                    <PostContent
+                        postSlug=""
+                        postId={
+                            typeof promotion.linkedPost === 'string'
+                                ? promotion.linkedPost
+                                : promotion.linkedPost.id
+                        }
+                    />
+                )
+            }
+        });
+    }
+
+    public render() {
         const { loadedProduct, modulesCode } = this.props;
 
         const disableAddToCart = modulesCode
@@ -81,19 +136,42 @@ export class ProductAddToCart extends React.PureComponent<ProductAddToCartProps>
             : false;
 
         const initialValues = this.getAddToCartFormInitValues();
+        const isPromotion = !!initialValues.storedPromoCode;
 
         return (
             <ProductAddToCartWrapper>
+                {
+                    isPromotion && (
+                        <Alert
+                            type="success"
+                            message={
+                                <div>
+                                    Bạn nhận được ưu đãi cho sản phẩm này - <a onClick={this.onViewPromoDetailClick}>xem chi tiết</a>
+                                </div>
+                            }
+                        />
+                    )
+                }
                 <BusinessController
                     action={upsertOrderDetail}
+                    onSuccess={(orderDetail: OrderDetail) => {
+                        if (!orderDetail.storedPromoCode) {
+                            return;
+                        }
+
+                        const { setContext, availablePromoCodes } = this.context;
+                        setContext({
+                            availablePromoCodes: availablePromoCodes.filter(o =>
+                                o.id !== orderDetail.storedPromoCode!.id
+                            )
+                        });
+                    }}
                 >
                     {({ doBusiness }) => (
                         <OrderDetailCreateFormControl
                             initialValues={initialValues}
                             submitDisabled={
-                                initialValues.storedPromotionCode
-                                    ? false
-                                    : disableAddToCart
+                                disableAddToCart
                             }
                             product={loadedProduct}
                             submit={doBusiness}

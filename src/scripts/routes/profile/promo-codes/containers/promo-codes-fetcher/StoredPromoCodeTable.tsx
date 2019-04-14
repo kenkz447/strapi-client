@@ -1,16 +1,19 @@
 import { Avatar, List, Tag, Typography } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
+import { WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
 import {
     isStoredPromoCodeExpired,
     isStoredPromoCodeUsed
 } from '@/business/stored-promo-code';
-import { NoContent } from '@/components';
+import { NoContent, PostContent } from '@/components';
 import { DATE_FORMAT } from '@/configs';
+import { DomainContext } from '@/domain';
 import { copyToClipboard } from '@/effects';
 import { text } from '@/i18n';
-import { StoredPromoCode } from '@/restful';
+import { Promotion, StoredPromoCode } from '@/restful';
 import { formatDate } from '@/utilities';
 
 const StoredPromoCodeTableWrapper = styled.div`
@@ -29,10 +32,40 @@ interface StoredPromoCodeTableState {
 }
 
 export class StoredPromoCodeTable extends React.PureComponent<StoredPromoCodeTableProps, StoredPromoCodeTableState> {
+    public static readonly contextType = RootContext;
+    public readonly context!: WithContextProps<DomainContext>;
+    
     constructor(props: StoredPromoCodeTableProps) {
         super(props);
     }
 
+    private readonly onViewPromoDetailClick = (promotion: Promotion) => {
+        const { setContext } = this.context;
+
+        if (!promotion.linkedPost) {
+            return;
+        }
+
+        setContext({
+            globalModalVisibled: true,
+            globalModal: {
+                className: 'full-screen',
+                width: 800,
+                title: promotion.description,
+                closable: false,
+                children: (
+                    <PostContent
+                        postSlug=""
+                        postId={
+                            typeof promotion.linkedPost === 'string'
+                                ? promotion.linkedPost
+                                : promotion.linkedPost.id
+                        }
+                    />
+                )
+            }
+        });
+    }
     public render() {
         const { storedPromoCodes } = this.props;
 
@@ -52,7 +85,12 @@ export class StoredPromoCodeTable extends React.PureComponent<StoredPromoCodeTab
                             <List.Item
                                 key={storedPromoCode.id}
                                 actions={[
-                                    <a key="content">Chi tiết</a>,
+                                    <a
+                                        key="content"
+                                        onClick={() => this.onViewPromoDetailClick(storedPromoCode.promotion)}
+                                    >
+                                        {text('Details')}
+                                    </a>,
                                     <a
                                         key="copy-code"
                                         onClick={() => copyToClipboard(storedPromoCode.promotion.code)}
@@ -77,14 +115,14 @@ export class StoredPromoCodeTable extends React.PureComponent<StoredPromoCodeTab
                                                 #{storedPromoCode.promotion.code}
                                             </Typography.Text>
                                             <Typography.Text type="secondary" style={{ fontWeight: 400 }}>
-                                               &nbsp;- {
+                                                &nbsp;- {
                                                     isUsed
                                                         ? storedPromoCode.description
                                                         : isExpired
                                                             ? text('Expired')
                                                             // tslint:disable-next-line:max-line-length
                                                             : text('Ngày hết hạn') + `: ${formatDate(storedPromoCode.expiredAt, DATE_FORMAT)}`
-                                                        
+
                                                 }
                                             </Typography.Text>
                                         </div>

@@ -10,7 +10,7 @@ import { StoredPromoCode } from './storedPromoCode';
 import { User } from './user';
 
 export interface OrderDetail extends Record {
-    readonly id: string;
+    readonly id?: string;
     readonly quantity: number;
     readonly productModulesCode: string;
     readonly product_type: ProductType | string;
@@ -30,7 +30,7 @@ export interface OrderDetail extends Record {
     readonly product?: Product;
     readonly updatedAt?: string;
     readonly orderDetailMaterialNorms: OrderDetailMaterialNorm[];
-    readonly storedPromotionCode?: StoredPromoCode;
+    readonly storedPromoCode?: StoredPromoCode;
 }
 
 export const orderDetailResourceType = new ResourceType<OrderDetail>(nameof<OrderDetail>());

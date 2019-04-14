@@ -1,5 +1,6 @@
 import { Record, Resource, ResourceType } from 'react-restful';
 
+import { Post } from './post';
 import { ProductType } from './productType';
 
 export interface Promotion extends Record {
@@ -14,6 +15,7 @@ export interface Promotion extends Record {
     readonly description: string;
     readonly forProductTypes: string[] | ProductType[];
     readonly productQuantityOrdering?: number;
+    readonly linkedPost?: string | Post;
 }
 
 export const promotionResourceType = new ResourceType<Promotion>(nameof<Promotion>());

@@ -1,4 +1,4 @@
-import { getOrderDetailsTotal } from '@/business/order-detail';
+import { getOrderDetailsSubTotal } from '@/business/order-detail';
 import { Order } from '@/restful';
 
 import { getOrderDiscount } from './getOrderDiscount';
@@ -11,7 +11,7 @@ export const getOrderTotalPayment = (order: Partial<Order>) => {
 
     const discounts = getOrderDiscount(order);
     const transportFee = getOrderTransportFee(order);
-    const subTotal = getOrderDetailsTotal(order.orderDetails);
+    const subTotal = getOrderDetailsSubTotal(order.orderDetails);
 
     return {
         discounts: discounts,

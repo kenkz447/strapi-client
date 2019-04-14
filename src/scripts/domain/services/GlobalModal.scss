@@ -1,0 +1,15 @@
+.ant-modal.full-screen {
+    top: 0;
+    padding-bottom: 0;
+    .ant-modal-content {
+        min-height: 100vh;
+        border-radius: 0;
+        padding: 48px;
+    }
+    .ant-modal-header {
+        display: none;
+    }
+    .ant-modal-footer {
+        display: none;
+    }
+}

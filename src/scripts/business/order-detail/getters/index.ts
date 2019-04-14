@@ -1,3 +1,4 @@
+export * from './getOrderDetailPromotionDiscount';
 export * from './getOrderDetailsDiscount';
 export * from './getOrderDetailsMaterialNorms';
 export * from './getOrderDetailsQuantity';

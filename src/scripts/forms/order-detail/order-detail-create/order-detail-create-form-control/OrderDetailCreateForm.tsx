@@ -1,4 +1,4 @@
-import { Alert, Button, Form } from 'antd';
+import { Button, Form } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import * as React from 'react';
@@ -85,23 +85,11 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
         } = this.props;
 
         const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
-        const isPromotion = !!values.storedPromotionCode;
+        const isPromotion = !!values.storedPromoCode;
 
         return (
             <FormBody formProps={this.props}>
                 <OrderDetailCreateFormWrapper>
-                    {
-                        isPromotion && (
-                            <Alert
-                                type="success"
-                                message={
-                                    <div>
-                                        Bạn nhận được ưu đãi cho sản phẩm này - <a>xem chi tiết</a>
-                                </div>
-                                }
-                            />
-                        )
-                    }
                     <Form.Item
                         wrapperCol={verticalLayout.wrapperCol}
                         labelCol={verticalLayout.labelCol}

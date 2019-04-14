@@ -6,7 +6,7 @@ import { getOrderShippingDate, getOrderTransportFee } from '@/business/order';
 import {
     getOrderDetailsDiscount,
     getOrderDetailsQuantity,
-    getOrderDetailsTotal
+    getOrderDetailsSubTotal
 } from '@/business/order-detail';
 import {
     getOrderDetailsMaterialNorms
@@ -23,7 +23,7 @@ interface OrderOverviewProps {
 export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
     public render() {
         const { cartOrderDetails } = this.props;
-        const total = getOrderDetailsTotal(cartOrderDetails);
+        const total = getOrderDetailsSubTotal(cartOrderDetails);
         const discount = getOrderDetailsDiscount(cartOrderDetails);
         const orderDetailsMaterialNorms = getOrderDetailsMaterialNorms(cartOrderDetails);
 

@@ -1,8 +1,9 @@
-import { Card, List } from 'antd';
+import { Card, List, Typography } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
 import { COLOR_PRIMARY_700 } from '@/configs';
+import { text } from '@/i18n';
 import { OrderDetail } from '@/restful';
 import { formatCurrency } from '@/utilities';
 
@@ -29,12 +30,14 @@ const OrderDetailListWrapper = styled.div`
         &-total {
             width: 200px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            color: ${COLOR_PRIMARY_700};
-            font-size: 16px;
-            font-weight: bold;
         }
+    }
+    .ant-list-item, .ant-list-item-meta {
+        justify-content: center;
+        display: flex;
+        align-items: center;
     }
 `;
 
@@ -64,6 +67,8 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
         }
 
         const productTitle = orderDetail.product_type!.name;
+        const isPromotion = !!orderDetail.storedPromoCode;
+
         return (
             <List.Item
                 key={orderDetail.id}
@@ -71,32 +76,61 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
             >
                 <List.Item.Meta
                     avatar={<img width="200" className="order-detail-preview-img" src={orderDetail.previewImg} />}
-                    title={productTitle}
+                    title={(
+                        <Typography.Text strong={true}>
+                            {productTitle}
+                        </Typography.Text>
+                    )}
                     description={(
                         <div>
+                            {
+                                isPromotion && (
+                                    <Typography.Paragraph
+                                        type="secondary"
+                                    >
+                                        Sản phẩm ưu đãi
+                                    </Typography.Paragraph>
+                                )
+                            }
                             <div className="order-detail-meta">
-                                <span className="order-detail-meta-name">Giá cũ:</span>
+                                <span className="order-detail-meta-name">
+                                    Giá gốc:
+                                </span>
                                 <span className="order-detail-meta-value">
                                     {formatCurrency(orderDetail.productPrice)}
                                 </span>
                             </div>
                             <div className="order-detail-meta">
-                                <span className="order-detail-meta-name">Giá mới:</span>
+                                <span className="order-detail-meta-name">
+                                    {isPromotion ? 'Giá ưu đãi' : 'Giá mới'}:
+                                </span>
                                 <span className="order-detail-meta-value new-price">
-                                    {formatCurrency(orderDetail.productPrice - orderDetail.totalDiscountPerProduct)}
+                                    {formatCurrency(orderDetail.totalPrice / orderDetail.quantity)}
                                 </span>
                             </div>
                             <div className="order-detail-meta">
                                 <span className="order-detail-meta-name">Số lượng:</span>
-                                <span className="order-detail-meta-value new-price">
-                                    <OrderDetailListItemQuantity orderDetail={orderDetail} />
+                                <span className="order-detail-meta-value">
+                                    {
+                                        isPromotion
+                                            ? (
+                                                <Typography.Text>
+                                                    {orderDetail.quantity + ' ' + text('products')}
+                                                </Typography.Text>
+                                            )
+                                            : <OrderDetailListItemQuantity orderDetail={orderDetail} />
+                                    }
                                 </span>
                             </div>
                         </div>
                     )}
                 />
                 <div className="order-detail-total">
-                    {formatCurrency(orderDetail.totalPrice)}
+                    <div>
+                        <Typography.Text>Tổng cộng: </Typography.Text>
+                        &nbsp;
+                    <Typography.Text strong={true}>{formatCurrency(orderDetail.totalPrice)}</Typography.Text>
+                    </div>
                 </div>
             </List.Item>
         );

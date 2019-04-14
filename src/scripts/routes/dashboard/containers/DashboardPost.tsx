@@ -1,17 +1,10 @@
-import './DashboardPost.scss';
-
-import { Card, Icon, Typography } from 'antd';
+import { Card, Icon } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
-import { RestfulRender } from 'react-restful';
 
-import { getPostHTMLContent } from '@/business/post';
-import { Loading } from '@/components';
-import { DASHBOARD_URL, DATE_FORMAT } from '@/configs';
+import { PostContent } from '@/components/domain';
+import { DASHBOARD_URL } from '@/configs';
 import { DomainContext } from '@/domain';
-import { text } from '@/i18n';
-import { postResources } from '@/restful';
-import { formatDate } from '@/utilities';
 
 interface DashboardPostProps {
     readonly postSlug: string;
@@ -32,44 +25,15 @@ export class DashboardPost extends React.PureComponent<DashboardPostProps> {
 
     public render() {
         const { postSlug } = this.props;
+
         return (
-            <RestfulRender
-                resource={postResources.find}
-                parameters={{
-                    type: 'query',
-                    parameter: 'slug',
-                    value: postSlug
-                }}
+            <Card
+                style={{ minHeight: '100%' }}
+                bordered={false}
+                title={<Icon onClick={this.goBackBtnClick} className="clickable" type="arrow-left" />}
             >
-                {({ data, fetching }) => {
-                    if (!data || !data.length) {
-                        return <Loading />;
-                    }
-
-                    const [post] = data;
-                    const postContent = getPostHTMLContent(post);
-
-                    return (
-                        <Card
-                            style={{ minHeight: '100%' }}
-                            bordered={false}
-                            title={<Icon onClick={this.goBackBtnClick} className="clickable" type="arrow-left" />}
-                        >
-                            <div>
-                                <Typography.Title level={3}>{post.title}</Typography.Title>
-                                <Typography.Text type="secondary">
-                                    {text('Date Submitted')}: {formatDate(post.updatedAt, DATE_FORMAT)}
-                                </Typography.Text>
-                                <div className="white-space-2" />
-                                <article
-                                    className="dashboard-post-content"
-                                    dangerouslySetInnerHTML={{ __html: postContent }}
-                                />
-                            </div>
-                        </Card>
-                    );
-                }}
-            </RestfulRender>
+                <PostContent postSlug={postSlug}/>
+            </Card>
         );
     }
 }

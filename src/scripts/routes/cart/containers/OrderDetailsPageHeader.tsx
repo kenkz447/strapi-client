@@ -1,15 +1,13 @@
 import { PageHeader } from 'ant-design-pro';
-import { Button, Col, Row } from 'antd';
+import { Button } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
-import { getOrderDetailsTotal } from '@/business/order-detail';
 import { CHECKOUT_URL } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { OrderDetail, orderDetailResourceType } from '@/restful';
-import { formatCurrency } from '@/utilities';
 
 const breadcrumbList = [{
     title: text('Dashboard'),
@@ -38,7 +36,7 @@ export class OrderDetailsPageHeader extends React.PureComponent<OrderDetailsPage
                 resourceType={orderDetailResourceType}
                 initDataSource={cartOrderDetails!}
             >
-                {(syncOrderDetails) => {
+                {() => {
                     return (
                         <PageHeader
                             title={text('Your cart')}
