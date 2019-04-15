@@ -1,1 +1,1 @@
-export * from './RouteCatalog';
+export * from './catalog-list';

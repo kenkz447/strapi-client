@@ -65,14 +65,28 @@ interface CatalogListItemProps {
 }
 
 export class CatalogListItem extends React.PureComponent<CatalogListItemProps> {
+    private readonly getDetailUrl = () => {
+        const { catalog } = this.props;
+        const detailUrl = new URL(location.href);
+        detailUrl.searchParams.set('catalogId', catalog.id);
+
+        return detailUrl.pathname + detailUrl.search;
+    }
+
     public render() {
         const { catalog } = this.props;
+        
         return (
             <CatalogListItemWrapper>
                 <div className="catalog-item-thumbnail">
                     <Img file={catalog.thumbnail} />
                     <div className="catalog-item-thumbnail-overlay">
-                        <Link className="catalog-item-thumbnail-overlay-btn" to="">Xem chi tiết</Link>
+                        <Link
+                            className="catalog-item-thumbnail-overlay-btn"
+                            to={this.getDetailUrl()}
+                        >
+                            Xem chi tiết
+                        </Link>
                     </div>
                 </div>
                 <div className="text-center">

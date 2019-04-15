@@ -2,7 +2,11 @@ import { Icon, Menu } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 
-import { DASHBOARD_BASE_PATH, PRODUCT_PATH } from '@/configs';
+import {
+    CATALOG_BASE_PATH,
+    DASHBOARD_BASE_PATH,
+    PRODUCT_PATH
+} from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 
@@ -31,6 +35,13 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
         props: DefaultLayoutSiderMenuProps,
         state: DefaultLayoutSiderMenuState
     ): DefaultLayoutSiderMenuState | null {
+
+        if (location.pathname.startsWith(CATALOG_BASE_PATH)) {
+            return {
+                subMenuOpenKey: DefaultLayoutSiderMenu.getOpenedSubmenuKey(),
+                currentPath: CATALOG_BASE_PATH
+            };
+        }
 
         if (location.pathname.startsWith(PRODUCT_PATH)) {
             return {

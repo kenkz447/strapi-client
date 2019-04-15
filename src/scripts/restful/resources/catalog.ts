@@ -6,7 +6,7 @@ import { ProductTypeGroup } from './productTypeGroup';
 import { UploadedFile } from './uploadedFile';
 
 export interface Catalog {
-    readonly id: number;
+    readonly id: string;
     readonly name: string;
     readonly description: string;
     readonly moduleCodes: string;
@@ -14,7 +14,7 @@ export interface Catalog {
     readonly published: boolean;
     readonly thumbnail: UploadedFile;
     readonly productTypeGroup: ProductTypeGroup;
-    readonly productGroup: ProductType;
+    readonly productType: ProductType;
     readonly design: ProductDesign;
     readonly photos: UploadedFile[];
 }

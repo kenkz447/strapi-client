@@ -1,8 +1,7 @@
-import { Card } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import { PageWrapper } from '@/components';
+import { PageWrapper, SlideUp } from '@/components';
 import { CATALOG_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
@@ -13,9 +12,11 @@ import {
     productTypeResources,
     request
 } from '@/restful';
+import { getUrlSearchParam } from '@/utilities';
 
-import { RouteDashboardWrapper } from '../dashboard';
+import { RouteDashboardWrapper } from '../../dashboard';
 import { CatalogContact, CatalogsFetcher } from './containers';
+import { CatalogDetailFetcher } from './containers/CatalogDetailFetcher';
 
 type RouteCatalogProps = AppPageProps<{ readonly productTypeGroup?: string }>;
 
@@ -57,17 +58,34 @@ export class RouteCatalog extends RoutePage<RouteCatalogProps, RouteCatalogState
     render() {
         const { productTypes, productTypeGroups } = this.state;
         const { match } = this.props;
-        const selectedProductTypeGroup = match.params.productTypeGroup;
+
+        let selectedCatalogId = getUrlSearchParam('catalogId');
+        let selectedProductTypeGroup = match.params.productTypeGroup;
+
+        if (!selectedProductTypeGroup && productTypeGroups.length) {
+            selectedProductTypeGroup = productTypeGroups[0].id;
+        }
 
         return (
             <PageWrapper>
                 <RouteDashboardWrapper>
                     <CatalogContact />
-                    <CatalogsFetcher
-                        productTypeGroups={productTypeGroups}
-                        productTypes={productTypes}
-                        selectedProductTypeGroup={selectedProductTypeGroup}
-                    />
+                    {
+                        selectedCatalogId
+                            ? (
+                                <SlideUp className="mh-100">
+                                    <CatalogDetailFetcher catalogId={selectedCatalogId}/>
+                                </SlideUp>
+                            )
+                            : (
+                                <CatalogsFetcher
+                                    productTypeGroups={productTypeGroups}
+                                    productTypes={productTypes}
+                                    selectedProductTypeGroup={selectedProductTypeGroup}
+                                />
+                            )
+                    }
+
                 </RouteDashboardWrapper>
             </PageWrapper>
         );
