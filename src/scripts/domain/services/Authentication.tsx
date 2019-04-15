@@ -79,7 +79,7 @@ class Authentication extends React.PureComponent<
     }
 
     private readonly isNeedConfirm = (user: User) => {
-        return user.confirmed;
+        return !user.confirmed;
     }
 
     private readonly toConfirmPage = () => {
