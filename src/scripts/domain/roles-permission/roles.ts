@@ -35,7 +35,17 @@ const authenticated: Role = {
     ]
 };
 
+const registered: Role = {
+    key: 'Registered',
+    defaultUrl: DASHBOARD_BASE_PATH,
+    allowed: [
+        permissions.DASHBOARD,
+        permissions.NOTIFICATION,
+    ]
+};
+
 export const roles = [
     admin,
-    authenticated
+    authenticated,
+    registered
 ];
