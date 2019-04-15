@@ -2,7 +2,7 @@ import * as jwtDecode from 'jwt-decode';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { AUTH_CONFIRM_URL, LOGIN_URL } from '@/configs';
+import { AUTH_CONFIRM_URL, AUTH_REGISTER_URL, LOGIN_URL } from '@/configs';
 import {
     AuthLoginResponseBody,
     authResources,
@@ -66,25 +66,25 @@ class Authentication extends React.PureComponent<
     constructor(props: AuthenticationProps) {
         super(props);
 
+        this.state = {
+            allowLoad: false
+        };
+
         const { setContext, history } = props;
 
         const authClient = Authentication.getAuthClient(history);
 
         this.authenticaton(authClient)
             .then(() => setContext({ authClient }));
-
-        this.state = {
-            allowLoad: false
-        };
     }
 
     private readonly isNeedConfirm = (user: User) => {
-        return user.role.name === 'Registered';
+        return user.confirmed;
     }
 
     private readonly toConfirmPage = () => {
         const { history } = this.props;
-        history.replace(AUTH_CONFIRM_URL);
+        history.replace(AUTH_REGISTER_URL + '?registered=true');
     }
 
     private readonly authenticaton = async (authClient: AuthClient<User>) => {

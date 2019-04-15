@@ -10,13 +10,15 @@ import { AUTH_REGISTER_URL, LOGIN_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { RegisterFormControl } from '@/forms/auth';
 import { text } from '@/i18n';
+import { AuthLoginResponseBody, authResources } from '@/restful';
+import { getUrlSearchParam } from '@/utilities';
 
 import { AuthCard, AuthPageWrapper } from '../shared';
 
 type RouteRegisterProps = AppPageProps;
 
 interface RouteRegisterState {
-    readonly successed: boolean;
+    readonly registered: boolean;
 }
 
 export class RouteRegister extends RoutePage<
@@ -33,19 +35,21 @@ export class RouteRegister extends RoutePage<
 
     constructor(props: RouteRegisterProps) {
         super(props);
+        const registered = getUrlSearchParam('registered');
         this.state = {
-            successed: false
+            registered: registered ? true : false
         };
     }
 
     render() {
-        const { successed } = this.state;
+        const { authClient } = this.props;
+        const { registered } = this.state;
         return (
             <AuthPageWrapper>
                 <div className="auth-page-content">
                     <SlideUp>
                         {
-                            successed
+                            registered
                                 ? (
                                     <AuthCard
                                         title={text('Registration')}
@@ -59,9 +63,10 @@ export class RouteRegister extends RoutePage<
                                     >
                                         <BusinessController
                                             action={registerUser}
-                                            onSuccess={() => {
+                                            onSuccess={({ jwt }: AuthLoginResponseBody) => {
+                                                authClient.jwtLogin(jwt, false);
                                                 this.setState({
-                                                    successed: true
+                                                    registered: true
                                                 });
                                             }}
                                         >
@@ -73,8 +78,6 @@ export class RouteRegister extends RoutePage<
                                                 );
                                             }}
                                         </BusinessController>
-
-
                                     </AuthCard>
                                 )
                         }

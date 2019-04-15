@@ -2,6 +2,7 @@ export const AUTH_PATH = '/auth';
 export const LOGIN_URL = AUTH_PATH + '/login';
 export const AUTH_REGISTER_URL = AUTH_PATH + '/register';
 export const AUTH_CONFIRM_URL = AUTH_PATH + '/confirm';
+export const AUTH_EMAIL_CONFIRMATION_URL = AUTH_PATH + '/email-confirmation';
 export const AUTH_INVITATION_URL = AUTH_PATH + '/invitation/:code';
 
 export const FORGOT_PASSWORD_URL = AUTH_PATH + '/forgot-password';

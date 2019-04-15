@@ -81,15 +81,20 @@ export class AuthClient<T> {
         }
     }
 
-    readonly jwtLogin = (token: string) => {
+    readonly jwtLogin = (token: string, isRedirect: boolean = true) => {
         const { getCookiesOption } = this.props;
 
         const tokenCookiesOption = getCookiesOption && getCookiesOption(token);
 
         saveToken(token, tokenCookiesOption);
+        
+        if (!isRedirect) {
+            return;
+        }
 
         const returnUrlParam = getUrlSearchParam('returnUrl');
         const returnPath = returnUrlParam ? returnUrlParam : '/';
+
         redirect(returnPath);
     }
 
