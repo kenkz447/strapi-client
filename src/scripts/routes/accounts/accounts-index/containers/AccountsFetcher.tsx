@@ -96,7 +96,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         }
 
         let nextParams = upsertRequestParams(params, 'query', 'name_containss', nextNameFilter);
-        nextParams = upsertRequestParams(nextParams, 'query', 'email_containss', nextRoleFilter);
+        nextParams = upsertRequestParams(nextParams, 'query', 'email_containss', nextEmailFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'role', nextRoleFilter);
 
         this.setState({

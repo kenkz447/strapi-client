@@ -18,12 +18,16 @@ export const roleSchema = yup.object<Role>().shape({
 });
 
 export const roleResourceType = new ResourceType<Role>({
-    name: nameof<Role>()
+    name: nameof<Role>(),
+    keyProperty: '_id'
 });
 
 export const roleResources = {
     find: new Resource<Role, { readonly roles: Role[] }>({
         resourceType: roleResourceType,
-        url: '/users-permissions/roles'
+        url: '/users-permissions/roles',
+        mapDataToStore: (result, type,store) => {
+            store.dataMapping(type, result.roles);
+        }
     })
 };

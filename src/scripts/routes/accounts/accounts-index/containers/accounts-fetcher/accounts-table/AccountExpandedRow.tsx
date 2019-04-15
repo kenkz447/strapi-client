@@ -50,16 +50,20 @@ export class AccountExpandedRow extends React.PureComponent<
                     <p>{text('This customer does not provide business information')}</p>
                 </Col>
                 <Col span={12} className="text-right">
-                    <AgencyFormButton
-                        initialValues={{
-                            linkedUser: user,
-                            businessLicense: license
-                        }}
-                        label={text('Confirm')}
-                        type="primary"
-                        ghost={true}
-                        onSuccess={onAccepted}
-                    />
+                    {
+                        (!user.confirmed && !user.agency) && (
+                            <AgencyFormButton
+                                initialValues={{
+                                    linkedUser: user,
+                                    businessLicense: license
+                                }}
+                                label={text('Confirm')}
+                                type="primary"
+                                ghost={true}
+                                onSuccess={onAccepted}
+                            />
+                        )
+                    }
                 </Col>
             </Row>
         );
