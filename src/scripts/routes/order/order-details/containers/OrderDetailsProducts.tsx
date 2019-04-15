@@ -189,7 +189,7 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                         const uRLSearchParams = new URLSearchParams();
 
                                         if (typeof orderDetail.productDesign === 'object') {
-                                            uRLSearchParams.set('productDesign', orderDetail.id);
+                                            uRLSearchParams.set('productDesign', orderDetail.id!);
                                         }
 
                                         if (typeof orderDetail.product_type === 'object') {

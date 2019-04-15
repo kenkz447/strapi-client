@@ -1,3 +1,4 @@
+import { string } from 'prop-types';
 import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
@@ -28,6 +29,7 @@ export interface UserRegisterResponse {
 
 export const userSchema = yup.object().shape<User>({
     _id: yup.string(),
+    id: yup.string(),
     email: yup.string().email().required(),
     fullName : yup.string().required(),
     confirmed: yup.bool(),
