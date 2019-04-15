@@ -1,2 +1,2 @@
 export * from './CatalogContact';
-export * from './CatalogFetcher';
+export * from './CatalogsFetcher';

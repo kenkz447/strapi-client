@@ -6,15 +6,21 @@ import { PageWrapper } from '@/components';
 import { CATALOG_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
-import { ProductType, productTypeResources, request } from '@/restful';
+import {
+    ProductType,
+    ProductTypeGroup,
+    productTypeGroupResources,
+    productTypeResources,
+    request
+} from '@/restful';
 
 import { RouteDashboardWrapper } from '../dashboard';
-import { CatalogContact } from './containers';
-import { CatalogFetcher } from './containers/CatalogFetcher';
+import { CatalogContact, CatalogsFetcher } from './containers';
 
-type RouteCatalogProps = AppPageProps;
+type RouteCatalogProps = AppPageProps<{ readonly productTypeGroup?: string }>;
 
 interface RouteCatalogState {
+    readonly productTypeGroups: ProductTypeGroup[];
     readonly productTypes: ProductType[];
 }
 
@@ -29,6 +35,7 @@ export class RouteCatalog extends RoutePage<RouteCatalogProps, RouteCatalogState
         super(props);
 
         this.state = {
+            productTypeGroups: [],
             productTypes: []
         };
 
@@ -36,22 +43,31 @@ export class RouteCatalog extends RoutePage<RouteCatalogProps, RouteCatalogState
     }
 
     private readonly fetchResources = async () => {
-        const [productTypes] = await Promise.all([
+        const [productTypeGroups, productTypes] = await Promise.all([
+            request(productTypeGroupResources.find),
             request(productTypeResources.find)
         ]);
 
         this.setState({
+            productTypeGroups: productTypeGroups,
             productTypes: productTypes
         });
     }
 
     render() {
-        const { productTypes } = this.state;
+        const { productTypes, productTypeGroups } = this.state;
+        const { match } = this.props;
+        const selectedProductTypeGroup = match.params.productTypeGroup;
+
         return (
             <PageWrapper>
                 <RouteDashboardWrapper>
                     <CatalogContact />
-                    <CatalogFetcher productTypes={productTypes} />
+                    <CatalogsFetcher
+                        productTypeGroups={productTypeGroups}
+                        productTypes={productTypes}
+                        selectedProductTypeGroup={selectedProductTypeGroup}
+                    />
                 </RouteDashboardWrapper>
             </PageWrapper>
         );
