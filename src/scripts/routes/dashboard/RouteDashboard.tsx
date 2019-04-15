@@ -16,7 +16,7 @@ import {
     DashboardPost
 } from './containers';
 
-const RouteDashboardWrapper = styled.div`
+export const RouteDashboardWrapper = styled.div`
     min-height: 100%;
     height: 1px;
     display: flex;

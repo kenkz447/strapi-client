@@ -7,6 +7,7 @@ import { SlideUp } from '@/components';
 import {
     AUTH_EMAIL_CONFIRMATION_URL,
     AUTH_REGISTER_URL,
+    CATALOG_BASE_PATH,
     DASHBOARD_BASE_PATH,
     DASHBOARD_URL,
     FORGOT_PASSWORD_URL,
@@ -55,7 +56,7 @@ export class RoutEmailConfirmation extends RoutePage<RoutEmailConfirmationProps>
                                 <Button
                                     type="primary"
                                     className="w-100 text-center"
-                                    onClick={() => history.replace(DASHBOARD_URL)}
+                                    onClick={() => history.replace(CATALOG_BASE_PATH)}
                                 >
                                     Bắt đầu
                                 </Button>

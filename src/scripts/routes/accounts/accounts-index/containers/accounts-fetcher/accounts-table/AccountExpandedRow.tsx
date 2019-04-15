@@ -51,7 +51,7 @@ export class AccountExpandedRow extends React.PureComponent<
                 </Col>
                 <Col span={12} className="text-right">
                     {
-                        (!user.confirmed && !user.agency) && (
+                        (user.confirmed && !user.agency) && (
                             <AgencyFormButton
                                 initialValues={{
                                     linkedUser: user,

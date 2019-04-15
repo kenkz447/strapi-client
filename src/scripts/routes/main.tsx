@@ -6,6 +6,7 @@ import { NotFoundPage } from '@/components';
 
 import { RouteAccounts } from './accounts';
 import { RouteCart } from './cart';
+import { RouteCatalog } from './catalog';
 import { RouteCheckout } from './checkout';
 import { RouteDashboard } from './dashboard';
 import { RouteHome } from './home';
@@ -24,7 +25,8 @@ export const routes = routeFrom([
     RouteIssueTickets,
     IssueTicketDetails,
     RouteInvitations,
-    RouteMaterialLibrary
+    RouteMaterialLibrary,
+    RouteCatalog
 ]);
 
 export default () => (

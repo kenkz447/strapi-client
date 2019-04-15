@@ -42,3 +42,6 @@ export const PROFILE_ADDRESS_BOOK_URL = PROFILE_URL + '/address';
 export const PROFILE_PROMO_CODE_URL = PROFILE_URL + '/promo-codes';
 
 export const MATERIAL_LIBRARY_URL = '/materials';
+
+export const CATALOG_BASE_PATH = '/catalog';
+export const CATALOG_URL = CATALOG_BASE_PATH + '/:productType';

@@ -1,6 +1,8 @@
 import {
     ACCOUNT_URL,
     AGENCIES_URL,
+    CATALOG_BASE_PATH,
+    CATALOG_URL,
     DASHBOARD_BASE_PATH,
     INVITATION_URL,
     ISSUE_TICKET_URL,
@@ -13,6 +15,10 @@ export const mainMenu = [{
     url: DASHBOARD_BASE_PATH,
     icon: 'home',
     label: 'Dashboard'
+}, {
+    url: CATALOG_BASE_PATH,
+    icon: 'hdd',
+    label: 'Catalog'
 }, {
     url: PRODUCT_PATH,
     icon: 'gold',
