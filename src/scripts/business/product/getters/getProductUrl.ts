@@ -13,7 +13,7 @@ export const getProductUrl = (product: ProductExtended) => {
 
     const url = new URL(baseUrl, location.origin);
 
-    url.searchParams.set('productType', product.productType.id);
+    url.searchParams.set('productTypeGroup', product.productType.productTypeGroup as string);
     url.searchParams.set('productType', product.productType.id);
     url.searchParams.set('desing', product.design.id);
 
