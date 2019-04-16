@@ -1,4 +1,4 @@
-import { Icon } from 'antd';
+import { Col, Icon, Row } from 'antd';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
@@ -37,6 +37,27 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 required={true}
                 size="large"
                 prefix={<Icon type="font-colors" />}
+            />
+            <FormInput
+                name={nameof<RegisterFormValues>(o => o.registration_businessAreas)}
+                onChange={handleChange}
+                value={values.registration_businessAreas}
+                size="large"
+                placeholder="Lĩnh vực kinh doanh"
+            />
+            <FormInput
+                name={nameof<RegisterFormValues>(o => o.registration_companyName)}
+                onChange={handleChange}
+                value={values.registration_companyName}
+                size="large"
+                placeholder="Tên công ty"
+            />
+            <FormInput
+                name={nameof<RegisterFormValues>(o => o.registration_companyAddress)}
+                onChange={handleChange}
+                value={values.registration_companyName}
+                size="large"
+                placeholder="Địa chỉ công ty"
             />
             <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.phone)}

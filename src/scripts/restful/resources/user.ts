@@ -20,6 +20,10 @@ export interface User extends Record {
 
     readonly password?: string;
     readonly rePassword?: string;
+
+    readonly registration_businessAreas: string;
+    readonly registration_companyName: string;
+    readonly registration_companyAddress: string;
 }
 
 export interface UserRegisterResponse {
@@ -31,11 +35,14 @@ export const userSchema = yup.object().shape<User>({
     _id: yup.string(),
     id: yup.string(),
     email: yup.string().email().required(),
-    fullName : yup.string().required(),
+    fullName: yup.string().required(),
     confirmed: yup.bool(),
     role: roleSchema.nullable(true).default(null),
     username: yup.string().required(),
-    phone: yup.string().required()
+    phone: yup.string().required(),
+    registration_businessAreas: yup.string().required(),
+    registration_companyAddress: yup.string().required(),
+    registration_companyName: yup.string().required()
 });
 
 export const userResourceType = new ResourceType<User>({

@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { LOGO_TEXT } from '@/configs';
 
 const AuthCardWrapper = styled.div`
-    width: 336px;
+    min-width: 336px;
+    max-width: 400px;
         .auth-card {
             &-logo {
                 margin-bottom: 14px;

@@ -47,7 +47,17 @@ export class AccountExpandedRow extends React.PureComponent<
         return (
             <Row>
                 <Col span={12}>
-                    <p>{text('This customer does not provide business information')}</p>
+                    <DescriptionList title="Thông tin đăng ký">
+                        <DescriptionList.Description term={text('Business areas')}>
+                            {user.registration_businessAreas || '...'}
+                        </DescriptionList.Description>
+                        <DescriptionList.Description term={text('Company name')}>
+                            {user.registration_companyName || '...'}
+                        </DescriptionList.Description>
+                        <DescriptionList.Description term={text('Company address')}>
+                            {user.registration_companyAddress || '...'}
+                        </DescriptionList.Description>
+                    </DescriptionList>
                 </Col>
                 <Col span={12} className="text-right">
                     {
