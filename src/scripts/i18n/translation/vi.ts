@@ -176,5 +176,9 @@ export const vi = {
     'Used': 'Đã sử dụng',
     'Availability': 'Khả dụng',
     'Expired': 'Đã hết hạn',
-    'Receive incentives': 'Nhận ưu đãi'
+    'Receive incentives': 'Nhận ưu đãi',
+    'Material': 'Vật liệu',
+    'Size': 'Kích thước',
+    'Packaging': 'Bao bì',
+    'New': 'Mới'
 };

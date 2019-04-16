@@ -21,6 +21,9 @@ import {
     getProductModulesMaterialCodes,
     getProductModulesPrice
 } from '@/business/product-modules';
+import {
+    fetchProductModules
+} from '@/business/product-modules/getters/fetchProductModules';
 import { getProductTypeById } from '@/business/product-type';
 import { NoContent, PageLoading } from '@/components';
 import { PRODUCT_PATH, PRODUCT_URL } from '@/configs';
@@ -151,34 +154,8 @@ class ProductFetcherComponent extends React.PureComponent<
         history.replace(toUrl);
     }
 
-    private readonly fetchModules = async (modulesCode: string) => {
-        const componentCodes = getProductModulesComponentCodes(modulesCode);
-        const materialCodes = getProductModulesMaterialCodes(modulesCode);
-
-        const componentsMaterials = await Promise.all([
-            Promise.all(componentCodes.map((code) =>
-                getFurnitureComponentByCode(code)
-            )),
-            Promise.all(materialCodes.map((code) =>
-                getFurnitureMaterialByCode(code)
-            ))
-        ]);
-
-        const componentList = componentsMaterials[0];
-        const materialList = componentsMaterials[1];
-
-        const productModules = componentList.map((component, index) =>
-            getProductModulesFromRaw({
-                component: component,
-                material: materialList[index]
-            })
-        );
-
-        return productModules;
-    }
-
     private readonly fetchProduct = async (modulesCode: string): Promise<ProductExtended> => {
-        const modules = await this.fetchModules(modulesCode);
+        const modules = await fetchProductModules(modulesCode);
         const standardComponent = modules[0].component;
 
         const componentDesign = standardComponent.design;
