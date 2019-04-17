@@ -15,7 +15,7 @@ export const getProductUrl = (product: ProductExtended) => {
 
     url.searchParams.set('productTypeGroup', product.productType.productTypeGroup as string);
     url.searchParams.set('productType', product.productType.id);
-    url.searchParams.set('desing', product.design.id);
+    url.searchParams.set('productDesign', product.design.id);
 
     return url.pathname + url.search;
 };

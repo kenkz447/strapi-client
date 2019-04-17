@@ -44,6 +44,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 value={values.registration_businessAreas}
                 size="large"
                 placeholder="Lĩnh vực kinh doanh"
+                required={true}
             />
             <FormInput
                 name={nameof<RegisterFormValues>(o => o.registration_companyName)}
@@ -51,13 +52,15 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 value={values.registration_companyName}
                 size="large"
                 placeholder="Tên công ty"
+                required={true}
             />
             <FormInput
                 name={nameof<RegisterFormValues>(o => o.registration_companyAddress)}
                 onChange={handleChange}
-                value={values.registration_companyName}
+                value={values.registration_companyAddress}
                 size="large"
                 placeholder="Địa chỉ công ty"
+                required={true}
             />
             <FormInput
                 name={nameof.full<RegisterFormValues>(o => o.phone)}
@@ -65,7 +68,6 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 value={values.phone}
                 validateStatus={errors.phone ? 'error' : undefined}
                 placeholder={text('Your phone number')}
-                autoFocus={true}
                 required={true}
                 size="large"
                 prefix={<Icon type="phone" />}
@@ -76,7 +78,6 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 value={values.email}
                 validateStatus={errors.email ? 'error' : undefined}
                 placeholder={text('Your email')}
-                autoFocus={true}
                 required={true}
                 size="large"
                 prefix={<Icon type="mail" />}
