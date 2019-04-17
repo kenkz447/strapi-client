@@ -60,6 +60,9 @@ export class AccountExpandedRow extends React.PureComponent<
                     </DescriptionList>
                 </Col>
                 <Col span={12} className="text-right">
+                    {!user.confirmed && (
+                        <span>Người dùng chưa xác thực email</span>
+                    )}
                     {
                         (user.confirmed && !user.agency) && (
                             <AgencyFormButton
