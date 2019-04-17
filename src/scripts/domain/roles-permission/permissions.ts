@@ -3,6 +3,7 @@ import { Permission } from 'qoobee';
 import {
     ACCOUNT_URL,
     AGENCIES_URL,
+    CATALOG_BASE_PATH,
     DASHBOARD_BASE_PATH,
     ISSUE_TICKET_URL,
     MATERIAL_LIBRARY_URL,
@@ -25,6 +26,10 @@ const locationPermissions: Permissions = {
     MATERIAL_LIBRARY: {
         key: 'MATERIAL_LIBRARY',
         url: new RegExp(MATERIAL_LIBRARY_URL)
+    },
+    CATALOG: {
+        key: 'CATALOG',
+        url: new RegExp(CATALOG_BASE_PATH)
     },
     PRODUCT: {
         key: 'PRODUCT',
@@ -76,6 +81,9 @@ export const functionPermissions: Permissions = {
     },
     FUNC_ADD_TO_CART: {
         key: 'FUNC_ADD_TO_CART'
+    },
+    FUNC_CUSTOMIZE_CATALOG: {
+        key: 'FUNC_CUSTOMIZE_CATALOG'
     }
 };
 

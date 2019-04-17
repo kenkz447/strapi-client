@@ -4,8 +4,10 @@ import styled from 'styled-components';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import {
+    catalogResources,
     FurnitureComponentGroup,
     ProductExtended,
+    request,
     UploadedFile
 } from '@/restful';
 
@@ -23,12 +25,62 @@ const ProductPhotosWrapper = styled.div`
     }
 `;
 
-interface ProductPhotosProps {
-    readonly product: ProductExtended;
-    readonly alwayVisibled?: boolean;
+interface GaleryImage {
+    readonly src: string;
+    readonly thumbnail: string;
+    readonly thumbnailHeight: number;
 }
 
-export class ProductPhotos extends React.PureComponent<ProductPhotosProps> {
+interface ProductPhotosProps {
+    readonly product: ProductExtended;
+    readonly visibled?: boolean;
+}
+
+interface ProductPhotosState {
+    readonly images: GaleryImage[];
+}
+
+export class ProductPhotos extends React.PureComponent<
+    ProductPhotosProps,
+    ProductPhotosState
+    > {
+
+    constructor(props: ProductPhotosProps) {
+        super(props);
+
+        this.state = {
+            images: []
+        };
+
+        this.fetchResources();
+
+    }
+
+    private readonly fetchResources = async () => {
+        const { product } = this.props;
+
+        let photos: UploadedFile[] = [];
+        try {
+            const catalog = await request(
+                catalogResources.findOneByCode, {
+                    type: 'path',
+                    parameter: 'code',
+                    value: product.modulesCode
+                });
+
+            photos = catalog.photos;
+        } catch (error) {
+            //
+        }
+
+        if (!photos.length) {
+            photos = this.getPhotos();
+        }
+
+        this.setState({
+            images: this.photosToGaleryImage(photos)
+        });
+    }
 
     private readonly getPhotos = () => {
         const { product } = this.props;
@@ -42,14 +94,18 @@ export class ProductPhotos extends React.PureComponent<ProductPhotosProps> {
     }
 
     private readonly photosToGaleryImage = (photos: UploadedFile[]) => {
-        return photos.map(o => ({
+        return photos.map((o): GaleryImage => ({
             src: getUploadedFileSrc({ uploadedFile: o }),
             thumbnail: getUploadedFileSrc({ uploadedFile: o, size: 'img256x256' }),
             thumbnailHeight: 50,
         }));
     }
 
-    public componentDidMount() {
+    public componentDidUpdate() {
+        if (!this.state.images.length) {
+            return;
+        }
+
         setTimeout(
             () => {
                 const ReactGridGallery = document.getElementById('ReactGridGallery');
@@ -64,12 +120,10 @@ export class ProductPhotos extends React.PureComponent<ProductPhotosProps> {
     }
 
     public render() {
-        const { alwayVisibled } = this.props;
+        const { visibled } = this.props;
+        const { images } = this.state;
 
-        const productPhotos = this.getPhotos();
-        const images = this.photosToGaleryImage(productPhotos);
-
-        if (!alwayVisibled && !images.length) {
+        if (!visibled) {
             return null;
         }
 

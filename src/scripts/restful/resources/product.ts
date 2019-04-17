@@ -17,7 +17,7 @@ export interface Product {
     readonly thumbnail?: UploadedFile;
     readonly name?: string;
     readonly inventory?: number;
-    readonly modulesCode?: string;
+    readonly modulesCode: string;
     readonly photos?: UploadedFile[];
 }
 

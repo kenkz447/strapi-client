@@ -37,5 +37,10 @@ export const catalogResources = {
     findOne: new Resource<Catalog>({
         resourceType: catalogResourceType,
         url: '/catalog/:id'
+    }),
+    findOneByCode: new Resource<Catalog>({
+        resourceType: catalogResourceType,
+        url: '/catalog/code/:code',
+        getDefaultMeta: () => ({ silent: true })
     })
 };

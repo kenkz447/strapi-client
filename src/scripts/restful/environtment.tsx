@@ -16,7 +16,7 @@ const environment = setupEnvironment({
         if (value && value.id) {
             return value.id;
         }
-        
+
         if (value && value._id) {
             return value._id;
         }
@@ -61,6 +61,10 @@ const environment = setupEnvironment({
     },
     onRequestFailed: async (requestInfo) => {
         const { response, resource } = requestInfo;
+
+        if (requestInfo.meta && requestInfo.meta['silent']) {
+            return;
+        }
 
         restfulEmitEvent({
             type: 'FAIL',

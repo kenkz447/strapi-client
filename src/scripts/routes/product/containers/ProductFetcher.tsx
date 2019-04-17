@@ -167,6 +167,7 @@ class ProductFetcherComponent extends React.PureComponent<
         const productType = await getProductTypeById(componentDesign.productType);
 
         return {
+            modulesCode: modulesCode,
             design: componentDesign,
             modules: modules,
             productType: productType,
@@ -347,7 +348,7 @@ class ProductFetcherComponent extends React.PureComponent<
                             <ProductPhotos
                                 key={modulesCode!}
                                 product={loadedProduct!}
-                                alwayVisibled={!!selectedFurnitureComponent}
+                                visibled={!selectedFurnitureComponent}
                             />
                             {
                                 selectedFurnitureComponent

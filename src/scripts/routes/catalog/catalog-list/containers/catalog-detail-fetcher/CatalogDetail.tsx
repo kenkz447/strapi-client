@@ -1,6 +1,7 @@
 import { Carousel, Col, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
+import { AccessControl } from 'qoobee';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,6 +14,7 @@ import {
 } from '@/business/product/getters/getProductDetails';
 import { getProductUrl } from '@/business/product/getters/getProductUrl';
 import { Img } from '@/components';
+import { policies } from '@/domain';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
 import { formatCurrency } from '@/utilities';
@@ -125,6 +127,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
 
         this.setState({
             product: {
+                modulesCode: catalog.moduleCodes,
                 modules: modules,
                 design: catalog.design,
                 productType: catalog.productType,
@@ -174,7 +177,6 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
     public render() {
         const { catalog } = this.props;
         const { product } = this.state;
-        const productUrl = product && getProductUrl(product);
 
         return (
             <CatalogDetailWrapper>
@@ -227,19 +229,32 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         </Typography.Paragraph>
                         {this.renderProductDetails()}
                         <div className="catalog-customize">
-                            {
-                                productUrl
-                                    ? (
-                                        <Link className="catalog-customize-link" to={productUrl}>
+                            <AccessControl
+                                policy={policies.functionAllowed}
+                                funcKey="FUNC_CUSTOMIZE_CATALOG"
+                                renderDeny={() => (
+                                    <a className="catalog-customize-link disabled">
+                                        Tùy biến sản phẩm
+                                    </a>
+                                )}
+                            >
+                                {() => {
+                                    const productUrl = product && getProductUrl(product);
+
+                                    if (!productUrl) {
+                                        return null;
+                                    }
+
+                                    return (
+                                        <Link
+                                            className="catalog-customize-link"
+                                            to={productUrl}
+                                        >
                                             Tùy biến sản phẩm
                                         </Link>
-                                    )
-                                    : (
-                                        <a className="catalog-customize-link disabled">
-                                            Tùy biến sản phẩm
-                                        </a>
-                                    )
-                            }
+                                    );
+                                }}
+                            </AccessControl>
                             <div className="catalog-customize-description">
                                 - Sản phẩm có thể tùy biến chất liệu hoàn thiện cho toàn bộ sản phẩm.<br />
                                 - Có thể tùy chỉnh thiết kế một số cấu kiện theo mong muốn dựa trên

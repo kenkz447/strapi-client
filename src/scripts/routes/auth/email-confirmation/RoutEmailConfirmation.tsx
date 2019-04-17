@@ -22,7 +22,7 @@ import { AuthCard, AuthPageWrapper } from '../shared';
 type RoutEmailConfirmationProps = AppPageProps;
 
 export class RoutEmailConfirmation extends RoutePage<RoutEmailConfirmationProps> {
-    public static readonly withContext = ['history'];
+    public static readonly withContext = ['history', 'authClient'];
 
     public static readonly routeInfo: RouteInfo = {
         path: AUTH_EMAIL_CONFIRMATION_URL,
@@ -35,7 +35,7 @@ export class RoutEmailConfirmation extends RoutePage<RoutEmailConfirmationProps>
     }
 
     public render() {
-        const { history } = this.props;
+        const { history, authClient } = this.props;
 
         return (
             <AuthPageWrapper>
@@ -56,7 +56,14 @@ export class RoutEmailConfirmation extends RoutePage<RoutEmailConfirmationProps>
                                 <Button
                                     type="primary"
                                     className="w-100 text-center"
-                                    onClick={() => history.replace(CATALOG_BASE_PATH)}
+                                    onClick={() => {
+                                        const tempJWT = sessionStorage.getItem('tempJWT');
+                                        if (!tempJWT) {
+                                           return void history.push(LOGIN_URL);
+                                        }
+
+                                        authClient.jwtLogin(tempJWT);
+                                    }}
                                 >
                                     Bắt đầu
                                 </Button>

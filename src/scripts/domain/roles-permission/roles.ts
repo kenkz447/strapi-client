@@ -27,11 +27,13 @@ const authenticated: Role = {
         permissions.MATERIAL_LIBRARY,
         permissions.ORDER_LIST,
         permissions.NOTIFICATION,
-        permissions.FUNC_ORDER_TRANSACTION_CREATE,
+        permissions.CATALOG,
         permissions.ISSUE_TITKET_LIST,
+        permissions.FUNC_ORDER_TRANSACTION_CREATE,
         permissions.FUNC_ORDER_COMPLAIN,
         permissions.FUNC_ORDER_CANCEL,
-        permissions.FUNC_ADD_TO_CART
+        permissions.FUNC_ADD_TO_CART,
+        permissions.FUNC_CUSTOMIZE_CATALOG
     ]
 };
 
@@ -41,6 +43,7 @@ const registered: Role = {
     allowed: [
         permissions.DASHBOARD,
         permissions.NOTIFICATION,
+        permissions.CATALOG
     ]
 };
 
