@@ -34,8 +34,9 @@ function HeaderUserActions(props: WithContextProps<HeaderUserActionsContext>) {
                 <Menu
                     onClick={({ key }) => {
                         if (key === 'logout') {
-                            authClient.logout();
+                            return void authClient.logout();
                         }
+                        
                         history.push(key);
                     }}
                 >

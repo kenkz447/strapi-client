@@ -42,8 +42,9 @@ export class RouteRegister extends RoutePage<
     }
 
     render() {
-        const { authClient } = this.props;
         const { registered } = this.state;
+        const reflinkCode = getUrlSearchParam('ref');
+
         return (
             <AuthPageWrapper>
                 <div className="auth-page-content">
@@ -73,6 +74,9 @@ export class RouteRegister extends RoutePage<
                                             {({ doBusiness }) => {
                                                 return (
                                                     <RegisterFormControl
+                                                        initialValues={{
+                                                            reflinkCode: reflinkCode || undefined
+                                                        }}
                                                         submit={doBusiness}
                                                     />
                                                 );

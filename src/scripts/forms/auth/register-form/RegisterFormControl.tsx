@@ -6,7 +6,7 @@ import { FormikControlBase, FormikControlBaseProps } from '@/components';
 import { RegisterForm, RegisterFormValues } from './register-form-control';
 
 interface RegisterFormControlProps extends FormikControlBaseProps<RegisterFormValues> {
-    readonly initialValues?: RegisterFormValues;
+
 }
 
 interface RegisterFormControlState {

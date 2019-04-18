@@ -9,7 +9,8 @@ export const registerUser = (newUser: Partial<User>) => {
             type: 'body',
             value: {
                 ...newUser,
-                username: genCodeWithCurrentDate('TK')
+                username: genCodeWithCurrentDate('TK'),
+                registrationDate: new Date
             }
         }
     );

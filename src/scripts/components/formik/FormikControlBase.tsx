@@ -68,7 +68,7 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
 
             await submit(requestBody);
         } catch (error) {
-            if (error instanceof SchemaError) {
+            if (error.message === 'SchemaError') {
                 // tslint:disable-next-line:no-any
                 return void formiKBag.setErrors(error.errors as any);
             }

@@ -6,8 +6,10 @@ import { BadgeProps } from 'antd/lib/badge';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { DATETIME_FORMAT } from '@/configs';
 import { text } from '@/i18n';
 import { Agency, User } from '@/restful';
+import { formatDate } from '@/utilities';
 
 import { AccountExpandedRow } from './accounts-table';
 
@@ -86,6 +88,11 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                         }}
                     />
                     <Table.Column
+                        title={text('Registration date')}
+                        dataIndex={nameof.full<User>(o => o.registrationDate)}
+                        render={(registrationDate: string) => formatDate(registrationDate, DATETIME_FORMAT)}
+                    />
+                    <Table.Column
                         title={text('Activating')}
                         dataIndex={nameof.full<Agency>(o => o.id)}
                         render={(id: string, user: User) => {
@@ -93,7 +100,7 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                                 return null;
                             }
 
-                            return <Switch size="small" checked={!user.blocked}/>;
+                            return <Switch size="small" checked={!user.blocked} />;
                         }}
                     />
                 </Table>

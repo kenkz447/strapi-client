@@ -3,6 +3,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
 import { Agency } from './agency';
+import { Reflink } from './Reflink';
 import { Role, roleSchema } from './role';
 
 export interface User extends Record {
@@ -24,6 +25,11 @@ export interface User extends Record {
     readonly registration_businessAreas: string;
     readonly registration_companyName: string;
     readonly registration_companyAddress: string;
+
+    readonly reflinkCode?: string;
+    readonly reflink?: Reflink;
+
+    readonly registrationDate?: string;
 }
 
 export interface UserRegisterResponse {

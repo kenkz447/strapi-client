@@ -1,4 +1,5 @@
 import { Resource } from 'react-restful';
+import * as yup from 'yup';
 
 import { User, userSchema } from './user';
 
@@ -47,6 +48,14 @@ export const authResources = {
     register: new Resource<User>({
         url: '/auth/local/register',
         method: 'POST',
-        bodySchema: userSchema
+        bodySchema: userSchema.concat(
+            // tslint:disable-next-line:no-any
+            yup.object().shape<any>({
+                password: yup.string().required(),
+                rePassword: yup.string()
+                    .oneOf([yup.ref('password')], 'Passwords must match')
+                    .required()
+            })
+        )
     })
 };

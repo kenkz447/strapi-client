@@ -47,7 +47,7 @@ export class AccountExpandedRow extends React.PureComponent<
         return (
             <Row>
                 <Col span={12}>
-                    <DescriptionList title="Thông tin đăng ký">
+                    <DescriptionList title="Thông tin đăng ký" col={1}>
                         <DescriptionList.Description term={text('Business areas')}>
                             {user.registration_businessAreas || '...'}
                         </DescriptionList.Description>
@@ -56,6 +56,9 @@ export class AccountExpandedRow extends React.PureComponent<
                         </DescriptionList.Description>
                         <DescriptionList.Description term={text('Company address')}>
                             {user.registration_companyAddress || '...'}
+                        </DescriptionList.Description>
+                        <DescriptionList.Description term={text('Reflink')}>
+                            {user.reflinkCode || '...'}
                         </DescriptionList.Description>
                     </DescriptionList>
                 </Col>
