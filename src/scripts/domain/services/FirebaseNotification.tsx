@@ -9,6 +9,8 @@ import {
     WithDomainContext
 } from '../base';
 
+const notificationRef = firebaseAppRef.child(`/notifications`);
+
 type FirebaseNotificationProps = WithDomainContext;
 
 class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps> {
@@ -18,8 +20,8 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
         id: key
     })
 
-    private readonly queryNotifications = async (ref: string, option?): Promise<AppNotification[]> => {
-        const notificationChildRef = firebaseAppRef.child(`${ref}/notifications`);
+    private readonly queryNotifications = async (userId: string, option?): Promise<AppNotification[]> => {
+        const notificationChildRef = notificationRef.child(`/${userId}`);
 
         const snapshot = await notificationChildRef
             .orderByKey()
@@ -39,11 +41,11 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
     }
 
     private readonly subcribeNotification = (
-        ref: string,
+        userId: string,
         callback: (notification: AppNotification[]) => void
     ) => {
-        firebaseAppRef
-            .child(`${ref}/notifications`)
+        notificationRef
+            .child(`/${userId}`)
             .orderByKey()
             .limitToLast(8)
             .on('value', (snapshot) => {

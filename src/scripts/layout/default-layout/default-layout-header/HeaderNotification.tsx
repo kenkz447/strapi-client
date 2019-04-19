@@ -1,15 +1,22 @@
-import { Badge, Button, Icon } from 'antd';
+import './HeaderNotification.scss';
+
+import { Avatar, Badge, Card, Dropdown, Empty, Icon, List } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { DomainContext } from '@/domain';
+import { DATETIME_FORMAT } from '@/configs';
+import { AppNotification, DomainContext } from '@/domain';
+import { formatDate } from '@/utilities';
 
 const HeaderNotificationWrapper = styled.div`
     .anticon-notification {
         width: 16px;
         height: 16px;
         line-height: 16px;
+        font-size: 16px;
+    }
+    .anticon {
         font-size: 16px;
     }
 `;
@@ -26,21 +33,69 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
         if (!notifications) {
             return [];
         }
-        
-        return notifications.filter(o => !o.viewedAt);
+
+        return notifications;
+    }
+
+    private readonly getNotificationIcon = (notification: AppNotification) => {
+        if (notification.type === 'PROMOTION') {
+            return <Avatar size="large" icon="gift" style={{background: '#87d068'}} />;
+        }
+        return null;
+    }
+
+    private readonly x = (unreadNotifications: AppNotification[]) => {
+        if (!unreadNotifications.length) {
+            return (
+                <Card>
+                    <Empty />
+                </Card>
+            );
+        }
+
+        return (
+            <List
+                className="header-notification-list"
+                dataSource={unreadNotifications}
+                renderItem={(item: AppNotification, i) => {
+                    const icon = this.getNotificationIcon(item);
+
+                    return (
+                        <List.Item
+                            key={i}
+                            style={{ padding: '12px 16px' }}
+                            
+                        >
+                            <List.Item.Meta
+                                avatar={icon}
+                                title={item.content}
+                                description={formatDate(item.createdAt, DATETIME_FORMAT)}
+                            />
+                        </List.Item>
+                    );
+                }}
+            />
+        );
     }
 
     public render() {
-        const unreadNotifications = this.getUnreadNotifications();
+        const notifications = this.getUnreadNotifications();
+        const unreadNotifications = notifications.filter(o => !o.viewed).length;
 
         return (
-            <HeaderNotificationWrapper
-                className="header-action"
+            <Dropdown
+                overlay={this.x(notifications)}
+                trigger={['click']}
+
             >
-                <Badge count={unreadNotifications.length} dot={true}>
-                    <Icon className="" type="notification" />
-                </Badge>
-            </HeaderNotificationWrapper>
+                <HeaderNotificationWrapper
+                    className="header-action"
+                >
+                    <Badge count={unreadNotifications}>
+                        <Icon type="bell" />
+                    </Badge>
+                </HeaderNotificationWrapper>
+            </Dropdown>
         );
     }
 }

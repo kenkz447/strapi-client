@@ -29,15 +29,13 @@ export type Print<P = {}> = {
 
 export interface AppNotification {
     readonly id?: string;
-    readonly time?: string;
-    readonly type: 'new-order' | 'update-order' | 'cancel-order' | 'change-order' | 'new-order-transaction';
-    readonly orderId?: string;
-    readonly orderRransactionId?: string;
-    readonly fromUserId?: string;
-    readonly fromUserName?: string;
-    readonly fromAgencyId?: string;
-    readonly fromAgencyName?: string;
-    readonly viewedAt?: string;
+    readonly createdAt: string;
+    readonly content: string;
+    readonly type: 'PROMOTION';
+    readonly key: 'CUSTOMER_RECEIVE_PROMO_CODE';
+    readonly value: number | string;
+    readonly userId: string;
+    readonly viewed: boolean;
 }
 
 export interface Product3DSenceContext {

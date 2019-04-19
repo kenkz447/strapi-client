@@ -18,6 +18,7 @@ function HeaderSelectLanguage(props: WithContextProps<HeaderSelectLanguageContex
     return (
         <Dropdown
             placement="bottomRight"
+            trigger={['click']}
             overlay={(
                 <Menu
                     selectedKeys={[currentLanguage]}

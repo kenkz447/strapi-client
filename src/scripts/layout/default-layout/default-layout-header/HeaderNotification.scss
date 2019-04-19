@@ -1,0 +1,9 @@
+.header-notification-list {
+    .ant-list-item {
+        transition: all .3s;
+        cursor: pointer;
+        &:hover {
+            background: #e6f7ff;
+        }
+    }
+}
