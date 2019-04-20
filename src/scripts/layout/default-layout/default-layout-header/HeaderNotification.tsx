@@ -6,7 +6,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { DATETIME_FORMAT } from '@/configs';
-import { AppNotification, DomainContext } from '@/domain';
+import { DomainContext } from '@/domain';
+import { Notification, notificationResources, request } from '@/restful';
 import { formatDate } from '@/utilities';
 
 const HeaderNotificationWrapper = styled.div`
@@ -37,14 +38,42 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
         return notifications;
     }
 
-    private readonly getNotificationIcon = (notification: AppNotification) => {
+    private readonly getNotificationIcon = (notification: Notification) => {
         if (notification.type === 'PROMOTION') {
-            return <Avatar size="large" icon="gift" style={{background: '#87d068'}} />;
+            return <Avatar size="large" icon="gift" style={{ background: '#87d068' }} />;
         }
         return null;
     }
 
-    private readonly x = (unreadNotifications: AppNotification[]) => {
+    private readonly getNotificationUrlPath = (notification: Notification) => {
+        const targetURL = new URL(notification.url);
+        const targetPath = targetURL.pathname + targetURL.search;
+        return targetPath;
+    }
+
+    private readonly setNotificationViewed = (notification: Notification) => {
+        if (notification.viewed) {
+            return;
+        }
+
+        request(
+            notificationResources.setViewed,
+            {
+                type: 'path',
+                parameter: 'id',
+                value: notification.id
+            }
+        );
+    }
+
+    private readonly onNoticationClick = (notification: Notification) => {
+        const { history } = this.context;
+        const targetPath = this.getNotificationUrlPath(notification);
+        history.push(targetPath);
+        this.setNotificationViewed(notification);
+    }
+
+    private readonly x = (unreadNotifications: Notification[]) => {
         if (!unreadNotifications.length) {
             return (
                 <Card>
@@ -57,19 +86,21 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
             <List
                 className="header-notification-list"
                 dataSource={unreadNotifications}
-                renderItem={(item: AppNotification, i) => {
-                    const icon = this.getNotificationIcon(item);
+                renderItem={(notification: Notification, i) => {
+
+                    const icon = this.getNotificationIcon(notification);
 
                     return (
                         <List.Item
                             key={i}
+                            className={notification.viewed ? 'viewed' : ''}
                             style={{ padding: '12px 16px' }}
-                            
+                            onClick={() => this.onNoticationClick(notification)}
                         >
                             <List.Item.Meta
                                 avatar={icon}
-                                title={item.content}
-                                description={formatDate(item.createdAt, DATETIME_FORMAT)}
+                                title={notification.message}
+                                description={formatDate(notification.createdAt, DATETIME_FORMAT)}
                             />
                         </List.Item>
                     );
@@ -86,7 +117,6 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
             <Dropdown
                 overlay={this.x(notifications)}
                 trigger={['click']}
-
             >
                 <HeaderNotificationWrapper
                     className="header-action"

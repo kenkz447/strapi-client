@@ -2,12 +2,9 @@ import map from 'lodash/map';
 import * as React from 'react';
 import { withContext } from 'react-context-service';
 
-import {
-    AppNotification,
-    DomainContext,
-    firebaseAppRef,
-    WithDomainContext
-} from '../base';
+import { Notification } from '@/restful';
+
+import { DomainContext, firebaseAppRef, WithDomainContext } from '../base';
 
 const notificationRef = firebaseAppRef.child(`/notifications`);
 
@@ -20,7 +17,7 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
         id: key
     })
 
-    private readonly queryNotifications = async (userId: string, option?): Promise<AppNotification[]> => {
+    private readonly queryNotifications = async (userId: string, option?): Promise<Notification[]> => {
         const notificationChildRef = notificationRef.child(`/${userId}`);
 
         const snapshot = await notificationChildRef
@@ -42,7 +39,7 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
 
     private readonly subcribeNotification = (
         userId: string,
-        callback: (notification: AppNotification[]) => void
+        callback: (notification: Notification[]) => void
     ) => {
         notificationRef
             .child(`/${userId}`)

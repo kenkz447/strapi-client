@@ -17,6 +17,7 @@ export * from './furnitureMaterialType';
 export * from './invitation';
 export * from './issueTicket';
 export * from './issueTicketReply';
+export * from './notification';
 export * from './order';
 export * from './orderDetail';
 export * from './orderTransaction';

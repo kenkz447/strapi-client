@@ -11,6 +11,7 @@ import {
     FurnitureComponentType,
     FurnitureMaterial,
     FurnitureMaterialType,
+    Notification,
     OrderDetail,
     ProductExtended,
     StoredPromoCode,
@@ -26,17 +27,6 @@ export type Print<P = {}> = {
     readonly Component: React.ComponentType<P>;
     readonly props: P;
 };
-
-export interface AppNotification {
-    readonly id?: string;
-    readonly createdAt: string;
-    readonly content: string;
-    readonly type: 'PROMOTION';
-    readonly key: 'CUSTOMER_RECEIVE_PROMO_CODE';
-    readonly value: number | string;
-    readonly userId: string;
-    readonly viewed: boolean;
-}
 
 export interface Product3DSenceContext {
     readonly selected3DObject: THREE.Object3D | null;
@@ -78,7 +68,7 @@ export interface DomainContext extends AppCoreContext<User>, Product3DSenceConte
     readonly cartOrderDetails: Array<OrderDetail>;
     readonly currentAgency?: Agency;
 
-    readonly notifications: AppNotification[];
+    readonly notifications: Notification[];
     readonly availablePromoCodes: StoredPromoCode[];
 }
 
