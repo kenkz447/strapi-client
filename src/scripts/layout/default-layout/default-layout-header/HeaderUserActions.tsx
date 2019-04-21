@@ -54,7 +54,7 @@ function HeaderUserActions(props: WithContextProps<HeaderUserActionsContext>) {
         >
             <span className="header-action">
                 <Avatar src={defaultAvatar} />
-                <AccountName>{currentUser.username}</AccountName>
+                <AccountName>{currentUser.fullName}</AccountName>
             </span>
         </Dropdown>
     );

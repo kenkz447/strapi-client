@@ -39,7 +39,7 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
 
         return [{
             type: 'query',
-            parameter: 'name',
+            parameter: 'name_containss',
             value: nameFilter || undefined!
         }, {
             type: 'query',
@@ -48,7 +48,7 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
         }, {
             type: 'query',
             parameter: '_sort',
-            value: 'id:DESC'
+            value: '_id:DESC'
         }];
     }
 
@@ -73,7 +73,7 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
         const nextLevelFilter = getUrlSearchParam('level') || undefined;
 
         const { params } = this.state;
-        const name = getParamsValue(params, 'query', 'name');
+        const name = getParamsValue(params, 'query', 'name_containss');
         const level = getParamsValue(params, 'query', 'level');
 
         const isNameChanged = name !== nextNameFilter;
@@ -83,7 +83,7 @@ export class AgenciesFetcher extends React.PureComponent<AgenciesFetcherProps, A
             return;
         }
 
-        let nextParams = upsertRequestParams(params, 'query', 'name', nextNameFilter);
+        let nextParams = upsertRequestParams(params, 'query', 'name_containss', nextNameFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'level', nextLevelFilter);
 
         this.setState({

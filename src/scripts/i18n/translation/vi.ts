@@ -142,7 +142,7 @@ export const vi = {
     'select date': 'chọn ngày',
     Date: 'Ngày tháng',
     Dashboard: 'Tổng quan',
-    DashboardWelcome: 'Chúng tôi hy vọng bạn đang đạt được tiến bộ cho dự án của mình ... Chúng tôi đang nỗ lực hết sức để cải thiện sản phẩm dựa trên phản hồi của bạn.',
+    DashboardWelcome: 'Chào mừng bạn đến với [M]Furniture.',
     'Total paid': 'Tổng thanh toán',
     'To the next level': 'Cấp độ tiếp theo',
     'Date Submitted': 'Ngày đăng',

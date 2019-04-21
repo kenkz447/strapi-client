@@ -89,8 +89,8 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         const nextReflinkFilter = getUrlSearchParam('reflink') || undefined;
 
         const { params } = this.state;
-        const name = getParamsValue(params, 'query', 'name');
-        const email = getParamsValue(params, 'query', 'email');
+        const name = getParamsValue(params, 'query', 'name_containss');
+        const email = getParamsValue(params, 'query', 'email_containss');
         const role = getParamsValue(params, 'query', 'role');
         const reflink = getParamsValue(params, 'query', 'reflink');
 
