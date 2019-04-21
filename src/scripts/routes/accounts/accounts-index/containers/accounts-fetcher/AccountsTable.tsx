@@ -89,7 +89,7 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                     />
                     <Table.Column
                         title={text('Registration date')}
-                        dataIndex={nameof.full<User>(o => o.registrationDate)}
+                        dataIndex={nameof.full<User>(o => o.registeredAt)}
                         render={(registrationDate: string) => formatDate(registrationDate, DATETIME_FORMAT)}
                     />
                     <Table.Column

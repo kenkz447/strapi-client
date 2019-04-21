@@ -6,6 +6,7 @@ import { ACCOUNT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 import { request, Role, roleResources } from '@/restful';
+import { reflinkResources } from '@/restful/resources/Reflink';
 
 import { AccountsFetcher } from './containers';
 import {
@@ -31,7 +32,8 @@ export class RouteAccounts extends RoutePage<RouteAccountProps, RouteAccountsSta
 
         this.state = {
             routeContext: {
-                roles: []
+                roles: [],
+                reflinks: []
             }
         };
 
@@ -39,13 +41,15 @@ export class RouteAccounts extends RoutePage<RouteAccountProps, RouteAccountsSta
     }
 
     private readonly fetchResources = async () => {
-        const [roles] = await Promise.all([
-            request(roleResources.find)
+        const [roles, reflinks] = await Promise.all([
+            request(roleResources.find),
+            request(reflinkResources.find)
         ]);
 
         this.setState({
             routeContext: {
-                roles: roles.roles
+                roles: roles.roles,
+                reflinks: reflinks
             }
         });
     }

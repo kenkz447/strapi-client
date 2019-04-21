@@ -26,6 +26,8 @@ export interface AccountFilterProps {
     readonly onEmailChange: (name: string | null) => void;
     readonly role: string | null;
     readonly onRoleChange: (role: string) => void;
+    readonly reflink: string | null;
+    readonly onReflinkChange: (role: string) => void;
 }
 
 export interface AccountFilterState {
@@ -80,7 +82,7 @@ export class AccountFilter extends React.PureComponent<
     }
 
     render() {
-        const { onRoleChange, role } = this.props;
+        const { onRoleChange, role, reflink, onReflinkChange } = this.props;
 
         return (
             <TableFilterWrapper>
@@ -116,6 +118,27 @@ export class AccountFilter extends React.PureComponent<
                                         options={selectOptions}
                                         allowClear={true}
                                         onChange={onRoleChange}
+                                    />
+                                );
+                            }}
+                        </RouteAccountsContext.Consumer>
+                    </Col>
+                    <Col span={6}>
+                        <RouteAccountsContext.Consumer>
+                            {({ reflinks }) => {
+                                const filteredRoles = reflinks;
+                                const selectOptions = filteredRoles.map(
+                                    o => ({ value: o.id, title: o.name })
+                                );
+
+                                return (
+                                    <FormSelect
+                                        value={reflink || undefined}
+                                        label={text('Source')}
+                                        placeholder={text('select source')}
+                                        options={selectOptions}
+                                        allowClear={true}
+                                        onChange={onReflinkChange}
                                     />
                                 );
                             }}

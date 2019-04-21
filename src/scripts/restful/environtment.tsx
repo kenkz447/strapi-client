@@ -62,10 +62,6 @@ const environment = setupEnvironment({
     onRequestFailed: async (requestInfo) => {
         const { response, resource } = requestInfo;
 
-        if (requestInfo.meta && requestInfo.meta['silent']) {
-            return;
-        }
-
         restfulEmitEvent({
             type: 'FAIL',
             url: response.url,
@@ -95,11 +91,14 @@ const environment = setupEnvironment({
         } else {
             error = await clonedResponse.json();
         }
-        showNotification({
-            type: 'error',
-            message: 'Error!',
-            description: typeof error === 'string' ? error : <Json src={error} />
-        });
+
+        if (requestInfo.meta && !requestInfo.meta['silent']) {
+            showNotification({
+                type: 'error',
+                message: 'Error!',
+                description: typeof error === 'string' ? error : <Json src={error} />
+            });
+        }
 
         if (error.errorDesc) {
             return error.errorDesc;

@@ -1,4 +1,4 @@
-import { Col, Icon, Row } from 'antd';
+import { Col, Icon, Row, Typography } from 'antd';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
@@ -37,28 +37,34 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 size="large"
                 prefix={<Icon type="font-colors" />}
             />
-            <FormInput
-                name={nameof.full<RegisterFormValues>(o => o.phone)}
-                onChange={handleChange}
-                value={values.phone}
-                validateStatus={errors.phone ? 'error' : undefined}
-                help={errors.phone}
-                placeholder={text('Your phone number')}
-                required={true}
-                size="large"
-                prefix={<Icon type="phone" />}
-            />
-            <FormInput
-                name={nameof.full<RegisterFormValues>(o => o.email)}
-                onChange={handleChange}
-                value={values.email}
-                validateStatus={errors.email ? 'error' : undefined}
-                help={errors.email}
-                placeholder={text('Your email')}
-                required={true}
-                size="large"
-                prefix={<Icon type="mail" />}
-            />
+            <Row gutter={12}>
+                <Col span={12}>
+                    <FormInput
+                        name={nameof.full<RegisterFormValues>(o => o.phone)}
+                        onChange={handleChange}
+                        value={values.phone}
+                        validateStatus={errors.phone ? 'error' : undefined}
+                        help={errors.phone}
+                        placeholder={text('Your phone number')}
+                        required={true}
+                        size="large"
+                        prefix={<Icon type="phone" />}
+                    />
+                </Col>
+                <Col span={12}>
+                    <FormInput
+                        name={nameof.full<RegisterFormValues>(o => o.email)}
+                        onChange={handleChange}
+                        value={values.email}
+                        validateStatus={errors.email ? 'error' : undefined}
+                        help={errors.email}
+                        placeholder={text('Your email')}
+                        required={true}
+                        size="large"
+                        prefix={<Icon type="mail" />}
+                    />
+                </Col>
+            </Row>
             <Row gutter={12}>
                 <Col span={12}>
                     <FormInput
@@ -89,6 +95,9 @@ export function RegisterForm(props: RegisterFormOwnProps) {
             </Row>
 
             <h4>Thông tin kinh doanh</h4>
+            <Typography.Paragraph type="secondary">
+                Nếu là khách muốn mua hàng với mục đích kinh doanh xin vui lòng điền đầy đủ thông tin bên dưới
+            </Typography.Paragraph>
             <FormInput
                 name={nameof<RegisterFormValues>(o => o.registration_businessAreas)}
                 onChange={handleChange}

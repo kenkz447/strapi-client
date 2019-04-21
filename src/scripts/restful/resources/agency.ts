@@ -32,6 +32,10 @@ export const agencyResources = {
         resourceType: agencyResourceType,
         url: '/agency/:id'
     }),
+    findOneByUser: new Resource<Agency>({
+        resourceType: agencyResourceType,
+        url: '/agency/by-user/:userId'
+    }),
     create: new Resource<Agency>({
         resourceType: agencyResourceType,
         url: '/agency',

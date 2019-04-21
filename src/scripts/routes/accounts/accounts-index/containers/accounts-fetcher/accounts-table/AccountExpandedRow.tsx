@@ -6,7 +6,13 @@ import * as React from 'react';
 
 import { AgencyFormButton } from '@/forms/agency/agency-create';
 import { text } from '@/i18n';
-import { BusinessLicense, User } from '@/restful';
+import {
+    Agency,
+    agencyResources,
+    BusinessLicense,
+    request,
+    User
+} from '@/restful';
 
 interface AccountExpandedRowProps {
     readonly user: User;
@@ -17,6 +23,7 @@ interface AccountExpandedRowState {
     readonly loading?: boolean;
     readonly license?: BusinessLicense;
     readonly isNoLicense?: boolean;
+    readonly agency?: Agency | null;
 }
 
 export class AccountExpandedRow extends React.PureComponent<
@@ -27,18 +34,36 @@ export class AccountExpandedRow extends React.PureComponent<
     constructor(props: AccountExpandedRowProps) {
         super(props);
         this.state = {
-            loading: false
+            loading: true
         };
         this.fetchResources();
     }
 
     private readonly fetchResources = async () => {
-        // 
+        const { user } = this.props;
+        try {
+            const agency = await request(
+                agencyResources.findOneByUser,
+                {
+                    type: 'path',
+                    parameter: 'userId',
+                    value: user.id || user._id
+                }
+            );
+            this.setState({
+                agency: agency.id ? agency : null,
+                loading: false
+            });
+        } catch (error) {
+            this.setState({
+                loading: false
+            });
+        }
     }
 
     public render() {
         const { onAccepted, user } = this.props;
-        const { license, loading } = this.state;
+        const { license, loading, agency } = this.state;
 
         if (loading) {
             return <Icon type="loading" spin={true} />;
@@ -57,8 +82,8 @@ export class AccountExpandedRow extends React.PureComponent<
                         <DescriptionList.Description term={text('Company address')}>
                             {user.registration_companyAddress || '...'}
                         </DescriptionList.Description>
-                        <DescriptionList.Description term={text('Reflink')}>
-                            {user.reflinkCode || '...'}
+                        <DescriptionList.Description term={text('Source')}>
+                            {user.reflink ? user.reflink.name : '...'}
                         </DescriptionList.Description>
                     </DescriptionList>
                 </Col>
@@ -67,7 +92,7 @@ export class AccountExpandedRow extends React.PureComponent<
                         <span>Người dùng chưa xác thực email</span>
                     )}
                     {
-                        (user.confirmed && !user.agency) && (
+                        (user.confirmed && !agency) && (
                             <AgencyFormButton
                                 initialValues={{
                                     linkedUser: user,

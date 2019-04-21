@@ -38,6 +38,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         const nameFilter = getUrlSearchParam('name');
         const emailFilter = getUrlSearchParam('email');
         const roleFilter = getUrlSearchParam('role');
+        const reflinkFilter = getUrlSearchParam('role');
 
         return [{
             type: 'query',
@@ -53,14 +54,18 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
             value: roleFilter || undefined!
         }, {
             type: 'query',
+            parameter: 'reflink',
+            value: reflinkFilter || undefined!
+        }, {
+            type: 'query',
             parameter: '_sort',
-            value: 'id:DESC'
+            value: '_id:DESC'
         }];
     }
 
     private readonly unListenHistory: UnregisterCallback;
     private _unmounting: boolean = false;
-    
+
     constructor(props: AgenciesFetcherProps, context: WithHistory) {
         super(props);
 
@@ -81,23 +86,27 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         const nextNameFilter = getUrlSearchParam('name') || undefined;
         const nextEmailFilter = getUrlSearchParam('email') || undefined;
         const nextRoleFilter = getUrlSearchParam('role') || undefined;
+        const nextReflinkFilter = getUrlSearchParam('reflink') || undefined;
 
         const { params } = this.state;
         const name = getParamsValue(params, 'query', 'name');
         const email = getParamsValue(params, 'query', 'email');
         const role = getParamsValue(params, 'query', 'role');
+        const reflink = getParamsValue(params, 'query', 'reflink');
 
         const isNameChanged = name !== nextNameFilter;
         const isEmailChanged = email !== nextEmailFilter;
         const isRoleChanged = role !== nextRoleFilter;
+        const isReflinkChanged = reflink !== nextReflinkFilter;
 
-        if (!isNameChanged && !isRoleChanged && !isEmailChanged) {
+        if (!isNameChanged && !isRoleChanged && !isEmailChanged && !isReflinkChanged) {
             return;
         }
 
         let nextParams = upsertRequestParams(params, 'query', 'name_containss', nextNameFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'email_containss', nextEmailFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'role', nextRoleFilter);
+        nextParams = upsertRequestParams(nextParams, 'query', 'reflink', nextReflinkFilter);
 
         this.setState({
             params: nextParams
@@ -139,6 +148,19 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         history.replace(`?${nextUrlSearchParams.toString()}`);
     }
 
+    private readonly onReflinkChange = (reflink: string) => {
+        const { history } = this.context;
+
+        const nextUrlSearchParams = new URLSearchParams(location.search);
+        if (reflink) {
+            nextUrlSearchParams.set('reflink', reflink);
+        } else {
+            nextUrlSearchParams.delete('reflink');
+        }
+
+        history.replace(`?${nextUrlSearchParams.toString()}`);
+    }
+
     private readonly onPageChange = (nextPage: number, pageSize: number, currentPage: number) => {
         const { params } = this.state;
 
@@ -167,6 +189,8 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
                         onEmailChange={this.onEmailChange}
                         role={getParamsValue(params, 'query', 'role')}
                         onRoleChange={this.onRoleChange}
+                        reflink={getParamsValue(params, 'query', 'reflink')}
+                        onReflinkChange={this.onReflinkChange}
                     />
                 </Layout.Header>
                 <RestfulRender
