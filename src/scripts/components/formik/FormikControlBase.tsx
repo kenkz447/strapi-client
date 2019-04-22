@@ -3,6 +3,7 @@ import * as React from 'react';
 import { SchemaError } from 'react-restful';
 
 import { text } from '@/i18n';
+import { sortSelectOption } from '@/utilities';
 
 import { FormTreeSelectOption } from './FormTreeSelect';
 
@@ -25,7 +26,7 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
     };
 
     public readonly listToOptions = (list: Array<ListItem>) => {
-        return list.map(o => ({ value: o.id, title: o.displayName || o.name }));
+        return list.map(o => ({ value: o.id, title: o.displayName || o.name })).sort(sortSelectOption);
     }
 
     public readonly listToTreeOptions = (

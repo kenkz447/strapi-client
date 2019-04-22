@@ -23,7 +23,8 @@ export function ChangePassword(props: ChangePasswordFormOwnProps) {
         values,
         handleChange,
         handleBlur,
-        isSubmitting
+        isSubmitting,
+        dirty
     } = props;
 
     return (
@@ -67,7 +68,7 @@ export function ChangePassword(props: ChangePasswordFormOwnProps) {
                 />
                 <FormSubmit
                     formProps={props}
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !dirty}
                 >
                     {text('Change password')}
                 </FormSubmit>

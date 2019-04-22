@@ -9,7 +9,12 @@ import {
     MATERIAL_LIBRARY_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
-    PRODUCT_PATH
+    PRODUCT_PATH,
+    PROFILE_ACCOUNT_URL,
+    PROFILE_ADDRESS_BOOK_URL,
+    PROFILE_AGENCY_URL,
+    PROFILE_PASSWORD_URL,
+    PROFILE_PROMO_CODE_URL
 } from '@/configs';
 
 type Permissions = { readonly [key: string]: Permission };
@@ -54,6 +59,26 @@ const locationPermissions: Permissions = {
     NOTIFICATION: {
         key: 'NOTIFICATION',
         url: new RegExp(NOTIFICATION_URL)
+    },
+    PROFILE_ACCOUNT: {
+        key: 'PROFILE_ACCOUNT',
+        url: new RegExp(PROFILE_ACCOUNT_URL)
+    },
+    PROFILE_ADDRESS_BOOK: {
+        key: 'PROFILE_ADDRESS_BOOK',
+        url: new RegExp(PROFILE_ADDRESS_BOOK_URL)
+    },
+    PROFILE_AGENCY: {
+        key: 'PROFILE_AGENCY',
+        url: new RegExp(PROFILE_AGENCY_URL)
+    },
+    PROFILE_PASSWORD: {
+        key: 'PROFILE_PASSWORD',
+        url: new RegExp(PROFILE_PASSWORD_URL)
+    },
+    PROFILE_PROMO_CODE: {
+        key: 'PROFILE_PROMO_CODE',
+        url: new RegExp(PROFILE_PROMO_CODE_URL)
     }
 };
 
@@ -84,6 +109,9 @@ export const functionPermissions: Permissions = {
     },
     FUNC_CUSTOMIZE_CATALOG: {
         key: 'FUNC_CUSTOMIZE_CATALOG'
+    },
+    FUNC_AGENCY_POLICIES_OVERVIEW: {
+        key: 'FUNC_AGENCY_POLICIES_OVERVIEW'
     }
 };
 

@@ -12,6 +12,7 @@ export type AgencyFormValues = Partial<Agency>;
 
 export interface AgencyFormOwnProps extends FormikProps<AgencyFormValues> {
     readonly agencyLevelOptions: OptionProps[];
+    readonly agencyTypeOptions: OptionProps[];
 }
 
 export function AgencyForm(props: AgencyFormOwnProps) {
@@ -21,6 +22,7 @@ export function AgencyForm(props: AgencyFormOwnProps) {
         handleChange,
         setFieldValue,
         agencyLevelOptions,
+        agencyTypeOptions
     } = props;
 
     return (
@@ -68,6 +70,22 @@ export function AgencyForm(props: AgencyFormOwnProps) {
                 validateStatus={errors.level ? errors.level['id'] : undefined}
                 label={text('Level')}
                 placeholder={text('Select level')}
+                required={true}
+            />
+            <FormSelect
+                name={nameof.full<AgencyFormValues>(o => o.agencyType!.id)}
+                value={values.agencyType
+                    ? values.agencyType.id
+                    : undefined
+                }
+                setFieldValue={setFieldValue}
+                options={agencyTypeOptions}
+                wrapperCol={verticalLayout.wrapperCol}
+                labelCol={verticalLayout.labelCol}
+                help={errors.agencyType ? errors.agencyType['id'] : undefined}
+                validateStatus={errors.agencyType ? errors.agencyType['id'] : undefined}
+                label={text('Type')}
+                placeholder={text('Select type')}
                 required={true}
             />
         </FormBody>

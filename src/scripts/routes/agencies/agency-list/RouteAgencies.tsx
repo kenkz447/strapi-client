@@ -16,20 +16,22 @@ import {
     AgencyLevel,
     agencyLevelResources,
     agencyResources,
+    agencyTypeResources,
     request
 } from '@/restful';
 
 import { AgenciesFetcher } from './containers';
-import { RouteAgenciesContext } from './RouteAgenciesContext';
+import {
+    RouteAgenciesContext,
+    RouteAgenciesContextProps
+} from './RouteAgenciesContext';
 
 type RouteProps = AppPageProps;
 
 interface RouteAgenciesState {
     readonly allowLoad: boolean;
     readonly initAgenies: Agency[];
-    readonly routeContext: {
-        readonly agencyLevels: AgencyLevel[];
-    };
+    readonly routeContext: RouteAgenciesContextProps;
 }
 
 export class RouteAgencies extends RoutePage<RouteProps, RouteAgenciesState> {
@@ -47,7 +49,8 @@ export class RouteAgencies extends RoutePage<RouteProps, RouteAgenciesState> {
             allowLoad: false,
             initAgenies: [],
             routeContext: {
-                agencyLevels: []
+                agencyLevels: [],
+                agencyTypes: []
             }
         };
 
@@ -55,16 +58,18 @@ export class RouteAgencies extends RoutePage<RouteProps, RouteAgenciesState> {
     }
 
     readonly fetchResources = async () => {
-        const [initAgenies, agencyLevels] = await Promise.all([
+        const [initAgenies, agencyLevels, agencyTypes] = await Promise.all([
             request(agencyResources.find, AgenciesFetcher.getDefaultRequestParams()),
-            request(agencyLevelResources.find)
+            request(agencyLevelResources.find),
+            request(agencyTypeResources.find)
         ]);
 
         this.setState({
             allowLoad: true,
             initAgenies: initAgenies,
             routeContext: {
-                agencyLevels
+                agencyLevels,
+                agencyTypes
             }
         });
     }

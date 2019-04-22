@@ -2,6 +2,7 @@ import { Record, Resource, ResourceType } from 'react-restful';
 
 import { getDefaultParamsForUpdate } from '../base';
 import { AgencyLevel } from './agencyLevel';
+import { AgencyType } from './agencyType';
 import { BusinessLicense } from './businessLicense';
 import { City } from './city';
 import { County } from './county';
@@ -19,6 +20,7 @@ export interface Agency extends Record {
     readonly county: County;
     readonly createdAt: string;
     readonly businessLicense: BusinessLicense;
+    readonly agencyType?: AgencyType;
 }
 
 export const agencyResourceType = new ResourceType<Agency>(nameof<Agency>());

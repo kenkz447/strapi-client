@@ -39,9 +39,6 @@ export class DashboardAgencyLevelList extends React.PureComponent<DashboardAgenc
 
     public render() {
         const currentAgencyLevel = this.getCurrentAgencylevel();
-        if (!currentAgencyLevel) {
-            return null;
-        }
 
         const { agencyLevels } = this.props;
         const highestLevel = this.getHighestDiscountAgencyLevel();
@@ -49,7 +46,8 @@ export class DashboardAgencyLevelList extends React.PureComponent<DashboardAgenc
         return (
             <div id="dashboardAgencyLevelList">
                 {agencyLevels.map((o, index) => {
-                    const isDisabled = index !== currentAgencyLevel.index;
+                    const isDisabled = currentAgencyLevel && index !== currentAgencyLevel.index;
+
                     const percent = o.discountPercent / highestLevel.discountPercent * 100;
 
                     return (

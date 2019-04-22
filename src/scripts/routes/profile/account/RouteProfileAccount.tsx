@@ -9,6 +9,7 @@ import { AppPageProps, RoutePage } from '@/domain';
 import { showMessage } from '@/effects';
 import { AccountFormControl } from '@/forms/profile';
 import { text } from '@/i18n';
+import { User } from '@/restful';
 
 type RouteProfileAccountProps = AppPageProps;
 
@@ -22,14 +23,18 @@ export class RouteProfileAccount extends RoutePage<RouteProfileAccountProps> {
     };
 
     public render() {
-        const { currentUser } = this.props;
+        const { currentUser, setContext } = this.props;
 
         return (
             <PageWrapper backgroundColor="#fff">
                 <PageContent>
                     <BusinessController
                         action={updateUser}
-                        onSuccess={() => {
+                        onSuccess={(updatedUser: User) => {
+                            setContext({
+                                currentUser: updatedUser
+                            });
+
                             showMessage({
                                 type: 'success',
                                 content: 'Ok'

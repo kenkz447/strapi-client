@@ -2,7 +2,7 @@ export * from './account';
 export * from './address';
 export * from './agency';
 export * from './agencyLevel';
-export * from './agencyLevel';
+export * from './agencyType';
 export * from './auth';
 export * from './businessLicense';
 export * from './catalog';

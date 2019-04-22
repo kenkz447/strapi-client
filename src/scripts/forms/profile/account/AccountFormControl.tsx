@@ -25,6 +25,7 @@ export class AccountFormControl extends FormikControlBase<
                 ref={this.formInstance}
                 initialValues={initialValues!}
                 onSubmit={this.onSubmit}
+                enableReinitialize={true}
             >
                 {(formProps) => (
                     <AccountForm

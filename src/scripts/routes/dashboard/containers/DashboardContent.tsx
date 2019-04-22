@@ -1,11 +1,12 @@
 import './DashboardContent.scss';
 
 import { Card, Tabs } from 'antd';
-import { RootContext } from 'qoobee';
+import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 
 import { DASHBOARD_BASE_PATH } from '@/configs';
 import { DomainContext } from '@/domain';
+import { functionAllowed } from '@/domain/policies';
 
 import {
     DashboardAgencyLevelsFetcher,
@@ -29,6 +30,20 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
     public render() {
         const { activeTab } = this.props;
 
+        const tabs = [{
+            tab: 'Tin tức & Khuyến mãi',
+            key: 'posts'
+        }];
+
+        const isAcencyPoliciesOverviewAllowed = functionAllowed(this.context, 'FUNC_AGENCY_POLICIES_OVERVIEW');
+
+        if (isAcencyPoliciesOverviewAllowed) {
+            tabs.push({
+                tab: 'Chính sách đại lý',
+                key: 'agency-policies'
+            });
+        }
+
         return (
             <Card
                 className="dashboard-content"
@@ -40,8 +55,7 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
                         defaultActiveKey="posts"
                         onTabClick={this.onTabClick}
                     >
-                        <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="posts" />
-                        <Tabs.TabPane tab="Chính sách đại lý" key="agency-policies" />
+                        {tabs.map(o => <Tabs.TabPane key={o.key} tab={o.tab} />)}
                     </Tabs>
                 )}
             >
@@ -50,7 +64,6 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
                         ? <DashboardPostsFetcher />
                         : <DashboardAgencyLevelsFetcher />
                 }
-
             </Card>
         );
     }

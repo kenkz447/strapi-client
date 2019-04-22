@@ -26,6 +26,7 @@ export class ChangePasswordFormControl extends FormikControlBase<
             <Formik<ChangePasswordFormValues>
                 initialValues={this.props.initialValues!}
                 onSubmit={this.onSubmit}
+                enableReinitialize={true}
             >
                 {ChangePassword}
             </Formik>

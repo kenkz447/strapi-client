@@ -42,7 +42,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
 
         return [{
             type: 'query',
-            parameter: 'name_containss',
+            parameter: 'fullName_containss',
             value: nameFilter || undefined!
         }, {
             type: 'query',
@@ -89,7 +89,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         const nextReflinkFilter = getUrlSearchParam('reflink') || undefined;
 
         const { params } = this.state;
-        const name = getParamsValue(params, 'query', 'name_containss');
+        const name = getParamsValue(params, 'query', 'fullName_containss');
         const email = getParamsValue(params, 'query', 'email_containss');
         const role = getParamsValue(params, 'query', 'role');
         const reflink = getParamsValue(params, 'query', 'reflink');
@@ -103,7 +103,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
             return;
         }
 
-        let nextParams = upsertRequestParams(params, 'query', 'name_containss', nextNameFilter);
+        let nextParams = upsertRequestParams(params, 'query', 'fullName_containss', nextNameFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'email_containss', nextEmailFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'role', nextRoleFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'reflink', nextReflinkFilter);
@@ -183,7 +183,7 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
             <Layout className="page-layout">
                 <Layout.Header>
                     <AccountFilter
-                        name={getParamsValue(params, 'query', 'name_containss')}
+                        name={getParamsValue(params, 'query', 'fullName_containss')}
                         onNameChange={this.onNameChange}
                         email={getParamsValue(params, 'query', 'email_containss')}
                         onEmailChange={this.onEmailChange}

@@ -1,3 +1,5 @@
+import { MenuItem } from 'qoobee';
+
 import {
     ACCOUNT_URL,
     AGENCIES_URL,
@@ -11,7 +13,7 @@ import {
     PRODUCT_PATH
 } from '@/configs';
 
-export const mainMenu = [{
+export const mainMenu: MenuItem[] = [{
     url: DASHBOARD_BASE_PATH,
     icon: 'home',
     label: 'Dashboard'

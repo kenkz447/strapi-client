@@ -4,8 +4,9 @@ import * as React from 'react';
 
 import { FormikControlBase, FormikControlBaseProps } from '@/components';
 import {
-    AgencyLevel,
     agencyLevelResources,
+    agencyResources,
+    agencyTypeResources,
     City,
     cityResources,
     request
@@ -19,6 +20,7 @@ interface AgencyFormControlProps extends FormikControlBaseProps<AgencyFormValues
 }
 
 interface AgencyFormControlState {
+    readonly agencyTypeOptions: OptionProps[];
     readonly agencyLevelOptions: OptionProps[];
     readonly agencyFormContext: {
         readonly cityOptions: OptionProps[];
@@ -33,6 +35,7 @@ export class AgencyFormControl extends FormikControlBase<
     constructor(props: AgencyFormControlProps) {
         super(props);
         this.state = {
+            agencyTypeOptions: [],
             agencyLevelOptions: [],
             agencyFormContext: {
                 cities: [],
@@ -44,12 +47,14 @@ export class AgencyFormControl extends FormikControlBase<
     }
 
     private readonly fetchResources = async () => {
-        const [cities, agencyLevels] = await Promise.all([
+        const [cities, agencyLevels, agencyTypes] = await Promise.all([
             request(cityResources.find),
-            request(agencyLevelResources.find)
+            request(agencyLevelResources.find),
+            request(agencyTypeResources.find)
         ]);
 
         this.setState({
+            agencyTypeOptions: this.listToOptions(agencyTypes),
             agencyLevelOptions: this.listToOptions(agencyLevels),
             agencyFormContext: {
                 cities,
@@ -60,7 +65,11 @@ export class AgencyFormControl extends FormikControlBase<
 
     public render() {
         const { initialValues } = this.props;
-        const { agencyFormContext, agencyLevelOptions } = this.state;
+        const {
+            agencyFormContext,
+            agencyLevelOptions,
+            agencyTypeOptions
+        } = this.state;
 
         return (
             <AgencyFormContext.Provider value={agencyFormContext}>
@@ -71,6 +80,7 @@ export class AgencyFormControl extends FormikControlBase<
                 >
                     {(formProps) => (
                         <AgencyForm
+                            agencyTypeOptions={agencyTypeOptions}
                             agencyLevelOptions={agencyLevelOptions}
                             {...formProps}
                         />

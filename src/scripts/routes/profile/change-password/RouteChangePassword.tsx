@@ -31,11 +31,17 @@ export class RouteChangePassword extends RoutePage<RouteChangePasswordProps> {
                                 type: 'success',
                                 content: 'Ok'
                             });
+                            this.forceUpdate();
                         }}
                     >
                         {({ doBusiness }) => (
                             <ChangePasswordFormControl
                                 submit={doBusiness}
+                                initialValues={{
+                                    confirmNewPassword: '',
+                                    newPassword: '',
+                                    oldPassword: ''
+                                }}
                             />
                         )}
                     </BusinessController>

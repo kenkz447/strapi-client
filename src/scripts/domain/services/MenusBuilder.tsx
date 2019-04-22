@@ -3,7 +3,7 @@ import * as React from 'react';
 import { withContext } from 'react-context-service';
 
 import { DomainContext, WithDomainContext } from '../base';
-import { mainMenu } from '../menus';
+import { mainMenu, profileMenu } from '../menus';
 import { roles } from '../roles-permission';
 
 type MenusBuilderProps =
@@ -16,7 +16,7 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
         const { setContext, currentUser } = this.props;
 
         const curentRole = currentUser.role;
-        
+
         if (!curentRole) {
             return;
         }
@@ -26,19 +26,10 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
             return;
         }
 
-        const fullPermisstion = userRole.allowed.find(o => o.key === 'ALL');
-        if (fullPermisstion) {
-            setContext({
-                menus: {
-                    MAIN: mainMenu
-                }
-            });
-            return;
-        }
-
         setContext({
             menus: {
-                MAIN: this.filterMenuByRole(mainMenu, userRole)
+                MAIN: this.filterMenuByRole(mainMenu, userRole),
+                PROFILE: this.filterMenuByRole(profileMenu, userRole),
             }
         });
     }
@@ -47,8 +38,26 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
         menuItems: MenuItem[],
         role: Role
     ): MenuItem[] => {
+        const fullPermisstion = role.allowed.find(o => o.key === 'ALL');
+
         return menuItems.filter(menuItem => {
-            return role.allowed.find(o => o.url ? o.url.test(menuItem.url) : false);
+            if (fullPermisstion) {
+                if (role.denied) {
+                    return !role.denied.find(
+                        o => o.url
+                            ? o.url.test(menuItem.url)
+                            : false
+                    );
+                }
+                
+                return true;
+            }
+
+            return role.allowed.find(
+                o => o.url
+                    ? o.url.test(menuItem.url)
+                    : false
+            );
         });
     }
 

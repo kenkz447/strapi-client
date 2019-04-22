@@ -25,7 +25,6 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
         const {
             values,
             errors,
-            setFieldValue,
             handleChange,
             isSubmitting,
             dirty
@@ -71,9 +70,6 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
                             autoFocus={true}
                             required={true}
                         />
-                    </div>
-                    <div>
-
                     </div>
                 </AccountFormWrapper>
                 <FormSubmit

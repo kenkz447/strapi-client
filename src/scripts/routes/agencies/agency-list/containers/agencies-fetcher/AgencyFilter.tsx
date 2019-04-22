@@ -26,6 +26,8 @@ export interface AgencyFilterProps {
     readonly onNameChange: (name: string | null) => void;
     readonly level: string | null;
     readonly onLevelChange: (level: string | null) => void;
+    readonly agencyType: string | null;
+    readonly onAgencyTypeChange: (level: string | null) => void;
 }
 
 export interface AgencyFilterState {
@@ -61,7 +63,13 @@ export class AgencyFilter extends React.PureComponent<
     }
 
     render() {
-        const { level, onLevelChange } = this.props;
+        const {
+            level,
+            onLevelChange,
+            agencyType,
+            onAgencyTypeChange
+        } = this.props;
+
         return (
             <TableFilterWrapper>
                 <Row gutter={24}>
@@ -87,6 +95,25 @@ export class AgencyFilter extends React.PureComponent<
                                         options={selectOptions}
                                         allowClear={true}
                                         onChange={onLevelChange as (value: SelectValue) => void}
+                                    />
+                                );
+                            }}
+                        </RouteAgenciesContext.Consumer>
+                    </Col>
+                    <Col span={6}>
+                        <RouteAgenciesContext.Consumer>
+                            {({ agencyTypes }) => {
+                                const selectOptions = agencyTypes.map(
+                                    o => ({ value: o.id, title: text(o.name) }));
+
+                                return (
+                                    <FormSelect
+                                        value={agencyType || undefined}
+                                        label={text('Type')}
+                                        placeholder={text('select type')}
+                                        options={selectOptions}
+                                        allowClear={true}
+                                        onChange={onAgencyTypeChange as (value: SelectValue) => void}
                                     />
                                 );
                             }}

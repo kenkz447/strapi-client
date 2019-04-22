@@ -5,6 +5,7 @@ import * as React from 'react';
 import { FormSelect, verticalLayout } from '@/components';
 import { text } from '@/i18n';
 import { City, County, Order } from '@/restful';
+import { sortSelectOption } from '@/utilities';
 
 import { AgencyFormValues } from '../AgencyForm';
 import {
@@ -60,7 +61,9 @@ export class AgencyCityAndCounty<P = {}> extends React.PureComponent<
             return [];
         }
 
-        return cityEntity.counties.map(o => ({ value: o.id, title: o.name }));
+        return cityEntity
+            .counties.map(o => ({ value: o.id, title: o.name }))
+            .sort(sortSelectOption);
     }
 
     private readonly setCountyOptions = () => {

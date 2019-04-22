@@ -48,29 +48,29 @@ export class ProfileLayout extends React.PureComponent<ProfileLayoutProps> {
     }
 
     public render() {
+        const { menus } = this.context;
+
+        const profileMenu = menus!.PROFILE;
 
         return (
             <ProfileLayoutWrapper>
+
                 <Menu
                     mode="inline"
                     onClick={this.onMenuClick}
                     selectedKeys={[location.pathname]}
                 >
-                    <Menu.Item key={PROFILE_ACCOUNT_URL}>
-                        {text('Account settings')}
-                    </Menu.Item>
-                    <Menu.Item key={PROFILE_AGENCY_URL}>
-                        {text('Agency settings')}
-                    </Menu.Item>
-                    <Menu.Item key={PROFILE_ADDRESS_BOOK_URL}>
-                        {text('Address book')}
-                    </Menu.Item>
-                    <Menu.Item key={PROFILE_PROMO_CODE_URL}>
-                        {text('Promotion and gifts')}
-                    </Menu.Item>
-                    <Menu.Item key={PROFILE_PASSWORD_URL}>
-                        {text('Change password')}
-                    </Menu.Item>
+                    {
+                        profileMenu.map(o => {
+                            return (
+                                <Menu.Item
+                                    key={o.url}
+                                >
+                                    {text(o.label)}
+                                </Menu.Item>
+                            );
+                        })
+                    }
                 </Menu>
                 <div className="profile-layout-content">
                     {this.props.children}

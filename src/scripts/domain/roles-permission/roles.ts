@@ -14,7 +14,10 @@ const admin: Role = {
         permissions.FUNC_ORDER_TRANSACTION_CREATE,
         permissions.FUNC_ORDER_COMPLAIN,
         permissions.FUNC_ORDER_CANCEL,
-        permissions.FUNC_ADD_TO_CART
+        permissions.FUNC_ADD_TO_CART,
+        permissions.PROFILE_AGENCY,
+        permissions.PROFILE_PROMO_CODE,
+        permissions.PROFILE_ADDRESS_BOOK
     ]
 };
 
@@ -28,12 +31,20 @@ const authenticated: Role = {
         permissions.ORDER_LIST,
         permissions.NOTIFICATION,
         permissions.CATALOG,
+        
+        permissions.PROFILE_ACCOUNT,
+        permissions.PROFILE_ADDRESS_BOOK,
+        permissions.PROFILE_AGENCY,
+        permissions.PROFILE_PASSWORD,
+        permissions.PROFILE_PROMO_CODE,
         permissions.ISSUE_TITKET_LIST,
+        
         permissions.FUNC_ORDER_TRANSACTION_CREATE,
         permissions.FUNC_ORDER_COMPLAIN,
         permissions.FUNC_ORDER_CANCEL,
         permissions.FUNC_ADD_TO_CART,
-        permissions.FUNC_CUSTOMIZE_CATALOG
+        permissions.FUNC_CUSTOMIZE_CATALOG,
+        permissions.FUNC_AGENCY_POLICIES_OVERVIEW
     ]
 };
 
@@ -43,7 +54,14 @@ const registered: Role = {
     allowed: [
         permissions.DASHBOARD,
         permissions.NOTIFICATION,
-        permissions.CATALOG
+        permissions.CATALOG,
+        permissions.PROFILE_ACCOUNT,
+        permissions.PROFILE_PASSWORD
+    ],
+    denied: [
+        permissions.PROFILE_AGENCY,
+        permissions.PROFILE_PROMO_CODE,
+        permissions.PROFILE_ADDRESS_BOOK
     ]
 };
 
