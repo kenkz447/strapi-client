@@ -1,4 +1,3 @@
-import { string } from 'prop-types';
 import { Record, Resource, ResourceType } from 'react-restful';
 import * as yup from 'yup';
 
@@ -46,6 +45,7 @@ export const userSchema = yup.object().shape<User>({
     role: roleSchema.nullable(true).default(null),
     username: yup.string().required(),
     phone: yup.string().required(),
+
     registration_businessAreas: yup.string().nullable(true),
     registration_companyAddress: yup.string().nullable(true),
     registration_companyName: yup.string().nullable(true),

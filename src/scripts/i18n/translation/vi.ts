@@ -180,5 +180,6 @@ export const vi = {
     'Material': 'Vật liệu',
     'Size': 'Kích thước',
     'Packaging': 'Bao bì',
-    'New': 'Mới'
+    'New': 'Mới',
+    'New items added to your cart': 'Sản phẩm mới được thêm vào giỏ hàng'
 };

@@ -355,7 +355,7 @@ class ProductFetcherComponent extends React.PureComponent<
                                     ? (
                                         <ProductPrice
                                             totalPrice={loadedProduct!.totalPrice}
-                                            actionTitle={text('Done')}
+                                            actionTitle={text('Bấm vào đây để xác nhận')}
                                             button={
                                                 <Button
                                                     onClick={this.onComponentChanged}

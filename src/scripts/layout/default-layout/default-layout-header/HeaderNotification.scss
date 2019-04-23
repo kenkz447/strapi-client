@@ -5,5 +5,8 @@
         &:hover {
             background: #e6f7ff;
         }
+        &.viewed {
+            opacity: .5;
+        }
     }
 }

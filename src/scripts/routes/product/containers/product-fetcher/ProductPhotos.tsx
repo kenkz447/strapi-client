@@ -22,6 +22,10 @@ const ProductPhotosWrapper = styled.div`
     .ReactGridGallery_tile-viewport {
         border-radius: 6px;
         overflow: hidden;
+        border: 1px solid lightgray;
+    }
+    .ReactGridGallery_tile {
+        background: transparent!important;
     }
 `;
 

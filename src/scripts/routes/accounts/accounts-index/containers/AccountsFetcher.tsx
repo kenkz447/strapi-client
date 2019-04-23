@@ -42,11 +42,11 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
 
         return [{
             type: 'query',
-            parameter: 'fullName_containss',
+            parameter: 'fullName_contains',
             value: nameFilter || undefined!
         }, {
             type: 'query',
-            parameter: 'email_containss',
+            parameter: 'email_contains',
             value: emailFilter || undefined!
         }, {
             type: 'query',
@@ -89,8 +89,8 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
         const nextReflinkFilter = getUrlSearchParam('reflink') || undefined;
 
         const { params } = this.state;
-        const name = getParamsValue(params, 'query', 'fullName_containss');
-        const email = getParamsValue(params, 'query', 'email_containss');
+        const name = getParamsValue(params, 'query', 'fullName_contains');
+        const email = getParamsValue(params, 'query', 'email_contains');
         const role = getParamsValue(params, 'query', 'role');
         const reflink = getParamsValue(params, 'query', 'reflink');
 
@@ -103,8 +103,8 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
             return;
         }
 
-        let nextParams = upsertRequestParams(params, 'query', 'fullName_containss', nextNameFilter);
-        nextParams = upsertRequestParams(nextParams, 'query', 'email_containss', nextEmailFilter);
+        let nextParams = upsertRequestParams(params, 'query', 'fullName_contains', nextNameFilter);
+        nextParams = upsertRequestParams(nextParams, 'query', 'email_contains', nextEmailFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'role', nextRoleFilter);
         nextParams = upsertRequestParams(nextParams, 'query', 'reflink', nextReflinkFilter);
 
@@ -183,9 +183,9 @@ export class AccountsFetcher extends React.PureComponent<AgenciesFetcherProps, A
             <Layout className="page-layout">
                 <Layout.Header>
                     <AccountFilter
-                        name={getParamsValue(params, 'query', 'fullName_containss')}
+                        name={getParamsValue(params, 'query', 'fullName_contains')}
                         onNameChange={this.onNameChange}
-                        email={getParamsValue(params, 'query', 'email_containss')}
+                        email={getParamsValue(params, 'query', 'email_contains')}
                         onEmailChange={this.onEmailChange}
                         role={getParamsValue(params, 'query', 'role')}
                         onRoleChange={this.onRoleChange}

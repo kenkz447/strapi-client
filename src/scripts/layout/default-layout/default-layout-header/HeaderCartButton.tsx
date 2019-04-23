@@ -44,7 +44,7 @@ class HeaderCartButtonComponent extends React.PureComponent<HeaderCartButtonProp
     public componentDidUpdate(prevProps: HeaderCartButtonProps) {
         if (this.props.orderDetails.length > prevProps.orderDetails.length) {
             this.setState({
-                message: text('New items added to your cart..')
+                message: text('New items added to your cart') + '...'
             });
 
             setTimeout(
