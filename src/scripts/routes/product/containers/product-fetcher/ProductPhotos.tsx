@@ -12,12 +12,15 @@ import {
 } from '@/restful';
 
 const ProductPhotosWrapper = styled.div`
-    width: 100%;
+width: 100%;
     margin-bottom: 12px;
     text-align: center;
     height: 54px;
     #ReactGridGallery {
-        opacity: 0;
+        opacity: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .ReactGridGallery_tile-viewport {
         border-radius: 6px;
@@ -105,22 +108,12 @@ export class ProductPhotos extends React.PureComponent<
         }));
     }
 
-    public componentDidUpdate() {
-        if (!this.state.images.length) {
+    public componentDidUpdate(prevProps: ProductPhotosProps) {
+        if (prevProps.product.modulesCode === this.props.product.modulesCode) {
             return;
         }
 
-        setTimeout(
-            () => {
-                const ReactGridGallery = document.getElementById('ReactGridGallery');
-
-                if (ReactGridGallery) {
-                    ReactGridGallery.style.display = 'inline-block';
-                    ReactGridGallery.style.opacity = '1';
-                }
-            },
-            100
-        );
+        this.fetchResources();
     }
 
     public render() {

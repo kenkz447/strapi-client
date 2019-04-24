@@ -345,11 +345,12 @@ class ProductFetcherComponent extends React.PureComponent<
                                 productModules={loadedProduct!.modules}
                                 productType={loadedProduct!.productType}
                             />
-                            <ProductPhotos
-                                key={modulesCode!}
-                                product={loadedProduct!}
-                                visibled={!selectedFurnitureComponent}
-                            />
+                            {
+                                <ProductPhotos
+                                    product={loadedProduct!}
+                                    visibled={true}
+                                />
+                            }
                             {
                                 selectedFurnitureComponent
                                     ? (
