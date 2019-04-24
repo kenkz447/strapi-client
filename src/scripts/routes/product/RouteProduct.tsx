@@ -1,12 +1,7 @@
 import { events, RouteInfo } from 'qoobee';
 import * as React from 'react';
 
-import {
-    PageContent,
-    PageContentScroll,
-    PageWrapper,
-    SlideUp
-} from '@/components';
+import { PageContentScroll, PageWrapper } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';

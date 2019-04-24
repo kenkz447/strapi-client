@@ -2,11 +2,13 @@ import { PageHeader } from 'ant-design-pro';
 import { Col, Row } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
+import { RestfulDataContainer } from 'react-restful';
 
 import { PageContent, PageWrapper } from '@/components';
 import { CART_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
 import { text } from '@/i18n';
+import { orderDetailResourceType } from '@/restful';
 
 import { OrderDetailsPageHeader, OrderOverview } from './containers';
 import { OrderDetailsFetcher } from './containers/OrderDetailsFetcher';
@@ -34,7 +36,12 @@ export class RouteCart extends RoutePage<RouteCartProps> {
                             <OrderDetailsFetcher cartOrderDetails={cartOrderDetails} />
                         </Col>
                         <Col span={5}>
-                            <OrderOverview cartOrderDetails={cartOrderDetails} />
+                            <RestfulDataContainer
+                                resourceType={orderDetailResourceType}
+                                initDataSource={cartOrderDetails}
+                            >
+                                {(syncData) => <OrderOverview cartOrderDetails={syncData} />}
+                            </RestfulDataContainer>
                         </Col>
                     </Row>
                 </PageContent>

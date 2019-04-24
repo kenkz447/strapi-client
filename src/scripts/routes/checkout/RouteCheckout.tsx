@@ -8,7 +8,7 @@ import { upsertOrder } from '@/business/order';
 import { PageContent, PageWrapper } from '@/components';
 import { CART_URL, CHECKOUT_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
-import { CheckoutFormControl } from '@/forms/checkout/CheckoutFormControl';
+import { CheckoutFormControl } from '@/forms/checkout';
 import { text } from '@/i18n';
 import { Order } from '@/restful';
 

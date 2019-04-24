@@ -3,15 +3,13 @@ import * as React from 'react';
 
 import { text } from '@/i18n';
 
-import { ContactGoogleMap } from './catalog-contact';
-
 interface CatalogContactProps {
 }
 
 export class CatalogContact extends React.PureComponent<CatalogContactProps> {
     public render() {
         return (
-            <Card className="mh-100" bordered={false}>
+            <Card className="mh-100" bordered={false} style={{ overflow: 'overlay' }}>
                 <Typography.Paragraph strong={true}>
                     {text('Thời gian làm việc')}
                 </Typography.Paragraph>
@@ -29,9 +27,6 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                     25/6a Nhị Bình 02, xã Nhị Bình huyện Hóc Môn, tp Hồ Chí Minh.
                     Vui lòng gọi để đặt lịch hẹn trước khi đến : 0933550609
                 </Typography.Paragraph>
-                <div>
-                    <ContactGoogleMap />
-                </div>
                 <Divider />
                 <Typography.Paragraph strong={true}>
                     {text('Thông tin liên hệ')}

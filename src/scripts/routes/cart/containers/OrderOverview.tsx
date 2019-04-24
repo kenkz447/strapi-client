@@ -1,34 +1,57 @@
 import { DescriptionList } from 'ant-design-pro';
-import { Card, Typography } from 'antd';
+import { Typography } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
+import styled from 'styled-components';
 
-import { getOrderShippingDate, getOrderTransportFee } from '@/business/order';
+import { getOrderDiscount, getOrderShippingDate } from '@/business/order';
 import {
-    getOrderDetailsDiscount,
+    getOrderDetailsMaterialNorms,
     getOrderDetailsQuantity,
     getOrderDetailsSubTotal
 } from '@/business/order-detail';
-import {
-    getOrderDetailsMaterialNorms
-} from '@/business/order-detail/getters/getOrderDetailsMaterialNorms';
 import { DATE_FORMAT } from '@/configs';
+import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { OrderDetail } from '@/restful';
 import { formatCurrency, formatDate } from '@/utilities';
+
+const OrderOverviewWrapper = styled.div`
+    .antd-pro-description-list {
+        &-term {
+            display: inline-block!important;
+            width: 50%;
+        }
+        &-detail {
+            display: inline-block!important;
+            width: 40%!important;
+        }
+    }
+`;
 
 interface OrderOverviewProps {
     readonly cartOrderDetails: OrderDetail[];
 }
 
 export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
+
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
+
     public render() {
+        const { currentAgency } = this.context;
         const { cartOrderDetails } = this.props;
+
         const total = getOrderDetailsSubTotal(cartOrderDetails);
-        const discount = getOrderDetailsDiscount(cartOrderDetails);
+        const discount = getOrderDiscount({
+            orderDetails: cartOrderDetails,
+            agencyOrderer: currentAgency
+        });
+
         const orderDetailsMaterialNorms = getOrderDetailsMaterialNorms(cartOrderDetails);
 
         return (
-            <React.Fragment>
+            <OrderOverviewWrapper>
                 <DescriptionList title="Tổng quan đơn hàng" size="large" col={1}>
                     <DescriptionList.Description term={text('Estimated delivery time')}>
                         {formatDate(getOrderShippingDate(), DATE_FORMAT)}
@@ -39,12 +62,15 @@ export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
                     <DescriptionList.Description term={text('Total amount')}>
                         {formatCurrency(total)}
                     </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Discount')}>
-                        -{formatCurrency(discount)}
+                    <DescriptionList.Description term={text('Product discount')}>
+                        -{formatCurrency(discount.products)}
+                    </DescriptionList.Description>
+                    <DescriptionList.Description term={text('Agency policy')}>
+                        -{formatCurrency(discount.agency.discount)}
                     </DescriptionList.Description>
                     <DescriptionList.Description term={text('Sub total')}>
                         <Typography.Text strong={true}>
-                            {formatCurrency(total - discount)}
+                            {formatCurrency(total - discount.total)}
                         </Typography.Text>
                     </DescriptionList.Description>
                 </DescriptionList>
@@ -61,7 +87,7 @@ export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
                                                     key={o._materialId}
                                                     term={o._materialName}
                                                 >
-                                                   {o._totalNorms}m
+                                                    {o._totalNorms}m
                                                 </DescriptionList.Description>
                                             );
                                         })
@@ -71,7 +97,7 @@ export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
                         )
                         : null
                 }
-            </React.Fragment>
+            </OrderOverviewWrapper>
         );
     }
 }

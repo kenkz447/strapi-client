@@ -372,7 +372,6 @@ class ProductFetcherComponent extends React.PureComponent<
                                             modulesCode={modulesCode!}
                                         />
                                     )
-
                             }
                         </div>
                     </Layout.Content>
