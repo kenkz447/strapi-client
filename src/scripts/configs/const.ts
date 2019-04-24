@@ -10,3 +10,5 @@ export const DEFAULT_APP_LANG = 'vi';
 // tslint:disable-next-line:max-line-length
 export const LOGO = '/static/assets/logo.png';
 export const LOGO_TEXT = '/static/assets/logo-text.png';
+
+export const GMAP_KEY = 'AIzaSyB-6RNhjt54-bz00f-fBxoABAt2APTFP6U';
