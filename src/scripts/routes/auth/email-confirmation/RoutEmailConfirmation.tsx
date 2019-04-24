@@ -57,7 +57,7 @@ export class RoutEmailConfirmation extends RoutePage<RoutEmailConfirmationProps>
                                     type="primary"
                                     className="w-100 text-center"
                                     onClick={() => {
-                                        const tempJWT = sessionStorage.getItem('tempJWT');
+                                        const tempJWT = localStorage.getItem('tempJWT');
                                         if (!tempJWT) {
                                            return void history.push(LOGIN_URL);
                                         }

@@ -1,4 +1,4 @@
-export const TOKEN_KEY = 'strapi-client';
+export const TOKEN_KEY = '4160749412';
 
 export const DATE_FORMAT = 'DD/MM/YYYY';
 export const DATETIME_FORMAT = 'HH:mm DD/MM/YYYY';

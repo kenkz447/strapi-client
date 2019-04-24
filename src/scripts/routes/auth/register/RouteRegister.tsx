@@ -127,7 +127,7 @@ export class RouteRegister extends RoutePage<
                                         <BusinessController
                                             action={registerUser}
                                             onSuccess={({ jwt }: AuthLoginResponseBody) => {
-                                                sessionStorage.setItem('tempJWT', jwt);
+                                                localStorage.setItem('tempJWT', jwt);
                                                 this.setState({
                                                     registered: true
                                                 });
