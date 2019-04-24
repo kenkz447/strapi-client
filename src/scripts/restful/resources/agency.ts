@@ -1,4 +1,5 @@
 import { Record, Resource, ResourceType } from 'react-restful';
+import * as yup from 'yup';
 
 import { getDefaultParamsForUpdate } from '../base';
 import { AgencyLevel } from './agencyLevel';
@@ -18,10 +19,20 @@ export interface Agency extends Record {
     readonly linkedUser: User;
     readonly city: City;
     readonly county: County;
-    readonly createdAt: string;
-    readonly businessLicense: BusinessLicense;
+    readonly createdAt?: string;
     readonly agencyType?: AgencyType;
 }
+
+const agencySchema = yup.object().shape<Agency>({
+    address: yup.string().required(),
+    city: yup.object().required() as any,
+    county: yup.object().required() as any,
+    email: yup.string().email().required(),
+    level: yup.object().required() as any,
+    linkedUser: yup.object().required() as any,
+    name: yup.string().required(),
+    phone: yup.string().required()
+});
 
 export const agencyResourceType = new ResourceType<Agency>(nameof<Agency>());
 
@@ -41,7 +52,8 @@ export const agencyResources = {
     create: new Resource<Agency>({
         resourceType: agencyResourceType,
         url: '/agency',
-        method: 'POST'
+        method: 'POST',
+        bodySchema: agencySchema
     }),
     update: new Resource<Agency>({
         resourceType: agencyResourceType,

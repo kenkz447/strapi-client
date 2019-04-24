@@ -11,7 +11,7 @@ export type RegisterFormValues = Partial<User>;
 export interface RegisterFormOwnProps extends FormikProps<RegisterFormValues> {
 
 }
-
+//[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]
 export function RegisterForm(props: RegisterFormOwnProps) {
     const {
         values,
@@ -36,6 +36,9 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 required={true}
                 size="large"
                 prefix={<Icon type="font-colors" />}
+                // tslint:disable-next-line:max-line-length
+                pattern="^[A-Za-zÀ-ž\s]+$"
+                title="Tên bao gồm chỉ chỉ bao gồm chữ cái"
             />
             <Row gutter={12}>
                 <Col span={12}>

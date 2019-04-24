@@ -39,6 +39,29 @@ export function AgencyForm(props: AgencyFormOwnProps) {
                 autoFocus={true}
                 required={true}
             />
+            <FormInput
+                name={nameof.full<AgencyFormValues>(o => o.email)}
+                onChange={handleChange}
+                value={values.email}
+                validateStatus={errors.email ? 'error' : undefined}
+                wrapperCol={verticalLayout.wrapperCol}
+                labelCol={verticalLayout.labelCol}
+                label={text('Email')}
+                placeholder={text('input email')}
+                required={true}
+                type="email"
+            />
+            <FormInput
+                name={nameof.full<AgencyFormValues>(o => o.phone)}
+                onChange={handleChange}
+                value={values.phone}
+                validateStatus={errors.phone ? 'error' : undefined}
+                wrapperCol={verticalLayout.wrapperCol}
+                labelCol={verticalLayout.labelCol}
+                label={text('Phone')}
+                placeholder={text('input phone')}
+                required={true}
+            />
             <AgencyCityAndCounty<AgencyFormValues>
                 cityFieldName={nameof.full<AgencyFormValues>(o => o.city!.id)}
                 cityError={errors.city}
@@ -66,8 +89,8 @@ export function AgencyForm(props: AgencyFormOwnProps) {
                 options={agencyLevelOptions}
                 wrapperCol={verticalLayout.wrapperCol}
                 labelCol={verticalLayout.labelCol}
-                help={errors.level ? errors.level['id'] : undefined}
-                validateStatus={errors.level ? errors.level['id'] : undefined}
+                help={errors.level ? errors.level || errors.level : undefined}
+                validateStatus={errors.level ? 'error' : undefined}
                 label={text('Level')}
                 placeholder={text('Select level')}
                 required={true}
@@ -82,11 +105,8 @@ export function AgencyForm(props: AgencyFormOwnProps) {
                 options={agencyTypeOptions}
                 wrapperCol={verticalLayout.wrapperCol}
                 labelCol={verticalLayout.labelCol}
-                help={errors.agencyType ? errors.agencyType['id'] : undefined}
-                validateStatus={errors.agencyType ? errors.agencyType['id'] : undefined}
                 label={text('Type')}
                 placeholder={text('Select type')}
-                required={true}
             />
         </FormBody>
     );

@@ -96,7 +96,10 @@ export class AccountExpandedRow extends React.PureComponent<
                             <AgencyFormButton
                                 initialValues={{
                                     linkedUser: user,
-                                    businessLicense: license
+                                    email: user.email,
+                                    address: user.registration_companyAddress,
+                                    name: user.registration_companyName,
+                                    phone: user.phone
                                 }}
                                 label={text('Confirm')}
                                 type="primary"
