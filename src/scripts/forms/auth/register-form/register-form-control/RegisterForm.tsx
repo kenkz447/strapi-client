@@ -3,6 +3,7 @@ import { FormikProps } from 'formik';
 import * as React from 'react';
 
 import { FormBody, FormInput, FormSubmit } from '@/components';
+import { VN_NAME_PATTERN } from '@/configs';
 import { text } from '@/i18n';
 import { User } from '@/restful';
 
@@ -11,7 +12,7 @@ export type RegisterFormValues = Partial<User>;
 export interface RegisterFormOwnProps extends FormikProps<RegisterFormValues> {
 
 }
-//[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]
+
 export function RegisterForm(props: RegisterFormOwnProps) {
     const {
         values,
@@ -37,8 +38,8 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 size="large"
                 prefix={<Icon type="font-colors" />}
                 // tslint:disable-next-line:max-line-length
-                pattern="^[A-Za-zÀ-ž\s]+$"
-                title="Tên bao gồm chỉ chỉ bao gồm chữ cái"
+                pattern={VN_NAME_PATTERN}
+                title="Tên chỉ bao gồm chữ cái"
             />
             <Row gutter={12}>
                 <Col span={12}>

@@ -24,6 +24,9 @@ export const profileResources = {
             registration_businessAreas: yup.string().required(),
             registration_companyAddress: yup.string().required(),
             registration_companyName: yup.string().required()
+        }),
+        getDefaultMeta: () => ({
+            message: 'Cập nhật thành công'
         })
     }),
     changePassword: new Resource({

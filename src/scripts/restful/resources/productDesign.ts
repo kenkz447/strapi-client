@@ -7,7 +7,6 @@ import { UploadedFile } from './uploadedFile';
 export interface ProductDesign extends Record {
     readonly id: string;
     readonly name: string;
-    readonly displayName: string;
     readonly thumbnail: UploadedFile;
     readonly productType: ProductType | string;
     readonly designGroup: ProductDesignGroup;

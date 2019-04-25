@@ -1,12 +1,11 @@
 import './DashboardContent.scss';
 
 import { Card, Tabs } from 'antd';
-import { AccessControl, RootContext } from 'qoobee';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 
 import { DASHBOARD_BASE_PATH } from '@/configs';
 import { DomainContext } from '@/domain';
-import { functionAllowed } from '@/domain/policies';
 
 import {
     DashboardAgencyLevelsFetcher,
@@ -27,22 +26,20 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
         history.replace(`${DASHBOARD_BASE_PATH}/${tabKey}`);
     }
 
-    public render() {
+    private readonly renderCardContent = () => {
         const { activeTab } = this.props;
 
-        const tabs = [{
-            tab: 'Tin tức & Khuyến mãi',
-            key: 'posts'
-        }];
-
-        const isAcencyPoliciesOverviewAllowed = functionAllowed(this.context, 'FUNC_AGENCY_POLICIES_OVERVIEW');
-
-        if (isAcencyPoliciesOverviewAllowed) {
-            tabs.push({
-                tab: 'Chính sách đại lý',
-                key: 'agency-policies'
-            });
+        if (activeTab === 'posts') {
+            return (<DashboardPostsFetcher />);
         }
+
+        return (
+            <DashboardAgencyLevelsFetcher/>
+        );
+    }
+
+    public render() {
+        const { activeTab } = this.props;
 
         return (
             <Card
@@ -55,15 +52,12 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
                         defaultActiveKey="posts"
                         onTabClick={this.onTabClick}
                     >
-                        {tabs.map(o => <Tabs.TabPane key={o.key} tab={o.tab} />)}
+                        <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="posts" />
+                        <Tabs.TabPane tab="Chính sách đại lý" key="agency-policies" />
                     </Tabs>
                 )}
             >
-                {
-                    activeTab === 'posts'
-                        ? <DashboardPostsFetcher />
-                        : <DashboardAgencyLevelsFetcher />
-                }
+                {this.renderCardContent()}
             </Card>
         );
     }

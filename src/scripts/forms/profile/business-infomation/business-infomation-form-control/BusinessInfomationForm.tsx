@@ -9,6 +9,8 @@ import { Account } from '@/restful';
 
 const BusinessInfomationFormWrapper = styled.div`
     display: flex;
+    flex-direction: column;
+    text-align: justify;
     > div {
         flex-grow: 1;
         max-width: 400px;
@@ -19,6 +21,7 @@ export type BusinessInfomationFormValues = Partial<Account>;
 
 export interface BusinessInfomationFormProps extends FormikProps<BusinessInfomationFormValues> {
     readonly readOnly?: boolean;
+    readonly hideSubmitBtn?: boolean;
 }
 
 export class BusinessInfomationForm extends React.PureComponent<BusinessInfomationFormProps> {
@@ -29,12 +32,17 @@ export class BusinessInfomationForm extends React.PureComponent<BusinessInfomati
             handleChange,
             isSubmitting,
             dirty,
-            readOnly
+            readOnly,
+            hideSubmitBtn
         } = this.props;
 
         return (
             <FormBody formProps={this.props}>
                 <BusinessInfomationFormWrapper>
+                    <Typography.Paragraph>
+                        {/* tslint:disable-next-line:max-line-length */}
+                        Sử dụng dịch vụ thiết kế tùy biến sản phẩm furniture chỉ dành riêng cho đối tác thương mại của Mfunirure.vn. Vui lòng nhập thông tin bên dưới:
+                    </Typography.Paragraph>
                     <div>
                         <FormInput
                             name={nameof.full<BusinessInfomationFormValues>(o => o.registration_businessAreas)}
@@ -72,12 +80,16 @@ export class BusinessInfomationForm extends React.PureComponent<BusinessInfomati
                         />
                     </div>
                 </BusinessInfomationFormWrapper>
-                <FormSubmit
-                    formProps={this.props}
-                    disabled={isSubmitting || !dirty}
-                >
-                    {text('Update')}
-                </FormSubmit>
+                {
+                    !hideSubmitBtn && (
+                        <FormSubmit
+                            formProps={this.props}
+                            disabled={isSubmitting || !dirty}
+                        >
+                            {text('Update')}
+                        </FormSubmit>
+                    )
+                }
             </FormBody>
         );
     }

@@ -182,5 +182,6 @@ export const vi = {
     'Packaging': 'Bao bì',
     'New': 'Mới',
     'New items added to your cart': 'Sản phẩm mới được thêm vào giỏ hàng',
-    'Agency policy':  'Chính sách đại lý'
+    'WaitingForVerify': 'Thông tin của bạn đã được gởi đi, vui lòng chờ chúng tôi xác minh dữ liệu mà quí khách đã cung cấp!',
+    'Discount by quantity': 'Giảm giá theo số lượng mua'
 };

@@ -10,6 +10,7 @@ import {
 
 interface BusinessInfomationFormControlProps extends FormikControlBaseProps<BusinessInfomationFormValues> {
     readonly readOnly?: boolean;
+    readonly hideSubmitBtn?: boolean;
 }
 
 interface BusinessInfomationFormControlState {
@@ -21,7 +22,7 @@ export class BusinessInfomationFormControl extends FormikControlBase<
     BusinessInfomationFormControlState> {
 
     public render() {
-        const { initialValues, readOnly } = this.props;
+        const { initialValues, readOnly, hideSubmitBtn } = this.props;
 
         return (
             <Formik
@@ -34,6 +35,7 @@ export class BusinessInfomationFormControl extends FormikControlBase<
                     <BusinessInfomationForm
                         {...formProps}
                         readOnly={readOnly}
+                        hideSubmitBtn={hideSubmitBtn}
                     />
                 )}
             </Formik>

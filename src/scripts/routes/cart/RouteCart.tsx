@@ -32,10 +32,10 @@ export class RouteCart extends RoutePage<RouteCartProps> {
                 <OrderDetailsPageHeader cartOrderDetails={cartOrderDetails} />
                 <PageContent>
                     <Row gutter={24}>
-                        <Col span={18}>
+                        <Col span={17}>
                             <OrderDetailsFetcher cartOrderDetails={cartOrderDetails} />
                         </Col>
-                        <Col span={5}>
+                        <Col span={7}>
                             <RestfulDataContainer
                                 resourceType={orderDetailResourceType}
                                 initDataSource={cartOrderDetails}

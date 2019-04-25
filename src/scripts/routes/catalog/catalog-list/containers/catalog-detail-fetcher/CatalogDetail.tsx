@@ -1,20 +1,23 @@
-import { Carousel, Col, Row, Typography } from 'antd';
+import { Carousel, Col, Modal, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
-import { AccessControl } from 'qoobee';
+import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
+import { WithContextProps } from 'react-context-service';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { getProductDetails, getProductUrl } from '@/business/product';
+import { fetchProductModules } from '@/business/product-modules';
 import {
-    fetchProductModules
-} from '@/business/product-modules/getters/fetchProductModules';
-import {
-    getProductDetails
-} from '@/business/product/getters/getProductDetails';
-import { getProductUrl } from '@/business/product/getters/getProductUrl';
+    isUserNeedsUpdateBusinessInfo,
+    isUserWaitingForVerify
+} from '@/business/user';
 import { Img } from '@/components';
-import { policies } from '@/domain';
+import { DomainContext, policies } from '@/domain';
+import {
+    BusinessInfomationFormButton
+} from '@/forms/profile/business-infomation';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
 import { formatCurrency } from '@/utilities';
@@ -112,6 +115,9 @@ interface CatalogDetailState {
 }
 
 export class CatalogDetail extends React.PureComponent<CatalogDetailProps, CatalogDetailState> {
+    public static readonly contextType = RootContext;
+    public readonly context!: WithContextProps<DomainContext>;
+
     constructor(props: CatalogDetailProps) {
         super(props);
         this.state = {
@@ -174,14 +180,27 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
         );
     }
 
+    private readonly showWaitingForVerifyModal = () => {
+        Modal.info({
+            title: 'Tùy biến sản phẩm',
+            content: (
+                <div>
+                    <p>{text('WaitingForVerify')}</p>
+                </div>
+            ),
+            onOk() {/** */ },
+        });
+    }
+
     public render() {
+        const { currentUser } = this.context;
         const { catalog } = this.props;
         const { product } = this.state;
 
         return (
             <CatalogDetailWrapper>
                 <Typography.Paragraph strong={true}>
-                    {catalog.productTypeGroup.name} - {catalog.design.displayName || catalog.design.name}
+                    {catalog.productTypeGroup.name} - {catalog.design.title || catalog.design.name}
                 </Typography.Paragraph>
                 <div className="white-space" />
                 <Row gutter={48}>
@@ -212,7 +231,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                             )
                         }
                         <div className="catalog-design">
-                            {catalog.design.displayName || catalog.design.name}
+                            {catalog.design.title || catalog.design.name}
                         </div>
                         <div className="catalog-name">
                             {catalog.name}
@@ -232,11 +251,41 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                             <AccessControl
                                 policy={policies.functionAllowed}
                                 funcKey="FUNC_CUSTOMIZE_CATALOG"
-                                renderDeny={() => (
-                                    <a className="catalog-customize-link disabled">
-                                        Tùy biến sản phẩm
-                                    </a>
-                                )}
+                                renderDeny={() => {
+                                    const needsUpdateBusinessInfo = isUserNeedsUpdateBusinessInfo(currentUser);
+                                    const waitingForVerify = isUserWaitingForVerify(currentUser);
+
+                                    if (needsUpdateBusinessInfo) {
+                                        return (
+                                            <BusinessInfomationFormButton
+                                                className="catalog-customize-link"
+                                                formTitle="Tùy biến sản phẩm"
+                                                initialValues={currentUser}
+                                                onSuccess={(updatedUser) => {
+                                                    this.showWaitingForVerifyModal();
+                                                    this.context.setContext({
+                                                        currentUser: updatedUser
+                                                    });
+                                                }}
+                                            >
+                                                Tùy biến sản phẩm
+                                            </BusinessInfomationFormButton>
+                                        );
+                                    }
+
+                                    if (waitingForVerify) {
+                                        return (
+                                            <a
+                                                className="catalog-customize-link"
+                                                onClick={this.showWaitingForVerifyModal}
+                                            >
+                                                Tùy biến sản phẩm
+                                            </a>
+                                        );
+                                    }
+                                    
+                                    return null;
+                                }}
                             >
                                 {() => {
                                     const productUrl = product && getProductUrl(product);

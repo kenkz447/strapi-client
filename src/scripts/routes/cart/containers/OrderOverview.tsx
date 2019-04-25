@@ -20,11 +20,12 @@ const OrderOverviewWrapper = styled.div`
     .antd-pro-description-list {
         &-term {
             display: inline-block!important;
-            width: 50%;
+            width: 65%;
+            margin-right: 0!important;
         }
         &-detail {
             display: inline-block!important;
-            width: 40%!important;
+            width: 35%!important;
         }
     }
 `;
@@ -62,11 +63,11 @@ export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
                     <DescriptionList.Description term={text('Total amount')}>
                         {formatCurrency(total)}
                     </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Product discount')}>
+                    <DescriptionList.Description term={text('Discount by quantity')}>
                         -{formatCurrency(discount.products)}
                     </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Agency policy')}>
-                        -{formatCurrency(discount.agency.discount)}
+                    <DescriptionList.Description term={text('Discount by agency policy')}>
+                        -{formatCurrency(discount.agency.discount)} ({discount.agency.percent}%)
                     </DescriptionList.Description>
                     <DescriptionList.Description term={text('Sub total')}>
                         <Typography.Text strong={true}>

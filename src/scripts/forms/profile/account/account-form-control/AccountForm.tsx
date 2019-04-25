@@ -4,6 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { FormBody, FormInput, FormSubmit } from '@/components';
+import { VN_NAME_PATTERN } from '@/configs';
 import { text } from '@/i18n';
 import { Account } from '@/restful';
 
@@ -59,6 +60,7 @@ export class AccountForm extends React.PureComponent<AccountFormProps> {
                             placeholder="..."
                             autoFocus={true}
                             required={true}
+                            pattern={VN_NAME_PATTERN}
                         />
                         <FormInput
                             name={nameof.full<AccountFormValues>(o => o.phone)}
