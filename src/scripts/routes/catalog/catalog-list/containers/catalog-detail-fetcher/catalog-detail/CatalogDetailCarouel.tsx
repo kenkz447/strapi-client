@@ -25,10 +25,10 @@ const CatalogDetailCarouelWrapper = styled.div`
             left: -14px!important;
         }
         &.slick-next {
-            right: -17px!important;
+            right: -20px!important;
         }
         &.slick-disabled {
-            opacity: 0.5;
+            opacity: 0.3;
         }
     }
 `;

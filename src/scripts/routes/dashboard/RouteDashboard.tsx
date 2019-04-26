@@ -20,7 +20,6 @@ export const RouteDashboardWrapper = styled.div`
     min-height: 100%;
     height: 1px;
     display: flex;
-    padding: 24px 0 0 24px;
     overflow: auto;
     > :first-child {
         min-width: 390px;
