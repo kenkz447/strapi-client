@@ -21,6 +21,7 @@
         "react-dom": "^16.8.3",
         "react-google-maps": "^9.4.5",
         "react-grid-gallery": "^0.5.4",
+        "react-images": "^0.5.16",
         "react-json-view": "^1.19.1",
         "react-loading-bar": "0.0.7",
         "react-motion": "^0.5.2",

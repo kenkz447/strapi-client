@@ -11,10 +11,10 @@ import { GMAP_KEY } from '@/configs';
 const ContactGoogleMapComponent = withScriptjs(withGoogleMap((props) => {
     return (
         <GoogleMap
-            defaultZoom={5}
+            defaultZoom={12}
             defaultCenter={{ lat: 10.9065487, lng: 106.6780609 }}
         >
-            <Marker position={{ lat: 10.9065487, lng: 106.6780609 }} />}
+            <Marker position={{ lat: 10.9065487, lng: 106.6780609 }} />
         </GoogleMap>
     );
 }));

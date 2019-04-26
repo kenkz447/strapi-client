@@ -69,12 +69,14 @@ export class RouteCatalog extends RoutePage<RouteCatalogProps, RouteCatalogState
         return (
             <PageWrapper>
                 <RouteDashboardWrapper>
-                    <CatalogContact />
+                    <CatalogContact productTypeGroups={productTypeGroups} />
                     {
                         selectedCatalogId
                             ? (
                                 <SlideUp className="mh-100">
-                                    <CatalogDetailFetcher catalogId={selectedCatalogId}/>
+                                    <CatalogDetailFetcher
+                                        catalogId={selectedCatalogId}
+                                    />
                                 </SlideUp>
                             )
                             : (
@@ -85,7 +87,6 @@ export class RouteCatalog extends RoutePage<RouteCatalogProps, RouteCatalogState
                                 />
                             )
                     }
-
                 </RouteDashboardWrapper>
             </PageWrapper>
         );

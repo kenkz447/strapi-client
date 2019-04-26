@@ -29,7 +29,6 @@ export class CatalogDetailFetcher extends React.PureComponent<CatalogDetailFetch
 
     public render() {
         const { catalogId } = this.props;
-
         return (
             <Card
                 style={{ minHeight: '100%' }}

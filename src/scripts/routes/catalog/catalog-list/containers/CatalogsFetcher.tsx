@@ -41,6 +41,7 @@ export class CatalogsFetcher extends React.PureComponent<CatalogsFetcherProps> {
 
         return (
             <Card
+                style={{ marginTop: '24px' }}
                 className="dashboard-content"
                 bordered={false}
                 title={(

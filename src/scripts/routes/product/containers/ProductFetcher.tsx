@@ -232,9 +232,32 @@ class ProductFetcherComponent extends React.PureComponent<
 
         const moduleComponents: FurnitureComponent[] = [];
         for (const furnitureComponentType of allFurnitureComponentType) {
-            const defaultFurnitureComponent = allFurnitureComponentByDesign.find(
-                o => o.componentType === furnitureComponentType
+
+            const furnitureComponentTypeId = typeof furnitureComponentType === 'string'
+                ? furnitureComponentType
+                : furnitureComponentType.id;
+
+            let defaultFurnitureComponent = allFurnitureComponentByDesign.find(
+                o => {
+                    const oComponentTypeId = typeof o.componentType === 'string'
+                        ? o.componentType
+                        : o.componentType.id;
+
+                    return oComponentTypeId === furnitureComponentTypeId && o.isDefault === true;
+                }
             );
+
+            if (!defaultFurnitureComponent) {
+                defaultFurnitureComponent = allFurnitureComponentByDesign.find(
+                    o => {
+                        const oComponentTypeId = typeof o.componentType === 'string'
+                            ? o.componentType
+                            : o.componentType.id;
+
+                        return oComponentTypeId === furnitureComponentTypeId;
+                    }
+                );
+            }
 
             if (!defaultFurnitureComponent) {
                 continue;

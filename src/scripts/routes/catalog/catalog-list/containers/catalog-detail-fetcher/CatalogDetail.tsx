@@ -1,4 +1,4 @@
-import { Carousel, Col, Modal, Row, Typography } from 'antd';
+import { Col, Modal, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
 import { AccessControl, RootContext } from 'qoobee';
@@ -21,6 +21,8 @@ import {
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
 import { formatCurrency } from '@/utilities';
+
+import { CatalogDetailCarouel } from './catalog-detail';
 
 const CatalogDetailWrapper = styled.div`
     .catalog-detail-thumbnail {
@@ -208,21 +210,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         <div className="catalog-detail-thumbnail">
                             <Img file={catalog.thumbnail} />
                         </div>
-                        <Carousel
-                            slidesToShow={4}
-                            dots={false}
-                            infinite={false}
-                        >
-                            {
-                                catalog.photos.map(photo => {
-                                    return (
-                                        <div key={photo.id} className="catalog-detail-slide">
-                                            <Img file={photo} className="mw-100" />
-                                        </div>
-                                    );
-                                })
-                            }
-                        </Carousel>
+                        <CatalogDetailCarouel photos={catalog.photos} />
                     </Col>
                     <Col span={14}>
                         {
