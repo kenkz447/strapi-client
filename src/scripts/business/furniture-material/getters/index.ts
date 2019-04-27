@@ -1,3 +1,4 @@
 export * from './getFurnitureMaterialByCode';
 export * from './getFurnitureMaterialDefault';
-export * from './getFurnitureMaterialsByUrl';
+export * from './getFurnitureMaterialsByType';
+export * from './getFurnitureMaterialsByTypes';

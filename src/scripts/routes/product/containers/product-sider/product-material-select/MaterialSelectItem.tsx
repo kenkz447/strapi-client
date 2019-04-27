@@ -6,7 +6,6 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { Product3DSenceContext, WithHistory } from '@/domain';
-import { text } from '@/i18n';
 import { FurnitureMaterial } from '@/restful';
 import { replaceRoutePath } from '@/utilities';
 

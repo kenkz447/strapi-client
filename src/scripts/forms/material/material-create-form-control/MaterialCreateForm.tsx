@@ -30,19 +30,25 @@ export class MaterialCreateForm extends React.PureComponent<MaterialCreateFormOw
 
         return (
             <FormBody formProps={this.props}>
-                <FormSelect
-                    name={nameof.full<MaterialCreateFormValues>(o => o.materialType!.id)}
-                    options={materialOptions}
-                    value={values.materialType ? values.materialType.id : undefined}
-                    setFieldValue={setFieldValue}
-                    validateStatus={errors.materialType ? 'error' : undefined}
-                    help={errors.materialType && errors.materialType['id']}
-                    label={text('Material type')}
-                    placeholder={text('select material type')}
-                    wrapperCol={verticalLayout.wrapperCol}
-                    labelCol={verticalLayout.labelCol}
-                    required={true}
-                />
+                {
+                    materialOptions.length
+                        ? (
+                            <FormSelect
+                                name={nameof.full<MaterialCreateFormValues>(o => o.materialType!.id)}
+                                options={materialOptions}
+                                value={values.materialType ? values.materialType.id : undefined}
+                                setFieldValue={setFieldValue}
+                                validateStatus={errors.materialType ? 'error' : undefined}
+                                help={errors.materialType && errors.materialType['id']}
+                                label={text('Material type')}
+                                placeholder={text('select material type')}
+                                wrapperCol={verticalLayout.wrapperCol}
+                                labelCol={verticalLayout.labelCol}
+                                required={true}
+                            />
+                        )
+                        : null
+                }
                 <FormInput
                     name={nameof<MaterialCreateFormValues>(o => o.displayName)}
                     onChange={handleChange}

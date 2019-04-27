@@ -1,9 +1,11 @@
-import { List, Select } from 'antd';
+import { List, Select, Typography } from 'antd';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
 import { getFurnitureMaterialByType } from '@/business/furniture-material';
 import { Product3DSenceContext } from '@/domain';
+import { MaterialCreateFormButton } from '@/forms/material';
+import { text } from '@/i18n';
 import { FurnitureMaterial, FurnitureMaterialType } from '@/restful';
 
 import { RouteProductContext } from '../../RouteProductContext';
@@ -27,24 +29,7 @@ class ProductMaterialSelectComponent extends React.Component<
         });
     }
 
-    private readonly onMaterialTypeChange = (materialTypeId: string) => {
-        const {
-            selectedFurnitureComponent
-        } = this.props;
-        
-        if (!selectedFurnitureComponent) {
-            return;
-        }
-
-        const nextMaterialType = selectedFurnitureComponent!.materialTypes.find(o => o.id === materialTypeId);
-        if (!nextMaterialType) {
-            return;
-        }
-
-        this.fetchMaterials(nextMaterialType);
-    }
-
-    public componentDidUpdate(prevProps: WithContextProps<Product3DSenceContext, ProductMaterialSelectProps>) {
+    public componentDidUpdate() {
         const {
             selectedFurnitureComponent,
             selectedFurnitureMaterialType
@@ -71,50 +56,25 @@ class ProductMaterialSelectComponent extends React.Component<
         this.fetchMaterials(nextFurnitureMaterialType);
     }
 
-    public render() {
+    private readonly renderList = (materialType: FurnitureMaterialType) => {
         const {
             availableFurnitureMaterials,
             selectedFurnitureMaterial,
-            selectedFurnitureMaterialType,
-            selectedFurnitureComponent
         } = this.props;
 
-        if (!selectedFurnitureMaterial) {
+        if (!availableFurnitureMaterials || !availableFurnitureMaterials.length) {
             return null;
         }
+
+        const materials = availableFurnitureMaterials.filter(o => materialType.id === o.materialType.id);
 
         return (
             <List
                 className="product-component-select"
-                header={
-                    <div className="display-flex">
-                        <div className="flex-grow-1">Materials:</div>
-                        {
-                            (
-                                selectedFurnitureComponent!.materialTypes
-                                && selectedFurnitureComponent!.materialTypes.length > 1
-                            ) && (
-                                <Select
-                                    value={selectedFurnitureMaterialType!.id}
-                                    onChange={this.onMaterialTypeChange}
-                                >
-                                    {
-                                        selectedFurnitureComponent!.materialTypes.map((m) => {
-                                            return (
-                                                <Select.Option key={m.id} value={m.id}>
-                                                    {m.name}
-                                                </Select.Option>
-                                            );
-                                        })
-                                    }
-                                </Select>
-                            )}
-                    </div>
-                }
-                dataSource={availableFurnitureMaterials}
+                dataSource={materials}
                 grid={{ column: 4, gutter: 5 }}
                 renderItem={(furnitureMaterial: FurnitureMaterial, index: number) => {
-                    const isSelected = furnitureMaterial.id === selectedFurnitureMaterial.id;
+                    const isSelected = furnitureMaterial.id === selectedFurnitureMaterial!.id;
 
                     return (
                         <RouteProductContext.Consumer>
@@ -131,6 +91,68 @@ class ProductMaterialSelectComponent extends React.Component<
                     );
                 }}
             />
+        );
+    }
+
+    public render() {
+        const {
+            availableFurnitureMaterials,
+            selectedFurnitureMaterial,
+            selectedFurnitureComponent,
+            setContext
+        } = this.props;
+
+        if (!selectedFurnitureMaterial || !selectedFurnitureComponent) {
+            return null;
+        }
+
+        const materialTypes = selectedFurnitureComponent.materialTypes;
+
+        const internalMaterialTypes = materialTypes.filter(o => !o.isExternal);
+        const externalMaterialTypes = materialTypes.filter(o => o.isExternal === true);
+
+        return (
+            <div>
+                {
+                    internalMaterialTypes.map(type => {
+                        return (
+                            <div key={type.id} style={{ marginBottom: 24 }}>
+                                <h4>{type.name}:</h4>
+                                {this.renderList(type)}
+                            </div>
+                        );
+                    })
+                }
+                {
+                    externalMaterialTypes.map(type => {
+                        return (
+                            <div key={type.id} style={{ marginBottom: 24 }}>
+                                <h4>{type.name}: </h4>
+                                {this.renderList(type)}
+                                <div>
+                                    <MaterialCreateFormButton
+                                        icon="upload"
+                                        type="default"
+                                        onSuccess={(newMaterial) => {
+                                            setContext({
+                                                availableFurnitureMaterials: [
+                                                    ...(availableFurnitureMaterials || []),
+                                                    newMaterial
+                                                ]
+                                            });
+                                        }}
+                                        initialValues={{
+                                            materialType: type
+                                        }}
+                                    >
+                                        {text('Upload material')}
+                                    </MaterialCreateFormButton>
+                                </div>
+                            </div>
+                        );
+                    })
+                }
+            </div>
         );
     }
 }

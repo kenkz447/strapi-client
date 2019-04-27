@@ -141,6 +141,7 @@ class ProductSiderComponent extends React.PureComponent<
                             <div>
                                 <ProductVariantSelect />
                                 <ProductComponentSelect />
+                                <div className="white-space-2" />
                                 <ProductMaterialSelect />
                             </div>
                         )

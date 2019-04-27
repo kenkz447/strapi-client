@@ -6,6 +6,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import { isNumber } from 'util';
 
 import { Product3DSenceContext } from '@/domain';
+import { text } from '@/i18n';
 import { FurnitureComponent, FurnitureComponentGroup } from '@/restful';
 
 import { RouteProductContext } from '../../RouteProductContext';
@@ -140,29 +141,31 @@ class ProductComponentSelectComponent extends React.PureComponent<
         );
 
         return (
-            <List
-                className={className}
-                header="Components:"
-                dataSource={filteredFurnitureComponents}
-                grid={{ column: 4, gutter: 5 }}
-                renderItem={(furnitureComponent: FurnitureComponent, index: number) => {
-                    const isSelected = furnitureComponent === nextSelectedFurnitureComponent;
+            <div>
+                <h4>{text('Components')}: </h4>
+                <List
+                    className={className}
+                    dataSource={filteredFurnitureComponents}
+                    grid={{ column: 4, gutter: 5 }}
+                    renderItem={(furnitureComponent: FurnitureComponent, index: number) => {
+                        const isSelected = furnitureComponent === nextSelectedFurnitureComponent;
 
-                    return (
-                        <RouteProductContext.Consumer>
-                            {({ currentModulesCode }) => (
-                                <ComponentSelectItem
-                                    key={furnitureComponent.id}
-                                    currentProductModulesCode={currentModulesCode}
-                                    furnitureComponent={furnitureComponent}
-                                    isSelected={isSelected}
-                                    currentIndex={index}
-                                />
-                            )}
-                        </RouteProductContext.Consumer>
-                    );
-                }}
-            />
+                        return (
+                            <RouteProductContext.Consumer>
+                                {({ currentModulesCode }) => (
+                                    <ComponentSelectItem
+                                        key={furnitureComponent.id}
+                                        currentProductModulesCode={currentModulesCode}
+                                        furnitureComponent={furnitureComponent}
+                                        isSelected={isSelected}
+                                        currentIndex={index}
+                                    />
+                                )}
+                            </RouteProductContext.Consumer>
+                        );
+                    }}
+                />
+            </div>
         );
     }
 }

@@ -12,7 +12,7 @@ import {
 } from '@/business/furniture-component-group';
 import {
     getFurnitureMaterialByCode,
-    getFurnitureMaterialByType
+    getFurnitureMaterialsByTypes
 } from '@/business/furniture-material';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Product3DSenceContext } from '@/domain';
@@ -69,8 +69,9 @@ class Product3dSenceComponent extends React.PureComponent<
         const nextSelectedFurnitureMaterialType = (selectedModule.material && selectedModule.material.materialType) ?
             selectedModule.material.materialType
             : selectedFurnitureComponent.materialTypes[0];
-
-        const availableFurnitureMaterials = await getFurnitureMaterialByType(nextSelectedFurnitureMaterialType);
+        
+        const availableFurnitureMaterials =
+            await getFurnitureMaterialsByTypes(selectedFurnitureComponent.materialTypes);
 
         let selectedFurnitureMaterial = availableFurnitureMaterials.find(o => {
             if (
