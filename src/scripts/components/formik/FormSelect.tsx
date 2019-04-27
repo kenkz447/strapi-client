@@ -41,7 +41,11 @@ export class FormSelect extends React.PureComponent<FormFieldProps> {
                     setFieldValue(name, value, true);
                 }}
             >
-                {options.map(o => <Select.Option key={String(o.value)} value={o.value}>{o.title}</Select.Option>)}
+                {options.map(o =>
+                    <Select.Option key={String(o.value)} value={o.value} title={o.title}>
+                        {o.title}
+                    </Select.Option>
+                )}
             </Select>
         );
 

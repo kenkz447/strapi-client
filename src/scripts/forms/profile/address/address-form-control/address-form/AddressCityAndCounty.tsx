@@ -126,6 +126,7 @@ export class AgencyUpdateCityAndCounty extends React.PureComponent<
                         label={text('City')}
                         placeholder={text('select city')}
                         required={true}
+                        showSearch={true}
                     />
                 </Col>
                 <Col span={12}>

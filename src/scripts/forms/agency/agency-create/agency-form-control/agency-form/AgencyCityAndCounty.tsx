@@ -128,6 +128,8 @@ export class AgencyCityAndCounty<P = {}> extends React.PureComponent<
                     label={text('City')}
                     placeholder={text('select city')}
                     required={true}
+                    showSearch={true}
+                    optionFilterProp="title"
                 />
                 <FormSelect
                     name={countryFieldName}
