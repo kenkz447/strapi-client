@@ -32,7 +32,7 @@ const authenticated: Role = {
         permissions.NOTIFICATION,
         permissions.CATALOG,
         permissions.CATALOG_MOBILE,
-        permissions.CATALOG_CONTACT,
+        permissions.CONTACT_MOBILE,
 
         permissions.PROFILE_ACCOUNT,
         permissions.PROFILE_ADDRESS_BOOK,
@@ -60,7 +60,7 @@ const registered: Role = {
         permissions.CATALOG_MOBILE,
         permissions.PROFILE_ACCOUNT,
         permissions.PROFILE_PASSWORD,
-        permissions.CATALOG_CONTACT
+        permissions.CONTACT_MOBILE
     ],
     denied: [
         permissions.PROFILE_AGENCY,
