@@ -1,7 +1,10 @@
 .mobile-layout {
     &-drawer {
         .ant-drawer-body {
-            padding: 0!important;
+            padding: 0 !important;
+        }
+        .ant-drawer-wrapper-body {
+            background: #001529!important;
         }
     }
 }

@@ -70,11 +70,10 @@ export class MobileLayoutContent extends React.Component<MobileLayoutContentProp
                     closable={true}
                     onClose={this.onDrawerToggle}
                     visible={this.state.drawerVisibled}
-                    style={{ height: '100vh' }}
                     className="mobile-layout-drawer"
                 >
                     <Layout.Sider
-                        style={{ minHeight: '100vh', zIndex: 10 }}
+                        style={{ zIndex: 10 }}
                         {...siderProps}
                         collapsed={false}
                     />
