@@ -1,3 +1,5 @@
+import './MobileLayoutContent.scss';
+
 import { Drawer, Icon, Layout } from 'antd';
 import { SiderProps } from 'antd/lib/layout';
 import { UnregisterCallback } from 'history';
@@ -5,13 +7,13 @@ import * as React from 'react';
 
 import { WithHistory } from '@/domain';
 
-export interface DefaultLayoutMobileProps extends WithHistory {
+interface MobileLayoutContentProps extends WithHistory {
     readonly header: JSX.Element;
     readonly children: React.ReactNode;
     readonly siderProps: SiderProps;
 }
 
-export class DefaultLayoutMobile extends React.Component<DefaultLayoutMobileProps> {
+export class MobileLayoutContent extends React.Component<MobileLayoutContentProps> {
     _unListenHistory!: UnregisterCallback;
     _currentLocationPath!: string;
 
@@ -59,7 +61,7 @@ export class DefaultLayoutMobile extends React.Component<DefaultLayoutMobileProp
                             {header}
                         </div>
                     </Layout.Header>
-                    <Layout.Content>
+                    <Layout.Content style={{ position: 'relative' }}>
                         {children}
                     </Layout.Content>
                 </Layout>
@@ -68,7 +70,8 @@ export class DefaultLayoutMobile extends React.Component<DefaultLayoutMobileProp
                     closable={true}
                     onClose={this.onDrawerToggle}
                     visible={this.state.drawerVisibled}
-                    style={{ padding: 0, height: '100vh' }}
+                    style={{ height: '100vh' }}
+                    className="mobile-layout-drawer"
                 >
                     <Layout.Sider
                         style={{ minHeight: '100vh', zIndex: 10 }}

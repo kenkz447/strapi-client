@@ -183,5 +183,6 @@ export const vi = {
     'New': 'Mới',
     'New items added to your cart': 'Sản phẩm mới được thêm vào giỏ hàng',
     'WaitingForVerify': 'Thông tin của bạn đã được gởi đi, vui lòng chờ chúng tôi xác minh dữ liệu mà quí khách đã cung cấp!',
-    'Discount by quantity': 'Giảm giá theo số lượng mua'
+    'Discount by quantity': 'Giảm giá theo số lượng mua',
+    'DeviceNotAllowed': 'Thiết bị hiện tại của bạn không được hỗ trợ, vui lòng sử dụng laptop hoặc máy tính để bàn để thao tác. Rất xin lỗi vì bất tiện này!'
 };

@@ -4,6 +4,7 @@ import { withContext } from 'react-context-service';
 
 import { DomainContext, WithDomainContext } from '../base';
 import { mainMenu, profileMenu } from '../menus';
+import { mainMenuMobile } from '../menus/mainMenuMobile';
 import { roles } from '../roles-permission';
 
 type MenusBuilderProps =
@@ -29,6 +30,7 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
         setContext({
             menus: {
                 MAIN: this.filterMenuByRole(mainMenu, userRole),
+                MAIN_MOBILE: this.filterMenuByRole(mainMenuMobile, userRole),
                 PROFILE: this.filterMenuByRole(profileMenu, userRole),
             }
         });

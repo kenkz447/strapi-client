@@ -1,13 +1,23 @@
 import { Exception } from 'ant-design-pro';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DASHBOARD_BASE_PATH, LOGO_TEXT, MOBILE_VIEWPORTS } from '@/configs';
+import {
+    DASHBOARD_BASE_PATH,
+    LOGO_TEXT,
+    MOBILE_URL_PREFIX,
+    MOBILE_VIEWPORTS
+} from '@/configs';
 import { DomainContext } from '@/domain';
 
-import { DefaultLayoutDesktop, DefaultLayoutSiderMenu } from './default-layout';
+import { DefaultLayoutSiderMenu } from './default-layout';
 import { DefaultLayoutHeader } from './default-layout';
+import {
+    MobileLayoutContent,
+    MobileLayoutHeader,
+    MobileLayoutSiderMenu
+} from './mobile-layout';
 
 const DefaultLayoutWrapper = styled.div`
     --sider-width: 200px;
@@ -50,14 +60,19 @@ const SiderLogo = styled.div`
     }
 `;
 
-type DefaultLayoutProps =
+type MobileLayoutProps =
     Pick<DomainContext, 'currentBreakpoint'> &
     Pick<DomainContext, 'history'>;
 
-export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
+export class MobileLayout extends React.PureComponent<MobileLayoutProps> {
     readonly isMobileViewport = () => {
         const { currentBreakpoint } = this.props;
         return MOBILE_VIEWPORTS.includes(currentBreakpoint);
+    }
+
+    readonly onMenuItemClick = (url: string) => {
+        const { history } = this.props;
+        history.push(url);
     }
 
     private readonly siderContent = (
@@ -69,42 +84,35 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
                     </Link>
                 </SiderLogo>
             </div>
-            <DefaultLayoutSiderMenu />
+            <MobileLayoutSiderMenu
+                menuName="MAIN_MOBILE"
+            />
         </React.Fragment>
     );
 
-    private readonly header = <DefaultLayoutHeader />;
+    private readonly header = <MobileLayoutHeader />;
 
     render() {
         const { children, history } = this.props;
         const isMobile = this.isMobileViewport();
-        if (isMobile) {
-            return (
-                <div style={{ padding: 24 }}>
-                    <Exception
-                        type="403"
-                        // tslint:disable-next-line:max-line-length
-                        desc="Thiết bị hiện tại của bạn chưa được hỗ trợ, vui lòng xử dụng máy tính để bàn!"
-                        actions={<a />}
 
-                    />
-                </div>
-            );
+        if (!isMobile) {
+            return <Redirect to={location.pathname.replace(MOBILE_URL_PREFIX, '')} />;
         }
 
         return (
             <DefaultLayoutWrapper>
-                <DefaultLayoutDesktop
+                <MobileLayoutContent
                     siderProps={{
                         trigger: null,
-                        collapsible: true,
-                        children: this.siderContent,
                         width: 256,
+                        children: this.siderContent
                     }}
                     header={this.header}
+                    history={history}
                 >
                     {children}
-                </DefaultLayoutDesktop>
+                </MobileLayoutContent>
             </DefaultLayoutWrapper>
         );
     }

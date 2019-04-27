@@ -4,9 +4,12 @@ import {
     ACCOUNT_URL,
     AGENCIES_URL,
     CATALOG_BASE_PATH,
+    CONTACT_URL,
     DASHBOARD_BASE_PATH,
+    getMobileUrl,
     ISSUE_TICKET_URL,
     MATERIAL_LIBRARY_URL,
+    MOBILE_CATALOG_DETAILS_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH,
@@ -36,6 +39,7 @@ const locationPermissions: Permissions = {
         key: 'CATALOG',
         url: new RegExp(CATALOG_BASE_PATH)
     },
+    
     PRODUCT: {
         key: 'PRODUCT',
         url: new RegExp(PRODUCT_PATH)
@@ -79,7 +83,22 @@ const locationPermissions: Permissions = {
     PROFILE_PROMO_CODE: {
         key: 'PROFILE_PROMO_CODE',
         url: new RegExp(PROFILE_PROMO_CODE_URL)
-    }
+    },
+    
+    //#region [MOBILE]
+    CATALOG_MOBILE: {
+        key: 'CATALOG_MOBILE',
+        url: new RegExp(getMobileUrl(CATALOG_BASE_PATH))
+    },
+    CATALOG_MOBILE_DETAIL: {
+        key: 'CATALOG_MOBILE_DETAIL',
+        url: new RegExp(getMobileUrl(MOBILE_CATALOG_DETAILS_URL))
+    },
+    CONTACT_MOBILE: {
+        key: 'CONTACT_MOBILE',
+        url: new RegExp(getMobileUrl(CONTACT_URL))
+    },
+    //#endregion
 };
 
 export const functionPermissions: Permissions = {

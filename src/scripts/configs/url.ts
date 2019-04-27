@@ -46,3 +46,11 @@ export const MATERIAL_LIBRARY_URL = '/materials';
 
 export const CATALOG_BASE_PATH = '/catalog';
 export const CATALOG_URL = CATALOG_BASE_PATH + '/:productTypeGroup?';
+
+export const CONTACT_URL = '/contact';
+
+//#region [MOBILE]
+export const MOBILE_URL_PREFIX = '/mobile';
+export const MOBILE_CATALOG_DETAILS_URL = CATALOG_BASE_PATH + '/details/:id';
+export const getMobileUrl = (url) => MOBILE_URL_PREFIX + url;
+//#endregion

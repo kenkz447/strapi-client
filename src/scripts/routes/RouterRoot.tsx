@@ -3,6 +3,7 @@ import 'ant-design-pro/lib/DescriptionList/style/css';
 import 'ant-design-pro/lib/Charts/style/css';
 import './RouterRoot.scss';
 
+import { BreakPoint } from 'qoobee';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import { Route, Router, Switch } from 'react-router';
@@ -10,6 +11,7 @@ import { Route, Router, Switch } from 'react-router';
 import { PageLoading } from '@/components';
 import {
     AGENCIES_URL,
+    MOBILE_URL_PREFIX,
     ORDER_PATH,
     PROFILE_ACCOUNT_URL,
     PROFILE_URL
@@ -20,7 +22,7 @@ import {
     WithCurrentUser,
     WithHistory
 } from '@/domain';
-import { BlankLayout, DefaultLayout } from '@/layout';
+import { BlankLayout, DefaultLayout, MobileLayout } from '@/layout';
 import { ProfileLayout } from '@/layout/child-layout';
 
 const AuthRoutes = React.lazy(() => import('./auth'));
@@ -28,6 +30,7 @@ const MainRoutes = React.lazy(() => import('./main'));
 const OrderRoutes = React.lazy(() => import('./order'));
 const AgencyRoutes = React.lazy(() => import('./agencies'));
 const ProfileRoutes = React.lazy(() => import('./profile'));
+const MobileRoutes = React.lazy(() => import('./mobile'));
 
 type RouterRootContextProps =
     WithCurrentUser &
@@ -41,7 +44,6 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
 
     public render() {
         const { history } = this.props;
-
         return (
             <Router history={history}>
                 <Switch>
@@ -52,7 +54,14 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                             </React.Suspense>
                         </BlankLayout>
                     </Route>
-                    <Route path={PROFILE_URL} component={this.profileRouteComponent} />
+                    <Route
+                        path={MOBILE_URL_PREFIX}
+                        component={this.mobileRouteComponent}
+                    />
+                    <Route
+                        path={PROFILE_URL}
+                        component={this.profileRouteComponent}
+                    />
                     <Route path={ORDER_PATH}>
                         {this.orderRouteComponent}
                     </Route>
@@ -64,6 +73,25 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
                     </Route>
                 </Switch>
             </Router>
+        );
+    }
+
+    readonly mobileRouteComponent = () => {
+        const { appState, history, currentBreakpoint } = this.props;
+
+        if (appState !== 'READY') {
+            return null;
+        }
+
+        return (
+            <MobileLayout
+                currentBreakpoint={currentBreakpoint}
+                history={history}
+            >
+                <React.Suspense fallback={<PageLoading />}>
+                    <MobileRoutes />
+                </React.Suspense>
+            </MobileLayout>
         );
     }
 
