@@ -3,17 +3,19 @@ import 'ant-design-pro/lib/DescriptionList/style/css';
 import 'ant-design-pro/lib/Charts/style/css';
 import './RouterRoot.scss';
 
-import { BreakPoint } from 'qoobee';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
-import { Route, Router, Switch } from 'react-router';
+import { Redirect, Route, Router, Switch } from 'react-router';
 
 import { PageLoading } from '@/components';
 import {
     AGENCIES_URL,
+    AUTH_PATH,
+    CATALOG_BASE_PATH,
+    getMobileUrl,
     MOBILE_URL_PREFIX,
+    MOBILE_VIEWPORTS,
     ORDER_PATH,
-    PROFILE_ACCOUNT_URL,
     PROFILE_URL
 } from '@/configs';
 import {
@@ -43,36 +45,63 @@ type RouterRootProps = WithContextProps<RouterRootContextProps>;
 class RouterRoot extends React.PureComponent<RouterRootProps> {
 
     public render() {
-        const { history } = this.props;
+        const { currentBreakpoint, history } = this.props;
+
+        const isMobile = MOBILE_VIEWPORTS.includes(currentBreakpoint);
+
         return (
             <Router history={history}>
-                <Switch>
-                    <Route path="/auth">
-                        <BlankLayout>
-                            <React.Suspense fallback={<PageLoading />}>
-                                <AuthRoutes />
-                            </React.Suspense>
-                        </BlankLayout>
-                    </Route>
-                    <Route
-                        path={MOBILE_URL_PREFIX}
-                        component={this.mobileRouteComponent}
-                    />
-                    <Route
-                        path={PROFILE_URL}
-                        component={this.profileRouteComponent}
-                    />
-                    <Route path={ORDER_PATH}>
-                        {this.orderRouteComponent}
-                    </Route>
-                    <Route path={AGENCIES_URL}>
-                        {this.agenciesRouteComponent}
-                    </Route>
-                    <Route>
-                        {this.mainRouteComponent}
-                    </Route>
-                </Switch>
+                {
+                    isMobile
+                        ? this.renderMobileHandler()
+                        : this.renderRouterContent()
+                }
             </Router>
+        );
+    }
+
+    private readonly renderMobileHandler = () => {
+        const hasMobilePrefix = location.pathname.startsWith(MOBILE_URL_PREFIX);
+        const isAuth = location.pathname.startsWith(AUTH_PATH);
+        
+        if (hasMobilePrefix || isAuth) {
+            return this.renderRouterContent();
+        }
+
+        const toUrl = getMobileUrl(CATALOG_BASE_PATH);
+
+        return <Redirect to={toUrl} />;
+    }
+
+    readonly renderRouterContent = () => {
+
+        return (
+            <Switch>
+                <Route path="/auth">
+                    <BlankLayout>
+                        <React.Suspense fallback={<PageLoading />}>
+                            <AuthRoutes />
+                        </React.Suspense>
+                    </BlankLayout>
+                </Route>
+                <Route
+                    path={MOBILE_URL_PREFIX}
+                    component={this.mobileRouteComponent}
+                />
+                <Route
+                    path={PROFILE_URL}
+                    component={this.profileRouteComponent}
+                />
+                <Route path={ORDER_PATH}>
+                    {this.orderRouteComponent}
+                </Route>
+                <Route path={AGENCIES_URL}>
+                    {this.agenciesRouteComponent}
+                </Route>
+                <Route>
+                    {this.mainRouteComponent}
+                </Route>
+            </Switch>
         );
     }
 

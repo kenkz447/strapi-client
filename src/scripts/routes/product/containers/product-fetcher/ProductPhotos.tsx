@@ -124,6 +124,10 @@ export class ProductPhotos extends React.PureComponent<
             return null;
         }
 
+        if (!images.length) {
+            return null;
+        }
+        
         return (
             <ProductPhotosWrapper>
                 <Gallery

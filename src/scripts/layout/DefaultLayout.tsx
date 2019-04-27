@@ -1,9 +1,8 @@
-import { Exception } from 'ant-design-pro';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { DASHBOARD_BASE_PATH, LOGO_TEXT, MOBILE_VIEWPORTS } from '@/configs';
+import { DASHBOARD_BASE_PATH, LOGO_TEXT } from '@/configs';
 import { DomainContext } from '@/domain';
 
 import { DefaultLayoutDesktop, DefaultLayoutSiderMenu } from './default-layout';
@@ -55,11 +54,6 @@ type DefaultLayoutProps =
     Pick<DomainContext, 'history'>;
 
 export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
-    readonly isMobileViewport = () => {
-        const { currentBreakpoint } = this.props;
-        return MOBILE_VIEWPORTS.includes(currentBreakpoint);
-    }
-
     private readonly siderContent = (
         <React.Fragment>
             <div style={{ background: '#002140' }}>
@@ -76,21 +70,7 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
     private readonly header = <DefaultLayoutHeader />;
 
     render() {
-        const { children, history } = this.props;
-        const isMobile = this.isMobileViewport();
-        if (isMobile) {
-            return (
-                <div style={{ padding: 24 }}>
-                    <Exception
-                        type="403"
-                        // tslint:disable-next-line:max-line-length
-                        desc="Thiết bị hiện tại của bạn chưa được hỗ trợ, vui lòng xử dụng máy tính để bàn!"
-                        actions={<a />}
-
-                    />
-                </div>
-            );
-        }
+        const { children } = this.props;
 
         return (
             <DefaultLayoutWrapper>

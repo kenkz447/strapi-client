@@ -6,7 +6,7 @@ export class MobileLayoutSiderMenu extends DefaultLayoutSiderMenu {
     readonly getSelectedKey = () => {
         const currentPath = location.pathname;
         const pathStrs = currentPath.split('/');
-        const key = MOBILE_URL_PREFIX + pathStrs[1];
+        const key = MOBILE_URL_PREFIX + '/' + pathStrs[2];
         return key;
     }
 }

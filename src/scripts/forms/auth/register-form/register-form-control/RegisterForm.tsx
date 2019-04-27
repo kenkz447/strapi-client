@@ -42,7 +42,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 title="Tên chỉ bao gồm chữ cái"
             />
             <Row gutter={12}>
-                <Col span={12}>
+                <Col md={12}>
                     <FormInput
                         name={nameof.full<RegisterFormValues>(o => o.phone)}
                         onChange={handleChange}
@@ -55,7 +55,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                         prefix={<Icon type="phone" />}
                     />
                 </Col>
-                <Col span={12}>
+                <Col md={12}>
                     <FormInput
                         name={nameof.full<RegisterFormValues>(o => o.email)}
                         onChange={handleChange}
@@ -70,7 +70,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                 </Col>
             </Row>
             <Row gutter={12}>
-                <Col span={12}>
+                <Col md={12}>
                     <FormInput
                         type="password"
                         name={nameof<RegisterFormValues>(o => o.password)}
@@ -83,7 +83,7 @@ export function RegisterForm(props: RegisterFormOwnProps) {
                         placeholder="Mật khẩu"
                     />
                 </Col>
-                <Col span={12}>
+                <Col md={12}>
                     <FormInput
                         type="password"
                         name={nameof<RegisterFormValues>(o => o.rePassword)}
