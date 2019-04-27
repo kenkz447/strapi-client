@@ -34,7 +34,11 @@ import {
     FurnitureComponentType,
     ProductExtended
 } from '@/restful';
-import { getUrlSearchParam, replaceRoutePath } from '@/utilities';
+import {
+    getNestedObjectId,
+    getUrlSearchParam,
+    replaceRoutePath
+} from '@/utilities';
 
 import { CLEAR_3D_SENCE_SELECT_EVENT } from '../RouteProductContext';
 import {
@@ -231,36 +235,47 @@ class ProductFetcherComponent extends React.PureComponent<
         );
 
         const moduleComponents: FurnitureComponent[] = [];
+        let letDefaultGroup: string | undefined = undefined;
         for (const furnitureComponentType of allFurnitureComponentType) {
 
-            const furnitureComponentTypeId = typeof furnitureComponentType === 'string'
-                ? furnitureComponentType
-                : furnitureComponentType.id;
+            const furnitureComponentTypeId = getNestedObjectId(furnitureComponentType);
 
             let defaultFurnitureComponent = allFurnitureComponentByDesign.find(
                 o => {
-                    const oComponentTypeId = typeof o.componentType === 'string'
-                        ? o.componentType
-                        : o.componentType.id;
+                    const oComponentTypeId = getNestedObjectId(o.componentType);
 
-                    return oComponentTypeId === furnitureComponentTypeId && o.isDefault === true;
+                    const currentComponentGroup = getNestedObjectId(o.componentGroup);
+
+                    return oComponentTypeId === furnitureComponentTypeId
+                        && o.isDefault === true
+                        && (letDefaultGroup
+                            ? currentComponentGroup === letDefaultGroup
+                            : true
+                        );
                 }
             );
 
             if (!defaultFurnitureComponent) {
                 defaultFurnitureComponent = allFurnitureComponentByDesign.find(
                     o => {
-                        const oComponentTypeId = typeof o.componentType === 'string'
-                            ? o.componentType
-                            : o.componentType.id;
+                        const oComponentTypeId = getNestedObjectId(o.componentType);
+                        const currentComponentGroup = getNestedObjectId(o.componentGroup);
 
-                        return oComponentTypeId === furnitureComponentTypeId;
+                        return oComponentTypeId === furnitureComponentTypeId
+                            && (letDefaultGroup
+                                ? currentComponentGroup === letDefaultGroup
+                                : true
+                            );
                     }
                 );
             }
 
             if (!defaultFurnitureComponent) {
                 continue;
+            }
+
+            if (!letDefaultGroup && defaultFurnitureComponent.componentGroup) {
+                letDefaultGroup = getNestedObjectId(defaultFurnitureComponent.componentGroup);
             }
 
             moduleComponents.push(defaultFurnitureComponent);

@@ -11,3 +11,15 @@ export const sortSelectOption = (option1: OptionProps, option2: OptionProps) => 
 
     return 0;
 };
+
+export const getNestedObjectId = (obj: undefined | string | { readonly id?: string }) => {
+    if (!obj) {
+        return undefined;
+    }
+
+    if (typeof obj === 'string') {
+        return obj;
+    }
+
+    return obj.id;
+};
