@@ -162,13 +162,19 @@ class Product3dSenceComponent extends React.PureComponent<
     }
 
     public render() {
-        const { productModules, productType, selected3DObject } = this.props;
+        const {
+            productModules,
+            productType,
+            selected3DObject,
+            selectedFurnitureComponentGroup
+        } = this.props;
 
         return (
             <ThreeSence
                 ref={this._threeSence}
                 productModules={productModules}
                 productType={productType}
+                componentGroup={selectedFurnitureComponentGroup}
                 onObjectSelect={this.on3dComponentSelect}
                 selectedObject={selected3DObject}
             />
@@ -177,5 +183,6 @@ class Product3dSenceComponent extends React.PureComponent<
 }
 
 export const Product3dSence = withContext<Product3DSenceContext, Product3dSenceProps>(
-    'selected3DObject'
+    'selected3DObject',
+    'selectedFurnitureComponentGroup'
 )(Product3dSenceComponent);

@@ -4,13 +4,14 @@
 // tslint:disable:readonly-keyword
 import * as React from 'react';
 
-import { ProductModule, ProductType } from '@/restful';
+import { FurnitureComponentGroup, ProductModule, ProductType } from '@/restful';
 
 const { THREE } = window;
 
 export interface ThreeSenceBaseProps {
     readonly productModules: ProductModule[];
     readonly productType: ProductType;
+    readonly componentGroup?: FurnitureComponentGroup | null;
     readonly clearColor?: string;
     readonly sampleLevel?: number;
     readonly onObjectSelect?: (object: THREE.Group | null) => void;

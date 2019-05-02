@@ -1,10 +1,9 @@
-import { Col, Modal, Row, Typography } from 'antd';
+import { Button, Col, Modal, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
 import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { getProductDetails, getProductUrl } from '@/business/product';
@@ -61,7 +60,7 @@ const CatalogDetailWrapper = styled.div`
     }
 
     .catalog-details-group {
-        margin-bottom: 16px;
+        margin-bottom: 24px;
         &-header {
             color: rgba(5, 48, 100, 0.6);
             line-height: 2;
@@ -73,18 +72,8 @@ const CatalogDetailWrapper = styled.div`
     }
 
     .catalog-customize {
-        text-align: right;
-        &-link {
-            background: #538BBE;
-            padding: 14px 30px;
-            border-radius: 30px;
-            color: #FFF;
-            font-size: 18px;
-            display: inline-block;
-            margin-bottom: 24px;
-            &.disabled {
-                background: rgba(0, 0, 0, 0.1);
-            }
+        &-action {
+            margin-bottom: 16px
         }
         &-description {
             text-align: left;
@@ -195,7 +184,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
     }
 
     public render() {
-        const { currentUser } = this.context;
+        const { currentUser, history } = this.context;
         const { catalog } = this.props;
         const { product } = this.state;
 
@@ -205,7 +194,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                     {catalog.productTypeGroup.name} - {catalog.design.title || catalog.design.name}
                 </Typography.Paragraph>
                 <div className="white-space" />
-                <Row gutter={48}>
+                <Row gutter={64}>
                     <Col span={10}>
                         <div className="catalog-detail-thumbnail">
                             <Img file={catalog.thumbnail} />
@@ -236,62 +225,67 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         </Typography.Paragraph>
                         {this.renderProductDetails()}
                         <div className="catalog-customize">
-                            <AccessControl
-                                policy={policies.functionAllowed}
-                                funcKey="FUNC_CUSTOMIZE_CATALOG"
-                                renderDeny={() => {
-                                    const needsUpdateBusinessInfo = isUserNeedsUpdateBusinessInfo(currentUser);
-                                    const waitingForVerify = isUserWaitingForVerify(currentUser);
+                            <div className="catalog-customize-action">
+                                <AccessControl
+                                    policy={policies.functionAllowed}
+                                    funcKey="FUNC_CUSTOMIZE_CATALOG"
+                                    renderDeny={() => {
+                                        const needsUpdateBusinessInfo = isUserNeedsUpdateBusinessInfo(currentUser);
+                                        const waitingForVerify = isUserWaitingForVerify(currentUser);
 
-                                    if (needsUpdateBusinessInfo) {
-                                        return (
-                                            <BusinessInfomationFormButton
-                                                className="catalog-customize-link"
-                                                formTitle="Tùy biến sản phẩm"
-                                                initialValues={currentUser}
-                                                onSuccess={(updatedUser) => {
-                                                    this.showWaitingForVerifyModal();
-                                                    this.context.setContext({
-                                                        currentUser: updatedUser
-                                                    });
-                                                }}
-                                            >
-                                                Tùy biến sản phẩm
-                                            </BusinessInfomationFormButton>
-                                        );
-                                    }
+                                        if (needsUpdateBusinessInfo) {
+                                            return (
+                                                <BusinessInfomationFormButton
+                                                    formTitle="Tùy biến sản phẩm"
+                                                    type="primary"
+                                                    size="large"
+                                                    initialValues={currentUser}
+                                                    onSuccess={(updatedUser) => {
+                                                        this.showWaitingForVerifyModal();
+                                                        this.context.setContext({
+                                                            currentUser: updatedUser
+                                                        });
+                                                    }}
+                                                >
+                                                    Tùy biến sản phẩm
+                                                </BusinessInfomationFormButton>
+                                            );
+                                        }
 
-                                    if (waitingForVerify) {
-                                        return (
-                                            <a
-                                                className="catalog-customize-link"
-                                                onClick={this.showWaitingForVerifyModal}
-                                            >
-                                                Tùy biến sản phẩm
-                                            </a>
-                                        );
-                                    }
-                                    
-                                    return null;
-                                }}
-                            >
-                                {() => {
-                                    const productUrl = product && getProductUrl(product);
+                                        if (waitingForVerify) {
+                                            return (
+                                                <Button
+                                                    type="primary"
+                                                    size="large"
+                                                    onClick={this.showWaitingForVerifyModal}
+                                                >
+                                                    Tùy biến sản phẩm
+                                                </Button>
+                                            );
+                                        }
 
-                                    if (!productUrl) {
                                         return null;
-                                    }
+                                    }}
+                                >
+                                    {() => {
+                                        const productUrl = product && getProductUrl(product);
 
-                                    return (
-                                        <Link
-                                            className="catalog-customize-link"
-                                            to={productUrl}
-                                        >
-                                            Tùy biến sản phẩm
-                                        </Link>
-                                    );
-                                }}
-                            </AccessControl>
+                                        if (!productUrl) {
+                                            return null;
+                                        }
+
+                                        return (
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                onClick={() => history.push(productUrl)}
+                                            >
+                                                Tùy biến sản phẩm
+                                            </Button>
+                                        );
+                                    }}
+                                </AccessControl>
+                            </div>
                             <div className="catalog-customize-description">
                                 - Sản phẩm có thể tùy biến chất liệu hoàn thiện cho toàn bộ sản phẩm.<br />
                                 - Có thể tùy chỉnh thiết kế một số cấu kiện theo mong muốn dựa trên

@@ -4,7 +4,9 @@ import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
+    CATALOG_BASE_PATH,
     DASHBOARD_BASE_PATH,
+    getMobileUrl,
     LOGO_TEXT,
     MOBILE_URL_PREFIX,
     MOBILE_VIEWPORTS
@@ -79,7 +81,7 @@ export class MobileLayout extends React.PureComponent<MobileLayoutProps> {
         <React.Fragment>
             <div style={{ background: '#002140' }}>
                 <SiderLogo className="side-logo">
-                    <Link to={DASHBOARD_BASE_PATH}>
+                    <Link to={getMobileUrl(CATALOG_BASE_PATH)}>
                         <img src={LOGO_TEXT} alt="logo" />
                     </Link>
                 </SiderLogo>

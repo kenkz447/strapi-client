@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { text } from '@/i18n';
 import { ProductTypeGroup } from '@/restful';
 
-import { ContactGoogleMap } from './catalog-contact';
+import { ContactGoogleMap, ContactProductGroupIcons } from './catalog-contact';
 
 const CatalogContactWrapper = styled.div`
     padding: 24px 0 0 24px;
@@ -49,9 +49,7 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                     <CatalogContactHeadline>
                         {typeGroup.name}
                     </CatalogContactHeadline>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <img src="/static/assets/sofa.jpg" />
-                    </div>
+                    <ContactProductGroupIcons icons={typeGroup.icons} />
                     <Divider />
                     <Typography.Paragraph strong={true}>
                         {text('Thời gian làm việc')}

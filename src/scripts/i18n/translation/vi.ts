@@ -127,7 +127,7 @@ export const vi = {
     Image: 'Hình ảnh',
     'Product type': 'Loại sản phẩm',
     Details: 'Chi tiết',
-    'Transaction history': 'Lịch sử gia dịch',
+    'Transaction history': 'Lịch sử giao dịch',
     'Add transaction': 'Tạo giao dịch',
     Time: 'Thời gian',
     Money: 'Số tiền',

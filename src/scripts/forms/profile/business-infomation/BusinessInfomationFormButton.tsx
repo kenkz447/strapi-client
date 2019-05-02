@@ -12,7 +12,7 @@ import {
 } from './business-infomation-form-control';
 import { BusinessInfomationFormControl } from './BusinessInfomationFormControl';
 
-type BusinessInfomationFormButtonProps = {
+type BusinessInfomationFormButtonProps = ButtonProps & {
     readonly className?: string;
     readonly initialValues?: BusinessInfomationFormValues;
     readonly onSuccess?: (user: User) => void;
@@ -56,7 +56,7 @@ export class BusinessInfomationFormButton extends React.PureComponent<BusinessIn
                 {({ doBusiness, context }) => {
                     const { setContext } = context;
                     return (
-                        <a
+                        <Button
                             {...buttonProps}
                             onClick={() => setContext({
                                 globalModalVisibled: true,

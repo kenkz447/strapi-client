@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import { BusinessController } from '@/business';
 import { upsertAddress } from '@/business/address';
-import { text } from '@/i18n';
 import { Address } from '@/restful';
 
 import { AddressFormValues } from './address-form-control';

@@ -16,6 +16,6 @@ export const LOGO_TEXT = '/static/assets/logo-text.png';
 export const GMAP_KEY = 'AIzaSyB-6RNhjt54-bz00f-fBxoABAt2APTFP6U';
 
 // tslint:disable-next-line:max-line-length
-export const VN_NAME_PATTERN = '^[A-Za-zÀ-žÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$';
+export const VN_NAME_PATTERN = '^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$';
 
 export const MOBILE_VIEWPORTS: BreakPoint[] = ['xs', 'sm', 'md'];

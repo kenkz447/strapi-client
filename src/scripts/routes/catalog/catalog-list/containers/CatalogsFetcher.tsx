@@ -1,3 +1,5 @@
+import './CatalogsFetcher.scss';
+
 import { Card, Tabs } from 'antd';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
@@ -41,8 +43,7 @@ export class CatalogsFetcher extends React.PureComponent<CatalogsFetcherProps> {
 
         return (
             <Card
-                style={{ marginTop: '24px' }}
-                className="dashboard-content"
+                className="catalogs-fetcher"
                 bordered={false}
                 title={(
                     <Tabs

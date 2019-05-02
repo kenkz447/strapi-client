@@ -31,7 +31,7 @@ export class CatalogDetailFetcher extends React.PureComponent<CatalogDetailFetch
         const { catalogId } = this.props;
         return (
             <Card
-                style={{ minHeight: '100%', marginTop: '24px' }}
+                style={{ minHeight: 'calc(100% - 24px)', marginTop: '24px' }}
                 bordered={false}
                 title={<Icon onClick={this.goBackBtnClick} className="clickable" type="arrow-left" />}
             >

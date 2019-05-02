@@ -8,6 +8,7 @@ export interface ProductTypeGroup {
     readonly name: string;
     readonly thumbnail: UploadedFile;
     readonly productTypes: ProductType[];
+    readonly icons: UploadedFile[];
 }
 
 export const productTypeGroupResourceType = new ResourceType<ProductTypeGroup>(nameof<ProductTypeGroup>());

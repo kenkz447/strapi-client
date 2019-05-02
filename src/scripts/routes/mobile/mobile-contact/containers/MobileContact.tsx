@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { text } from '@/i18n';
 import { ProductTypeGroup } from '@/restful';
 import {
-    ContactGoogleMap
+    ContactGoogleMap,
+    ContactProductGroupIcons
 } from '@/routes/catalog/catalog-list/containers/catalog-contact';
 
 const MobileContactWrapper = styled.div`
@@ -35,9 +36,7 @@ export class MobileContact extends React.PureComponent<MobileContactProps> {
         return (
             <MobileContactWrapper>
                 <Card bordered={false} style={{ overflow: 'overlay' }}>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <img src="/static/assets/sofa.jpg" />
-                    </div>
+                    <ContactProductGroupIcons icons={typeGroup.icons} />
                     <Divider />
                     <Typography.Paragraph strong={true}>
                         {text('Thời gian làm việc')}

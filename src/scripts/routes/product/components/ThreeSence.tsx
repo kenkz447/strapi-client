@@ -39,7 +39,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                 if (!this._isQueueRuning) {
                     return;
                 }
-                
+
                 this.setState({
                     isQueueRuning: true
                 });
@@ -411,7 +411,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
             }
         });
     }
-    
+
     readonly takeScreenshot = () => {
         return new Promise<string>((resolve) => {
             this.resetCamera();
@@ -459,7 +459,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     }
 
     public render() {
-        const { productType } = this.props;
+        const { productType, componentGroup } = this.props;
 
         return (
             <div className="three-sence-wrapper">
@@ -478,7 +478,9 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                     ref={(element: HTMLDivElement) => this.container = element}
                     style={{
                         width: '100%',
-                        height: productType.view_senceHeight
+                        height: (componentGroup && componentGroup.view_senceHeight)
+                            ? componentGroup.view_senceHeight
+                            : productType.view_senceHeight
                     }}
                 />
             </div>

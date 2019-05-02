@@ -6,19 +6,12 @@ import { events } from 'qoobee';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import {
-    getFurnitureComponentByCode,
-    getFurnitureComponentByDesign
-} from '@/business/furniture-component';
+import { getFurnitureComponentByDesign } from '@/business/furniture-component';
 import {
     getFurnitureComponentGroupById
 } from '@/business/furniture-component-group';
-import { getFurnitureMaterialByCode } from '@/business/furniture-material';
 import {
     getProductModuleDetails,
-    getProductModulesComponentCodes,
-    getProductModulesFromRaw,
-    getProductModulesMaterialCodes,
     getProductModulesPrice
 } from '@/business/product-modules';
 import {
