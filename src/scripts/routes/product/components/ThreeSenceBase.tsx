@@ -112,7 +112,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
     initGround = () => {
         const groundGeo = new THREE.PlaneBufferGeometry(1000, 1000);
         const groundMat = new THREE.MeshPhongMaterial();
-        
+
         const ground = new THREE.Mesh(groundGeo, groundMat);
         ground.rotation.x = - Math.PI / 2;
         ground.position.y = 0;
@@ -182,7 +182,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
     }
 
     initControls() {
-        const { productType } = this.props;
+        const { productType, componentGroup } = this.props;
 
         this.camera.position.x = productType.view_rotateX || 0;
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -190,8 +190,12 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         this.controls.target = this.cameraTarget;
 
         const polarAngle = ((productType.view_rotateY || 140) * 0.01);
-        this.controls.minDistance = productType.view_cameraFar || 450;
-        this.controls.maxDistance = productType.view_cameraFar || 450;
+
+        this.controls.minDistance = componentGroup && componentGroup.view_cameraFar
+            ? componentGroup.view_cameraFar
+            : productType.view_cameraFar || 450;
+
+        this.controls.maxDistance = this.controls.minDistance;
         this.controls.maxPolarAngle = polarAngle;
         this.controls.minPolarAngle = polarAngle;
         this.controls.enablePan = false;
@@ -205,7 +209,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         // * Environtment
         const light = new THREE.AmbientLight(0x404040); // soft white light
         light.intensity = 1.3;
-        this.scene.add( light );
+        this.scene.add(light);
 
         const baseShadowCamera = 150;
         // * Directional
@@ -275,6 +279,15 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         // }
     }
 
+    updateControl = () => {
+        const { componentGroup, productType } = this.props;
+        this.controls.minDistance = componentGroup && componentGroup.view_cameraFar
+            ? componentGroup.view_cameraFar
+            : productType.view_cameraFar || 450;
+
+        this.controls.maxDistance = this.controls.minDistance;
+    }
+
     resizeDisplayGL = () => {
         const canvas = this.renderer.domElement;
         // look up the size the canvas is being displayed
@@ -285,9 +298,25 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
         if (canvas.width !== width || canvas.height !== height) {
             // you must pass false here or three.js sadly fights the browser
             this.renderer.setSize(width, height, false);
+            this.composer.setSize(width, height);
             this.recalcAspectRatio();
             this.updateCamera();
         }
+    }
+
+    tryResetCanvasSize = (oldViewportHeight: number, curentCanvasHeight: number) => {
+        const canvas = this.renderer.domElement;
+        const width = canvas.clientWidth;
+
+        if (curentCanvasHeight === oldViewportHeight) {
+            return;
+        }
+
+        this.renderer.setSize(width, curentCanvasHeight, true);
+        this.composer.setSize(width, curentCanvasHeight);
+        this.recalcAspectRatio();
+        this.updateCamera();
+        this.updateControl();
     }
 
     recalcAspectRatio = () => {
@@ -334,7 +363,7 @@ export class ThreeSenceBase<TProps extends ThreeSenceBaseProps> extends React.Pu
     checkIntersection = () => {
         this.raycaster.setFromCamera(this.mouse, this.camera);
         const intersects = this.raycaster.intersectObjects([this.scene], true);
-        
+
         if (intersects.length > 0) {
             if (this.highlightTimeout) {
                 clearTimeout(this.highlightTimeout as number);

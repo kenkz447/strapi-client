@@ -16,7 +16,12 @@ import {
 } from '@/business/furniture-material';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Product3DSenceContext } from '@/domain';
-import { FurnitureComponentType, ProductModule, ProductType } from '@/restful';
+import {
+    FurnitureComponentGroup,
+    FurnitureComponentType,
+    ProductModule,
+    ProductType
+} from '@/restful';
 import { ThreeSence } from '@/routes/product/components';
 
 import { CLEAR_3D_SENCE_SELECT_EVENT } from '../../RouteProductContext';
@@ -165,16 +170,19 @@ class Product3dSenceComponent extends React.PureComponent<
         const {
             productModules,
             productType,
-            selected3DObject,
-            selectedFurnitureComponentGroup
+            selected3DObject
         } = this.props;
+
+        const componentGroup = productModules[0]
+            && productModules[0].component
+            && productModules[0].component.componentGroup as FurnitureComponentGroup;
 
         return (
             <ThreeSence
                 ref={this._threeSence}
                 productModules={productModules}
                 productType={productType}
-                componentGroup={selectedFurnitureComponentGroup}
+                componentGroup={componentGroup}
                 onObjectSelect={this.on3dComponentSelect}
                 selectedObject={selected3DObject}
             />
@@ -184,5 +192,4 @@ class Product3dSenceComponent extends React.PureComponent<
 
 export const Product3dSence = withContext<Product3DSenceContext, Product3dSenceProps>(
     'selected3DObject',
-    'selectedFurnitureComponentGroup'
 )(Product3dSenceComponent);

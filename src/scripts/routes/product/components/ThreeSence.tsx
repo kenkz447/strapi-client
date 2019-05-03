@@ -435,7 +435,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     }
 
     public componentDidUpdate(prevProps: ThreeSenceProps) {
-        const { selectedObject } = this.props;
+        const { selectedObject, componentGroup, productType } = this.props;
 
         const idModuleChanged = prevProps.productModules !== this.props.productModules;
         if (idModuleChanged) {
@@ -450,6 +450,16 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         }
 
         this.calcComponentsPosition();
+
+        const oldViewportHeight = (prevProps.componentGroup && prevProps.componentGroup.view_senceHeight)
+            ? prevProps.componentGroup.view_senceHeight
+            : prevProps.productType.view_senceHeight;
+
+        const currentViewportHeight = (componentGroup && componentGroup.view_senceHeight)
+            ? componentGroup.view_senceHeight
+            : productType.view_senceHeight;
+        
+        this.tryResetCanvasSize(oldViewportHeight, currentViewportHeight);
     }
 
     public componentWillUnmount() {

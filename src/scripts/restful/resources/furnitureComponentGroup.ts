@@ -18,6 +18,7 @@ export interface FurnitureComponentGroup {
     readonly sittingHeight?: number;
     readonly photos: UploadedFile[];
     readonly view_senceHeight?: number;
+    readonly view_cameraFar?: number;
 }
 
 export const furnitureComponentGroupResourceType = new ResourceType<FurnitureComponentGroup>(
