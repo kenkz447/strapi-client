@@ -108,7 +108,7 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                                     </span>
                                     <br />
                                     <small style={{ lineHeight: 1, display: 'block' }}>
-                                        <i>{text('Tổng khối lượng đơn hàng')} : {roundTo(transportFee.totalVolume, 2)}</i>
+                                        <i>{text('Tổng khối lượng đơn hàng')} : {roundTo(transportFee.totalVolume, 2)} m<sup>3</sup></i>
                                     </small>
                                 </div>
                             )

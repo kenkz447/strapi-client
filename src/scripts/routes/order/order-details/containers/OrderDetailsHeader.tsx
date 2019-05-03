@@ -11,6 +11,9 @@ import {
     getOrderTransactionMoney,
     lockOrder
 } from '@/business/order';
+import {
+    getOrderShippingDateLabel
+} from '@/business/order/getters/getOrderShippingDateLabel';
 import { PageHeader } from '@/components';
 import {
     DATE_FORMAT,
@@ -224,8 +227,14 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
         return (
             <DescriptionList title="Thông tin đơn hàng" size="small" col={2}>
                 <Description term="Ngày đặt">{formatDate(order.createdAt, DATE_FORMAT)}</Description>
-                <Description term="Số lượng">{order.totalProduct} {text('products')}</Description>
-                <Description term="Dự kiến giao hàng">{formatDate(order.shippingDate, DATE_FORMAT)}</Description>
+                <Description term="Số lượng">
+                    {order.totalProduct} {text('products')}
+                </Description>
+                <Description term="Dự kiến giao hàng">
+                    {
+                        getOrderShippingDateLabel(order)
+                    }
+                </Description>
                 <Description term="Tình trạng">
                     {getOrderStatusLabel(order)}
                 </Description>

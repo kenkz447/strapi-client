@@ -3,6 +3,8 @@ export * from './getOrderDeposit';
 export * from './getOrderDiscount';
 export * from './getOrderPayment';
 export * from './getOrderShippingDate';
+export * from './getOrderShippingDateLabel';
 export * from './getOrderStatusLabel';
 export * from './getOrderTransactionMoney';
 export * from './getOrderTransportFee';
+export * from './isOrderHasExternalMaterials';

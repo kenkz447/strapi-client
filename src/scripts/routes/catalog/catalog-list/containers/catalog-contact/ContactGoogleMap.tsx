@@ -8,13 +8,18 @@ import {
 
 import { GMAP_KEY } from '@/configs';
 
+const location = {
+    lat: 10.918168,
+    lng: 106.674693
+};
+
 const ContactGoogleMapComponent = withScriptjs(withGoogleMap((props) => {
     return (
         <GoogleMap
             defaultZoom={12}
-            defaultCenter={{ lat: 10.9065487, lng: 106.6780609 }}
+            defaultCenter={location}
         >
-            <Marker position={{ lat: 10.9065487, lng: 106.6780609 }} />
+            <Marker position={location} />
         </GoogleMap>
     );
 }));

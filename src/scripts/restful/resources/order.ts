@@ -58,6 +58,10 @@ export interface Order extends Record {
     readonly recipientName: string;
 
     readonly consigneeName: string;
+
+    readonly hasExternalMaterials?: boolean;
+    
+    readonly allExternalMaterialsProvided?: boolean;
 }
 
 export const orderResourceType = new ResourceType<Order>(nameof<Order>());

@@ -2,7 +2,11 @@ import { DomainContext } from '@/domain';
 import { Order, orderResources, request } from '@/restful';
 import { genCodeWithCurrentDate } from '@/utilities';
 
-import { getOrderDeposit, getOrderShippingDate } from '../getters';
+import {
+    getOrderDeposit,
+    getOrderShippingDate,
+    isOrderHasExternalMaterials
+} from '../getters';
 
 export const upsertOrder = (order: Partial<Order>, context: DomainContext) => {
     const { currentAgency } = context;
@@ -19,6 +23,8 @@ export const upsertOrder = (order: Partial<Order>, context: DomainContext) => {
         });
     }
 
+    const orderHasExternalMaterials = isOrderHasExternalMaterials(order);
+
     const shippingDate = getOrderShippingDate();
 
     return request(orderResources.create, {
@@ -31,8 +37,11 @@ export const upsertOrder = (order: Partial<Order>, context: DomainContext) => {
                 (total, detail) => total + detail.quantity,
                 0
             ),
-            shippingDate: shippingDate.toISOString(),
-            status: 'new'
+            shippingDate: orderHasExternalMaterials
+                ? null
+                : shippingDate.toISOString(),
+            status: 'new',
+            hasExternalMaterials: orderHasExternalMaterials
         } as Order
     });
 };

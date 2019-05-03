@@ -25,10 +25,16 @@ export interface OrderDetailsProductsProps {
 
 export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProductsProps> {
 
+    private readonly hasBillingInfo =   () => {
+        const { order } = this.props;
+
+        return order.billingAddress || order.billingOrganization || order.billingTaxcode;
+    }
+
     public render() {
         const { order } = this.props;
+        
         return (
-
             <RestfulRender
                 resource={orderDetailResources.find}
                 parameters={{
@@ -147,21 +153,27 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                             )
                                             : null
                                     }
-                                    <DescriptionList
-                                        title={text('Billing information')}
-                                        style={{ marginBottom: 24 }}
-                                        col={1}
-                                    >
-                                        <DescriptionList.Description term={text('Organization')}>
-                                            {order.billingOrganization || '...'}
-                                        </DescriptionList.Description>
-                                        <DescriptionList.Description term={text('Address')}>
-                                            {order.billingAddress || '...'}
-                                        </DescriptionList.Description>
-                                        <DescriptionList.Description term={text('Tax code')}>
-                                            {order.billingTaxcode || '...'}
-                                        </DescriptionList.Description>
-                                    </DescriptionList>
+                                    {
+                                        this.hasBillingInfo()
+                                            ? (
+                                                <DescriptionList
+                                                    title={text('Billing information')}
+                                                    style={{ marginBottom: 24 }}
+                                                    col={1}
+                                                >
+                                                    <DescriptionList.Description term={text('Organization')}>
+                                                        {order.billingOrganization || '...'}
+                                                    </DescriptionList.Description>
+                                                    <DescriptionList.Description term={text('Address')}>
+                                                        {order.billingAddress || '...'}
+                                                    </DescriptionList.Description>
+                                                    <DescriptionList.Description term={text('Tax code')}>
+                                                        {order.billingTaxcode || '...'}
+                                                    </DescriptionList.Description>
+                                                </DescriptionList>
+                                            )
+                                            : null
+                                    }
                                 </Col>
                             </Row>
                             <Table

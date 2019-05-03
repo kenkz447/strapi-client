@@ -54,7 +54,11 @@ export class CheckoutComplete extends React.PureComponent<CheckoutCompleteProps>
                                 labelCol={verticalLayout.labelCol}
                                 label={text('Expected delivery')}
                             >
-                                {order && formatDate(order.shippingDate, 'DD/MM/YYYY')}
+                                {
+                                    order.hasExternalMaterials
+                                        ? '15 ngày sau khi nhận được vật liệu'
+                                        : formatDate(order.shippingDate, 'DD/MM/YYYY')
+                                }
                             </Form.Item>
                             <Form.Item
                                 wrapperCol={verticalLayout.wrapperCol}
