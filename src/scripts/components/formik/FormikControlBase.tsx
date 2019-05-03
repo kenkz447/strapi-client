@@ -25,8 +25,18 @@ export class FormikControlBase<V, P extends FormikControlBaseProps<V>, S = {}> e
         initialValues: {}
     };
 
-    public readonly listToOptions = (list: Array<ListItem>) => {
-        return list.map(o => ({ value: o.id, title: o.displayName || o.name })).sort(sortSelectOption);
+    public listToOptions<T>(
+        list: Array<T>,
+        titleKey?: keyof T,
+        valueKey?: keyof T
+    ) {
+        const titleKeyStr = String(titleKey || 'name');
+        const valueKeyStr = String(valueKey || 'id');
+        
+        return list.map((o) => ({
+            title: o[titleKeyStr],
+            value: o[valueKeyStr]
+        }));
     }
 
     public readonly listToTreeOptions = (

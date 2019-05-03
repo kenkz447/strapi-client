@@ -55,7 +55,7 @@ export class CheckoutFormControl extends FormikControlBase<
             cities,
             cityOptions: this.listToOptions(cities),
             addresses: addresses,
-            addressOptions: this.listToOptions(addresses)
+            addressOptions: this.listToOptions(addresses, 'fullAddress')
         });
     }
 

@@ -68,7 +68,21 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
             loaded: true,
             allQuantity: allQuantity,
             allQuantityOptions: this.listToOptions(
-                allQuantity.map(o => ({ id: o.quantity, name: getDiscountByQuantityLabel(o, product) }))
+                allQuantity
+                    .sort((i1, i2) => {
+                        if (i1.quantity > i2.quantity) {
+                            return 1;
+                        }
+                        if (i1.quantity < i2.quantity) {
+                            return -1;
+                        }
+
+                        return 0;
+                    })
+                    .map(o => ({
+                        id: o.quantity,
+                        name: getDiscountByQuantityLabel(o, product)
+                    }))
             )
         });
     }

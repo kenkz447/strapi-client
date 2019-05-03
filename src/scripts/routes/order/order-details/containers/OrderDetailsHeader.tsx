@@ -12,6 +12,9 @@ import {
     lockOrder
 } from '@/business/order';
 import {
+    changeOrderExternalMaterialsStatus
+} from '@/business/order/actions/changeOrderExternalMaterialsStatus';
+import {
     getOrderShippingDateLabel
 } from '@/business/order/getters/getOrderShippingDateLabel';
 import { PageHeader } from '@/components';
@@ -57,6 +60,8 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
         const complainIssueTicket = issueTickets && issueTickets.find(o => o.type === 'order_complain');
         const cancelIssueTicket = issueTickets && issueTickets.find(o => o.type === 'order_cancel');
 
+        const receivedExternalMaterials = order.hasExternalMaterials && order.allExternalMaterialsProvided;
+
         return (
             <React.Fragment>
                 <AccessControl policy={policies.functionAllowed} funcKey="FUNC_UPDATE_ORDER">
@@ -66,12 +71,25 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                                 placement="bottomRight"
                                 overlay={(
                                     <Menu>
+                                        {
+                                            !receivedExternalMaterials && (
+                                                <Menu.Item>
+                                                    <BusinessController action={changeOrderExternalMaterialsStatus}>
+                                                        {({ doBusiness }) => (
+                                                            <a onClick={() => doBusiness(order)}>
+                                                                {text('Materials received')}
+                                                            </a>
+                                                        )}
+                                                    </BusinessController>
+
+                                                </Menu.Item>
+                                            )
+                                        }
                                         <Menu.Item>
                                             <OrderStatusFormButton
                                                 initialValues={order}
                                             />
                                         </Menu.Item>
-                                        <Menu.Divider />
                                         <Menu.Item>
                                             <OrderDeliveryDateFormButton
                                                 initialValues={order}
