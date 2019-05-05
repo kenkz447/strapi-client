@@ -2,7 +2,7 @@ import { Resource } from 'react-restful';
 import * as yup from 'yup';
 
 import { getDefaultParamsForUpdate } from '../base';
-import { User } from './user';
+import { User, userResourceType } from './user';
 
 export interface ChangePasswordRequestBody {
     readonly oldPassword: string;
@@ -32,5 +32,14 @@ export const profileResources = {
     changePassword: new Resource({
         url: '/profile/change-password',
         method: 'PUT'
-    })
+    }),
+    blockUser: new Resource({
+        resourceType: userResourceType,
+        url: '/profile/block/:id',
+        method: 'PUT',
+        getDefaultParams: getDefaultParamsForUpdate,
+        bodySchema: yup.object().shape<Partial<User>>({
+            blockedReason: yup.string().required()
+        })
+    }),
 };

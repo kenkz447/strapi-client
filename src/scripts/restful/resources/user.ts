@@ -16,7 +16,11 @@ export interface User extends Record {
     readonly agency?: Agency;
     readonly phone?: string;
     readonly createdAt?: string;
+
     readonly blocked?: boolean;
+    readonly blockedAt?: string;
+    readonly blockedReason?: string;
+    readonly blockedBy?: User;
 
     readonly password?: string;
     readonly rePassword?: string;

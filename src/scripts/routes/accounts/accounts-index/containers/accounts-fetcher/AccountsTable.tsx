@@ -1,7 +1,6 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
-import DescriptionList from 'ant-design-pro/lib/DescriptionList';
-import { Badge, Switch, Table } from 'antd';
+import { Badge, Table } from 'antd';
 import { BadgeProps } from 'antd/lib/badge';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -65,8 +64,10 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                     <Table.Column
                         title={text('Role')}
                         dataIndex={nameof.full<User>(o => o.role)}
-                        render={(role) => {
+                        render={(role, user: User) => {
                             const label = text('Role_' + role.name);
+
+                            
 
                             let badge: BadgeProps['status'];
                             switch (role.name) {
@@ -80,6 +81,11 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                                     badge = 'processing';
                                     break;
                             }
+
+                            if (user.blocked) {
+                                badge = 'error';
+                            }
+
                             return (
                                 <span>
                                     <Badge status={badge} /> {label}
@@ -88,20 +94,16 @@ export class AccountTable extends React.PureComponent<AccountTableProps, Account
                         }}
                     />
                     <Table.Column
+                        title={text('Most recent activity')}
+                        dataIndex={nameof.full<Agency>(o => o.id)}
+                        render={() => {
+                            return '';
+                        }}
+                    />
+                    <Table.Column
                         title={text('Registration date')}
                         dataIndex={nameof.full<User>(o => o.registeredAt)}
                         render={(registrationDate: string) => formatDate(registrationDate, DATETIME_FORMAT)}
-                    />
-                    <Table.Column
-                        title={text('Activating')}
-                        dataIndex={nameof.full<Agency>(o => o.id)}
-                        render={(id: string, user: User) => {
-                            if (user.role.name === 'Registered') {
-                                return null;
-                            }
-
-                            return <Switch size="small" checked={!user.blocked} />;
-                        }}
                     />
                 </Table>
             </AccountTableWrapper>

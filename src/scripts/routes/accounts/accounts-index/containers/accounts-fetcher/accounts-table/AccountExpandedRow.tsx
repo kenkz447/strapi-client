@@ -4,7 +4,9 @@ import DescriptionList from 'ant-design-pro/lib/DescriptionList';
 import { Col, Icon, Row } from 'antd';
 import * as React from 'react';
 
+import { DATETIME_FORMAT } from '@/configs';
 import { AgencyFormButton } from '@/forms/agency/agency-create';
+import { BlockAccountFormButton } from '@/forms/profile/block-account';
 import { text } from '@/i18n';
 import {
     Agency,
@@ -13,6 +15,7 @@ import {
     request,
     User
 } from '@/restful';
+import { formatDate } from '@/utilities';
 
 interface AccountExpandedRowProps {
     readonly user: User;
@@ -61,9 +64,53 @@ export class AccountExpandedRow extends React.PureComponent<
         }
     }
 
-    public render() {
+    private readonly renderActions = () => {
+
         const { onAccepted, user } = this.props;
-        const { license, loading, agency } = this.state;
+        const { agency } = this.state;
+
+        if (!user.confirmed) {
+            return (
+                <span>Người dùng chưa xác thực email</span>
+            );
+        }
+
+        if (user.confirmed && !agency) {
+            return (
+                <AgencyFormButton
+                    initialValues={{
+                        linkedUser: user,
+                        email: user.email,
+                        address: user.registration_companyAddress,
+                        name: user.registration_companyName,
+                        phone: user.phone
+                    }}
+                    label={text('Confirm')}
+                    type="primary"
+                    ghost={true}
+                    onSuccess={onAccepted}
+                />
+            );
+        }
+
+        if (!user.blocked && agency) {
+            return (
+                <BlockAccountFormButton
+                    initialValues={user}
+                    type="danger"
+                    ghost={true}
+                >
+                    {text('Block this user!')}
+                </BlockAccountFormButton>
+            );
+        }
+
+        return null;
+    }
+
+    public render() {
+        const { user } = this.props;
+        const { loading } = this.state;
 
         if (loading) {
             return <Icon type="loading" spin={true} />;
@@ -71,7 +118,7 @@ export class AccountExpandedRow extends React.PureComponent<
 
         return (
             <Row>
-                <Col span={12}>
+                <Col span={8}>
                     <DescriptionList title="Thông tin đăng ký" col={1}>
                         <DescriptionList.Description term={text('Business areas')}>
                             {user.registration_businessAreas || '...'}
@@ -87,27 +134,28 @@ export class AccountExpandedRow extends React.PureComponent<
                         </DescriptionList.Description>
                     </DescriptionList>
                 </Col>
-                <Col span={12} className="text-right">
-                    {!user.confirmed && (
-                        <span>Người dùng chưa xác thực email</span>
-                    )}
+                <Col span={8}>
                     {
-                        (user.confirmed && !agency) && (
-                            <AgencyFormButton
-                                initialValues={{
-                                    linkedUser: user,
-                                    email: user.email,
-                                    address: user.registration_companyAddress,
-                                    name: user.registration_companyName,
-                                    phone: user.phone
-                                }}
-                                label={text('Confirm')}
-                                type="primary"
-                                ghost={true}
-                                onSuccess={onAccepted}
-                            />
+                        user.blocked && (
+                            <DescriptionList title="Tình trạng hoạt động" col={1}>
+                                <DescriptionList.Description term={text('Status')}>
+                                    {text('Blocked')}
+                                </DescriptionList.Description>
+                                <DescriptionList.Description term={text('Blocked reason')}>
+                                    {user.blockedReason || '...'}
+                                </DescriptionList.Description>
+                                <DescriptionList.Description term={text('Blocked by')}>
+                                    {user.blockedBy ? user.blockedBy.fullName : 'Unknow!'}
+                                </DescriptionList.Description>
+                                <DescriptionList.Description term={text('Blocked at')}>
+                                    {formatDate(user.blockedAt, DATETIME_FORMAT)}
+                                </DescriptionList.Description>
+                            </DescriptionList>
                         )
                     }
+                </Col>
+                <Col span={8} className="text-right">
+                    {this.renderActions()}
                 </Col>
             </Row>
         );

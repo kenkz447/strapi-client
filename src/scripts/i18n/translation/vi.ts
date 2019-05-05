@@ -187,5 +187,11 @@ export const vi = {
     'DeviceNotAllowed': 'Thiết bị hiện tại của bạn không được hỗ trợ, vui lòng sử dụng laptop hoặc máy tính để bàn để thao tác. Rất xin lỗi vì bất tiện này!',
     'Update status': 'Cập nhật trạng thái',
     'Update delivery date': 'Cập nhật ngày giao hàng',
-    'Materials received': 'Đã nhận vật liệu'
+    'Materials received': 'Đã nhận vật liệu',
+    'Identifier or password invalid.': 'Tài khoản hoặc mật khẩu không chính xác',
+    'Your account has been blocked by the administrator.': 'Tài khoản của bạn đã bị chặn bởi quản trị viên',
+    'Blocked': 'Đã chặn',
+    'Blocked at': 'Chặn vào lúc',
+    'Blocked by': 'Người chặn',
+    'Blocked reason': 'Lý do chặn'
 };

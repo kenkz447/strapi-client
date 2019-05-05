@@ -3,6 +3,7 @@ import { RootContext } from 'qoobee';
 import * as React from 'react';
 
 import { WithAuthClient } from '@/domain';
+import { text } from '@/i18n';
 
 import {
     LoginForm,
@@ -33,14 +34,8 @@ export class LoginFormControl extends React.PureComponent {
         try {
             await authClient.login(values);
         } catch (error) {
-            if (error instanceof Error) {
-                return void formiKBag.setStatus({
-                    error: error.message
-                });
-            }
-
             formiKBag.setStatus({
-                error: 'Tài khoản hoặc mật khẩu không chính xác!'
+                error: text(error.message)
             });
         } finally {
             formiKBag.setSubmitting(false);
