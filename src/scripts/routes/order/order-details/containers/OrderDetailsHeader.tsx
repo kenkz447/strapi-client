@@ -7,16 +7,12 @@ import * as React from 'react';
 
 import { BusinessController } from '@/business';
 import {
+    changeOrderExternalMaterialsStatus,
+    getOrderShippingDateLabel,
     getOrderStatusLabel,
     getOrderTransactionMoney,
     lockOrder
 } from '@/business/order';
-import {
-    changeOrderExternalMaterialsStatus
-} from '@/business/order/actions/changeOrderExternalMaterialsStatus';
-import {
-    getOrderShippingDateLabel
-} from '@/business/order/getters/getOrderShippingDateLabel';
 import { PageHeader } from '@/components';
 import {
     DATE_FORMAT,

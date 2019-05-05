@@ -3,7 +3,7 @@
 export const vi = {
     Home: 'Tổng quan',
     Login: 'Đăng nhập',
-    LoginDescription: 'Chúc bạn một này làm việc vui vẻ',
+    LoginDescription: 'Chúc bạn một ngày làm việc vui vẻ',
     User: 'Cá nhân',
     'Account settings': 'Cài đặt tài khoản',
     'AccountSettingsDescription': 'Cài đặt thông tin đăng nhập và định danh cá nhân.',
