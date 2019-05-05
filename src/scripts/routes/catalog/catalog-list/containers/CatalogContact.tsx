@@ -65,7 +65,7 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                         {text('Địa chỉ nhà máy sản xuất')}
                     </Typography.Paragraph>
                     <Typography.Paragraph type="secondary">
-                        25/6a Nhị Bình 02, xã Nhị Bình huyện Hóc Môn, tp Hồ Chí Minh.
+                        Nhị Bình 02, xã Nhị Bình huyện Hóc Môn, tp Hồ Chí Minh.
                         Vui lòng gọi để đặt lịch hẹn trước khi đến : 0933550609
                 </Typography.Paragraph>
                     <ContactGoogleMap />
