@@ -2,7 +2,7 @@ import { User } from '@/restful';
 
 export const getUserFirstName = (user: User) => {
     if (!user.fullName) {
-        return 'Unnamed';
+        return user.username;
     }
 
     const fullnameSplited = user.fullName.trim().split(' ');

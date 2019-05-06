@@ -6,6 +6,7 @@ import { RoutEmailConfirmation } from './email-confirmation';
 import { RouteForgottenPassword } from './forgetten-password';
 import { RouteAuthInvitaion } from './invitation';
 import { RouteLogin } from './login';
+import { RouteProvideConnectCallback } from './provider-connect-callback';
 import { RouteRegister } from './register';
 import { RouteResetPassword } from './reset-password';
 
@@ -15,7 +16,8 @@ const routes = routeFrom([
     RouteForgottenPassword,
     RouteResetPassword,
     RouteAuthInvitaion,
-    RoutEmailConfirmation
+    RoutEmailConfirmation,
+    RouteProvideConnectCallback
 ]);
 
 export default () => (

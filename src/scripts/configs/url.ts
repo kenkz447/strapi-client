@@ -1,5 +1,7 @@
 export const AUTH_PATH = '/auth';
 export const LOGIN_URL = AUTH_PATH + '/login';
+export const LOGIN_CONNECT_CALLBACK_URL = AUTH_PATH + '/callback';
+
 export const AUTH_REGISTER_URL = AUTH_PATH + '/register';
 export const AUTH_CONFIRM_URL = AUTH_PATH + '/confirm';
 export const AUTH_EMAIL_CONFIRMATION_URL = AUTH_PATH + '/email-confirmation';

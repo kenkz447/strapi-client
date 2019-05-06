@@ -1,5 +1,7 @@
 import { BreakPoint } from 'qoobee';
 
+export const COLOR_PRIMARY = '#08979c';
+
 export const TOKEN_KEY = '4160749412';
 
 export const DATE_FORMAT = 'DD/MM/YYYY';

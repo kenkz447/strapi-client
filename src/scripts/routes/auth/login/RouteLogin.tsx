@@ -14,11 +14,23 @@ import { AuthCard, AuthPageWrapper } from '../shared';
 type RouteLoginProps = AppPageProps;
 
 export class RouteLogin extends RoutePage<RouteLoginProps> {
+    static readonly withContext = ['authClient'];
+
     static readonly routeInfo: RouteInfo = {
         path: LOGIN_URL,
         title: 'Đăng nhập',
         exact: true
     };
+
+    private readonly renderGoogleLogin = () => {
+        return (
+            <div style={{ marginBottom: 16 }}>
+                <a href={API_ENTRY + '/connect/google'}>
+                    <img src="/static/assets/google-icon.png" width="30" /> Đăng nhập với Google
+                </a>
+            </div>
+        );
+    }
 
     render() {
         return (
@@ -29,6 +41,7 @@ export class RouteLogin extends RoutePage<RouteLoginProps> {
                             title={text('Login')}
                             description={text('LoginDescription')}
                         >
+                            {this.renderGoogleLogin()}
                             <LoginFormControl />
 
                             <Divider dashed={true} />

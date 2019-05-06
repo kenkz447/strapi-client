@@ -3,6 +3,7 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
+import { getUserFirstName } from '@/business/user';
 import { PROFILE_ACCOUNT_URL } from '@/configs';
 import { WithAuthClient, WithCurrentUser, WithHistory } from '@/domain';
 import { text } from '@/i18n';
@@ -54,7 +55,7 @@ function HeaderUserActions(props: WithContextProps<HeaderUserActionsContext>) {
         >
             <span className="header-action">
                 <Avatar src={defaultAvatar} />
-                <AccountName>{currentUser.fullName}</AccountName>
+                <AccountName>{getUserFirstName(currentUser)}</AccountName>
             </span>
         </Dropdown>
     );

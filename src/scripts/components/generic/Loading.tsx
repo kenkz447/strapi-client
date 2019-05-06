@@ -2,7 +2,7 @@ import { Icon } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { COLOR_PRIMARY_600 } from '@/configs';
+import { COLOR_PRIMARY } from '@/configs';
 
 const LoadingWrapper = styled.div`
     min-width: 200px;
@@ -14,20 +14,45 @@ const LoadingWrapper = styled.div`
     i {
         font-size: 20px;
         margin-bottom: 20px;
-        color: ${COLOR_PRIMARY_600};
+        color: ${COLOR_PRIMARY};
     }
 `;
 
 export interface LoadingProps {
     readonly style?: React.CSSProperties;
+    readonly delayMS?: number;
+    readonly children?: React.ReactNode;
 }
 
 export function Loading(props: LoadingProps) {
-    const { style } = props;
+    const { style, delayMS, children } = props;
+
+    const [canRender, setCanRender] = React.useState(false);
+
+    React.useEffect(() => {
+        setTimeout(
+            () => {
+                setCanRender(true);
+            },
+            delayMS
+        );
+    });
+
+    if (!canRender) {
+        return null;
+    }
+
     return (
         <LoadingWrapper style={style}>
             <Icon type="loading" spin={true} />
-            <span>Đang tải dữ liệu, đợi xíu...</span>
+            <span>
+                {children}
+            </span>
         </LoadingWrapper>
     );
 }
+
+Loading.defaultProps = {
+    delayMS: 500,
+    children: 'Đang tải dữ liệu, đợi xíu...'
+};

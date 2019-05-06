@@ -43,7 +43,7 @@ export class DefaultLayoutSiderMenu extends React.Component<DefaultLayoutSiderMe
             <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={[this.getSelectedKey()]}
+                selectedKeys={[this.getSelectedKey()]}
                 onClick={({ key }) => {
                     if (location.pathname.startsWith(key)) {
                         return;

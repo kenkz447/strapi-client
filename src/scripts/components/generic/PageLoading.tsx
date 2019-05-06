@@ -2,7 +2,7 @@ import { Icon } from 'antd';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { COLOR_PRIMARY_600 } from '@/configs';
+import { COLOR_PRIMARY } from '@/configs';
 
 const PageLoadingWrapper = styled.div`
     height: 100%;
@@ -15,18 +15,40 @@ const PageLoadingWrapper = styled.div`
     i {
         font-size: 20px;
         margin-bottom: 20px;
-        color: ${COLOR_PRIMARY_600};
+        color: ${COLOR_PRIMARY};
     }
 `;
 
 export interface PageLoadingProps {
+    readonly delayMS?: number;
 }
 
 export function PageLoading(props: PageLoadingProps) {
+    const { delayMS } = props;
+
+    const [canRender, setCanRender] = React.useState(false);
+
+    React.useEffect(() => {
+        setTimeout(
+            () => {
+                setCanRender(true);
+            },
+            delayMS
+        );
+    });
+
+    if (!canRender) {
+        return null;
+    }
+
     return (
         <PageLoadingWrapper>
             <Icon type="loading" spin={true} />
-            <span>Đang tải dữ liệu, đợi xíu...</span>
+            <span>Đang tải trang, đợi xíu...</span>
         </PageLoadingWrapper>
     );
 }
+
+PageLoading.defaultProps = {
+    delayMS: 500
+};

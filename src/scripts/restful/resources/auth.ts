@@ -57,5 +57,8 @@ export const authResources = {
                     .required()
             })
         )
-    })
+    }),
+    providerLogin: new Resource<AuthLoginRequestBody, AuthLoginResponseBody>({
+        url: '/auth/:provider/callback'
+    }),
 };

@@ -165,7 +165,7 @@ export const getProductDetails = (
         },
         {
             group: 'Size',
-            title: 'Kích thước nệm ngồi',
+            title: 'Kích thước nệm ngồi (mm)',
             value: selectedFurnitureComponentGroup
                 ? selectedFurnitureComponentGroup!.sittingSurfaceSize
                 : ''

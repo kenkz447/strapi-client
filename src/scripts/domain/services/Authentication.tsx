@@ -13,6 +13,7 @@ import {
 import { AuthClient, DomainContext, WithHistory } from '../base';
 
 interface DecodedJWT {
+    readonly _id: string;
     readonly sub: number;
     readonly name: string;
     readonly email: string;
@@ -45,7 +46,7 @@ class Authentication extends React.PureComponent<
                 return {
                     type: 'path',
                     parameter: 'id',
-                    value: userInfo.sub
+                    value: userInfo.sub || userInfo._id
                 };
             },
             getResponseToken: (response: AuthLoginResponseBody) => response.jwt,
