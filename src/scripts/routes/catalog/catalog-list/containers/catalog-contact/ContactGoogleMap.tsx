@@ -9,8 +9,8 @@ import {
 import { GMAP_KEY } from '@/configs';
 
 const location = {
-    lat: 10.918168,
-    lng: 106.674693
+    lat: 10.919164,
+    lng: 106.677663
 };
 
 const ContactGoogleMapComponent = withScriptjs(withGoogleMap((props) => {
