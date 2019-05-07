@@ -4,7 +4,11 @@ import { FormikProps } from 'formik';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { getDiscountByQuantityValue } from '@/business/discount-by-quantity';
+import {
+    getDiscountByQuantityLabel,
+    getDiscountByQuantityValue,
+    getNearestDiscountByQuantityInList
+} from '@/business/discount-by-quantity';
 import { getProductOriginPrice } from '@/business/product';
 import {
     FormBody,
@@ -35,7 +39,23 @@ export interface OrderDetailCreateFormOwnProps extends FormikProps<OrderDetailCr
     readonly submitDisabled: boolean;
 }
 
-export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreateFormOwnProps> {
+interface OrderDetailCreateFormState {
+    readonly quantitySelectOptions: OptionProps[];
+}
+
+export class OrderDetailCreateForm extends React.PureComponent<
+    OrderDetailCreateFormOwnProps,
+    OrderDetailCreateFormState
+    > {
+
+    constructor(props: OrderDetailCreateFormOwnProps) {
+        super(props);
+
+        this.state = {
+            quantitySelectOptions: props.quantitySelectOptions
+        };
+    }
+
     private readonly onQuantityChange = () => {
         const { values, product, allQuantity, setFieldValue } = this.props;
 
@@ -66,6 +86,62 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
         );
     }
 
+    private readonly onQuantitySearch = (searchValue: string) => {
+        const { product, allQuantity } = this.props;
+
+        const searchQuantity = +searchValue;
+
+        if (!searchQuantity) {
+            this.setState({
+                quantitySelectOptions: [...this.props.quantitySelectOptions]
+            });
+
+            return;
+        }
+
+        const { quantitySelectOptions } = this.state;
+
+        const existingQuanity = quantitySelectOptions.find(o => o.value === searchQuantity);
+
+        if (existingQuanity) {
+            return;
+        }
+
+        const discountByQuantity =
+            getNearestDiscountByQuantityInList(allQuantity, searchQuantity);
+
+        if (!discountByQuantity) {
+            return;
+        }
+
+        const newSelectOptions = {
+            value: searchValue,
+            title: getDiscountByQuantityLabel(
+                { ...discountByQuantity, quantity: searchQuantity },
+                product
+            )
+        };
+
+        const nextQuantitySelectOptions = [
+            ...quantitySelectOptions,
+            newSelectOptions
+        ].sort((i1, i2) => {
+            if (i1.value! > i2.value!) {
+                return 1;
+            }
+
+            if (i1.value! < i2.value!) {
+                return -1;
+            }
+
+            return 0;
+        });
+
+        this.setState({
+            quantitySelectOptions: nextQuantitySelectOptions
+        });
+    }
+
     public componentDidUpdate(prevProps: OrderDetailCreateFormOwnProps) {
         if (this.props.values.quantity !== prevProps.values.quantity) {
             this.onQuantityChange();
@@ -77,12 +153,15 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
             values,
             errors,
             setFieldValue,
-            quantitySelectOptions,
             product,
             handleSubmit,
             isSubmitting,
-            submitDisabled
+            submitDisabled,
         } = this.props;
+
+        const {
+            quantitySelectOptions,
+        } = this.state;
 
         const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
         const isPromotion = !!values.storedPromoCode;
@@ -120,6 +199,9 @@ export class OrderDetailCreateForm extends React.PureComponent<OrderDetailCreate
                                     validateStatus={errors.quantity ? 'error' : undefined}
                                     label={text('Quantity')}
                                     placeholder={text('Select quantity')}
+                                    showSearch={true}
+                                    onSearch={this.onQuantitySearch}
+                                    onBlur={() => this.onQuantitySearch('u')}
                                 />
                             )
                     }

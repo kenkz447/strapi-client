@@ -124,8 +124,8 @@ const getTopInfo = (
         },
         {
             group: 'Size',
-            title: 'Đường kính mặt bàn',
-            value: component.diameter + ' mm'
+            title: 'Đường kính mặt bàn (mm)',
+            value: component.diameter
         }
     ];
 };
@@ -151,7 +151,7 @@ export const getProductDetails = (
         },
         {
             group: 'Packaging',
-            title: 'Kích thước bao bì',
+            title: 'Kích thước bao bì (mm)',
             value: selectedFurnitureComponentGroup
                 ? selectedFurnitureComponentGroup.packagingSize
                 : null

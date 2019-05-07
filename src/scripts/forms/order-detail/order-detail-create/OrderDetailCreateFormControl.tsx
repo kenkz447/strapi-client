@@ -107,12 +107,13 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
 
     public render() {
         const { product, submitDisabled } = this.props;
-        if (!product) {
+        const { allQuantityOptions, allQuantity, loaded } = this.state;
+
+        if (!product || !loaded) {
             return null;
         }
 
         const { initialValues } = this.props;
-        const { allQuantityOptions, allQuantity } = this.state;
 
         return (
             <Formik
