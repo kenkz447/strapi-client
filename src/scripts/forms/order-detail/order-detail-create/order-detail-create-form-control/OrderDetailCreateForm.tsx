@@ -4,15 +4,11 @@ import { FormikProps } from 'formik';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import {
-    getDiscountByQuantityLabel,
-    getDiscountByQuantityValue,
-    getNearestDiscountByQuantityInList
-} from '@/business/discount-by-quantity';
+import { getDiscountByQuantityValue } from '@/business/discount-by-quantity';
 import { getProductOriginPrice } from '@/business/product';
 import {
     FormBody,
-    FormSelect,
+    FormInputNumber,
     verticalLayout,
     verticalLayoutNoLabel
 } from '@/components';
@@ -86,62 +82,6 @@ export class OrderDetailCreateForm extends React.PureComponent<
         );
     }
 
-    private readonly onQuantitySearch = (searchValue: string) => {
-        const { product, allQuantity } = this.props;
-
-        const searchQuantity = +searchValue;
-
-        if (!searchQuantity) {
-            this.setState({
-                quantitySelectOptions: [...this.props.quantitySelectOptions]
-            });
-
-            return;
-        }
-
-        const { quantitySelectOptions } = this.state;
-
-        const existingQuanity = quantitySelectOptions.find(o => o.value === searchQuantity);
-
-        if (existingQuanity) {
-            return;
-        }
-
-        const discountByQuantity =
-            getNearestDiscountByQuantityInList(allQuantity, searchQuantity);
-
-        if (!discountByQuantity) {
-            return;
-        }
-
-        const newSelectOptions = {
-            value: searchValue,
-            title: getDiscountByQuantityLabel(
-                { ...discountByQuantity, quantity: searchQuantity },
-                product
-            )
-        };
-
-        const nextQuantitySelectOptions = [
-            ...quantitySelectOptions,
-            newSelectOptions
-        ].sort((i1, i2) => {
-            if (i1.value! > i2.value!) {
-                return 1;
-            }
-
-            if (i1.value! < i2.value!) {
-                return -1;
-            }
-
-            return 0;
-        });
-
-        this.setState({
-            quantitySelectOptions: nextQuantitySelectOptions
-        });
-    }
-
     public componentDidUpdate(prevProps: OrderDetailCreateFormOwnProps) {
         if (this.props.values.quantity !== prevProps.values.quantity) {
             this.onQuantityChange();
@@ -158,10 +98,6 @@ export class OrderDetailCreateForm extends React.PureComponent<
             isSubmitting,
             submitDisabled,
         } = this.props;
-
-        const {
-            quantitySelectOptions,
-        } = this.state;
 
         const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
         const isPromotion = !!values.storedPromoCode;
@@ -188,20 +124,18 @@ export class OrderDetailCreateForm extends React.PureComponent<
                                 </Form.Item>
                             )
                             : (
-                                <FormSelect
+                                <FormInputNumber
                                     name={nameof<OrderDetailCreateFormValues>(o => o.quantity)}
                                     value={values.quantity}
                                     setFieldValue={setFieldValue}
-                                    options={quantitySelectOptions}
                                     wrapperCol={verticalLayout.wrapperCol}
                                     labelCol={verticalLayout.labelCol}
                                     help={errors.quantity}
                                     validateStatus={errors.quantity ? 'error' : undefined}
                                     label={text('Quantity')}
-                                    placeholder={text('Select quantity')}
-                                    showSearch={true}
-                                    onSearch={this.onQuantitySearch}
-                                    onBlur={() => this.onQuantitySearch('u')}
+                                    placeholder={text('100')}
+                                    max={1000}
+                                    min={1}
                                 />
                             )
                     }

@@ -283,20 +283,21 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
 
     private readonly renderExtra = () => {
         const { order } = this.props;
-        const transactionMoney = getOrderTransactionMoney(order);
 
+        const transactionMoney = getOrderTransactionMoney(order);
+        const needToPay = order.totalOfPayment - transactionMoney;
         return (
             <Row>
                 <Col sm={24} md={12}>
                     <div style={{ color: 'rgba(0, 0, 0, 0.43)' }}>Đã thanh toán</div>
-                    <div style={{ color: 'rgba(0, 0, 0, 0.85)', fontSize: 20 }}>
+                    <div style={{ color: 'rgba(0, 0, 0, 0.55)', fontSize: 20 }}>
                         {formatCurrency(transactionMoney)}
                     </div>
                 </Col>
                 <Col sm={24} md={12}>
                     <div style={{ color: 'rgba(0, 0, 0, 0.43)' }}>Cần thanh toán</div>
                     <div style={{ color: 'rgba(0, 0, 0, 0.85)', fontSize: 20 }}>
-                        {formatCurrency(order.totalOfPayment)}
+                        {formatCurrency(needToPay)}
                     </div>
                 </Col>
             </Row>
