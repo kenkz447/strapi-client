@@ -8,6 +8,9 @@ import { UploadedFile } from '@/restful';
 const ContactProductGroupIconsWrapper = styled.div`
     display: flex;
     justify-content: center;
+    img {
+        max-width: 100%;
+    }
 `;
 
 interface ContactProductGroupIconsProps {

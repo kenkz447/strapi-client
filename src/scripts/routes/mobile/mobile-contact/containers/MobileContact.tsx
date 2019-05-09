@@ -63,9 +63,8 @@ export class MobileContact extends React.PureComponent<MobileContactProps> {
                     <Typography.Paragraph type="secondary">
                         Đặt hàng dự án: Mr Việt 0902902574 <br />
                         Liên hệ làm đại lý: Mr Jay 0984442264 <br />
-                        Tư vấn thông tin sản phẩm: Ms Ngọc 0902902458 <br />
-                        Email: info@mfurniture.vn
-                </Typography.Paragraph>
+                        Tư vấn thông tin sản phẩm: Ms Ngọc 0902902458
+                    </Typography.Paragraph>
                     <Divider />
                     <Typography.Paragraph strong={true}>
                         {text('Hotline chăm sóc khách hàng')}

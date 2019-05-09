@@ -87,7 +87,10 @@ export class RouteCatalog extends RoutePage<RouteCatalogProps, RouteCatalogState
         return (
             <PageWrapper>
                 <RouteRouteCatalogWrapper>
-                    <CatalogContact productTypeGroups={productTypeGroups} />
+                    <CatalogContact
+                        productTypeGroups={productTypeGroups}
+                        selectedProductTypeGroup={selectedProductTypeGroup}
+                    />
                     {
                         selectedCatalogId
                             ? (

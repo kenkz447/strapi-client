@@ -18,13 +18,16 @@ const ContactGoogleMapComponent = withScriptjs(withGoogleMap((props) => {
         <GoogleMap
             defaultZoom={12}
             defaultCenter={location}
+            defaultOptions={{
+                scrollwheel: false
+            }}
         >
             <Marker position={location} />
         </GoogleMap>
     );
 }));
 
-export const ContactGoogleMap = () => {
+export const ContactGoogleMap = React.memo(() => {
     return (
         <ContactGoogleMapComponent
             // tslint:disable-next-line:max-line-length
@@ -34,4 +37,4 @@ export const ContactGoogleMap = () => {
             mapElement={<div style={{ height: `100%` }} />}
         />
     );
-};
+});
