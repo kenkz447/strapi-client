@@ -5,11 +5,18 @@ import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 import { isNumber } from 'util';
 
+import {
+    getProductModuleCodes,
+    getProductModulesComponentCodes
+} from '@/business/product-modules';
 import { Product3DSenceContext } from '@/domain';
 import { text } from '@/i18n';
 import { FurnitureComponent, FurnitureComponentGroup } from '@/restful';
 
-import { RouteProductContext } from '../../RouteProductContext';
+import {
+    RouteProductContext,
+    RouteProductContextProps
+} from '../../RouteProductContext';
 import { ComponentSelectItem } from './product-component-select';
 
 interface ProductComponentSelectProps {
@@ -19,6 +26,9 @@ interface ProductComponentSelectProps {
 class ProductComponentSelectComponent extends React.PureComponent<
     WithContextProps<Product3DSenceContext, ProductComponentSelectProps>
     > {
+    
+    public static readonly contextType = RouteProductContext;
+    public readonly context!: RouteProductContextProps;
 
     static readonly defaultProps = {
         selectedFurnitureComponentHeight: null,
@@ -98,11 +108,22 @@ class ProductComponentSelectComponent extends React.PureComponent<
     private readonly isComponentSelected = (
         components: FurnitureComponent[]
     ): FurnitureComponent | undefined => {
+        const { currentModulesCode } = this.context;
+
         const {
             selectedFurnitureComponentIndex
         } = this.props;
-        const next = components.find(o => location.pathname.includes(o.code));
-        return next || components[selectedFurnitureComponentIndex || 0];
+
+        const currentComponentCodes = getProductModulesComponentCodes(currentModulesCode);
+
+        const nextComponent = components.find(o => currentComponentCodes.includes(o.code));
+
+        if (nextComponent) {
+            return nextComponent;
+        }
+
+        const nextSelectComponentIndex = selectedFurnitureComponentIndex || 0;
+        return components[nextSelectComponentIndex];
     }
 
     componentDidUpdate(prevProps: Product3DSenceContext) {

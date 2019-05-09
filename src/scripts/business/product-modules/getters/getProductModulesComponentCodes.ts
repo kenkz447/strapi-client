@@ -1,4 +1,4 @@
-export const getProductModulesComponentCodes = (productModulesCode: string) => {
+export const getProductModulesComponentCodes = (productModulesCode?: string) => {
     if (!productModulesCode) {
         return [];
     }

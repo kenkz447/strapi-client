@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-interface RouteProductContextProps {
+export interface RouteProductContextProps {
     readonly currentModulesCode?: string;
 }
 

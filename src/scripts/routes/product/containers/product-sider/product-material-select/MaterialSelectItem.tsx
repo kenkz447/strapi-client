@@ -3,6 +3,7 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
+import { getProductModulesMaterialCodes } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
 import { Product3DSenceContext, WithHistory } from '@/domain';
@@ -56,9 +57,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
             setContext
         } = this.props;
 
-        if (!selectedFurnitureComponent
-            || !currentProductModulesCode
-        ) {
+        if (!selectedFurnitureComponent || !currentProductModulesCode) {
             return;
         }
 

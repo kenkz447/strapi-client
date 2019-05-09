@@ -1,15 +1,19 @@
 import { List } from 'antd';
 import * as classNames from 'classnames';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
 import {
     getFurnitureComponentGroupById
 } from '@/business/furniture-component-group';
-import { getProductModuleCodes } from '@/business/product-modules';
+import {
+    getProductModuleCodes,
+    getProductModulesComponentCodes
+} from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
-import { Product3DSenceContext, WithHistory } from '@/domain';
+import { DomainContext, Product3DSenceContext, WithHistory } from '@/domain';
 import {
     FurnitureComponent,
     FurnitureComponentGroup,
@@ -24,22 +28,21 @@ interface ComponentSelectItemOwnProps {
     readonly currentIndex: number;
 }
 
-type ComponentSelectItemContext = WithHistory
-    & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>
-    & Pick<Product3DSenceContext, 'selectedFurnitureComponentIndex'>
-    & Pick<Product3DSenceContext, 'selectedFurnitureComponentGroup'>
-    & Pick<Product3DSenceContext, 'selectedProduct'>;
+export class ComponentSelectItem extends React.PureComponent<ComponentSelectItemOwnProps> {
+    public static readonly contextType = RootContext;
+    public readonly context!: WithContextProps<DomainContext>;
 
-type ComponentSelectItemProps = WithContextProps<ComponentSelectItemContext, ComponentSelectItemOwnProps>;
-
-class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectItemProps> {
     private readonly onComponentSelect = async () => {
         const {
-            furnitureComponent,
-            currentProductModulesCode,
             selectedFurnitureComponent,
             selectedProduct,
             history
+        } = this.context;
+
+        const {
+            furnitureComponent,
+            currentProductModulesCode,
+
         } = this.props;
 
         if (!currentProductModulesCode || !selectedFurnitureComponent) {
@@ -51,7 +54,7 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
         const nextProductModules: ProductModule[] = [];
 
         for (const productModule of selectedProduct!.modules) {
-            if (productModule.component.code === selectedFurnitureComponent.code) {
+            if (productModule.component.code === furnitureComponent.code) {
                 let material = productModule.material;
 
                 nextProductModules.push({
@@ -95,7 +98,7 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
                     componentPrice: 0,
                     material: {
                         code: 999
-                    } as  any,
+                    } as any,
                     materialPrice: 0
                 });
             } else {
@@ -114,7 +117,8 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
     }
 
     private readonly getNextComponentGroup = async () => {
-        const { selectedFurnitureComponentGroup, furnitureComponent } = this.props;
+        const { selectedFurnitureComponentGroup } = this.context;
+        const { furnitureComponent } = this.props;
 
         let nextComponentGroup: FurnitureComponentGroup | null | undefined;
 
@@ -141,23 +145,29 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
         return nextComponentGroup;
     }
 
-    componentDidUpdate(preveProps: ComponentSelectItemProps) {
+    componentDidUpdate(preveProps: ComponentSelectItemOwnProps) {
+        const { 
+            setContext,
+            selectedFurnitureComponentIndex,
+            selectedFurnitureComponent
+        } = this.context;
+
         const {
             currentProductModulesCode,
             furnitureComponent,
-            setContext,
             currentIndex,
-            selectedFurnitureComponentIndex,
-            selectedFurnitureComponent
+            
         } = this.props;
 
         if (!currentProductModulesCode) {
             return;
         }
 
+        const componentCodes = getProductModulesComponentCodes(currentProductModulesCode);
+
         if (
-            currentProductModulesCode.indexOf(furnitureComponent.code) !== -1
-            && (selectedFurnitureComponent && selectedFurnitureComponent.id !== furnitureComponent.id)
+            componentCodes.includes(furnitureComponent.code)
+            && (selectedFurnitureComponent && selectedFurnitureComponent.id) !== furnitureComponent.id
         ) {
             setContext({
                 selectedFurnitureComponent: furnitureComponent,
@@ -167,7 +177,7 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
         }
 
         if (
-            currentProductModulesCode.indexOf(furnitureComponent.code) >= 0
+            componentCodes.includes(furnitureComponent.code)
             && selectedFurnitureComponentIndex !== currentIndex
         ) {
             setContext({
@@ -203,11 +213,3 @@ class ComponentSelectItemComponent extends React.PureComponent<ComponentSelectIt
         );
     }
 }
-
-export const ComponentSelectItem = withContext<ComponentSelectItemContext, ComponentSelectItemOwnProps>(
-    'history',
-    'selectedFurnitureComponent',
-    'selectedFurnitureComponentGroup',
-    'selectedProduct',
-    'selectedFurnitureComponentIndex'
-)(ComponentSelectItemComponent);
