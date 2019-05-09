@@ -193,5 +193,8 @@ export const vi = {
     'Blocked': 'Đã chặn',
     'Blocked at': 'Chặn vào lúc',
     'Blocked by': 'Người chặn',
-    'Blocked reason': 'Lý do chặn'
+    'Blocked reason': 'Lý do chặn',
+    'Update deposit amount': 'Cập nhật đặt cọc',
+    'Deposit amount': 'Số tiền cọc',
+    'Input money': 'Nhập số tiền'
 };

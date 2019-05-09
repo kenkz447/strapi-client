@@ -17,7 +17,7 @@ export const PRODUCT_PATH = '/product';
 export const PRODUCT_URL = PRODUCT_PATH + '/:modulesCode?';
 
 export const ORDER_PATH = '/orders';
-export const ORDER_LIST_URL = ORDER_PATH + '/list';
+export const ORDER_LIST_URL = ORDER_PATH;
 export const ORDER_DETAIL_URL = ORDER_PATH + '/detail/:id';
 
 export const AGENCIES_URL = '/agencies';

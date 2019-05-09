@@ -124,6 +124,12 @@ button+button {
     &-right {
         text-align: right !important;
     }
+    &-capitalize-first-letter {
+        display: inline-block;
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
 }
 
 .white-space {

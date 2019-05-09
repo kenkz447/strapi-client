@@ -23,6 +23,9 @@ import { policies, WithHistory } from '@/domain';
 import { confirm } from '@/effects';
 import { IssueTicketCreateFormButton } from '@/forms/issue-ticket';
 import { OrderDeliveryDateFormButton } from '@/forms/order/order-delivery-date';
+import {
+    OrderDepositRequiredFormButton
+} from '@/forms/order/order-deposit-required';
 import { OrderStatusFormButton } from '@/forms/order/order-status';
 import { text } from '@/i18n';
 import { Order } from '@/restful';
@@ -81,6 +84,11 @@ export class OrderDetailsHeader extends React.PureComponent<OrderDetailsHeaderPr
                                                 </Menu.Item>
                                             )
                                         }
+                                        <Menu.Item>
+                                            <OrderDepositRequiredFormButton
+                                                initialValues={order}
+                                            />
+                                        </Menu.Item>
                                         <Menu.Item>
                                             <OrderStatusFormButton
                                                 initialValues={order}

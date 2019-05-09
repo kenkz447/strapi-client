@@ -117,6 +117,7 @@ export class OrderDetailsTransactions extends React.PureComponent<OrderDetailsTr
                             <Table.Column
                                 title={text('Type')}
                                 dataIndex={nameof<OrderTransaction>(o => o.type)}
+                                render={(type) => <span className="text-capitalize-first-letter">{text(type)}</span>}
                             />
                             <Table.Column
                                 title={text('Time')}
