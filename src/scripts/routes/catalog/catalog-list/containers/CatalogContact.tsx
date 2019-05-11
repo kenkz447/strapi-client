@@ -71,7 +71,7 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                     </Typography.Paragraph>
                     <Typography.Paragraph type="secondary">
                         Nhị Bình 02, xã Nhị Bình huyện Hóc Môn, tp Hồ Chí Minh.
-                        Vui lòng gọi để đặt lịch hẹn trước khi đến : 0933550609
+                        Vui lòng gọi để đặt lịch hẹn trước khi đến : 0909.909.347
                 </Typography.Paragraph>
                     <ContactGoogleMap />
                     <Divider />
@@ -88,7 +88,7 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                         {text('Hotline chăm sóc khách hàng')}
                     </Typography.Paragraph>
                     <Typography.Paragraph type="secondary">
-                        Vui lòng gọi: 0902902574 <br />
+                        Vui lòng gọi: 0909.909.347 <br />
                         Email : info@mfurniture.vn
                 </Typography.Paragraph>
                 </Card>
