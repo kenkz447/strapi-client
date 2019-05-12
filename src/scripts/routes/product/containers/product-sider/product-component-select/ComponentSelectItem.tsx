@@ -7,6 +7,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import {
     getFurnitureComponentGroupById
 } from '@/business/furniture-component-group';
+import { getFurntirureMaterialDefault } from '@/business/furniture-material';
 import {
     getProductModuleCodes,
     getProductModulesComponentCodes
@@ -54,7 +55,9 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
         const currentItemComponentTypeId = getNestedObjectId(furnitureComponent.componentType);
 
         for (const productModule of selectedProduct!.modules) {
+            const moduleMaterial = productModule.material;
             const moduleComponentTypeId = getNestedObjectId(productModule.component.componentType);
+
             if (moduleComponentTypeId !== currentItemComponentTypeId) {
                 nextProductModules.push(productModule);
                 continue;
@@ -72,8 +75,19 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
 
                 continue;
             }
+
             if (!nextComponentGroup) {
-                nextProductModules.push(productModule);
+                const moduleMaterialType = getNestedObjectId(moduleMaterial.materialType);
+                const moduleMaterialValid = furnitureComponent.materialTypes.find(o => o.id === moduleMaterialType);
+
+                nextProductModules.push({
+                    ...productModule,
+                    component: furnitureComponent,
+                    material: moduleMaterialValid
+                        ? moduleMaterial
+                        : getFurntirureMaterialDefault()
+                });
+
                 continue;
             }
 
@@ -104,9 +118,7 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
             nextProductModules.push({
                 component: nextComponent,
                 componentPrice: 0,
-                material: {
-                    code: 999
-                } as any,
+                material: getFurntirureMaterialDefault(),
                 materialPrice: 0
             });
         }
@@ -131,10 +143,7 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
             const currentSelectedComponentGroupId = selectedFurnitureComponentGroup &&
                 selectedFurnitureComponentGroup.id;
 
-            const nextSelectedComponentGroupId =
-                typeof furnitureComponent.componentGroup === 'string' ?
-                    furnitureComponent.componentGroup :
-                    furnitureComponent.componentGroup.id;
+            const nextSelectedComponentGroupId = getNestedObjectId(furnitureComponent.componentGroup);
 
             if (currentSelectedComponentGroupId !== nextSelectedComponentGroupId) {
                 nextComponentGroup = await getFurnitureComponentGroupById(nextSelectedComponentGroupId);
