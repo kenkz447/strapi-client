@@ -75,8 +75,14 @@ class Product3dSenceComponent extends React.PureComponent<
             selectedModule.material.materialType
             : selectedFurnitureComponent.materialTypes[0];
         
+        const allComponentMaterialTypes = availableFurnitureComponents.map(component => {
+            return component.materialTypes;
+        });
+
+        const materialTypesToFetchMaterial = [].concat.apply([], allComponentMaterialTypes);
+
         const availableFurnitureMaterials =
-            await getFurnitureMaterialsByTypes(selectedFurnitureComponent.materialTypes);
+            await getFurnitureMaterialsByTypes(materialTypesToFetchMaterial);
 
         let selectedFurnitureMaterial = availableFurnitureMaterials.find(o => {
             if (

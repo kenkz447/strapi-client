@@ -19,7 +19,7 @@ import {
     FurnitureComponentGroup,
     ProductModule
 } from '@/restful';
-import { replaceRoutePath } from '@/utilities';
+import { getNestedObjectId, replaceRoutePath } from '@/utilities';
 
 interface ComponentSelectItemOwnProps {
     readonly currentProductModulesCode?: string;
@@ -42,7 +42,6 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
         const {
             furnitureComponent,
             currentProductModulesCode,
-
         } = this.props;
 
         if (!currentProductModulesCode || !selectedFurnitureComponent) {
@@ -52,8 +51,15 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
         const nextComponentGroup = await this.getNextComponentGroup();
 
         const nextProductModules: ProductModule[] = [];
+        const currentItemComponentTypeId = getNestedObjectId(furnitureComponent.componentType);
 
         for (const productModule of selectedProduct!.modules) {
+            const moduleComponentTypeId = getNestedObjectId(productModule.component.componentType);
+            if (moduleComponentTypeId !== currentItemComponentTypeId) {
+                nextProductModules.push(productModule);
+                continue;
+            }
+
             if (productModule.component.code === furnitureComponent.code) {
                 let material = productModule.material;
 
@@ -66,44 +72,43 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
 
                 continue;
             }
-
-            if (nextComponentGroup) {
-                const isComponentAvailabled = !!nextComponentGroup
-                    .components.find(o => o.id === productModule.component.id);
-
-                if (isComponentAvailabled) {
-                    nextProductModules.push(productModule);
-                    continue;
-                }
-
-                const moduleComponentTypeId = typeof productModule.component.componentType === 'string' ?
-                    productModule.component.componentType :
-                    productModule.component.componentType.id;
-
-                const nextComponent = nextComponentGroup
-                    .components.find(o => {
-                        if (typeof o.componentType === 'string') {
-                            return o.componentType === moduleComponentTypeId;
-                        }
-
-                        return o.componentType.id === moduleComponentTypeId;
-                    });
-
-                if (!nextComponent) {
-                    continue;
-                }
-
-                nextProductModules.push({
-                    component: nextComponent,
-                    componentPrice: 0,
-                    material: {
-                        code: 999
-                    } as any,
-                    materialPrice: 0
-                });
-            } else {
+            if (!nextComponentGroup) {
                 nextProductModules.push(productModule);
+                continue;
             }
+
+            const isComponentAvailabled = furnitureComponent.id === productModule.component.id;
+
+            if (isComponentAvailabled) {
+                nextProductModules.push(productModule);
+                continue;
+            }
+
+            const nextComponent = nextComponentGroup
+                .components.find(component => {
+                    const isSelectedComponent = (component.id === furnitureComponent.id);
+                    if (!isSelectedComponent) {
+                        return false;
+                    }
+
+                    const selectedComponentTypeId = getNestedObjectId(component.componentType);
+                    const isSameType = selectedComponentTypeId === moduleComponentTypeId;
+
+                    return isSameType;
+                });
+
+            if (!nextComponent) {
+                continue;
+            }
+
+            nextProductModules.push({
+                component: nextComponent,
+                componentPrice: 0,
+                material: {
+                    code: 999
+                } as any,
+                materialPrice: 0
+            });
         }
 
         const nextModulesCode = getProductModuleCodes(nextProductModules);
@@ -145,8 +150,8 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
         return nextComponentGroup;
     }
 
-    componentDidUpdate(preveProps: ComponentSelectItemOwnProps) {
-        const { 
+    componentDidUpdate() {
+        const {
             setContext,
             selectedFurnitureComponentIndex,
             selectedFurnitureComponent
@@ -156,7 +161,7 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
             currentProductModulesCode,
             furnitureComponent,
             currentIndex,
-            
+
         } = this.props;
 
         if (!currentProductModulesCode) {

@@ -68,6 +68,7 @@ export const vi = {
     'Total discount': 'Tổng giảm giá',
     'Total of payment': 'Tổng thanh toán',
     Quantity: 'Số lượng',
+    'Quantity to buy': 'Số lượng cần mua',
     'Select quantity': 'Chọn số lượng',
     'Add to cart': 'Thêm vào giỏ',
     'Order now!': 'Tiến hành đặt hàng',

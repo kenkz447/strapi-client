@@ -132,7 +132,7 @@ export class OrderDetailCreateForm extends React.PureComponent<
                                     labelCol={verticalLayout.labelCol}
                                     help={errors.quantity}
                                     validateStatus={errors.quantity ? 'error' : undefined}
-                                    label={text('Quantity')}
+                                    label={text('Quantity to buy')}
                                     placeholder={text('100')}
                                     max={1000}
                                     min={1}

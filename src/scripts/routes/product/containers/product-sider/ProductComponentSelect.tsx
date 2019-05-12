@@ -154,8 +154,10 @@ class ProductComponentSelectComponent extends React.PureComponent<
 
         const filteredFurnitureComponents = this.getFilteredFurnitureComponents();
         const isHidden = filteredFurnitureComponents.length === 1;
-
-        const className = 'product-component-select ' + (isHidden ? 'display-none' : '');
+        
+        if (isHidden) {
+            return null;
+        }
 
         const nextSelectedFurnitureComponent = this.isComponentSelected(
             filteredFurnitureComponents
@@ -165,7 +167,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
             <div>
                 <h4>{text('Components')}: </h4>
                 <List
-                    className={className}
+                    className="product-component-select"
                     dataSource={filteredFurnitureComponents}
                     grid={{ column: 4, gutter: 5 }}
                     renderItem={(furnitureComponent: FurnitureComponent, index: number) => {

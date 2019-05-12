@@ -54,7 +54,7 @@ export class MobileContact extends React.PureComponent<MobileContactProps> {
                     <Typography.Paragraph type="secondary">
                         Nhị Bình 02, xã Nhị Bình huyện Hóc Môn, tp Hồ Chí Minh.
                         Vui lòng gọi để đặt lịch hẹn trước khi đến : 0909.909.347
-                </Typography.Paragraph>
+                    </Typography.Paragraph>
                     <ContactGoogleMap />
                     <Divider />
                     <Typography.Paragraph strong={true}>

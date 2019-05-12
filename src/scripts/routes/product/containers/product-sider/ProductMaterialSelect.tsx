@@ -1,9 +1,10 @@
-import { List, Select, Typography } from 'antd';
+import { List } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
-import { withContext, WithContextProps } from 'react-context-service';
+import { WithContextProps } from 'react-context-service';
 
 import { getFurnitureMaterialByType } from '@/business/furniture-material';
-import { Product3DSenceContext } from '@/domain';
+import { DomainContext } from '@/domain';
 import { MaterialCreateFormButton } from '@/forms/material';
 import { text } from '@/i18n';
 import { FurnitureMaterial, FurnitureMaterialType } from '@/restful';
@@ -15,12 +16,12 @@ interface ProductMaterialSelectProps {
 
 }
 
-class ProductMaterialSelectComponent extends React.Component<
-    WithContextProps<Product3DSenceContext, ProductMaterialSelectProps>
-    > {
+export class ProductMaterialSelect extends React.Component<ProductMaterialSelectProps> {
+    public static readonly contextType = RootContext;
+    public readonly context!: WithContextProps<DomainContext>;
 
     private readonly fetchMaterials = async (materialType: FurnitureMaterialType) => {
-        const { setContext } = this.props;
+        const { setContext } = this.context;
         const materials = await getFurnitureMaterialByType(materialType);
 
         setContext({
@@ -33,7 +34,7 @@ class ProductMaterialSelectComponent extends React.Component<
         const {
             selectedFurnitureComponent,
             selectedFurnitureMaterialType
-        } = this.props;
+        } = this.context;
 
         if (!selectedFurnitureComponent) {
             return null;
@@ -60,13 +61,17 @@ class ProductMaterialSelectComponent extends React.Component<
         const {
             availableFurnitureMaterials,
             selectedFurnitureMaterial,
-        } = this.props;
+        } = this.context;
 
         if (!availableFurnitureMaterials || !availableFurnitureMaterials.length) {
             return null;
         }
 
         const materials = availableFurnitureMaterials.filter(o => materialType.id === o.materialType.id);
+
+        if (!materials.length) {
+            return null;
+        }
 
         return (
             <List
@@ -100,7 +105,7 @@ class ProductMaterialSelectComponent extends React.Component<
             selectedFurnitureMaterial,
             selectedFurnitureComponent,
             setContext
-        } = this.props;
+        } = this.context;
 
         if (!selectedFurnitureMaterial || !selectedFurnitureComponent) {
             return null;
@@ -114,7 +119,7 @@ class ProductMaterialSelectComponent extends React.Component<
         return (
             <div>
                 {
-                    internalMaterialTypes.map(type => {
+                   internalMaterialTypes.map(type => {
                         return (
                             <div key={type.id} style={{ marginBottom: 24 }}>
                                 <h4>{type.name}:</h4>
@@ -156,11 +161,3 @@ class ProductMaterialSelectComponent extends React.Component<
         );
     }
 }
-
-export const ProductMaterialSelect = withContext<Product3DSenceContext>(
-    'availableFurnitureMaterials',
-    'selected3DObject',
-    'selectedFurnitureMaterial',
-    'selectedFurnitureMaterialType',
-    'selectedFurnitureComponent'
-)(ProductMaterialSelectComponent);

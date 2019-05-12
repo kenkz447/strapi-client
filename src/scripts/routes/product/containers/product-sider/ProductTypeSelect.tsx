@@ -197,8 +197,8 @@ export class ProductTypeSelect extends React.PureComponent<
 
         const { productType, productDesign, productTypeGroup } = this.state;
 
-        const filteredProductType = this.getProductTypeByCurrentGroup();
-        const filteredProductDesign = this.getProductDesignByCurrentType();
+        const filteredProductTypes = this.getProductTypeByCurrentGroup();
+        const filteredProductDesigns = this.getProductDesignByCurrentType();
 
         return (
             <div className="product-type-select">
@@ -216,32 +216,40 @@ export class ProductTypeSelect extends React.PureComponent<
                             ))}
                     </Select>
                 </Form.Item>
-                <Form.Item label={text('Type')}>
-                    <Select
-                        value={productType || undefined}
-                        onChange={this.onProductTypeChange}
-                        className="w-100"
-                        placeholder={text('Select')}
-                        size="large"
-                    >
-                        {filteredProductType.map(o => (
-                            <Select.Option key={o.id} value={o.id}>{o.name}</Select.Option>
-                        ))}
-                    </Select>
-                </Form.Item>
-                <Form.Item label={text('Design')}>
-                    <Select
-                        value={productDesign || undefined}
-                        onChange={this.onProductDesignChange}
-                        className="w-100"
-                        placeholder={text('Select')}
-                        size="large"
-                    >
-                        {filteredProductDesign.map(o => (
-                            <Select.Option key={o.id} value={o.id}>{o.name}</Select.Option>
-                        ))}
-                    </Select>
-                </Form.Item>
+                {
+                    filteredProductTypes.length > 1 && (
+                        <Form.Item label={text('Type')}>
+                            <Select
+                                value={productType || undefined}
+                                onChange={this.onProductTypeChange}
+                                className="w-100"
+                                placeholder={text('Select')}
+                                size="large"
+                            >
+                                {filteredProductTypes.map(o => (
+                                    <Select.Option key={o.id} value={o.id}>{o.name}</Select.Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                    )
+                }
+                {
+                    filteredProductDesigns.length > 1 && (
+                        <Form.Item label={text('Design')}>
+                            <Select
+                                value={productDesign || undefined}
+                                onChange={this.onProductDesignChange}
+                                className="w-100"
+                                placeholder={text('Select')}
+                                size="large"
+                            >
+                                {filteredProductDesigns.map(o => (
+                                    <Select.Option key={o.id} value={o.id}>{o.name}</Select.Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                    )
+                }
             </div>
         );
     }
