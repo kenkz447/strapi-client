@@ -21,7 +21,7 @@ export function formatCurrency(value: number | FormatCurrencyParam) {
     if (!value) {
         return '0';
     }
-    
+
     let amount: number;
     let sourceCurrency: string;
     let rate: number;
@@ -42,9 +42,7 @@ export function formatCurrency(value: number | FormatCurrencyParam) {
         formated = `0 ${sourceCurrency}`;
     }
 
-    if (sourceCurrency) {
-        amount = roundTo(amount / rate, 2);
-    }
+    amount = roundTo(amount / rate, 0);
 
     formated = `${replace(amount, /(\d)(?=(\d{3})+(?!\d))/g, '$1,')} ${sourceCurrency}`;
 

@@ -42,7 +42,7 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
         if (notification.type === 'PROMOTION') {
             return <Avatar size="large" icon="gift" style={{ background: '#87d068' }} />;
         }
-        return null;
+        return <Avatar size="large" icon="question" />;
     }
 
     private readonly getNotificationUrlPath = (notification: Notification) => {
@@ -73,7 +73,7 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
         this.setNotificationViewed(notification);
     }
 
-    private readonly x = (unreadNotifications: Notification[]) => {
+    private readonly renderDropdownContent = (unreadNotifications: Notification[]) => {
         if (!unreadNotifications.length) {
             return (
                 <Card>
@@ -115,7 +115,7 @@ export class HeaderNotification extends React.PureComponent<HeaderNotificationPr
 
         return (
             <Dropdown
-                overlay={this.x(notifications)}
+                overlay={this.renderDropdownContent(notifications)}
                 trigger={['click']}
             >
                 <HeaderNotificationWrapper

@@ -12,6 +12,9 @@ type FirebaseNotificationProps = WithDomainContext;
 
 class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps> {
 
+    private _initialized = false;
+    private _notifications: Notification[] = [];
+
     private readonly snapshotValToObject = (value, key) => ({
         ...value,
         id: key
@@ -37,15 +40,18 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
         return result;
     }
 
-    private readonly subcribeNotification = (
-        userId: string,
-        callback: (notification: Notification[]) => void
-    ) => {
-        notificationRef
-            .child(`/${userId}`)
-            .orderByKey()
-            .limitToLast(8)
-            .on('value', (snapshot) => {
+    private readonly initNotification = () => {
+        const {
+            currentUser,
+            setContext
+        } = this.props;
+
+        const userRef = notificationRef
+            .child(`/${currentUser.id}`);
+
+        userRef.orderByKey()
+            .limitToLast(6)
+            .once('value', (snapshot) => {
                 if (!snapshot) {
                     return;
                 }
@@ -57,28 +63,70 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
                     return;
                 }
 
-                callback(notifications);
+                this._notifications = notifications.reverse();
+
+                setContext({
+                    notifications: this._notifications
+                });
+            });
+    }
+
+    private readonly subcribeNotification = () => {
+        const {
+            currentUser,
+            setContext
+        } = this.props;
+
+        const userRef = notificationRef
+            .child(`/${currentUser.id}`);
+
+        userRef
+            .orderByKey()
+            .limitToLast(1)
+            .on('value', (snapshot) => {
+                if (!snapshot || !this._notifications) {
+                    return;
+                }
+
+                const notificationSnapshotVal = snapshot.val();
+                const notifications = map(notificationSnapshotVal, this.snapshotValToObject);
+                const notification = notifications[0];
+
+                if (this._notifications.find(o => o.id === notification.id)) {
+                    this._notifications = this._notifications.map(o => {
+                        if (o.id === notification.id) {
+                            return notification;
+                        }
+
+                        return o;
+                    });
+                } else {
+                    this._notifications.unshift(notification);
+                }
+
+                setContext({
+                    notifications: [...this._notifications]
+                });
             });
     }
 
     public async componentDidUpdate() {
         const {
-            currentUser,
-            setContext
+            currentUser
         } = this.props;
 
         if (!currentUser) {
             return;
         }
 
-        this.subcribeNotification(
-            currentUser._id,
-            (notifications) => {
-                setContext({
-                    notifications
-                });
-            }
-        );
+        if (this._initialized) {
+            return;
+        }
+
+        this.initNotification();
+        this.subcribeNotification();
+
+        this._initialized = true;
     }
 
     public render() {
