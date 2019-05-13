@@ -90,6 +90,11 @@ class FirebaseNotification extends React.PureComponent<FirebaseNotificationProps
 
                 const notificationSnapshotVal = snapshot.val();
                 const notifications = map(notificationSnapshotVal, this.snapshotValToObject);
+                
+                if (!notifications.length) {
+                    return;
+                }
+
                 const notification = notifications[0];
 
                 if (this._notifications.find(o => o.id === notification.id)) {
