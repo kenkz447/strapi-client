@@ -50,13 +50,44 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
         }
 
         const nextComponentGroup = await this.getNextComponentGroup();
+        const nextComponentGroupId = nextComponentGroup && nextComponentGroup.id;
 
         const nextProductModules: ProductModule[] = [];
         const currentItemComponentTypeId = getNestedObjectId(furnitureComponent.componentType);
 
         for (const productModule of selectedProduct!.modules) {
+            const moduleComponent = productModule.component;
             const moduleMaterial = productModule.material;
+            const moduleMaterialType = getNestedObjectId(moduleMaterial.materialType);
             const moduleComponentTypeId = getNestedObjectId(productModule.component.componentType);
+
+            if (nextComponentGroupId !== getNestedObjectId(moduleComponent.componentGroup)) {
+                // tslint:disable-next-line:no-shadowed-variable
+                const nextComponent = nextComponentGroup!
+                    .components.find(component => {
+                        const selectedComponentTypeId = getNestedObjectId(component.componentType);
+                        const isSameType = selectedComponentTypeId === moduleComponentTypeId;
+                        return isSameType;
+                    });
+
+                if (!nextComponent) {
+                    continue;
+                }
+
+                const moduleMaterialValid = nextComponent.materialTypes.find(o => o.id === moduleMaterialType);
+                const nextMaterial = moduleMaterialValid
+                    ? moduleMaterial
+                    : getFurntirureMaterialDefault();
+                
+                nextProductModules.push({
+                    component: nextComponent,
+                    componentPrice: 0,
+                    material: nextMaterial,
+                    materialPrice: nextMaterial.price
+                });
+
+                continue;
+            }
 
             if (moduleComponentTypeId !== currentItemComponentTypeId) {
                 nextProductModules.push(productModule);
@@ -70,22 +101,23 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
                     component: furnitureComponent,
                     componentPrice: 0,
                     material: material,
-                    materialPrice: 0
+                    materialPrice: material.price
                 });
 
                 continue;
             }
 
             if (!nextComponentGroup) {
-                const moduleMaterialType = getNestedObjectId(moduleMaterial.materialType);
                 const moduleMaterialValid = furnitureComponent.materialTypes.find(o => o.id === moduleMaterialType);
-
+                const nextMaterial = moduleMaterialValid
+                    ? moduleMaterial
+                    : getFurntirureMaterialDefault();
+                
                 nextProductModules.push({
                     ...productModule,
                     component: furnitureComponent,
-                    material: moduleMaterialValid
-                        ? moduleMaterial
-                        : getFurntirureMaterialDefault()
+                    material: nextMaterial,
+                    materialPrice: nextMaterial.price
                 });
 
                 continue;
@@ -127,7 +159,9 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
 
         const nextProductUrl = replaceRoutePath(
             PRODUCT_URL,
-            { modulesCode: nextModulesCode }
+            {
+                modulesCode: nextModulesCode
+            }
         );
 
         history.replace(nextProductUrl + location.search);
