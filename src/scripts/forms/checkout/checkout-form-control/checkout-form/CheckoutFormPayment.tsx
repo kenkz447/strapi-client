@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Icon, Tooltip } from 'antd';
+import { Button, Divider, Form } from 'antd';
 import * as React from 'react';
 
 import { getOrderTotalPayment } from '@/business/order';
@@ -8,11 +8,6 @@ import { formatCurrency, roundTo } from '@/utilities';
 
 import { CheckoutFormOwnProps } from '../CheckoutForm';
 import { PaymentPromotionField } from './checkout-form-payment';
-
-const formMetaStyle = {
-    width: 130,
-    display: 'inline-block'
-};
 
 interface CheckoutFormPaymentProps extends CheckoutFormOwnProps {
     readonly onNextClick: () => void;
@@ -62,37 +57,25 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                     labelCol={verticalLayout.labelCol}
                     label={text('Discount')}
                 >
-                    <Tooltip
-                        placement="right"
-                        title={(
-                            <div>
-                                <div>
-                                    <span style={formMetaStyle}>
-                                        {text('Product discount')}:
-                                    </span>
-                                    {formatCurrency(discounts.products)}
-                                </div>
-                                <div>
-                                    <span style={formMetaStyle}>
-                                        {text('Promo code')}:
-                                    </span>
-                                    {formatCurrency(discounts.promotion)}
-                                </div>
-                                <div>
-                                    <span style={formMetaStyle}>
-                                        {discounts.agency.name}:
-                                    </span>
-                                    {formatCurrency(discounts.agency.discount)}
-                                </div>
-                            </div>
-                        )}
-                    >
-                        <span>
-                            {discounts.total && '-' + formatCurrency(discounts.total)}
-                            &nbsp;
-                            <Icon type="question-circle" theme="twoTone" />
-                        </span>
-                    </Tooltip>
+                    <span>
+                        {discounts.total && '-' + formatCurrency(discounts.total)}
+                        <br />
+                        {
+                            discounts.promotion ?
+                                (
+                                    <small style={{ lineHeight: 1.5, display: 'block' }}>
+                                        <i>{text('Discount by promo code')} : {formatCurrency(discounts.promotion)}</i>
+                                    </small>
+                                )
+                                : null
+                        }
+                        <small style={{ lineHeight: 1.5, display: 'block' }}>
+                            <i>{text('Discount by agency policy')} : {formatCurrency(discounts.agency.discount)}</i>
+                        </small>
+                        <small style={{ lineHeight: 1.5, display: 'block' }}>
+                            <i>{text('Discount by quantity')} : {formatCurrency(discounts.promotion)}</i>
+                        </small>
+                    </span>
                 </Form.Item>
                 <Form.Item
                     wrapperCol={verticalLayout.wrapperCol}
@@ -134,6 +117,7 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                     wrapperCol={verticalLayoutNoLabel.wrapperCol}
                 >
                     <Button
+                        type="primary"
                         onClick={onNextClick}
                     >
                         {text('Next')}

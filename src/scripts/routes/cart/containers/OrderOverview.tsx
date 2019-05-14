@@ -55,23 +55,23 @@ export class OrderOverview extends React.PureComponent<OrderOverviewProps> {
             <OrderOverviewWrapper>
                 <DescriptionList title="Tổng quan đơn hàng" size="large" col={1}>
                     <DescriptionList.Description term={text('Estimated delivery time')}>
-                        {formatDate(getOrderShippingDate(), DATE_FORMAT)}
+                        &nbsp;{formatDate(getOrderShippingDate(), DATE_FORMAT)}
                     </DescriptionList.Description>
                     <DescriptionList.Description term={text('Number of products')}>
-                        {getOrderDetailsQuantity(cartOrderDetails)}
+                        &nbsp;{getOrderDetailsQuantity(cartOrderDetails)}
                     </DescriptionList.Description>
                     <DescriptionList.Description term={text('Total amount')}>
-                        {formatCurrency(total)}
-                    </DescriptionList.Description>
-                    <DescriptionList.Description term={text('Discount by quantity')}>
-                        -{formatCurrency(discount.products)}
+                        &nbsp;{formatCurrency(total)}
                     </DescriptionList.Description>
                     <DescriptionList.Description term={text('Discount by agency policy')}>
                         -{formatCurrency(discount.agency.discount)} ({discount.agency.percent}%)
                     </DescriptionList.Description>
+                    <DescriptionList.Description term={text('Discount by quantity')}>
+                        -{formatCurrency(discount.products)}
+                    </DescriptionList.Description>
                     <DescriptionList.Description term={text('Sub total')}>
                         <Typography.Text strong={true}>
-                            {formatCurrency(total - discount.total)}
+                            &nbsp;{formatCurrency(total - discount.total)}
                         </Typography.Text>
                     </DescriptionList.Description>
                 </DescriptionList>

@@ -89,14 +89,18 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
 
     readonly beforeSubmit = async (values: OrderDetailCreateFormValues): Promise<OrderDetailCreateFormValues> => {
         const { takeProduct3DScreenshot } = this.context;
+
         if (!takeProduct3DScreenshot) {
             return values;
         }
 
         const previewImg = await takeProduct3DScreenshot();
-
+        const discountByQuantity = (values.totalDiscountPerProduct || 0) * values.quantity!;
+        
         return {
             ...values,
+            discount: discountByQuantity,
+            totalPrice: values.subTotalPrice! - discountByQuantity,
             previewImg: previewImg
         };
     }

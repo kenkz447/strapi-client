@@ -1,19 +1,9 @@
-import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import * as React from 'react';
 
-import { getDiscountByQuantityValue } from '@/business/discount-by-quantity';
-import { getProductOriginPrice } from '@/business/product';
-import {
-    FormBody,
-    FormInput,
-    FormInputMoney,
-    FormSelect,
-    FormTextArea,
-    verticalLayout
-} from '@/components';
+import { FormBody, FormInput, FormTextArea } from '@/components';
 import { text } from '@/i18n';
-import { DiscountByQuantity, IssueTicket, ProductExtended } from '@/restful';
+import { IssueTicket } from '@/restful';
 
 export type IssueTicketCreateFormValues = Partial<IssueTicket>;
 
@@ -26,7 +16,6 @@ export class IssueTicketCreateForm extends React.PureComponent<IssueTicketCreate
         const {
             values,
             errors,
-            setFieldValue,
             handleChange
         } = this.props;
 

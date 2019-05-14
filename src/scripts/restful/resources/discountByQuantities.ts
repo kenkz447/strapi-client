@@ -5,6 +5,7 @@ import { ProductType } from './productType';
 export interface DiscountByQuantity extends Record {
     readonly id?: string;
     readonly discountPerProduct: number;
+    readonly discountPerProductPercent?: number;
     readonly quantity: number;
     readonly productType: ProductType;
 }

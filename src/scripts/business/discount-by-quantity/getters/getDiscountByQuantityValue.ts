@@ -6,8 +6,17 @@ import {
 
 export const getDiscountByQuantityValue = (
     discountByQuantities: DiscountByQuantity[] = [],
-    quantity: number = 0
+    quantity: number = 0,
+    productPrice: number
 ) => {
     const entity = getNearestDiscountByQuantityInList(discountByQuantities, quantity);
-    return entity ? entity.discountPerProduct : 0;
+    if (!entity) {
+        return 0;
+    }
+
+    if (entity.discountPerProductPercent) {
+        return productPrice * entity.discountPerProductPercent * 0.01;
+    }
+    
+    return entity.discountPerProduct || 0;
 };

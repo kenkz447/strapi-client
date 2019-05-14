@@ -17,7 +17,7 @@ interface FormatCurrencyParam {
     readonly rate: number;
 }
 
-export function formatCurrency(value: number | FormatCurrencyParam) {
+export function formatCurrency(value?: number | FormatCurrencyParam) {
     if (!value) {
         return '0';
     }

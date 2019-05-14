@@ -1,8 +1,14 @@
-import { Card, List, Typography } from 'antd';
+import { Card, Icon, List, Tooltip, Typography } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { getOrderDiscount } from '@/business/order';
 import { COLOR_PRIMARY_700 } from '@/configs';
+import { DomainContext } from '@/domain';
+import {
+    OrderDetailDiscountTooltip
+} from '@/forms/order-detail/order-detail-create/order-detail-create-form-control/shared';
 import { text } from '@/i18n';
 import { OrderDetail } from '@/restful';
 import { formatCurrency } from '@/utilities';
@@ -46,6 +52,9 @@ export interface OrderDetailListProps {
 }
 
 export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
+
     public render() {
         const { orderDetails } = this.props;
         return (
@@ -62,12 +71,20 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
     }
 
     private readonly renderOrderDetail = (orderDetail: OrderDetail) => {
+        const { currentAgency } = this.context;
         if (typeof orderDetail.product_type === 'string') {
             return null;
         }
 
         const productTitle = orderDetail.product_type!.name;
         const isPromotion = !!orderDetail.storedPromoCode;
+
+        const discount = getOrderDiscount({
+            orderDetails: [orderDetail],
+            agencyOrderer: currentAgency
+        });
+
+        const totalPrice = (orderDetail.subTotalPrice - discount.total);
 
         return (
             <List.Item
@@ -97,7 +114,20 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
                                     Giá gốc:
                                 </span>
                                 <span className="order-detail-meta-value">
-                                    {formatCurrency(orderDetail.productPrice)}
+                                    &nbsp;{formatCurrency(orderDetail.productPrice)}
+                                </span>
+                            </div>
+                            <div className="order-detail-meta">
+                                <span className="order-detail-meta-name">
+                                    Giảm giá:
+                                </span>
+                                <span className="order-detail-meta-value">
+                                    -{formatCurrency(discount.total / orderDetail.quantity)}
+                                    &nbsp;
+                                    <OrderDetailDiscountTooltip
+                                        discountByAgencyPolicy={discount.agency.discount / orderDetail.quantity}
+                                        discountByQuantity={discount.products / orderDetail.quantity}
+                                    />
                                 </span>
                             </div>
                             <div className="order-detail-meta">
@@ -105,7 +135,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
                                     {isPromotion ? 'Giá ưu đãi' : 'Giá mới'}:
                                 </span>
                                 <span className="order-detail-meta-value new-price">
-                                    {formatCurrency(orderDetail.totalPrice / orderDetail.quantity)}
+                                    &nbsp;{formatCurrency(totalPrice / orderDetail.quantity)}
                                 </span>
                             </div>
                             <div className="order-detail-meta">
@@ -129,7 +159,7 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
                     <div>
                         <Typography.Text>Tổng cộng: </Typography.Text>
                         &nbsp;
-                    <Typography.Text strong={true}>{formatCurrency(orderDetail.totalPrice)}</Typography.Text>
+                    <Typography.Text strong={true}>{formatCurrency(totalPrice)}</Typography.Text>
                     </div>
                 </div>
             </List.Item>

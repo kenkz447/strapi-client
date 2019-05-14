@@ -197,5 +197,7 @@ export const vi = {
     'Blocked reason': 'Lý do chặn',
     'Update deposit amount': 'Cập nhật đặt cọc',
     'Deposit amount': 'Số tiền cọc',
-    'Input money': 'Nhập số tiền'
+    'Input money': 'Nhập số tiền',
+    'By agency policy': 'Bởi chính sách đại lý',
+    'By quantity': 'Bởi số lượng mua'
 };

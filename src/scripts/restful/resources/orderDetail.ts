@@ -24,6 +24,7 @@ export interface OrderDetail extends Record {
     readonly order?: Order;
     readonly status: 'temp' | 'order';
     readonly discount: number;
+    readonly discountByAgencyPolicy?: number;
     readonly previewImg?: string;
     readonly created_by?: User;
     readonly productCode?: string;

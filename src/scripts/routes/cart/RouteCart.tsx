@@ -1,11 +1,11 @@
-import { PageHeader } from 'ant-design-pro';
-import { Col, Row } from 'antd';
+import { Col, Icon, Row } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
+import { Link } from 'react-router-dom';
 
 import { PageContent, PageWrapper } from '@/components';
-import { CART_URL } from '@/configs';
+import { CART_URL, PRODUCT_PATH, PRODUCT_URL } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 import { orderDetailResourceType } from '@/restful';
@@ -34,6 +34,8 @@ export class RouteCart extends RoutePage<RouteCartProps> {
                     <Row gutter={24}>
                         <Col span={17}>
                             <OrderDetailsFetcher cartOrderDetails={cartOrderDetails} />
+                            <div className="white-space-2" />
+                            <Link to={PRODUCT_PATH}><Icon type="arrow-left" /> {text('Buy more')}</Link>
                         </Col>
                         <Col span={7}>
                             <RestfulDataContainer

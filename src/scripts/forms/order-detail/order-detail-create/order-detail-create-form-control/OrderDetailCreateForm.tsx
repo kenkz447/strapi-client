@@ -1,6 +1,7 @@
-import { Button, Form } from 'antd';
+import { Button, Form, Icon, Tooltip } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -12,9 +13,12 @@ import {
     verticalLayout,
     verticalLayoutNoLabel
 } from '@/components';
+import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { DiscountByQuantity, OrderDetail, ProductExtended } from '@/restful';
 import { formatCurrency } from '@/utilities';
+
+import { OrderDetailDiscountTooltip } from './shared';
 
 const OrderDetailCreateFormWrapper = styled.div`
     .ant-form-item {
@@ -44,6 +48,9 @@ export class OrderDetailCreateForm extends React.PureComponent<
     OrderDetailCreateFormState
     > {
 
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
+
     constructor(props: OrderDetailCreateFormOwnProps) {
         super(props);
 
@@ -53,33 +60,40 @@ export class OrderDetailCreateForm extends React.PureComponent<
     }
 
     private readonly onQuantityChange = () => {
-        const { values, product, allQuantity, setFieldValue } = this.props;
-
-        const singleDiscount = getDiscountByQuantityValue(allQuantity, values.quantity);
-        const totalDiscount = singleDiscount * values.quantity!;
+        const { values, product, setFieldValue, allQuantity } = this.props;
 
         const productOriginPrice = getProductOriginPrice(product);
-        const totalPrice = (productOriginPrice * values.quantity!) - totalDiscount;
+        const singleDiscount = getDiscountByQuantityValue(allQuantity, values.quantity, product.totalPrice);
 
         setFieldValue(
-            'subTotalPrice',
+            nameof<OrderDetail>(o => o.subTotalPrice),
             productOriginPrice * (values.quantity || 1)
         );
 
         setFieldValue(
-            'totalPrice',
-            totalPrice
-        );
-
-        setFieldValue(
-            'totalDiscountPerProduct',
+            nameof<OrderDetail>(o => o.totalDiscountPerProduct),
             singleDiscount
         );
+    }
 
-        setFieldValue(
-            'discount',
-            totalDiscount
-        );
+    private readonly getProductDiscount = () => {
+        const { values } = this.props;
+        const { currentAgency } = this.context;
+
+        const agencyDiscountPercent = currentAgency && currentAgency.level && currentAgency.level.discountPercent;
+        const agencyDiscount = agencyDiscountPercent
+            ? values.subTotalPrice! * 0.01 * agencyDiscountPercent
+            : 0;
+
+        const discountByQuantity = values.totalDiscountPerProduct! * values.quantity!;
+
+        const totalDiscount = discountByQuantity + agencyDiscount;
+
+        return {
+            discountByQuantity: discountByQuantity,
+            discountByAgencyPolicy: agencyDiscount,
+            totalDiscount: totalDiscount
+        };
     }
 
     public componentDidUpdate(prevProps: OrderDetailCreateFormOwnProps) {
@@ -102,6 +116,9 @@ export class OrderDetailCreateForm extends React.PureComponent<
         const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
         const isPromotion = !!values.storedPromoCode;
 
+        const { totalDiscount, discountByQuantity, discountByAgencyPolicy } = this.getProductDiscount();
+        const totalPrice = values.subTotalPrice! - totalDiscount;
+
         return (
             <FormBody formProps={this.props}>
                 <OrderDetailCreateFormWrapper>
@@ -110,7 +127,7 @@ export class OrderDetailCreateForm extends React.PureComponent<
                         labelCol={verticalLayout.labelCol}
                         label={text('Price')}
                     >
-                        {formatCurrency(product!.totalPrice)}
+                        &nbsp; {formatCurrency(product!.totalPrice)}
                     </Form.Item>
                     {
                         isPromotion
@@ -120,7 +137,7 @@ export class OrderDetailCreateForm extends React.PureComponent<
                                     labelCol={verticalLayout.labelCol}
                                     label={text('Quantity')}
                                 >
-                                    {values.quantity} {text('products')}
+                                    &nbsp;{values.quantity} {text('products')}
                                 </Form.Item>
                             )
                             : (
@@ -139,12 +156,22 @@ export class OrderDetailCreateForm extends React.PureComponent<
                                 />
                             )
                     }
+
                     <Form.Item
                         wrapperCol={verticalLayout.wrapperCol}
                         labelCol={verticalLayout.labelCol}
                         label={text('Total discount')}
                     >
-                        {formatCurrency(values.discount || 0)}
+                        &nbsp;-{formatCurrency(totalDiscount || 0)}
+                        &nbsp;
+                        {
+                            totalDiscount > 0 && (
+                                <OrderDetailDiscountTooltip
+                                    discountByAgencyPolicy={discountByAgencyPolicy}
+                                    discountByQuantity={discountByQuantity}
+                                />
+                            )
+                        }
                     </Form.Item>
                     <Form.Item
                         wrapperCol={verticalLayout.wrapperCol}
@@ -152,7 +179,7 @@ export class OrderDetailCreateForm extends React.PureComponent<
                         label={text('Total of payment')}
                     >
                         <span className="total-price">
-                            {formatCurrency(values.totalPrice || 0)}
+                            &nbsp; {formatCurrency(totalPrice)}
                         </span>
                     </Form.Item>
                     <Form.Item
