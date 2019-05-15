@@ -19,6 +19,8 @@ import {
 } from '@/restful';
 import { formatCurrency, replaceRoutePath } from '@/utilities';
 
+import { BankTransferInformation } from './order-details-product';
+
 export interface OrderDetailsProductsProps {
     readonly order: Order;
 }
@@ -99,6 +101,7 @@ export class OrderDetailsProducts extends React.PureComponent<OrderDetailsProduc
                                             <b>{formatCurrency(order.totalOfPayment)}</b>
                                         </DescriptionList.Description>
                                     </DescriptionList>
+                                    <BankTransferInformation />
                                 </Col>
                                 <Col span={8}>
                                     <DescriptionList

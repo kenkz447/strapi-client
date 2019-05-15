@@ -199,5 +199,6 @@ export const vi = {
     'Deposit amount': 'Số tiền cọc',
     'Input money': 'Nhập số tiền',
     'By agency policy': 'Bởi chính sách đại lý',
-    'By quantity': 'Bởi số lượng mua'
+    'By quantity': 'Bởi số lượng mua',
+    'Transfer information': 'Thông tin chuyển khoản'
 };
