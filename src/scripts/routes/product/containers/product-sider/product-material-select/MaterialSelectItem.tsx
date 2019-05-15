@@ -94,7 +94,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
             ? selectedFurnitureComponent.materialTypes.find(o => o.id === selectedFurnitureMaterialType.id)
             : selectedFurnitureComponent.materialTypes[0];
 
-        const currentFurnitureMaterialTypeId = currentFurnitureMaterialType!.id;
+        const currentFurnitureMaterialTypeId = currentFurnitureMaterialType && currentFurnitureMaterialType.id;
 
         if (currentFurnitureMaterialTypeId !== selectedFurnitureMaterial.materialType.id) {
             if (index === 0) {
