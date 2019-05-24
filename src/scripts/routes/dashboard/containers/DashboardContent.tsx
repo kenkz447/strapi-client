@@ -53,7 +53,7 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
                         onTabClick={this.onTabClick}
                     >
                         <Tabs.TabPane tab="Tin tức & Khuyến mãi" key="posts" />
-                        <Tabs.TabPane tab="Chính sách đại lý" key="agency-policies" />
+                        {/* <Tabs.TabPane tab="Chính sách đại lý" key="agency-policies" /> */}
                     </Tabs>
                 )}
             >

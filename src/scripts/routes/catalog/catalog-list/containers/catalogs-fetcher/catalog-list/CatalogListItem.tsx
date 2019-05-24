@@ -1,9 +1,11 @@
 import { Typography } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Img } from '@/components';
+import { DomainContext } from '@/domain';
 import { Catalog } from '@/restful';
 import { formatCurrency } from '@/utilities';
 
@@ -65,6 +67,9 @@ interface CatalogListItemProps {
 }
 
 export class CatalogListItem extends React.PureComponent<CatalogListItemProps> {
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
+
     private readonly getDetailUrl = () => {
         const { catalog } = this.props;
         const detailUrl = new URL(location.href);
@@ -75,7 +80,8 @@ export class CatalogListItem extends React.PureComponent<CatalogListItemProps> {
 
     public render() {
         const { catalog } = this.props;
-        
+        const { currentAgency } = this.context;
+
         return (
             <CatalogListItemWrapper>
                 <div className="catalog-item-thumbnail">
@@ -97,13 +103,44 @@ export class CatalogListItem extends React.PureComponent<CatalogListItemProps> {
                         <Typography.Paragraph className="catalog-item-info-design">
                             {catalog.design.name}
                         </Typography.Paragraph>
-                        <Typography.Text className="catalog-item-info-price">
-                            {formatCurrency({
-                                amount: catalog.recommendedPrice,
-                                rate: 1,
-                                sourceCurrency: 'VNĐ'
-                            })}
-                        </Typography.Text>
+                        {
+                            currentAgency && currentAgency.level
+                                ? (
+                                    <div>
+                                        <Typography.Text
+                                            type="secondary"
+                                            style={{ textDecoration: 'line-through' }}
+                                        >
+                                            {formatCurrency({
+                                                amount: catalog.recommendedPrice,
+                                                rate: 1,
+                                                sourceCurrency: 'VNĐ'
+                                            })}
+                                        </Typography.Text>
+                                        <br/>
+                                        <Typography.Text
+                                            className="catalog-item-info-price"
+                                            strong={true}
+                                        >
+                                            {formatCurrency({
+                                                amount: catalog.recommendedPrice - (catalog.recommendedPrice * currentAgency.level.discountPercent * 0.01),
+                                                rate: 1,
+                                                sourceCurrency: 'VNĐ'
+                                            })}
+                                        </Typography.Text>
+                                    </div>
+
+                                )
+                                : (
+                                    <Typography.Text className="catalog-item-info-price">
+                                        {formatCurrency({
+                                            amount: catalog.recommendedPrice,
+                                            rate: 1,
+                                            sourceCurrency: 'VNĐ'
+                                        })}
+                                    </Typography.Text>
+                                )
+                        }
                     </div>
                 </div>
             </CatalogListItemWrapper>
