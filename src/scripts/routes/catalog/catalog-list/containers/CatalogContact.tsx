@@ -67,7 +67,7 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                 </Typography.Paragraph>
                     <Divider />
                     <Typography.Paragraph strong={true}>
-                        {text('Địa chỉ nhà máy sản xuất')}
+                        {text('Factory address')}
                     </Typography.Paragraph>
                     <Typography.Paragraph type="secondary">
                         Nhị Bình 02, xã Nhị Bình huyện Hóc Môn, tp Hồ Chí Minh.

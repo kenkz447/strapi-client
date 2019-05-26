@@ -201,5 +201,6 @@ export const vi = {
     'By agency policy': 'Bởi chính sách đại lý',
     'By quantity': 'Bởi số lượng mua',
     'Transfer information': 'Thông tin chuyển khoản',
-    'Download 3D model': 'Tải 3D model'
+    'Download 3D model': 'Tải 3D model',
+    'Factory address': 'Địa chỉ nhà máy sản xuất'
 };
