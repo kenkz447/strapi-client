@@ -54,7 +54,9 @@ export class IssueTicketPageHeader extends React.PureComponent<
                             {formatDate(initIssueTicket.openDate, DATETIME_FORMAT)}
                         </DescriptionList.Description>
                         <DescriptionList.Description term="Người tạo">
-                            <Link to="/">{initIssueTicket.created_by.fullName}</Link>
+                            <Link to="/">
+                                {initIssueTicket.created_by ? initIssueTicket.created_by.fullName : 'UNKNOW'}
+                            </Link>
                         </DescriptionList.Description>
                         <DescriptionList.Description term="Tình trạng">
                             <IssueTicketStatusLabel status={initIssueTicket.status} />

@@ -129,6 +129,9 @@ export const functionPermissions: Permissions = {
     FUNC_CUSTOMIZE_CATALOG: {
         key: 'FUNC_CUSTOMIZE_CATALOG'
     },
+    FUNC_DOWNLOAD_MODEL: {
+        key: 'FUNC_DOWNLOAD_MODEL'
+    },
     FUNC_AGENCY_POLICIES_OVERVIEW: {
         key: 'FUNC_AGENCY_POLICIES_OVERVIEW'
     }

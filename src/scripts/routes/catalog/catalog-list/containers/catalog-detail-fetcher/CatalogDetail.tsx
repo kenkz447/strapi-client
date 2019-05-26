@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import { getProductDetails, getProductUrl } from '@/business/product';
 import { fetchProductModules } from '@/business/product-modules';
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import {
     isUserNeedsUpdateBusinessInfo,
     isUserWaitingForVerify
@@ -285,6 +286,27 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                                         );
                                     }}
                                 </AccessControl>
+                                {
+                                    catalog.model3D && (
+                                        <AccessControl
+                                            policy={policies.functionAllowed}
+                                            funcKey="FUNC_DOWNLOAD_MODEL"
+                                        >
+                                            <form
+                                                method="get"
+                                                action={getUploadedFileSrc({ uploadedFile: catalog.model3D })}
+                                            >
+                                                <Button
+                                                    size="large"
+                                                    icon="download"
+                                                    htmlType="submit"
+                                                >
+                                                    {text('Download 3D model')}
+                                                </Button>
+                                            </form>
+                                        </AccessControl>
+                                    )
+                                }
                             </div>
                             <div className="catalog-customize-description">
                                 - Sản phẩm có thể tùy biến chất liệu hoàn thiện cho toàn bộ sản phẩm.<br />

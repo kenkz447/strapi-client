@@ -46,7 +46,8 @@ const authenticated: Role = {
         permissions.FUNC_ORDER_CANCEL,
         permissions.FUNC_ADD_TO_CART,
         permissions.FUNC_CUSTOMIZE_CATALOG,
-        permissions.FUNC_AGENCY_POLICIES_OVERVIEW
+        permissions.FUNC_AGENCY_POLICIES_OVERVIEW,
+        permissions.FUNC_DOWNLOAD_MODEL
     ]
 };
 

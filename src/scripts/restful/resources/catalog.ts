@@ -18,6 +18,7 @@ export interface Catalog {
     readonly design: ProductDesign;
     readonly photos: UploadedFile[];
     readonly isNewProduct?: boolean;
+    readonly model3D?: UploadedFile;
 }
 
 export const catalogResourceType = new ResourceType<Catalog>({
