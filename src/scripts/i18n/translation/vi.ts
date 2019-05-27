@@ -202,5 +202,7 @@ export const vi = {
     'By quantity': 'Bởi số lượng mua',
     'Transfer information': 'Thông tin chuyển khoản',
     'Download 3D model': 'Tải 3D model',
-    'Factory address': 'Địa chỉ nhà máy sản xuất'
+    'Factory address': 'Địa chỉ nhà máy sản xuất',
+    'Agency details': 'Thông tin đại lý',
+    'Created at': 'Thời gian tạo'
 };
