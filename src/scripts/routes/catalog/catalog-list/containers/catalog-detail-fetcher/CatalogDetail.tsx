@@ -60,6 +60,11 @@ const CatalogDetailWrapper = styled.div`
         margin-bottom: 12px;
     }
 
+    .catalog-price-old {
+        text-decoration: line-through;
+        color: lightgray;
+    }
+
     .catalog-details-group {
         margin-bottom: 24px;
         &-header {
@@ -185,7 +190,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
     }
 
     public render() {
-        const { currentUser, history } = this.context;
+        const { currentUser, history, currentAgency } = this.context;
         const { catalog } = this.props;
         const { product } = this.state;
 
@@ -214,13 +219,33 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         <div className="catalog-name">
                             {catalog.name}
                         </div>
-                        <div className="catalog-price">
-                            {formatCurrency({
-                                amount: catalog.recommendedPrice,
-                                rate: 1,
-                                sourceCurrency: 'VNĐ'
-                            })}
-                        </div>
+                        {
+                            currentAgency && currentAgency.level ?
+                                (
+                                    <React.Fragment>
+                                        <div className="catalog-price-old">
+                                            {formatCurrency(catalog.recommendedPrice)}
+                                        </div>
+                                        <div className="catalog-price">
+                                            {formatCurrency({
+                                                // tslint:disable-next-line:max-line-length
+                                                amount: catalog.recommendedPrice - (catalog.recommendedPrice * currentAgency.level.discountPercent * 0.01),
+                                                rate: 1,
+                                                sourceCurrency: 'VNĐ'
+                                            })}
+                                        </div>
+                                    </React.Fragment>
+                                ) : (
+                                    <div className="catalog-price">
+                                        {formatCurrency({
+                                            amount: catalog.recommendedPrice,
+                                            rate: 1,
+                                            sourceCurrency: 'VNĐ'
+                                        })}
+                                    </div>
+                                )
+                        }
+
                         <Typography.Paragraph>
                             {catalog.description}
                         </Typography.Paragraph>
