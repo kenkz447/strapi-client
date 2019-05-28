@@ -318,6 +318,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                                             funcKey="FUNC_DOWNLOAD_MODEL"
                                         >
                                             <form
+                                                style={{ display: 'inline-block', marginLeft: 15 }}
                                                 method="get"
                                                 action={getUploadedFileSrc({ uploadedFile: catalog.model3D })}
                                             >
