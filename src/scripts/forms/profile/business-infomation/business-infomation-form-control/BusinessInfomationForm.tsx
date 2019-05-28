@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { FormBody, FormInput, FormSubmit } from '@/components';
 import { text } from '@/i18n';
-import { Account } from '@/restful';
+import { User } from '@/restful';
 
 const BusinessInfomationFormWrapper = styled.div`
     display: flex;
@@ -17,7 +17,7 @@ const BusinessInfomationFormWrapper = styled.div`
     }
 `;
 
-export type BusinessInfomationFormValues = Partial<Account>;
+export type BusinessInfomationFormValues = Partial<User>;
 
 export interface BusinessInfomationFormProps extends FormikProps<BusinessInfomationFormValues> {
     readonly readOnly?: boolean;

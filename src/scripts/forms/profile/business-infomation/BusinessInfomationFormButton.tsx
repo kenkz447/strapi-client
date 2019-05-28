@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import { BusinessController } from '@/business';
 import { updateBusinessInfo } from '@/business/profile';
-import { text } from '@/i18n';
 import { User } from '@/restful';
 
 import {

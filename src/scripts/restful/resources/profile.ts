@@ -17,6 +17,7 @@ export const profileResources = {
         getDefaultParams: getDefaultParamsForUpdate
     }),
     updateBusinessInfo: new Resource<User>({
+        resourceType: userResourceType,
         url: '/profile/update-business-info/:id',
         method: 'PUT',
         getDefaultParams: getDefaultParamsForUpdate,

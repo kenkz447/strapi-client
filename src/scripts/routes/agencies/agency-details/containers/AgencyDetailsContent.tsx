@@ -3,15 +3,22 @@ import 'ant-design-pro/lib/DescriptionList/style/css';
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
 import { Card } from 'antd';
 import * as React from 'react';
+import { RestfulDataContainer } from 'react-restful';
 import { Link } from 'react-router-dom';
 
 import { PageHeader } from '@/components';
 import { ACCOUNT_URL, AGENCIES_URL, DATE_FORMAT } from '@/configs';
+import {
+    BusinessInfomationFormButton
+} from '@/forms/profile/business-infomation';
 import { text } from '@/i18n';
-import { Agency } from '@/restful';
+import { Agency, userResourceType } from '@/restful';
 import { formatDate } from '@/utilities';
 
-import { AgencyOrdersFetcher } from './agency-details-content';
+import {
+    AgencyBussinessInfomation,
+    AgencyOrdersFetcher
+} from './agency-details-content';
 
 const { Description } = DescriptionList;
 
@@ -26,17 +33,13 @@ export class AgencyDetailsContent extends React.PureComponent<AgencyDetailsConte
         return (
             <div>
                 <Card>
-                    <DescriptionList title="Thông tin kinh doanh" col={1}>
-                        <DescriptionList.Description term={text('Business areas')}>
-                            {user.registration_businessAreas || '...'}
-                        </DescriptionList.Description>
-                        <DescriptionList.Description term={text('Company name')}>
-                            {user.registration_companyName || '...'}
-                        </DescriptionList.Description>
-                        <DescriptionList.Description term={text('Company address')}>
-                            {user.registration_companyAddress || '...'}
-                        </DescriptionList.Description>
-                    </DescriptionList>
+                    <RestfulDataContainer
+                        resourceType={userResourceType}
+                        initDataSource={[user]}
+                        shouldAppendNewRecord={false}
+                    >
+                        {([suncUser]) => <AgencyBussinessInfomation user={suncUser} />}
+                    </RestfulDataContainer>
                 </Card>
                 <div className="white-space-2" />
                 <Card title="Danh sách đơn hàng">
