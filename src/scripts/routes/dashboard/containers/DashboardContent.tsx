@@ -34,7 +34,7 @@ export class DashboardContent extends React.PureComponent<DashboardContentProps>
         }
 
         return (
-            <DashboardAgencyLevelsFetcher/>
+            <DashboardPostsFetcher/>
         );
     }
 

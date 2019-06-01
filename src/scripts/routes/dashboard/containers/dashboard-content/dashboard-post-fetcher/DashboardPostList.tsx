@@ -42,7 +42,8 @@ export class DashboardPostList extends React.PureComponent<DashboardPostListProp
                                 title={<Link to={postURL}>{item.title}</Link>}
                                 description={`${text('Date Submitted')}: ${formatDate(item.updatedAt, DATE_FORMAT)}`}
                             />
-                            {item.brief}
+                            <p>{item.brief}</p>
+                            <Link to={postURL}>Đọc thêm...</Link>
                         </List.Item>
                     );
                 }}

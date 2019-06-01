@@ -4,9 +4,11 @@ import * as React from 'react';
 import { RequestParams, RestfulRender } from 'react-restful';
 
 import { getPostHTMLContent } from '@/business/post';
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Loading } from '@/components/generic';
 import { DATE_FORMAT } from '@/configs';
 import { DomainContext } from '@/domain';
+import { PostSendToMailsFormButton } from '@/forms/post/send-to-mails';
 import { text } from '@/i18n';
 import { Post, postResources } from '@/restful';
 import { formatDate } from '@/utilities';
@@ -38,6 +40,24 @@ export class PostContent extends React.PureComponent<PostContentProps> {
                     className="dashboard-post-content"
                     dangerouslySetInnerHTML={{ __html: postContent }}
                 />
+                <div>
+                    <PostSendToMailsFormButton
+                        initialValues={{
+                            content: post.brief,
+                            imgSrc: post.thumbnail
+                                ? getUploadedFileSrc({ uploadedFile: post.thumbnail })
+                                : '',
+                            title: post.title,
+                            id: post.id,
+                            postUrl: location.href,
+                            subject: '',
+                            preHeader: '',
+                            targetRoleNames: ['Administrator', 'Authenticated', 'Registered']
+                        }}
+                    >
+                        {text('Send mails...')}
+                    </PostSendToMailsFormButton>
+                </div>
             </div>
         );
     }
