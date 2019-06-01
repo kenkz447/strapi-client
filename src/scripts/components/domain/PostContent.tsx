@@ -1,5 +1,5 @@
 import { Typography } from 'antd';
-import { RootContext } from 'qoobee';
+import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 import { RequestParams, RestfulRender } from 'react-restful';
 
@@ -8,6 +8,7 @@ import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { Loading } from '@/components/generic';
 import { DATE_FORMAT } from '@/configs';
 import { DomainContext } from '@/domain';
+import { functionAllowed } from '@/domain/policies';
 import { PostSendToMailsFormButton } from '@/forms/post/send-to-mails';
 import { text } from '@/i18n';
 import { Post, postResources } from '@/restful';
@@ -41,22 +42,29 @@ export class PostContent extends React.PureComponent<PostContentProps> {
                     dangerouslySetInnerHTML={{ __html: postContent }}
                 />
                 <div>
-                    <PostSendToMailsFormButton
-                        initialValues={{
-                            content: post.brief,
-                            imgSrc: post.thumbnail
-                                ? getUploadedFileSrc({ uploadedFile: post.thumbnail })
-                                : '',
-                            title: post.title,
-                            id: post.id,
-                            postUrl: location.href,
-                            subject: '',
-                            preHeader: '',
-                            targetRoleNames: ['Administrator', 'Authenticated', 'Registered']
-                        }}
+                    <AccessControl
+                        funcKey="FUNC_POST_SEND_MAILS"
+                        policy={functionAllowed}
                     >
-                        {text('Send mails...')}
-                    </PostSendToMailsFormButton>
+                        {() => (
+                            <PostSendToMailsFormButton
+                                initialValues={{
+                                    content: post.brief,
+                                    imgSrc: post.thumbnail
+                                        ? getUploadedFileSrc({ uploadedFile: post.thumbnail })
+                                        : '',
+                                    title: post.title,
+                                    id: post.id,
+                                    postUrl: location.href,
+                                    subject: '',
+                                    preHeader: '',
+                                    targetRoleNames: ['Administrator', 'Authenticated', 'Registered']
+                                }}
+                            >
+                                {text('Send mails...')}
+                            </PostSendToMailsFormButton>
+                        )}
+                    </AccessControl>
                 </div>
             </div>
         );
