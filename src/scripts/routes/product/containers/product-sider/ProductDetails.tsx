@@ -1,11 +1,13 @@
 import './ProductDetails.scss';
 
+import { Icon } from 'antd';
 import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 
 import {
     getProductDetails
 } from '@/business/product/getters/getProductDetails';
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { DomainContext } from '@/domain';
 import { functionAllowed } from '@/domain/policies';
 import { ProductModule } from '@/restful';
@@ -81,6 +83,10 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
             selectedFurnitureComponentGroup || undefined
         );
 
+        const model3D = selectedFurnitureComponentGroup && (
+            selectedFurnitureComponentGroup.model3D
+        );
+
         return (
             <div className="product-details">
                 <p><strong>Thông số sản phẩm</strong></p>
@@ -93,7 +99,19 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                                     <div>{detail.value}</div>
                                 </div>
                             );
-                        })}
+                        })
+                    }
+                    {
+                        model3D ?
+                            (
+                                <div>
+                                    <a href={getUploadedFileSrc({ uploadedFile: model3D })} target="_blank">
+                                        <Icon type="download" /> Tải về 3D model
+                                    </a>
+                                </div>
+                            )
+                            : null
+                    }
                 </div>
                 {this.renderMaterialNorms()}
                 <AccessControl policy={functionAllowed} funcKey="FUNC_PRODUCT_RELATED_LINK">
