@@ -1,12 +1,18 @@
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
+import { RestfulDataContainer } from 'react-restful';
 import { Redirect } from 'react-router';
 
 import { PageContent, PageLoading, PageWrapper } from '@/components';
 import { AGENCY_DETAIL_URL, DASHBOARD_BASE_PATH } from '@/configs';
 import { AppPageProps, RoutePage } from '@/domain';
 import { text } from '@/i18n';
-import { Agency, agencyResources, request } from '@/restful';
+import {
+    Agency,
+    agencyResources,
+    agencyResourceType,
+    request
+} from '@/restful';
 
 import { AgencyDetailsHeader } from './containers';
 import { AgencyDetailsContent } from './containers/AgencyDetailsContent';
@@ -62,10 +68,19 @@ export class RouteAgencyDetails extends RoutePage<
 
         return (
             <PageWrapper>
-                <AgencyDetailsHeader agency={agency} />
-                <PageContent>
-                    <AgencyDetailsContent agency={agency} />
-                </PageContent>
+                <RestfulDataContainer
+                    initDataSource={[agency]}
+                    resourceType={agencyResourceType}
+                >
+                    {([syncAgency]) => (
+                        <React.Fragment>
+                            <AgencyDetailsHeader agency={syncAgency} />
+                            <PageContent>
+                                <AgencyDetailsContent agency={syncAgency} />
+                            </PageContent>
+                        </React.Fragment>
+                    )}
+                </RestfulDataContainer>
             </PageWrapper>
         );
     }

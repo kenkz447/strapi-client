@@ -1,11 +1,16 @@
 import 'ant-design-pro/lib/DescriptionList/style/css';
 
 import DescriptionList from 'ant-design-pro/lib/DescriptionList';
+import { Button } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { PageHeader } from '@/components';
 import { ACCOUNT_URL, AGENCIES_URL, DATE_FORMAT } from '@/configs';
+import { AgencyAdvanceFormButton } from '@/forms/agency/agency-advance';
+import {
+    AgencyUpdateFormButton
+} from '@/forms/agency/agency-update/AgencyUpdateFormButton';
 import { text } from '@/i18n';
 import { Agency } from '@/restful';
 import { formatDate } from '@/utilities';
@@ -61,7 +66,17 @@ export class AgencyDetailsHeader extends React.PureComponent<AgencyDetailsHeader
                     href: AGENCIES_URL
                 }, {
                     title: text('Agency details'),
-                }]}
+                    }]}
+                action={(
+                    <div>
+                        <AgencyAdvanceFormButton
+                            initialValues={agency}
+                            icon="setting"
+                        >
+                            Cập nhật
+                        </AgencyAdvanceFormButton>
+                    </div>
+                )}
             />
         );
     }
