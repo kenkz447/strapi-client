@@ -54,5 +54,8 @@ export const CONTACT_URL = '/contact';
 //#region [MOBILE]
 export const MOBILE_URL_PREFIX = '/mobile';
 export const MOBILE_CATALOG_DETAILS_URL = CATALOG_BASE_PATH + '/details/:id';
+export const MOBILE_POST_LIST_URL = '/posts';
+export const MOBILE_POST_DETAIL_URL = MOBILE_POST_LIST_URL + '/:slug';
+
 export const getMobileUrl = (url) => MOBILE_URL_PREFIX + url;
 //#endregion

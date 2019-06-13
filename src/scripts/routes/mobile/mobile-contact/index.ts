@@ -1,1 +1,1 @@
-export * from './RouteMobileCatalogContact';
+export * from './RouteMobileContact';

@@ -8,6 +8,7 @@ import { DomainContext } from '@/domain';
 
 interface DashboardPostProps {
     readonly postSlug: string;
+    readonly backURL?: string;
 }
 
 export class DashboardPost extends React.PureComponent<DashboardPostProps> {
@@ -16,8 +17,14 @@ export class DashboardPost extends React.PureComponent<DashboardPostProps> {
 
     private readonly goBackBtnClick = () => {
         const { history } = this.context;
+        const { backURL } = this.props;
+
         if (history.action === 'PUSH') {
             return void history.goBack();
+        }
+        
+        if (backURL) {
+            return void history.replace(backURL);
         }
 
         history.replace(DASHBOARD_URL);

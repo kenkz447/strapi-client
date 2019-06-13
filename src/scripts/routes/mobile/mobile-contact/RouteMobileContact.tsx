@@ -14,15 +14,15 @@ import {
 
 import { MobileContact } from './containers';
 
-type RouteMobileCatalogContactProps = AppPageProps<{ readonly id: string }>;
+type RouteMobilContactProps = AppPageProps<{ readonly id: string }>;
 
-interface RouteMobileCatalogContactState {
+interface RouteMobilContactState {
     readonly productTypeGroups: ProductTypeGroup[];
 }
 
-export class RouteMobileCatalogContact extends RoutePage<
-    RouteMobileCatalogContactProps,
-    RouteMobileCatalogContactState
+export class RouteMobileContact extends RoutePage<
+    RouteMobilContactProps,
+    RouteMobilContactState
     > {
     static readonly routeInfo: RouteInfo = {
         path: getMobileUrl(CONTACT_URL),
@@ -30,7 +30,7 @@ export class RouteMobileCatalogContact extends RoutePage<
         exact: true
     };
 
-    constructor(props: RouteMobileCatalogContactProps) {
+    constructor(props: RouteMobilContactProps) {
         super(props);
 
         this.state = {

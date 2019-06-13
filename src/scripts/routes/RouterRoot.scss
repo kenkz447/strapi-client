@@ -59,12 +59,15 @@ button+button {
     &-100 {
         width: 100% !important;
     }
+
     &-75 {
         width: 75% !important;
     }
+
     &-50 {
         width: 50% !important;
     }
+
     &-25 {
         width: 25% !important;
     }
@@ -92,9 +95,10 @@ button+button {
 .flex {
     &-direction {
         &-column {
-            flex-direction: column!important;
+            flex-direction: column !important;
         }
     }
+
     &-grow {
         &-1 {
             flex-grow: 1 !important;
@@ -106,9 +110,11 @@ button+button {
     &-1 {
         z-index: 1 !important;
     }
+
     &-10 {
         z-index: 10 !important;
     }
+
     &-100 {
         z-index: 100 !important;
     }
@@ -118,14 +124,18 @@ button+button {
     &-justify {
         text-align: justify !important;
     }
+
     &-center {
         text-align: center !important;
     }
+
     &-right {
         text-align: right !important;
     }
+
     &-capitalize-first-letter {
         display: inline-block;
+
         &::first-letter {
             text-transform: uppercase;
         }
@@ -144,12 +154,14 @@ button+button {
 }
 
 .ant-table-row {
+
     >th:first-child,
     >td:first-child {
         text-align: left;
         width: 1px;
         white-space: nowrap;
     }
+
     >th:first-child,
     >td:last-child {
         width: 1px;
@@ -160,22 +172,35 @@ button+button {
 
 .ant-layout {
     min-height: 100%;
+
     &.page-layout {
         background: #fff;
         padding: 24px 24px 0 24px;
     }
+
     &-header {
         background: transparent;
         padding: 0 0;
         height: unset;
         line-height: unset;
     }
+
     &-content {
         background: transparent;
     }
+
     &-footer {
         background: transparent;
         color: unset;
         font-size: unset;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .ant-list-vertical .ant-list-item {
+        flex-wrap: wrap-reverse;
+        img {
+            width: 100%;
+        }
     }
 }

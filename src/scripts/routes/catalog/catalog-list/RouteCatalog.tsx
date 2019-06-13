@@ -15,8 +15,11 @@ import {
 } from '@/restful';
 import { getUrlSearchParam } from '@/utilities';
 
-import { CatalogContact, CatalogsFetcher } from './containers';
-import { CatalogDetailFetcher } from './containers/CatalogDetailFetcher';
+import {
+    CatalogContact,
+    CatalogDetailFetcher,
+    CatalogsFetcher
+} from './containers';
 
 type RouteCatalogProps = AppPageProps<{ readonly productTypeGroup?: string }>;
 
@@ -34,7 +37,7 @@ export const RouteRouteCatalogWrapper = styled.div`
     }
     > :last-child {
         flex-grow: 1;
-        width: 100%;
+        width: 512px;
     }
 `;
 

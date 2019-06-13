@@ -5,12 +5,15 @@ import { Route, Switch } from 'react-router';
 import { NotFoundPage } from '@/components';
 
 import { RouteCatalog, RouteMobileCatalogDetails } from './mobile-catalog';
-import { RouteMobileCatalogContact } from './mobile-contact';
+import { RouteMobileContact } from './mobile-contact';
+import { RouteMobilePostDetail, RouteMobilePostList } from './mobile-post';
 
 export const routes = routeFrom([
+    RouteMobilePostList,
+    RouteMobilePostDetail,
     RouteCatalog,
     RouteMobileCatalogDetails,
-    RouteMobileCatalogContact
+    RouteMobileContact
 ]);
 
 export default () => (
