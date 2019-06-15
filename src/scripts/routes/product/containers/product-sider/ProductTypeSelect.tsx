@@ -152,6 +152,10 @@ export class ProductTypeSelect extends React.PureComponent<
         const { productTypeGroup } = this.state;
 
         return allProductType.filter(o => {
+            if (!o.productTypeGroup) {
+                return false;
+            }
+            
             if (typeof o.productTypeGroup === 'string') {
                 return o.productTypeGroup === productTypeGroup;
             }
