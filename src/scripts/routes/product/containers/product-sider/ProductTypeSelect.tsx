@@ -110,6 +110,10 @@ export class ProductTypeSelect extends React.PureComponent<
             }
 
             const defaultProductType = allProductType.find(o => {
+                if (!o.productTypeGroup) {
+                    return false;
+                }
+                
                 if (typeof o.productTypeGroup === 'string') {
                     return o.productTypeGroup === currentProductTypeGroup;
                 }

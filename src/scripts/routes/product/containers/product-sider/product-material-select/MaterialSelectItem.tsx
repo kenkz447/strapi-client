@@ -104,8 +104,11 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
         }
     }
 
-    render() {
+    public render() {
         const { furnitureMaterial, isSelected } = this.props;
+        
+        const thumbailFile = furnitureMaterial.thumbnail || furnitureMaterial.texture;
+
         return (
             <List.Item>
                 <Tooltip title={furnitureMaterial.name}>
@@ -118,7 +121,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
                                 { 'selected': isSelected }
                             )}
                     >
-                        <Img file={furnitureMaterial.texture} size="img256x256" />
+                        <Img file={thumbailFile} size="img256x256" />
                     </div>
                 </Tooltip>
             </List.Item>

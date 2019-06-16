@@ -9,6 +9,7 @@ import { ContactGoogleMap, ContactProductGroupIcons } from './catalog-contact';
 
 const CatalogContactWrapper = styled.div`
     padding: 24px 0 0 24px;
+    overflow: auto;
     overflow: overlay;
     ::-webkit-scrollbar {
         display: none;
