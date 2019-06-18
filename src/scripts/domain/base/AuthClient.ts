@@ -98,10 +98,10 @@ export class AuthClient<T> {
         redirect(returnPath);
     }
 
-    readonly logout = () => {
+    readonly logout = (returnUrl?: string) => {
         const { loginPath } = this.props;
         clearToken();
-        location.href = loginPath;
+        location.href = returnUrl || loginPath;
     }
 
     readonly gotoLoginPage = this.logout;

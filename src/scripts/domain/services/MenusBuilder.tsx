@@ -16,13 +16,12 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
     private readonly buildMenus = () => {
         const { setContext, currentUser } = this.props;
 
-        const curentRole = currentUser.role;
+        const curentRole = currentUser ? currentUser.role : null;
 
-        if (!curentRole) {
-            return;
-        }
+        const userRole = curentRole
+            ? roles.find(o => o.key === curentRole.name)
+            : roles.find(o => o.key === 'Public');
 
-        const userRole = roles.find(o => o.key === curentRole.name);
         if (!userRole) {
             return;
         }
@@ -51,7 +50,7 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
                             : false
                     );
                 }
-                
+
                 return true;
             }
 
@@ -63,13 +62,24 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
         });
     }
 
-    public componentDidUpdate() {
+    public componentDidMount() {
         const {
-            menus,
-            currentUser
+            menus
         } = this.props;
 
-        if (menus || !currentUser) {
+        if (menus) {
+            return;
+        }
+
+        this.buildMenus();
+    }
+
+    public componentDidUpdate(prevProps: MenusBuilderProps) {
+        const {
+            appState
+        } = this.props;
+
+        if (prevProps.appState === appState) {
             return;
         }
 
@@ -81,4 +91,4 @@ class MenusBuilder extends React.PureComponent<MenusBuilderProps> {
     }
 }
 
-export default withContext<DomainContext>('currentUser', 'menus')(MenusBuilder);
+export default withContext<DomainContext>('currentUser', 'menus', 'appState')(MenusBuilder);

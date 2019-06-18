@@ -1,6 +1,10 @@
 import { User } from '@/restful';
 
-export const isUserNeedsUpdateBusinessInfo = (user: User) => {
+export const isUserNeedsUpdateBusinessInfo = (user?: User) => {
+    if (!user) {
+        return false;
+    }
+    
     if (user.role.name! === 'Registered') {
         return !user.registration_businessAreas
             || !user.registration_companyName

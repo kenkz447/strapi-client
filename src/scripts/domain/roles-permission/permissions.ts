@@ -10,6 +10,7 @@ import {
     ISSUE_TICKET_URL,
     MATERIAL_LIBRARY_URL,
     MOBILE_CATALOG_DETAILS_URL,
+    MOBILE_POST_LIST_URL,
     NOTIFICATION_URL,
     ORDER_LIST_URL,
     PRODUCT_PATH,
@@ -93,6 +94,10 @@ const locationPermissions: Permissions = {
     CATALOG_MOBILE_DETAIL: {
         key: 'CATALOG_MOBILE_DETAIL',
         url: new RegExp(getMobileUrl(MOBILE_CATALOG_DETAILS_URL))
+    },
+    POSTS_MOBILE: {
+        key: 'POSTS_MOBILE',
+        url: new RegExp(getMobileUrl(MOBILE_POST_LIST_URL))
     },
     CONTACT_MOBILE: {
         key: 'CONTACT_MOBILE',

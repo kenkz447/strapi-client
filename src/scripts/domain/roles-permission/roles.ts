@@ -1,6 +1,6 @@
 import { Role } from 'qoobee';
 
-import { DASHBOARD_BASE_PATH } from '@/configs';
+import { CATALOG_BASE_PATH, DASHBOARD_BASE_PATH } from '@/configs';
 
 import { permissions } from './permissions';
 
@@ -33,6 +33,7 @@ const authenticated: Role = {
         permissions.CATALOG,
         permissions.CATALOG_MOBILE,
         permissions.CONTACT_MOBILE,
+        permissions.POSTS_MOBILE,
 
         permissions.PROFILE_ACCOUNT,
         permissions.PROFILE_ADDRESS_BOOK,
@@ -61,7 +62,8 @@ const registered: Role = {
         permissions.CATALOG_MOBILE,
         permissions.PROFILE_ACCOUNT,
         permissions.PROFILE_PASSWORD,
-        permissions.CONTACT_MOBILE
+        permissions.CONTACT_MOBILE,
+        permissions.POSTS_MOBILE
     ],
     denied: [
         permissions.PROFILE_AGENCY,
@@ -70,8 +72,19 @@ const registered: Role = {
     ]
 };
 
+const anyone: Role = {
+    key: 'Public',
+    defaultUrl: CATALOG_BASE_PATH,
+    allowed: [
+        permissions.CATALOG,
+        permissions.CATALOG_MOBILE,
+        permissions.CONTACT_MOBILE
+    ],
+};
+
 export const roles = [
     admin,
     authenticated,
-    registered
+    registered,
+    anyone
 ];

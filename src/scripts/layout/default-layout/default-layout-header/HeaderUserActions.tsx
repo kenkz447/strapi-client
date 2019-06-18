@@ -29,13 +29,14 @@ type HeaderUserActionsContext = WithHistory & WithAuthClient & WithCurrentUser;
 
 function HeaderUserActions(props: WithContextProps<HeaderUserActionsContext>) {
     const { currentUser, authClient, history } = props;
+
     return (
         <Dropdown
             overlay={(
                 <Menu
                     onClick={({ key }) => {
                         if (key === 'logout') {
-                            return void authClient.logout();
+                            return void authClient.logout('/');
                         }
                         
                         history.push(key);

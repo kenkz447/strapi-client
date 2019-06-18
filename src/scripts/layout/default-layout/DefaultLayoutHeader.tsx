@@ -1,9 +1,10 @@
-import { Divider } from 'antd';
-import { AccessControl } from 'qoobee';
+import { Button, Divider } from 'antd';
+import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { policies } from '@/domain';
+import { DomainContext, policies } from '@/domain';
+import { text } from '@/i18n';
 
 import {
     HeaderCartButton,
@@ -40,15 +41,30 @@ export interface DefaultLayoutHeaderProps {
 }
 
 export function DefaultLayoutHeader(props: DefaultLayoutHeaderProps) {
+    const { currentUser, authClient } = React.useContext(RootContext) as DomainContext;
+
     return (
         <DefaultLayoutHeaderWrapper>
             <div style={{ flexGrow: 1 }} />
-            <AccessControl policy={policies.functionAllowed} funcKey="FUNC_ADD_TO_CART">
-                {() => <HeaderCartButton />}
-            </AccessControl>
-            <HeaderUserActions />
-            <HeaderNotification />
-            <HeaderSelectLanguage />
+            {
+                currentUser
+                    ? (
+                        <React.Fragment>
+                            <AccessControl policy={policies.functionAllowed} funcKey="FUNC_ADD_TO_CART">
+                                {() => <HeaderCartButton />}
+                            </AccessControl>
+                            <HeaderUserActions />
+                            <HeaderNotification />
+                            <HeaderSelectLanguage />
+                        </React.Fragment>
+                    )
+                    : (
+                        <Button onClick={() => authClient.gotoLoginPage()}>
+                            {text('Login')}
+                        </Button>
+                    )
+            }
+
         </DefaultLayoutHeaderWrapper>
     );
 }

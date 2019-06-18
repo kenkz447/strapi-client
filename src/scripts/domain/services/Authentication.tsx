@@ -2,7 +2,14 @@ import * as jwtDecode from 'jwt-decode';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
-import { AUTH_CONFIRM_URL, AUTH_REGISTER_URL, LOGIN_URL } from '@/configs';
+import {
+    AUTH_PATH,
+    AUTH_REGISTER_URL,
+    CATALOG_BASE_PATH,
+    CATALOG_URL,
+    getMobileUrl,
+    LOGIN_URL
+} from '@/configs';
 import {
     AuthLoginResponseBody,
     authResources,
@@ -106,11 +113,19 @@ class Authentication extends React.PureComponent<
             if (isNeedConfirm) {
                 return this.toConfirmPage();
             }
-            
+
         } catch (message) {
-            const isOnAuthPage = history.location.pathname.startsWith('/auth');
+            const currentPathname = history.location.pathname;
+
+            const isOnAuthPage = currentPathname === '/'
+                || currentPathname.startsWith(AUTH_PATH)
+                || currentPathname.startsWith(CATALOG_BASE_PATH)
+                || currentPathname.startsWith(getMobileUrl(CATALOG_BASE_PATH));
+
             if (isOnAuthPage) {
-                return;
+                return void setContext({
+                    appState: 'UNAUTHORIZED'
+                });
             }
 
             if (message === 'no action') {

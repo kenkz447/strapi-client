@@ -29,12 +29,14 @@ export function PageLoading(props: PageLoadingProps) {
     const [canRender, setCanRender] = React.useState(false);
 
     React.useEffect(() => {
-        setTimeout(
+        const timeout = setTimeout(
             () => {
                 setCanRender(true);
             },
             delayMS
         );
+        
+        return () => clearTimeout(timeout);
     });
 
     if (!canRender) {

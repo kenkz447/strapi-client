@@ -61,16 +61,22 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
     }
 
     private readonly renderMobileHandler = () => {
-        const hasMobilePrefix = location.pathname.startsWith(MOBILE_URL_PREFIX);
-        const isAuth = location.pathname.startsWith(AUTH_PATH);
-        
-        if (hasMobilePrefix || isAuth) {
-            return this.renderRouterContent();
-        }
-
         const toUrl = getMobileUrl(CATALOG_BASE_PATH);
 
-        return <Redirect to={toUrl} />;
+        return (
+            <Switch>
+                <Route path="/auth">
+                    {this.authRouteComponent()}
+                </Route>
+                <Route
+                    path={MOBILE_URL_PREFIX}
+                    component={this.mobileRouteComponent}
+                />
+                <Route>
+                    {() => <Redirect to={toUrl} />}
+                </Route>
+            </Switch>
+        );
     }
 
     readonly renderRouterContent = () => {
@@ -78,16 +84,8 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
         return (
             <Switch>
                 <Route path="/auth">
-                    <BlankLayout>
-                        <React.Suspense fallback={<PageLoading />}>
-                            <AuthRoutes />
-                        </React.Suspense>
-                    </BlankLayout>
+                    {this.authRouteComponent()}
                 </Route>
-                <Route
-                    path={MOBILE_URL_PREFIX}
-                    component={this.mobileRouteComponent}
-                />
                 <Route
                     path={PROFILE_URL}
                     component={this.profileRouteComponent}
@@ -105,10 +103,20 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
         );
     }
 
+    readonly authRouteComponent = () => {
+        return (
+            <BlankLayout>
+                <React.Suspense fallback={<PageLoading />}>
+                    <AuthRoutes />
+                </React.Suspense>
+            </BlankLayout>
+        );
+    }
+
     readonly mobileRouteComponent = () => {
         const { appState, history, currentBreakpoint } = this.props;
-
-        if (appState !== 'READY') {
+        
+        if (!appState) {
             return null;
         }
 
@@ -127,7 +135,7 @@ class RouterRoot extends React.PureComponent<RouterRootProps> {
     readonly mainRouteComponent = () => {
         const { appState, history, currentBreakpoint } = this.props;
 
-        if (appState !== 'READY') {
+        if (!appState) {
             return null;
         }
 

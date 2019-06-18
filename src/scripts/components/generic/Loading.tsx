@@ -30,12 +30,14 @@ export function Loading(props: LoadingProps) {
     const [canRender, setCanRender] = React.useState(false);
 
     React.useEffect(() => {
-        setTimeout(
+        const timeout = setTimeout(
             () => {
                 setCanRender(true);
             },
             delayMS
         );
+        
+        return () => clearTimeout(timeout);
     });
 
     if (!canRender) {

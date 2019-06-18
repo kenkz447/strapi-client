@@ -1,6 +1,7 @@
 import { User } from '@/restful';
 
 export const getUserFirstName = (user: User) => {
+
     if (!user.fullName) {
         return user.username;
     }
