@@ -1,6 +1,6 @@
 import { ModalProps } from 'antd/lib/modal';
 import { Moment } from 'moment';
-import { AppCoreContext } from 'qoobee';
+import { AppCoreContext, Omit } from 'qoobee';
 import { WithContextProps } from 'react-context-service';
 import { RouteComponentProps } from 'react-router';
 
@@ -54,7 +54,7 @@ export interface Product3DSenceContext {
     readonly takeProduct3DScreenshot: () => Promise<string>;
 }
 
-export interface DomainContext extends AppCoreContext<User>, Product3DSenceContext {
+export interface DomainContext extends Omit<AppCoreContext<User>, 'appState'>, Product3DSenceContext {
     readonly authClient: AuthClient<User>;
     readonly drawerVisibled?: boolean;
     readonly showPageLoading?: boolean;
@@ -70,6 +70,7 @@ export interface DomainContext extends AppCoreContext<User>, Product3DSenceConte
 
     readonly notifications: Notification[];
     readonly availablePromoCodes: StoredPromoCode[];
+    readonly appState?: AppCoreContext<User>['appState'] | 'UNAUTHORIZED';
 }
 
 export type WithCurrentBreakpoint = Pick<DomainContext, 'currentBreakpoint'>;
