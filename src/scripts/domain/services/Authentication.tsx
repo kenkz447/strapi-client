@@ -124,7 +124,7 @@ class Authentication extends React.PureComponent<
 
             if (isOnAuthPage) {
                 return void setContext({
-                    appState: 'UNAUTHORIZED'
+                    appState: 'READY'
                 });
             }
 
