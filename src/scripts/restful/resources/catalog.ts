@@ -33,6 +33,10 @@ export const catalogResources = {
             parameter: nameof<Catalog>(o => o.published),
             type: 'query',
             value: true
+        }, {
+            type: 'query',
+            parameter: '_sort',
+            value: 'id:DESC'
         }]
     }),
     findOne: new Resource<Catalog>({

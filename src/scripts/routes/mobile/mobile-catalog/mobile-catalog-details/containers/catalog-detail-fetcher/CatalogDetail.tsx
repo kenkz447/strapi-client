@@ -1,23 +1,15 @@
 import { Col, Modal, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
-import { AccessControl, RootContext } from 'qoobee';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { getProductDetails, getProductUrl } from '@/business/product';
+import { getProductDetails } from '@/business/product';
 import { fetchProductModules } from '@/business/product-modules';
-import {
-    isUserNeedsUpdateBusinessInfo,
-    isUserWaitingForVerify
-} from '@/business/user';
 import { Img } from '@/components';
-import { DomainContext, policies } from '@/domain';
-import {
-    BusinessInfomationFormButton
-} from '@/forms/profile/business-infomation';
+import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
 import { formatCurrency } from '@/utilities';
@@ -182,17 +174,6 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
         );
     }
 
-    private readonly showWaitingForVerifyModal = () => {
-        Modal.info({
-            title: 'Tùy biến sản phẩm',
-            content: (
-                <div>
-                    <p>{text('WaitingForVerify')}</p>
-                </div>
-            ),
-            onOk() {/** */ },
-        });
-    }
 
     private readonly showDeviceNotAllowedMessage = () => {
         Modal.info({
@@ -207,7 +188,6 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
     }
 
     public render() {
-        const { currentUser } = this.context;
         const { catalog } = this.props;
 
         return (
@@ -247,56 +227,12 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         </Typography.Paragraph>
                         {this.renderProductDetails()}
                         <div className="catalog-customize">
-                            <AccessControl
-                                policy={policies.functionAllowed}
-                                funcKey="FUNC_CUSTOMIZE_CATALOG"
-                                renderDeny={() => {
-                                    const needsUpdateBusinessInfo = isUserNeedsUpdateBusinessInfo(currentUser);
-                                    const waitingForVerify = isUserWaitingForVerify(currentUser);
-
-                                    if (needsUpdateBusinessInfo) {
-                                        return (
-                                            <BusinessInfomationFormButton
-                                                className="catalog-customize-link"
-                                                formTitle="Tùy biến sản phẩm"
-                                                initialValues={currentUser}
-                                                onSuccess={(updatedUser) => {
-                                                    this.showWaitingForVerifyModal();
-                                                    this.context.setContext({
-                                                        currentUser: updatedUser
-                                                    });
-                                                }}
-                                            >
-                                                Tùy biến sản phẩm
-                                            </BusinessInfomationFormButton>
-                                        );
-                                    }
-
-                                    if (waitingForVerify) {
-                                        return (
-                                            <a
-                                                className="catalog-customize-link"
-                                                onClick={this.showWaitingForVerifyModal}
-                                            >
-                                                Tùy biến sản phẩm
-                                            </a>
-                                        );
-                                    }
-
-                                    return null;
-                                }}
+                            <a
+                                className="catalog-customize-link"
+                                onClick={this.showDeviceNotAllowedMessage}
                             >
-                                {() => {
-                                    return (
-                                        <a
-                                            className="catalog-customize-link"
-                                            onClick={this.showDeviceNotAllowedMessage}
-                                        >
-                                            Tùy biến sản phẩm
-                                        </a>
-                                    );
-                                }}
-                            </AccessControl>
+                                Tùy biến sản phẩm
+                            </a>
                             <div className="catalog-customize-description">
                                 - Sản phẩm có thể tùy biến chất liệu hoàn thiện cho toàn bộ sản phẩm.<br />
                                 - Có thể tùy chỉnh thiết kế một số cấu kiện theo mong muốn dựa trên

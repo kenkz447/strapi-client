@@ -8,7 +8,8 @@ import {
     CATALOG_BASE_PATH,
     CATALOG_URL,
     getMobileUrl,
-    LOGIN_URL
+    LOGIN_URL,
+    PRODUCT_PATH
 } from '@/configs';
 import {
     AuthLoginResponseBody,
@@ -118,6 +119,7 @@ class Authentication extends React.PureComponent<
             const currentPathname = history.location.pathname;
 
             const isOnAuthPage = currentPathname === '/'
+                || currentPathname.startsWith(PRODUCT_PATH)
                 || currentPathname.startsWith(AUTH_PATH)
                 || currentPathname.startsWith(CATALOG_BASE_PATH)
                 || currentPathname.startsWith(getMobileUrl(CATALOG_BASE_PATH));

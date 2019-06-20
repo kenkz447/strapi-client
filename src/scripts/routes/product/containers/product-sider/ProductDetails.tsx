@@ -104,11 +104,13 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
                     {
                         model3D ?
                             (
-                                <div>
-                                    <a href={getUploadedFileSrc({ uploadedFile: model3D })} target="_blank">
-                                        <Icon type="download" /> Tải về 3D model
-                                    </a>
-                                </div>
+                                <AccessControl policy={functionAllowed} funcKey="FUNC_DOWNLOAD_MODEL">
+                                    <div>
+                                        <a href={getUploadedFileSrc({ uploadedFile: model3D })} target="_blank">
+                                            <Icon type="download" /> Tải về 3D model
+                                        </a>
+                                    </div>
+                                </AccessControl>
                             )
                             : null
                     }

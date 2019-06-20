@@ -2,20 +2,21 @@ import * as React from 'react';
 import { withContext } from 'react-context-service';
 
 import { DomainContext, WithDomainContext } from '@/domain';
-import {
-    agencyResources,
-    orderDetailResources,
-    request,
-    storedPromoCodeResources
-} from '@/restful';
+import { agencyResources, request, storedPromoCodeResources } from '@/restful';
 
 type ContextFetcherProps = WithDomainContext & Pick<DomainContext, 'currentUser'>;
 
 class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
     public componentDidUpdate() {
-        const { currentUser } = this.props;
+        const { currentUser, appState, setContext } = this.props;
 
         if (!currentUser) {
+            if (appState) {
+                setContext({
+                    availablePromoCodes: []
+                });
+            }
+            
             return;
         }
 
@@ -61,7 +62,7 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
 
         try {
             setContext({
-                availablePromoCodes: availablePromoCodes,
+                availablePromoCodes: availablePromoCodes || [],
                 cartOrderDetails: [],
                 currentAgency: fetcherAgencies && fetcherAgencies[0],
                 appState: 'READY'
@@ -72,4 +73,4 @@ class ContextFetcher extends React.PureComponent<ContextFetcherProps> {
     }
 }
 
-export default withContext<DomainContext>('currentUser')(ContextFetcher);
+export default withContext<DomainContext>('currentUser', 'appState')(ContextFetcher);

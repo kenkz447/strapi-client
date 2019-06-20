@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Row, Typography } from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
 import { AccessControl, RootContext } from 'qoobee';
@@ -9,15 +9,8 @@ import styled from 'styled-components';
 import { getProductDetails, getProductUrl } from '@/business/product';
 import { fetchProductModules } from '@/business/product-modules';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
-import {
-    isUserNeedsUpdateBusinessInfo,
-    isUserWaitingForVerify
-} from '@/business/user';
 import { Img } from '@/components';
 import { DomainContext, policies } from '@/domain';
-import {
-    BusinessInfomationFormButton
-} from '@/forms/profile/business-infomation';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
 import { formatCurrency } from '@/utilities';
@@ -177,22 +170,11 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
         );
     }
 
-    private readonly showWaitingForVerifyModal = () => {
-        Modal.info({
-            title: 'Tùy biến sản phẩm',
-            content: (
-                <div>
-                    <p>{text('WaitingForVerify')}</p>
-                </div>
-            ),
-            onOk() {/** */ },
-        });
-    }
-
     public render() {
-        const { currentUser, history, currentAgency } = this.context;
+        const { history, currentAgency } = this.context;
         const { catalog } = this.props;
         const { product } = this.state;
+        const productUrl = product && getProductUrl(product);
 
         return (
             <CatalogDetailWrapper>
@@ -252,65 +234,17 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         {this.renderProductDetails()}
                         <div className="catalog-customize">
                             <div className="catalog-customize-action">
-                                <AccessControl
-                                    policy={policies.functionAllowed}
-                                    funcKey="FUNC_CUSTOMIZE_CATALOG"
-                                    renderDeny={() => {
-                                        const needsUpdateBusinessInfo = isUserNeedsUpdateBusinessInfo(currentUser);
-                                        const waitingForVerify = isUserWaitingForVerify(currentUser);
-
-                                        if (needsUpdateBusinessInfo) {
-                                            return (
-                                                <BusinessInfomationFormButton
-                                                    formTitle="Tùy biến sản phẩm"
-                                                    type="primary"
-                                                    size="large"
-                                                    initialValues={currentUser}
-                                                    onSuccess={(updatedUser) => {
-                                                        this.showWaitingForVerifyModal();
-                                                        this.context.setContext({
-                                                            currentUser: updatedUser
-                                                        });
-                                                    }}
-                                                >
-                                                    Tùy biến sản phẩm
-                                                </BusinessInfomationFormButton>
-                                            );
-                                        }
-
-                                        if (waitingForVerify) {
-                                            return (
-                                                <Button
-                                                    type="primary"
-                                                    size="large"
-                                                    onClick={this.showWaitingForVerifyModal}
-                                                >
-                                                    Tùy biến sản phẩm
-                                                </Button>
-                                            );
-                                        }
-
-                                        return null;
-                                    }}
-                                >
-                                    {() => {
-                                        const productUrl = product && getProductUrl(product);
-
-                                        if (!productUrl) {
-                                            return null;
-                                        }
-
-                                        return (
-                                            <Button
-                                                type="primary"
-                                                size="large"
-                                                onClick={() => history.push(productUrl)}
-                                            >
-                                                Tùy biến sản phẩm
-                                            </Button>
-                                        );
-                                    }}
-                                </AccessControl>
+                                {
+                                    productUrl && (
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            onClick={() => history.push(productUrl)}
+                                        >
+                                            Tùy biến sản phẩm
+                                        </Button>
+                                    )
+                                }
                                 {
                                     catalog.model3D && (
                                         <AccessControl

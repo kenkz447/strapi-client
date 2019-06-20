@@ -1,6 +1,6 @@
 import { ModalProps } from 'antd/lib/modal';
 import { Moment } from 'moment';
-import { AppCoreContext, Omit } from 'qoobee';
+import { AppCoreContext } from 'qoobee';
 import { WithContextProps } from 'react-context-service';
 import { RouteComponentProps } from 'react-router';
 
@@ -84,7 +84,6 @@ export type WithGlobalModal =
 export type WithSelectedDate = Pick<DomainContext, 'selectedDate'>;
 export type WithSelectedDateRange = Pick<DomainContext, 'selectedDateRange'>;
 export type WithShowPrint = Pick<DomainContext, 'showPrint'>;
-
 
 export type WithDomainContext<P = {}> = WithContextProps<DomainContext, P>;
 

@@ -1,8 +1,9 @@
-import { Button, Form, Icon, Tooltip } from 'antd';
+import { Button, Form, Icon, Tooltip, Typography } from 'antd';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { getDiscountByQuantityValue } from '@/business/discount-by-quantity';
@@ -13,6 +14,7 @@ import {
     verticalLayout,
     verticalLayoutNoLabel
 } from '@/components';
+import { LOGIN_URL } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { DiscountByQuantity, OrderDetail, ProductExtended } from '@/restful';
@@ -113,6 +115,8 @@ export class OrderDetailCreateForm extends React.PureComponent<
             submitDisabled,
         } = this.props;
 
+        const { currentUser } = this.context;
+
         const canSubmit = !submitDisabled && values.quantity && values.quantity > 0;
         const isPromotion = !!values.storedPromoCode;
 
@@ -182,34 +186,40 @@ export class OrderDetailCreateForm extends React.PureComponent<
                             &nbsp; {formatCurrency(totalPrice)}
                         </span>
                     </Form.Item>
-                    <Form.Item
-                        wrapperCol={verticalLayoutNoLabel.wrapperCol}
-                    >
-                        {
-                            isPromotion
-                                ? (
-                                    <Button
-                                        type="primary"
-                                        onClick={() => handleSubmit()}
-                                        disabled={!canSubmit}
-                                        loading={isSubmitting}
-                                        icon="gift"
-                                    >
-                                        {text('Receive incentives')}
-                                    </Button>
-                                )
-                                : (
-                                    <Button
-                                        type="primary"
-                                        onClick={() => handleSubmit()}
-                                        disabled={!canSubmit}
-                                        loading={isSubmitting}
-                                    >
-                                        {text('Add to cart')}
-                                    </Button>
-                                )
-                        }
-                    </Form.Item>
+
+                    {
+                        <Form.Item
+                            wrapperCol={verticalLayoutNoLabel.wrapperCol}
+                            // tslint:disable-next-line:max-line-length
+                            help={!currentUser && <i>Vui lòng <Link to={LOGIN_URL + `?returnUrl=${location.href}`}>đăng nhập</Link> để đặt hàng</i>}
+                        >
+                            {
+                                isPromotion
+                                    ? (
+                                        <Button
+                                            type="primary"
+                                            onClick={() => handleSubmit()}
+                                            disabled={!canSubmit}
+                                            loading={isSubmitting}
+                                            icon="gift"
+                                        >
+                                            {text('Receive incentives')}
+                                        </Button>
+                                    )
+                                    : (
+                                        <Button
+                                            type="primary"
+                                            onClick={() => handleSubmit()}
+                                            disabled={!currentUser || !canSubmit}
+                                            loading={isSubmitting}
+                                        >
+                                            {text('Add to cart')}
+                                        </Button>
+                                    )
+                            }
+                        </Form.Item>
+                    }
+
                 </OrderDetailCreateFormWrapper>
             </FormBody>
         );

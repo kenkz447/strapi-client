@@ -46,7 +46,6 @@ const authenticated: Role = {
         permissions.FUNC_ORDER_COMPLAIN,
         permissions.FUNC_ORDER_CANCEL,
         permissions.FUNC_ADD_TO_CART,
-        permissions.FUNC_CUSTOMIZE_CATALOG,
         permissions.FUNC_AGENCY_POLICIES_OVERVIEW,
         permissions.FUNC_DOWNLOAD_MODEL
     ]
@@ -63,7 +62,8 @@ const registered: Role = {
         permissions.PROFILE_ACCOUNT,
         permissions.PROFILE_PASSWORD,
         permissions.CONTACT_MOBILE,
-        permissions.POSTS_MOBILE
+        permissions.POSTS_MOBILE,
+        permissions.PRODUCT
     ],
     denied: [
         permissions.PROFILE_AGENCY,
@@ -78,7 +78,8 @@ const anyone: Role = {
     allowed: [
         permissions.CATALOG,
         permissions.CATALOG_MOBILE,
-        permissions.CONTACT_MOBILE
+        permissions.CONTACT_MOBILE,
+        permissions.PRODUCT
     ],
 };
 

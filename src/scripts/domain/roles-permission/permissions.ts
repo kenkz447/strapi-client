@@ -131,9 +131,6 @@ export const functionPermissions: Permissions = {
     FUNC_ADD_TO_CART: {
         key: 'FUNC_ADD_TO_CART'
     },
-    FUNC_CUSTOMIZE_CATALOG: {
-        key: 'FUNC_CUSTOMIZE_CATALOG'
-    },
     FUNC_DOWNLOAD_MODEL: {
         key: 'FUNC_DOWNLOAD_MODEL'
     },
