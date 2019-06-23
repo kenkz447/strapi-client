@@ -1,13 +1,20 @@
-import { List, Tooltip } from 'antd';
+import { Icon, List, Tooltip } from 'antd';
 import * as classNames from 'classnames';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
 
 import { getProductModulesMaterialCodes } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
-import { Product3DSenceContext, WithHistory } from '@/domain';
+import {
+    DomainContext,
+    Product3DSenceContext,
+    WithDomainContext,
+    WithHistory
+} from '@/domain';
 import { FurnitureMaterial } from '@/restful';
+import { MaterialDetails } from '@/routes/product/components/MaterialDetails';
 import { replaceRoutePath } from '@/utilities';
 
 interface MaterialSelectItemOwnProps {
@@ -18,7 +25,6 @@ interface MaterialSelectItemOwnProps {
 }
 
 type MaterialSelectItemContext =
-    WithHistory
     & Pick<Product3DSenceContext, 'selectedFurnitureMaterial'>
     & Pick<Product3DSenceContext, 'selectedFurnitureComponent'>
     & Pick<Product3DSenceContext, 'selectedFurnitureMaterialType'>;
@@ -26,9 +32,13 @@ type MaterialSelectItemContext =
 type MaterialSelectItemProps = WithContextProps<MaterialSelectItemContext, MaterialSelectItemOwnProps>;
 
 class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps> {
+    public static readonly contextType = RootContext;
+    public readonly context!: WithDomainContext<DomainContext>;
+
     private readonly onMaterialSelect = () => {
+        const { history } = this.context;
+
         const {
-            history,
             furnitureMaterial,
             currentProductModulesCode,
             selectedFurnitureMaterial,
@@ -49,7 +59,21 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
         history.replace(nextProductUrl + location.search);
     }
 
-    componentDidUpdate(preveProps: MaterialSelectItemProps) {
+    private readonly onDetailClick = () => {
+        const { setContext } = this.context;
+        const { furnitureMaterial } = this.props;
+
+        setContext({
+            globalModalVisibled: true,
+            globalModal: {
+                width: 800,
+                children: <MaterialDetails material={furnitureMaterial} />,
+                className: 'modal-no-footer'
+            }
+        });
+    }
+
+    public componentDidUpdate(preveProps: MaterialSelectItemProps) {
         const {
             selectedFurnitureComponent,
             currentProductModulesCode,
@@ -74,7 +98,7 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
         }
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         const {
             selectedFurnitureMaterial,
             selectedFurnitureComponent,
@@ -106,12 +130,23 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 
     public render() {
         const { furnitureMaterial, isSelected } = this.props;
-        
+
         const thumbailFile = furnitureMaterial.thumbnail || furnitureMaterial.texture;
 
         return (
             <List.Item>
-                <Tooltip title={furnitureMaterial.name}>
+                <Tooltip
+                    title={(
+                        <div className="material-title">
+                            {furnitureMaterial.name}
+                            <div className="material-title-action">
+                                <a onClick={this.onDetailClick}>
+                                    <Icon type="info-circle" /> chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    )}
+                >
                     <div
                         onClick={this.onMaterialSelect}
                         className={
@@ -130,7 +165,6 @@ class MaterialSelectItemMaterial extends React.Component<MaterialSelectItemProps
 }
 
 export const MaterialSelectItem = withContext<MaterialSelectItemContext, MaterialSelectItemOwnProps>(
-    'history',
     'selectedFurnitureMaterial',
     'selectedFurnitureComponent',
     'selectedFurnitureMaterialType'

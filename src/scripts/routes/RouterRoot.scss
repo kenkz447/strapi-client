@@ -196,6 +196,14 @@ button+button {
     }
 }
 
+.modal {
+    &-no-footer {
+        .ant-modal-footer {
+            display: none;
+        }
+    }
+}
+
 @media screen and (max-width: 576px) {
     .ant-list-vertical .ant-list-item {
         flex-wrap: wrap-reverse;
