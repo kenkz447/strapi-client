@@ -19,6 +19,7 @@ import {
 } from '@/restful';
 
 import { AuthClient, DomainContext, WithHistory } from '../base';
+import { roles } from '../roles-permission';
 
 interface DecodedJWT {
     readonly _id: string;
@@ -126,7 +127,8 @@ class Authentication extends React.PureComponent<
 
             if (isOnAuthPage) {
                 return void setContext({
-                    appState: 'READY'
+                    appState: 'READY',
+                    currentUserRole: roles.find(o => o.key === 'Public')
                 });
             }
 

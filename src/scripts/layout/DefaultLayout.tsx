@@ -1,3 +1,4 @@
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -54,22 +55,13 @@ type DefaultLayoutProps =
     Pick<DomainContext, 'history'>;
 
 export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
-    private readonly siderContent = (
-        <React.Fragment>
-            <div style={{ background: '#002140' }}>
-                <SiderLogo className="side-logo">
-                    <Link to={DASHBOARD_BASE_PATH}>
-                        <img src={LOGO_TEXT} alt="logo" />
-                    </Link>
-                </SiderLogo>
-            </div>
-            <DefaultLayoutSiderMenu />
-        </React.Fragment>
-    );
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
 
     private readonly header = <DefaultLayoutHeader />;
 
     render() {
+        const { currentUserRole } = this.context;
         const { children } = this.props;
 
         return (
@@ -78,7 +70,18 @@ export class DefaultLayout extends React.PureComponent<DefaultLayoutProps> {
                     siderProps={{
                         trigger: null,
                         collapsible: true,
-                        children: this.siderContent,
+                        children: (
+                            <React.Fragment>
+                                <div style={{ background: '#002140' }}>
+                                    <SiderLogo className="side-logo">
+                                        <Link to={(currentUserRole && currentUserRole!.defaultUrl) || DASHBOARD_BASE_PATH}>
+                                            <img src={LOGO_TEXT} alt="logo" />
+                                        </Link>
+                                    </SiderLogo>
+                                </div>
+                                <DefaultLayoutSiderMenu />
+                            </React.Fragment>
+                        ),
                         width: 256,
                     }}
                     header={this.header}
