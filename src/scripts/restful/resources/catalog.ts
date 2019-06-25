@@ -36,7 +36,7 @@ export const catalogResources = {
         }, {
             type: 'query',
             parameter: '_sort',
-            value: 'id:DESC'
+            value: 'viewOrder:DESC,isNewProduct:DESC,id:DESC'
         }]
     }),
     findOne: new Resource<Catalog>({
