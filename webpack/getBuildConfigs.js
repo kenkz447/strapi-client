@@ -30,7 +30,10 @@ module.exports = function getBuildConfig(options) {
         plugins.push(new BundleAnalyzerPlugin());
     }
 
-    plugins.push(new ForkTsCheckerWebpackPlugin());
+    plugins.push(new ForkTsCheckerWebpackPlugin({
+        memoryLimit: 1024
+    }));
+
     plugins.push(new webpack.NamedChunksPlugin());
 
     plugins.push(new MiniCssExtractPlugin({
