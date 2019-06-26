@@ -15,11 +15,11 @@ import { Reflink, reflinkResources } from '@/restful/resources/Reflink';
 import { getUrlSearchParam, isFutureDate } from '@/utilities';
 
 import { AuthCard, AuthPageWrapper } from '../shared';
+import { RegisterFormContainer } from './containers';
 
 type RouteRegisterProps = AppPageProps;
 
 interface RouteRegisterState {
-    readonly registered: boolean;
     readonly refCode?: string | null;
     readonly reflink?: Reflink;
     readonly error?: string;
@@ -42,7 +42,6 @@ export class RouteRegister extends RoutePage<
         const registered = getUrlSearchParam('registered');
 
         this.state = {
-            registered: registered ? true : false,
             refCode: getUrlSearchParam('ref')
         };
 
@@ -94,7 +93,8 @@ export class RouteRegister extends RoutePage<
     }
 
     render() {
-        const { registered, refCode, reflink, error } = this.state;
+        const { refCode, reflink, error } = this.state;
+        
         if (refCode && !reflink) {
             return <PageLoading />;
         }
@@ -102,58 +102,10 @@ export class RouteRegister extends RoutePage<
         return (
             <AuthPageWrapper>
                 <div className="auth-page-content">
-                    <SlideUp>
-                        {
-                            registered
-                                ? (
-                                    <AuthCard
-                                        title={text('Registration')}
-                                        description={text('Registration_Successful')}
-                                    />
-                                )
-                                : (
-                                    <AuthCard
-                                        title={text('Registration')}
-                                        description={text('Registration_Basic')}
-                                    >
-                                        {
-                                            error && (
-                                                <div>
-                                                    <Alert type="error" showIcon={true} message={error} />
-                                                    <div className="white-space-2"/>
-                                                </div>
-                                            )
-                                        }
-                                        <BusinessController
-                                            action={registerUser}
-                                            onSuccess={({ jwt }: AuthLoginResponseBody) => {
-                                                localStorage.setItem('tempJWT', jwt);
-                                                this.setState({
-                                                    registered: true
-                                                });
-                                            }}
-                                        >
-                                            {({ doBusiness }) => {
-                                                return (
-                                                    <RegisterFormControl
-                                                        initialValues={{
-                                                            reflink: reflink
-                                                        }}
-                                                        submit={doBusiness}
-                                                    />
-                                                );
-                                            }}
-                                        </BusinessController>
-                                    </AuthCard>
-                                )
-                        }
-                        <Divider dashed={true} />
-                        <div className="register-link">
-                            <Link to={LOGIN_URL}>
-                                <u>{text('To login page')}</u>
-                            </Link>
-                        </div>
-                    </SlideUp>
+                    <RegisterFormContainer
+                        reflink={reflink!}
+                        error={error}
+                    />
                 </div>
             </AuthPageWrapper>
         );

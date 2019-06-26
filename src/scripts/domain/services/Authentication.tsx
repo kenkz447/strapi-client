@@ -121,6 +121,7 @@ class Authentication extends React.PureComponent<
 
             const isOnAuthPage = currentPathname === '/'
                 || currentPathname.startsWith(PRODUCT_PATH)
+                || currentPathname.startsWith(getMobileUrl(PRODUCT_PATH))
                 || currentPathname.startsWith(AUTH_PATH)
                 || currentPathname.startsWith(CATALOG_BASE_PATH)
                 || currentPathname.startsWith(getMobileUrl(CATALOG_BASE_PATH));

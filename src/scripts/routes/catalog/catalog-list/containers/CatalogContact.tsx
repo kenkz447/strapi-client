@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import { text } from '@/i18n';
 import { ProductTypeGroup } from '@/restful';
 
-import { ContactGoogleMap, ContactProductGroupIcons } from './catalog-contact';
+import {
+    ContactGoogleMap,
+    ContactPartnership,
+    ContactProductGroupIcons
+} from './catalog-contact';
 
 const CatalogContactWrapper = styled.div`
     padding: 24px 0 0 24px;
@@ -14,17 +18,17 @@ const CatalogContactWrapper = styled.div`
     ::-webkit-scrollbar {
         display: none;
     }
-`;
 
-const CatalogContactHeadline = styled.h4`
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    color: rgba(0, 0, 0, 0.6);
-    letter-spacing: 0;
-    transition: color .2s ease;
-    border-bottom: 3px solid #f0b41e;
-    display: inline-block;
+    .catalog-contact-headline {
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.6);
+        letter-spacing: 0;
+        transition: color .2s ease;
+        border-bottom: 3px solid #f0b41e;
+        display: inline-block;
+    }
 `;
 
 interface CatalogContactProps {
@@ -52,10 +56,12 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
         return (
             <CatalogContactWrapper>
                 <Card bordered={false} style={{ overflow: 'overlay' }}>
-                    <CatalogContactHeadline>
+                    <div className="catalog-contact-headline">
                         {typeGroup.name}
-                    </CatalogContactHeadline>
+                    </div>
                     <ContactProductGroupIcons icons={typeGroup.icons} />
+                    <Divider />
+                    <ContactPartnership />
                     <Divider />
                     <Typography.Paragraph strong={true}>
                         {text('Thời gian làm việc')}

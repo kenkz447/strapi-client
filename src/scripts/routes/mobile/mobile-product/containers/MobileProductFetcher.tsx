@@ -1,4 +1,4 @@
-import './ProductFetcher.scss';
+import './MobileProductFetcher.scss';
 
 import { Button, Layout } from 'antd';
 import { UnregisterCallback } from 'history';
@@ -11,16 +11,13 @@ import {
     getFurnitureComponentGroupById
 } from '@/business/furniture-component-group';
 import {
+    fetchProductModules,
     getProductModuleDetails,
     getProductModulesPrice
 } from '@/business/product-modules';
-import {
-    fetchProductModules
-} from '@/business/product-modules/getters/fetchProductModules';
 import { getProductTypeById } from '@/business/product-type';
 import { NoContent, PageLoading } from '@/components';
-import { PRODUCT_PATH, PRODUCT_URL } from '@/configs';
-import { DomainContext, WithHistory } from '@/domain';
+import { getMobileUrl, PRODUCT_PATH, PRODUCT_URL } from '@/configs';
 import { text } from '@/i18n';
 import {
     FurnitureComponent,
@@ -28,53 +25,51 @@ import {
     ProductExtended
 } from '@/restful';
 import {
+    ProductFetcherContextProps
+} from '@/routes/product/containers/ProductFetcher';
+import {
+    CLEAR_3D_SENCE_SELECT_EVENT
+} from '@/routes/product/RouteProductContext';
+import {
     getNestedObjectId,
     getUrlSearchParam,
     replaceRoutePath
 } from '@/utilities';
 
-import { CLEAR_3D_SENCE_SELECT_EVENT } from '../RouteProductContext';
 import {
     Product3dSence,
     ProductAddToCart,
+    ProductPhotos,
     ProductPrice
-} from './product-fetcher';
-import { ProductPhotos } from './product-fetcher/ProductPhotos';
-import { ProductTypeSelect, ProductTypeSelectState } from './product-sider';
+} from './mobile-product-fetcher';
+import {
+    MobileProductTypeSelect,
+    MobileProductTypeSelectState
+} from './mobile-product-types';
 
-interface ProductFetcherProps {
+interface MobileProductFetcherProps {
     readonly modulesCode: string | null;
 }
 
-export type ProductFetcherContextProps = WithHistory
-    & Pick<DomainContext, 'selectedFurnitureComponent'>
-    & Pick<DomainContext, 'selectedFurnitureMaterial'>
-    & Pick<DomainContext, 'selectedProduct'>
-    & Pick<DomainContext, 'selectedFurnitureComponentDiameter'>
-    & Pick<DomainContext, 'selectedFurnitureComponentHeight'>
-    & Pick<DomainContext, 'selectedFurnitureComponentLengthiness'>
-    & Pick<DomainContext, 'selectedFurnitureComponentGroup'>
-    & Pick<DomainContext, 'selectedFurnitureComponentGroup'>;
-
-interface ProductFetcherState extends ProductTypeSelectState {
+interface MobileProductFetcherState extends MobileProductTypeSelectState {
     readonly allowLoad?: boolean;
     readonly modulesCode: string | null;
     readonly loadedProduct: ProductExtended | null;
     readonly needsUpdate?: boolean;
 }
 
-class ProductFetcherComponent extends React.PureComponent<
-    WithContextProps<ProductFetcherContextProps, ProductFetcherProps>,
-    ProductFetcherState
+class MobileProductFetcherComponent extends React.PureComponent<
+    WithContextProps<ProductFetcherContextProps, MobileProductFetcherProps>,
+    MobileProductFetcherState
     > {
 
     readonly unlistenHistory: UnregisterCallback;
     _isUnmounting!: boolean;
 
     static getDerivedStateFromProps(
-        nextProps: ProductFetcherProps,
-        state: ProductFetcherState
-    ): Partial<ProductFetcherState> | null {
+        nextProps: MobileProductFetcherProps,
+        state: MobileProductFetcherState
+    ): Partial<MobileProductFetcherState> | null {
         const { modulesCode, productDesign } = state;
 
         const urlProductDesign = getUrlSearchParam('productDesign');
@@ -99,12 +94,12 @@ class ProductFetcherComponent extends React.PureComponent<
         return null;
     }
 
-    constructor(props: WithContextProps<ProductFetcherContextProps, ProductFetcherProps>) {
+    constructor(props: WithContextProps<ProductFetcherContextProps, MobileProductFetcherProps>) {
         super(props);
 
         const { modulesCode, history } = props;
 
-        const productTypeSelectState = ProductTypeSelect.getSearchParamsState();
+        const productTypeSelectState = MobileProductTypeSelect.getSearchParamsState();
 
         if (modulesCode) {
             this.state = {
@@ -145,7 +140,11 @@ class ProductFetcherComponent extends React.PureComponent<
 
         const { history } = this.props;
 
-        const url = replaceRoutePath(PRODUCT_URL, { modulesCode: nextModuleCode });
+        const url = replaceRoutePath(
+            getMobileUrl(PRODUCT_URL),
+            { modulesCode: nextModuleCode }
+        );
+        
         const searchParams = new URLSearchParams(location.search);
         const toUrl = url + '?' + searchParams.toString();
         history.replace(toUrl);
@@ -333,7 +332,7 @@ class ProductFetcherComponent extends React.PureComponent<
 
     public componentDidUpdate(
         prevProps: ProductFetcherContextProps,
-        prevState: ProductFetcherState
+        prevState: MobileProductFetcherState
     ) {
         const isModulesCodeChanged = prevState.modulesCode !== this.state.modulesCode;
 
@@ -368,9 +367,9 @@ class ProductFetcherComponent extends React.PureComponent<
 
         return (
             <div className="w-100 d-flex" style={{ minHeight: '100%' }}>
-                <Layout className="page-layout product-fetcher">
-                    <Layout.Content className="h-100">
-                        <div className="product-fetcher-sence-wrapper">
+                <Layout className="mobile-product-fetcher">
+                    <Layout.Content>
+                        <div className="mobile-product-fetcher-sence-wrapper">
                             <Product3dSence
                                 key={loadedProduct!.design.id}
                                 productModules={loadedProduct!.modules}
@@ -413,7 +412,7 @@ class ProductFetcherComponent extends React.PureComponent<
     }
 }
 
-export const ProductFetcher = withContext<ProductFetcherContextProps, ProductFetcherProps>(
+export const MobileProductFetcher = withContext<ProductFetcherContextProps, MobileProductFetcherProps>(
     'history',
     'selectedFurnitureComponent',
-)(ProductFetcherComponent);
+)(MobileProductFetcherComponent);

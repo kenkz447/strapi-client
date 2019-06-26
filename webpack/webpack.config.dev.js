@@ -21,7 +21,7 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'API_ENTRY': JSON.stringify('http://localhost:1337'),
+            'API_ENTRY': JSON.stringify('http://admin.mfurniture.vn'),
             'FILE_HOST': JSON.stringify('http://admin.mfurniture.vn')
         }),
         new ErrorOverlayPlugin(),

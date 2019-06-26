@@ -1,0 +1,24 @@
+.mobile-product-fetcher {
+    background: #fff;
+    padding: 0 0 24px 0;
+    overflow: hidden;
+    
+    &-sence-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    &-footter {
+        padding: 24px;
+        margin: 0 -24px;
+        min-height: 75px;
+        background: #fafafa;
+    }
+    .ant-form-item-label {
+        line-height: 40px!important;
+        padding-bottom: 0px!important;
+    }
+}

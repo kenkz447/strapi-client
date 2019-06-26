@@ -14,7 +14,7 @@ const MaterialDetailsWrapper = styled.div`
             &-label {
                 font-weight: bold;
                 display: inline-block;
-                width: 150px;
+                width: 230px;
             }
         }
     }

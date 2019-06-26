@@ -7,13 +7,15 @@ import { NotFoundPage } from '@/components';
 import { RouteCatalog, RouteMobileCatalogDetails } from './mobile-catalog';
 import { RouteMobileContact } from './mobile-contact';
 import { RouteMobilePostDetail, RouteMobilePostList } from './mobile-post';
+import { RouteMobileProduct } from './mobile-product';
 
 export const routes = routeFrom([
     RouteMobilePostList,
     RouteMobilePostDetail,
     RouteCatalog,
     RouteMobileCatalogDetails,
-    RouteMobileContact
+    RouteMobileContact,
+    RouteMobileProduct
 ]);
 
 export default () => (
