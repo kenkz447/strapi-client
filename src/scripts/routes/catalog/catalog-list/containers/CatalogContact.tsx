@@ -1,7 +1,9 @@
 import { Card, Divider, Typography } from 'antd';
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { ProductTypeGroup } from '@/restful';
 
@@ -38,6 +40,9 @@ interface CatalogContactProps {
 
 export class CatalogContact extends React.PureComponent<CatalogContactProps> {
 
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
+
     private readonly pickRandomProductTypeGroup = () => {
         const { productTypeGroups, selectedProductTypeGroup } = this.props;
         if (selectedProductTypeGroup) {
@@ -49,6 +54,8 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
 
     public render() {
         const typeGroup = this.pickRandomProductTypeGroup();
+        const { currentUser } = this.context;
+
         if (!typeGroup) {
             return null;
         }
@@ -60,8 +67,15 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                         {typeGroup.name}
                     </div>
                     <ContactProductGroupIcons icons={typeGroup.icons} />
-                    <Divider />
-                    <ContactPartnership />
+                    {
+                        !currentUser && (
+                            <React.Fragment>
+
+                                <Divider />
+                                <ContactPartnership />
+                            </React.Fragment>
+                        )
+                    }
                     <Divider />
                     <Typography.Paragraph strong={true}>
                         {text('Thời gian làm việc')}
