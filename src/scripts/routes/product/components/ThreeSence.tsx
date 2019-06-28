@@ -425,6 +425,23 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         });
     }
 
+    private readonly getHeight = () => {
+        const { productType, componentGroup } = this.props;
+
+        const viewportWidth = window.innerWidth;
+        const widthRatio = viewportWidth < 400 ? viewportWidth / 400 : viewportWidth / 700;
+
+        const heightOrigin = (componentGroup && componentGroup.view_senceHeight)
+            ? componentGroup.view_senceHeight
+            : productType.view_senceHeight;
+
+        if (widthRatio < 1) {
+            return heightOrigin * widthRatio;
+        }
+
+        return heightOrigin;
+    }
+
     public componentDidMount() {
         this.initSence();
         this.initContent();
@@ -458,7 +475,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         const currentViewportHeight = (componentGroup && componentGroup.view_senceHeight)
             ? componentGroup.view_senceHeight
             : productType.view_senceHeight;
-        
+
         this.tryResetCanvasSize(oldViewportHeight, currentViewportHeight);
     }
 
@@ -469,8 +486,6 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
     }
 
     public render() {
-        const { productType, componentGroup } = this.props;
-
         return (
             <div className="three-sence-wrapper">
                 {!this.state.loaded &&
@@ -488,9 +503,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                     ref={(element: HTMLDivElement) => this.container = element}
                     style={{
                         width: '100%',
-                        height: (componentGroup && componentGroup.view_senceHeight)
-                            ? componentGroup.view_senceHeight
-                            : productType.view_senceHeight
+                        height: this.getHeight()
                     }}
                 />
             </div>

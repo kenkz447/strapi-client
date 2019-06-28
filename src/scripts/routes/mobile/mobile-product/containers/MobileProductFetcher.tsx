@@ -1,4 +1,4 @@
-import { Button, Layout } from 'antd';
+import { Button, Layout, Radio } from 'antd';
 import { UnregisterCallback } from 'history';
 import { events } from 'qoobee';
 import * as React from 'react';
@@ -22,6 +22,7 @@ import {
     FurnitureComponentType,
     ProductExtended
 } from '@/restful';
+import { ProductDetails } from '@/routes/product/containers/product-sider';
 import {
     ProductVariantSelect
 } from '@/routes/product/containers/product-sider/ProductVariantSelect';
@@ -62,6 +63,7 @@ interface MobileProductFetcherState extends MobileProductTypeSelectState {
     readonly modulesCode: string | null;
     readonly loadedProduct: ProductExtended | null;
     readonly needsUpdate?: boolean;
+    readonly buyOrSpecs: 'buy' | 'specs';
 }
 
 class MobileProductFetcherComponent extends React.PureComponent<
@@ -112,6 +114,7 @@ class MobileProductFetcherComponent extends React.PureComponent<
                 allowLoad: false,
                 modulesCode: modulesCode,
                 loadedProduct: null,
+                buyOrSpecs: 'buy',
                 ...productTypeSelectState
             };
         } else {
@@ -119,6 +122,7 @@ class MobileProductFetcherComponent extends React.PureComponent<
                 allowLoad: false,
                 modulesCode: null,
                 loadedProduct: null,
+                buyOrSpecs: 'buy',
                 ...productTypeSelectState
             };
         }
@@ -410,10 +414,42 @@ class MobileProductFetcherComponent extends React.PureComponent<
                             </div>
                         )
                         : (
-                            <ProductAddToCart
-                                loadedProduct={loadedProduct!}
-                                modulesCode={modulesCode!}
-                            />
+                            <div style={{overflow: 'hidden'}}>
+                                <div className="white-space-2" />
+                                <div style={{ padding: '0 24px' }}>
+                                    <Radio.Group
+                                        className="w-100 text-center"
+                                        buttonStyle="solid"
+                                        value={this.state.buyOrSpecs}
+                                        onChange={(e) => {
+                                            this.setState({ buyOrSpecs: e.target.value });
+                                        }}
+                                    >
+                                        <Radio.Button className="w-50" value="buy">
+                                            Mua hàng
+                                        </Radio.Button>
+                                        <Radio.Button className="w-50" value="specs">
+                                            Về sản phẩm
+                                        </Radio.Button>
+                                    </Radio.Group>
+                                </div>
+                                {
+                                    this.state.buyOrSpecs === 'buy'
+                                        ? (
+                                            <div style={{ padding: '12px 0 0 24px' }}>
+                                                <ProductAddToCart
+                                                    loadedProduct={loadedProduct!}
+                                                    modulesCode={modulesCode!}
+                                                />
+                                            </div>
+                                        )
+                                        : (
+                                            <div style={{ padding: '12px 24px 0 24px' }}>
+                                                <ProductDetails />
+                                            </div>
+                                        )
+                                }
+                            </div>
                         )
                 }
             </div>
