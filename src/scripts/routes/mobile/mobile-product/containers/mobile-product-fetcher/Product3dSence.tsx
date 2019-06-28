@@ -38,7 +38,7 @@ class Product3dSenceComponent extends React.PureComponent<
 
     _threeSence = React.createRef<ThreeSence>();
 
-    private readonly on3dComponentSelect = async (selected3DObject: THREE.Group | null) => {
+    private readonly on3dComponentSelect = async (selected3DObject: THREE.Object3D | null) => {
         if (!selected3DObject) {
             events.emit(CLEAR_3D_SENCE_SELECT_EVENT);
             return;
@@ -75,7 +75,7 @@ class Product3dSenceComponent extends React.PureComponent<
         const nextSelectedFurnitureMaterialType = (selectedModule.material && selectedModule.material.materialType) ?
             selectedModule.material.materialType
             : selectedFurnitureComponent.materialTypes[0];
-        
+
         const allComponentMaterialTypes = availableFurnitureComponents.map(component => {
             return component.materialTypes;
         });
@@ -177,7 +177,8 @@ class Product3dSenceComponent extends React.PureComponent<
         const {
             productModules,
             productType,
-            selected3DObject
+            selected3DObject,
+            setContext
         } = this.props;
 
         const componentGroup = productModules[0]
@@ -192,11 +193,18 @@ class Product3dSenceComponent extends React.PureComponent<
                 componentGroup={componentGroup}
                 onObjectSelect={this.on3dComponentSelect}
                 selectedObject={selected3DObject}
+                setSence={(senceWrapper) => setContext({
+                    scene: senceWrapper.scene,
+                    select3DObject: (object3D) => {
+                        this.on3dComponentSelect(object3D);
+                        senceWrapper.selectObject(object3D);
+                    }
+                })}
             />
         );
     }
 }
 
 export const Product3dSence = withContext<Product3DSenceContext, Product3dSenceProps>(
-    'selected3DObject',
+    'selected3DObject'
 )(Product3dSenceComponent);

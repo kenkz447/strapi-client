@@ -1,32 +1,42 @@
-import './ProductComponentSelect.scss';
-
-import { List } from 'antd';
 import * as React from 'react';
 import { withContext, WithContextProps } from 'react-context-service';
-import { isNumber } from 'util';
+import styled from 'styled-components';
 
-import {
-    getProductModuleCodes,
-    getProductModulesComponentCodes
-} from '@/business/product-modules';
+import { getProductModulesComponentCodes } from '@/business/product-modules';
 import { Product3DSenceContext } from '@/domain';
 import { text } from '@/i18n';
 import { FurnitureComponent, FurnitureComponentGroup } from '@/restful';
-
 import {
     RouteProductContext,
     RouteProductContextProps
-} from '../../RouteProductContext';
-import { ComponentSelectItem } from './product-component-select';
+} from '@/routes/product/RouteProductContext';
 
-interface ProductComponentSelectProps {
+import { ComponentSelectItem } from './mobile-product-component-select';
+
+export const MobileProductComponentSelectWrapper = styled.div`
+    > * {
+        padding-left: 24px;
+    }
+    
+    .mobile-product-component-list {
+        overflow-y: hidden;
+        overflow-x: auto;
+        white-space: nowrap;
+        
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    }
+`;
+
+interface MobileProductComponentSelectProps {
 
 }
 
-class ProductComponentSelectComponent extends React.PureComponent<
-    WithContextProps<Product3DSenceContext, ProductComponentSelectProps>
+class MobileProductComponentSelectComponent extends React.PureComponent<
+    WithContextProps<Product3DSenceContext, MobileProductComponentSelectProps>
     > {
-    
+
     public static readonly contextType = RouteProductContext;
     public readonly context!: RouteProductContextProps;
 
@@ -99,6 +109,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
                 return true;
             }
 
+            // tslint:disable-next-line:no-string-literal
             return o.componentGroup['disabled'] !== true;
         });
 
@@ -154,7 +165,7 @@ class ProductComponentSelectComponent extends React.PureComponent<
 
         const filteredFurnitureComponents = this.getFilteredFurnitureComponents();
         const isHidden = filteredFurnitureComponents.length === 1;
-        
+
         if (isHidden) {
             return null;
         }
@@ -164,35 +175,34 @@ class ProductComponentSelectComponent extends React.PureComponent<
         );
 
         return (
-            <div>
+            <MobileProductComponentSelectWrapper>
                 <h4>{text('Components')}: </h4>
-                <List
-                    className="product-component-select"
-                    dataSource={filteredFurnitureComponents}
-                    grid={{ column: 4, gutter: 5 }}
-                    renderItem={(furnitureComponent: FurnitureComponent, index: number) => {
-                        const isSelected = furnitureComponent === nextSelectedFurnitureComponent;
-                        return (
-                            <RouteProductContext.Consumer>
-                                {({ currentModulesCode }) => (
-                                    <ComponentSelectItem
-                                        key={furnitureComponent.id}
-                                        currentProductModulesCode={currentModulesCode}
-                                        furnitureComponent={furnitureComponent}
-                                        isSelected={isSelected}
-                                        currentIndex={index}
-                                    />
-                                )}
-                            </RouteProductContext.Consumer>
-                        );
-                    }}
-                />
-            </div>
+                <div className="mobile-product-component-list">
+                    {
+                        filteredFurnitureComponents.map((furnitureComponent, index) => {
+                            const isSelected = furnitureComponent === nextSelectedFurnitureComponent;
+                            return (
+                                <RouteProductContext.Consumer key={index}>
+                                    {({ currentModulesCode }) => (
+                                        <ComponentSelectItem
+                                            key={furnitureComponent.id}
+                                            currentProductModulesCode={currentModulesCode}
+                                            furnitureComponent={furnitureComponent}
+                                            isSelected={isSelected}
+                                            currentIndex={index}
+                                        />
+                                    )}
+                                </RouteProductContext.Consumer>
+                            );
+                        })
+                    }
+                </div>
+            </MobileProductComponentSelectWrapper>
         );
     }
 }
 
-export const ProductComponentSelect = withContext<Product3DSenceContext>(
+export const MobileProductComponentSelect = withContext<Product3DSenceContext>(
     'availableFurnitureComponents',
     'selected3DObject',
     'selectedFurnitureComponent',
@@ -201,4 +211,4 @@ export const ProductComponentSelect = withContext<Product3DSenceContext>(
     'selectedFurnitureComponentDiameter',
     'selectedFurnitureComponentLengthiness',
     'selectedFurnitureComponentIndex'
-)(ProductComponentSelectComponent);
+)(MobileProductComponentSelectComponent);

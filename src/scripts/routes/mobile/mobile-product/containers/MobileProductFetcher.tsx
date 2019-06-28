@@ -1,5 +1,3 @@
-import './MobileProductFetcher.scss';
-
 import { Button, Layout } from 'antd';
 import { UnregisterCallback } from 'history';
 import { events } from 'qoobee';
@@ -25,6 +23,9 @@ import {
     ProductExtended
 } from '@/restful';
 import {
+    ProductVariantSelect
+} from '@/routes/product/containers/product-sider/ProductVariantSelect';
+import {
     ProductFetcherContextProps
 } from '@/routes/product/containers/ProductFetcher';
 import {
@@ -37,11 +38,16 @@ import {
 } from '@/utilities';
 
 import {
+    MobileProductComponentSelect,
+    Product3DComponentSwitch,
     Product3dSence,
     ProductAddToCart,
     ProductPhotos,
     ProductPrice
 } from './mobile-product-fetcher';
+import {
+    MobileProductMaterialSelect
+} from './mobile-product-fetcher/MobileProductMaterialSelect';
 import {
     MobileProductTypeSelect,
     MobileProductTypeSelectState
@@ -144,7 +150,7 @@ class MobileProductFetcherComponent extends React.PureComponent<
             getMobileUrl(PRODUCT_URL),
             { modulesCode: nextModuleCode }
         );
-        
+
         const searchParams = new URLSearchParams(location.search);
         const toUrl = url + '?' + searchParams.toString();
         history.replace(toUrl);
@@ -366,47 +372,50 @@ class MobileProductFetcherComponent extends React.PureComponent<
         }
 
         return (
-            <div className="w-100 d-flex" style={{ minHeight: '100%' }}>
-                <Layout className="mobile-product-fetcher">
-                    <Layout.Content>
-                        <div className="mobile-product-fetcher-sence-wrapper">
-                            <Product3dSence
-                                key={loadedProduct!.design.id}
-                                productModules={loadedProduct!.modules}
-                                productType={loadedProduct!.productType}
+            <div style={{ marginBottom: 24 }}>
+                <Product3dSence
+                    key={loadedProduct!.design.id}
+                    productModules={loadedProduct!.modules}
+                    productType={loadedProduct!.productType}
+                />
+                {
+                    <ProductPhotos
+                        product={loadedProduct!}
+                        visibled={true}
+                    />
+                }
+                {
+                    selectedFurnitureComponent
+                        ? (
+                            <div className="w-100">
+                                <Product3DComponentSwitch />
+                                <ProductVariantSelect />
+                                <MobileProductComponentSelect />
+                                <MobileProductMaterialSelect />
+                                <div style={{ padding: `0 24px` }}>
+                                    <ProductPrice
+                                        className="w-100"
+                                        totalPrice={loadedProduct!.totalPrice}
+                                        actionTitle={text('Bấm vào đây để xác nhận')}
+                                        button={
+                                            <Button
+                                                onClick={this.onComponentChanged}
+                                                icon="check"
+                                                shape="circle-outline"
+                                                size="large"
+                                            />
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        )
+                        : (
+                            <ProductAddToCart
+                                loadedProduct={loadedProduct!}
+                                modulesCode={modulesCode!}
                             />
-                            {
-                                <ProductPhotos
-                                    product={loadedProduct!}
-                                    visibled={true}
-                                />
-                            }
-                            {
-                                selectedFurnitureComponent
-                                    ? (
-                                        <ProductPrice
-                                            totalPrice={loadedProduct!.totalPrice}
-                                            actionTitle={text('Bấm vào đây để xác nhận')}
-                                            button={
-                                                <Button
-                                                    onClick={this.onComponentChanged}
-                                                    icon="check"
-                                                    shape="circle-outline"
-                                                    size="large"
-                                                />
-                                            }
-                                        />
-                                    )
-                                    : (
-                                        <ProductAddToCart
-                                            loadedProduct={loadedProduct!}
-                                            modulesCode={modulesCode!}
-                                        />
-                                    )
-                            }
-                        </div>
-                    </Layout.Content>
-                </Layout>
+                        )
+                }
             </div>
         );
     }

@@ -21,6 +21,10 @@ import { getUrlSearchParam } from '@/utilities';
 const ProductAddToCartWrapper = styled.div`
     min-width: 360px;
     padding-left: 24px;
+    .ant-form-item-label {
+        padding-bottom: 0;
+        line-height: 40px;
+    }
 `;
 
 interface ProductAddToCartProps {

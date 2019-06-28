@@ -1,4 +1,4 @@
-import { Col, Modal, Row, Typography } from 'antd';
+import { Button, Col, Modal, Row, Typography } from 'antd';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
 import { RootContext } from 'qoobee';
@@ -6,9 +6,10 @@ import * as React from 'react';
 import { WithContextProps } from 'react-context-service';
 import styled from 'styled-components';
 
-import { getProductDetails } from '@/business/product';
+import { getProductDetails, getProductUrl } from '@/business/product';
 import { fetchProductModules } from '@/business/product-modules';
 import { Img } from '@/components';
+import { getMobileUrl } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
@@ -67,16 +68,8 @@ const CatalogDetailWrapper = styled.div`
     .catalog-customize {
         text-align: center;
         &-link {
-            background: #538BBE;
-            padding: 14px 30px;
-            border-radius: 30px;
-            color: #FFF;
-            font-size: 18px;
-            display: block;
-            margin-bottom: 24px;
-            &.disabled {
-                background: rgba(0, 0, 0, 0.1);
-            }
+            margin-bottom: 6px;
+            width: 100%;
         }
         &-description {
             text-align: left;
@@ -174,21 +167,12 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
         );
     }
 
-
-    private readonly showDeviceNotAllowedMessage = () => {
-        Modal.info({
-            title: 'Tùy biến sản phẩm',
-            content: (
-                <div>
-                    <p>{text('DeviceNotAllowed')}</p>
-                </div>
-            ),
-            onOk() {/** */ },
-        });
-    }
-
     public render() {
+        const { history } = this.context;
         const { catalog } = this.props;
+
+        const { product } = this.state;
+        const productUrl = product && getProductUrl(product);
 
         return (
             <CatalogDetailWrapper>
@@ -227,12 +211,21 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         </Typography.Paragraph>
                         {this.renderProductDetails()}
                         <div className="catalog-customize">
-                            <a
-                                className="catalog-customize-link"
-                                onClick={this.showDeviceNotAllowedMessage}
-                            >
-                                Tùy biến sản phẩm
-                            </a>
+                            {
+                                productUrl && (
+                                    <Button
+                                        className="catalog-customize-link"
+                                        type="primary"
+                                        size="large"
+                                        onClick={() => {
+                                            const productMobileUrl = getMobileUrl(productUrl);
+                                            history.push(productMobileUrl);
+                                        }}
+                                    >
+                                        Tùy biến sản phẩm
+                                    </Button>
+                                )
+                            }
                             <div className="catalog-customize-description">
                                 - Sản phẩm có thể tùy biến chất liệu hoàn thiện cho toàn bộ sản phẩm.<br />
                                 - Có thể tùy chỉnh thiết kế một số cấu kiện theo mong muốn dựa trên

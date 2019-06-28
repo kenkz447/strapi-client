@@ -6,9 +6,9 @@ import { COLOR_PRIMARY_200 } from '@/configs';
 import { formatCurrency } from '@/utilities';
 
 const ProductPriceWrapper = styled.div`
-margin-top: 14px;
+    margin-top: 14px;
     padding: 10px 15px;
-    border-radius: 50px;
+    border-radius: 6px;
     background: ${COLOR_PRIMARY_200};
     width: 256px;
     display: flex;
@@ -19,6 +19,7 @@ margin-top: 14px;
 `;
 
 export interface ProductPriceProps {
+    readonly className?: string;
     readonly totalPrice: number;
     readonly button: React.ReactNode;
     readonly actionTitle: string;
@@ -27,13 +28,14 @@ export interface ProductPriceProps {
 export class ProductPrice extends React.PureComponent<ProductPriceProps> {
     public render() {
         const {
+            className,
             totalPrice,
             button,
             actionTitle
         } = this.props;
 
         return (
-            <ProductPriceWrapper>
+            <ProductPriceWrapper className={className}>
                 <div className="flex-grow-1">
                     <strong className="product-price-value">
                         {formatCurrency(totalPrice)}

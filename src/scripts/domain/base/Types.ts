@@ -52,6 +52,8 @@ export interface Product3DSenceContext {
     readonly selectedProduct: ProductExtended | null;
     readonly product3DSenceLoading: boolean | null;
     readonly takeProduct3DScreenshot: () => Promise<string>;
+    readonly select3DObject: (object3D: THREE.Object3D | null) => void;
+    readonly scene: THREE.Scene;
 }
 
 export interface DomainContext extends AppCoreContext<User>, Product3DSenceContext {
