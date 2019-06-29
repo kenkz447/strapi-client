@@ -1,0 +1,71 @@
+import { Button, InputNumber } from 'antd';
+import { RootContext } from 'qoobee';
+import * as React from 'react';
+import { WithContextProps } from 'react-context-service';
+
+import { BusinessController } from '@/business';
+import { deleteOrderDetail, upsertOrderDetail } from '@/business/order-detail';
+import { DomainContext } from '@/domain';
+import { text } from '@/i18n';
+import { OrderDetail, request, StoredPromoCode } from '@/restful';
+
+interface OrderDetailListItemDeleteProps {
+    readonly orderDetail: OrderDetail;
+}
+
+export class OrderDetailListItemDelete extends React.PureComponent<OrderDetailListItemDeleteProps> {
+    static readonly contextType = RootContext;
+    readonly context!: WithContextProps<DomainContext>;
+
+    private readonly tryRestorePromoCode = async (storedPromoCode?: StoredPromoCode) => {
+        if (!storedPromoCode) {
+            return;
+        }
+
+        const {
+            setContext,
+            availablePromoCodes
+        } = this.context;
+
+        setContext({
+            availablePromoCodes: [
+                ...availablePromoCodes,
+                storedPromoCode
+            ]
+        });
+    }
+
+    public render() {
+        const { orderDetail } = this.props;
+        return (
+            <BusinessController
+                action={deleteOrderDetail}
+                delay={500}
+                onSuccess={(deletedOrderDetail: OrderDetail) => {
+                    const {
+                        cartOrderDetails,
+                        setContext
+                    } = this.context;
+                    
+                    setContext({
+                        cartOrderDetails: cartOrderDetails.filter(o => o.id !== orderDetail.id)
+                    });
+
+                    this.tryRestorePromoCode(deletedOrderDetail.storedPromoCode);
+                }}
+            >
+                {({ doBusiness, loading }) => (
+                    <Button
+                        type="danger"
+                        icon="delete"
+                        ghost={true}
+                        loading={loading}
+                        onClick={() => doBusiness(orderDetail)}
+                    >
+                        {text('Delete')}
+                    </Button>
+                )}
+            </BusinessController>
+        );
+    }
+}

@@ -22,6 +22,7 @@ const OrderOverviewWrapper = styled.div`
             display: inline-block!important;
             width: 65%;
             margin-right: 0!important;
+            vertical-align: top;
         }
         &-detail {
             display: inline-block!important;

@@ -41,8 +41,7 @@ function MobileHeaderUser(props: WithContextProps<MobileHeaderUserContext>) {
                 {
                     <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
                         {getUserFirstName(currentUser)[0]}
-                    </Avatar>
-                }
+                    </Avatar>}
             </span>
         </Dropdown>
     );

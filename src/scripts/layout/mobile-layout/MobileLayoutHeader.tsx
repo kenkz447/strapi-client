@@ -1,7 +1,13 @@
+import { RootContext } from 'qoobee';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { MobileHeaderUser } from './mobile-layout-header';
+import { DomainContext } from '@/domain';
+
+import {
+    MobileHeaderCartButton,
+    MobileHeaderUser
+} from './mobile-layout-header';
 
 const MobileLayoutHeaderWrapper = styled.div`
     padding: 0 24px;
@@ -30,11 +36,23 @@ const MobileLayoutHeaderWrapper = styled.div`
 export interface MobileLayoutHeaderProps {
 }
 
-export function MobileLayoutHeader() {
-    return (
-        <MobileLayoutHeaderWrapper>
-            <div className="flex-grow-1" />
-            <MobileHeaderUser />
-        </MobileLayoutHeaderWrapper>
-    );
+export class MobileLayoutHeader extends React.PureComponent {
+    public static readonly contextType = RootContext;
+    public readonly context!: DomainContext;
+
+    public render() {
+        const { currentUser } = this.context;
+
+        return (
+            <MobileLayoutHeaderWrapper>
+                <div className="flex-grow-1" />
+                {
+                    currentUser && (
+                        <MobileHeaderCartButton />
+                    )
+                }
+                <MobileHeaderUser />
+            </MobileLayoutHeaderWrapper>
+        );
+    }
 }
