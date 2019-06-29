@@ -72,7 +72,7 @@ export class AddressTable extends React.PureComponent<AddressTableProps, Address
                                     title={address.fullAddress}
                                     description={(
                                         <DescriptionList
-                                            title={text('Consignee name') + ': ' + address.consigneeName}
+                                            title={text('Consignee') + ': ' + address.consigneeName}
                                             col={2}
                                         >
                                             <DescriptionList.Description term={text('Email')}>

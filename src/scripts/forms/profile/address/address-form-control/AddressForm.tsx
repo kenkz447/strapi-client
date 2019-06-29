@@ -36,8 +36,8 @@ export function AddressForm(props: AddressFormOwnProps) {
                     onChange={handleChange}
                     value={values.consigneeName}
                     validateStatus={errors.consigneeName ? 'error' : undefined}
-                    label={text('Consignee name')}
-                    placeholder={text('Input consignee name')}
+                    label={text('Consignee')}
+                    placeholder={text('input consignee name')}
                     autoFocus={true}
                     required={true}
                 />

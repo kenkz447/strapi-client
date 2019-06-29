@@ -103,7 +103,7 @@ export class PaymentPromotionField extends React.PureComponent<
 
         return (
             <FormInput
-                className="w-50"
+                className="w-75"
                 name={nameof.full<Order>(o => o.promotion!.code)}
                 onChange={this.onInputChange}
                 value={currentCode}
@@ -112,7 +112,6 @@ export class PaymentPromotionField extends React.PureComponent<
                 validateStatus={isPromoCodeValid ? 'success' : undefined}
                 label={text('Promo code')}
                 placeholder={text('input your code')}
-                autoFocus={!isPromoCodeValid}
                 help={this.getHelpMessage()}
             />
         );

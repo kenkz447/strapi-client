@@ -83,7 +83,6 @@ export class CheckoutFormFinish extends React.PureComponent<
                                 labelCol={verticalLayout.labelCol}
                                 label={text('Company name')}
                                 placeholder={text('input company name')}
-                                autoFocus={true}
                                 required={true}
                             />
                             <FormInput
@@ -129,7 +128,7 @@ export class CheckoutFormFinish extends React.PureComponent<
                         loading={isSubmitting}
                         disabled={!isValid}
                     >
-                        {text('Checkout')}
+                        {text('Done')}
                     </Button>
                     <Button
                         onClick={onPrevClick}

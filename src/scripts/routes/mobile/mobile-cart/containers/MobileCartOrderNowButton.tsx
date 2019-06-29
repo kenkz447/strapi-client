@@ -4,7 +4,7 @@ import { RootContext } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
 
-import { CHECKOUT_URL } from '@/configs';
+import { CHECKOUT_URL, getMobileUrl } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { OrderDetail, orderDetailResourceType } from '@/restful';
@@ -26,7 +26,9 @@ export class MobileCartOrderNowButton extends React.PureComponent<MobileCartOrde
 
     private readonly onCheckoutClick = () => {
         const { history } = this.context;
-        history.push(CHECKOUT_URL);
+        history.push(
+            getMobileUrl(CHECKOUT_URL)
+        );
     }
 
     public render() {

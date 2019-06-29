@@ -19,6 +19,7 @@ import {
 
 interface CheckoutFormControlProps extends FormikControlBaseProps<CheckoutFormValues> {
     readonly initialValues?: CheckoutFormValues;
+    readonly showSteps?: boolean;
 }
 
 interface CheckoutFormControlState {
@@ -84,7 +85,8 @@ export class CheckoutFormControl extends FormikControlBase<
 
     public render() {
         const {
-            initialValues
+            initialValues,
+            showSteps
         } = this.props;
 
         const { cities, cityOptions, addressOptions, addresses } = this.state;
@@ -105,6 +107,7 @@ export class CheckoutFormControl extends FormikControlBase<
                 >
                     {(formProps) => (
                         <CheckoutForm
+                            showSteps={showSteps}
                             {...formProps}
                         />
                     )}

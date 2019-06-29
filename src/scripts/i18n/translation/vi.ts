@@ -166,7 +166,7 @@ export const vi = {
     'ChangeEmailFieldHelp': 'Email không thể thay đổi, trường hợp bạn muốn thay đổi email vui lòng liên hệ [M]Furniture để được hỗ trợ.',
     'ChangeUsernameFieldHelp': 'Dùng để thay thế email email khi đăng nhập.',
     'AgencySettingsDesctiption': 'Cài đặt thông tin đại lý và thông tin liên hệ về giao nhận, hàng hóa.',
-    'Consignee name': 'Người nhận hàng',
+    'Consignee': 'Người nhận',
     'input consignee name': 'nhập tên người nhận hàng',
     'Material library': 'Thư viện vật liệu',
     'Upload material': 'Tải lên vật liệu',
@@ -204,5 +204,6 @@ export const vi = {
     'Download 3D model': 'Tải 3D model',
     'Factory address': 'Địa chỉ nhà máy sản xuất',
     'Agency details': 'Thông tin đại lý',
-    'Created at': 'Thời gian tạo'
+    'Created at': 'Thời gian tạo',
+    'Done': 'Xong'
 };

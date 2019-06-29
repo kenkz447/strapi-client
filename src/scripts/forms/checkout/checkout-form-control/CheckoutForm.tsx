@@ -35,6 +35,7 @@ const CheckoutFormWrapper = styled.div`
 export type CheckoutFormValues = Partial<Order>;
 
 export interface CheckoutFormOwnProps extends FormikProps<CheckoutFormValues> {
+    readonly showSteps?: boolean;
 }
 
 interface CheckoutFormStepsState {
@@ -60,11 +61,17 @@ export class CheckoutForm extends React.PureComponent<CheckoutFormOwnProps, Chec
     }
 
     public render() {
+        const { showSteps } = this.props;
         const { currentStep } = this.state;
+        
         return (
             <CheckoutFormWrapper>
                 <FormBody formProps={this.props}>
-                    <CheckoutFormSteps currentStep={currentStep} />
+                    {
+                        showSteps && (
+                            <CheckoutFormSteps currentStep={currentStep} />
+                        )
+                    }
                     <div className="checkout-form-content">
                         {
                             currentStep === 1

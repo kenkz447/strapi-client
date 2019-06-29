@@ -1,12 +1,10 @@
-import { Col, Icon, Row } from 'antd';
 import { RouteInfo } from 'qoobee';
 import * as React from 'react';
 import { RestfulDataContainer } from 'react-restful';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { PageContent, PageWrapper } from '@/components';
-import { CART_URL, getMobileUrl, PRODUCT_PATH } from '@/configs';
+import { PageWrapper, SlideUp } from '@/components';
+import { CART_URL, getMobileUrl } from '@/configs';
 import { AppPageProps, DomainContext, RoutePage } from '@/domain';
 import { text } from '@/i18n';
 import { orderDetailResourceType } from '@/restful';
@@ -36,7 +34,10 @@ export class MobileRouteCart extends RoutePage<MobileRouteCartProps> {
         return (
             <PageWrapper>
                 <MobileRouteCartWrapper>
-                    <OrderDetailsFetcher cartOrderDetails={cartOrderDetails} />
+                    <h1>GIỎ HÀNG</h1>
+                    <SlideUp>
+                        <OrderDetailsFetcher cartOrderDetails={cartOrderDetails} />
+                    </SlideUp>
                     <div className="white-space-2" />
                     <RestfulDataContainer
                         resourceType={orderDetailResourceType}

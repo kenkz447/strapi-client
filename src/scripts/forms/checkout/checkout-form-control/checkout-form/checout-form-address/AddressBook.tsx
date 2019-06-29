@@ -2,6 +2,7 @@ import { Col, Icon, Row, Select } from 'antd';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
+import { verticalLayout } from '@/components';
 import { PROFILE_ADDRESS_BOOK_URL } from '@/configs';
 import { text } from '@/i18n';
 import { Address } from '@/restful';
@@ -36,7 +37,8 @@ export class AddressBook extends React.PureComponent<AddressBookProps> {
 
         return (
             <Row>
-                <Col offset={8} span={16}>
+                <Col {...verticalLayout.labelCol}/>
+                <Col {...verticalLayout.wrapperCol}>
                     <Select
                         style={{ marginBottom: 6 }}
                         placeholder={text('Select from address book')}

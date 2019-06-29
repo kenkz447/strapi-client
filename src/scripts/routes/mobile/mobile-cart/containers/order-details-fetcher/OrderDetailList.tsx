@@ -59,7 +59,6 @@ export class OrderDetailList extends React.PureComponent<OrderDetailListProps> {
         const { orderDetails } = this.props;
         return (
             <OrderDetailListWrapper>
-                <h1>GIỎ HÀNG</h1>
                 <Card bordered={false}>
                     <List
                         size="large"

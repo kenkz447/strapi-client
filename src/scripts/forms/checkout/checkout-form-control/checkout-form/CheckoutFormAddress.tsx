@@ -65,10 +65,9 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     labelCol={verticalLayout.labelCol}
                     help={errors.consigneeName}
                     validateStatus={errors.consigneeName ? 'error' : undefined}
-                    label={text('Consignee name')}
-                    placeholder={text('input consignee name')}
+                    label={text('Consignee')}
+                    placeholder={text('input consignee')}
                     required={true}
-                    autoFocus={true}
                 />
                 <FormInput
                     name={nameof<Order>(o => o.phone)}
@@ -81,7 +80,6 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     label={text('Phone')}
                     placeholder={text('input phone')}
                     required={true}
-                    autoFocus={true}
                 />
                 <FormInput
                     name={nameof<Order>(o => o.email)}
@@ -113,7 +111,6 @@ export class CheckoutFormAddress extends React.PureComponent<CheckoutFormAddress
                     label={text('Address')}
                     placeholder={text('input address')}
                     required={true}
-                    autoFocus={true}
                 />
                 <FormRadioGroup
                     name={nameof<Order>(o => o.addressType)}

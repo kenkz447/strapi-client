@@ -94,6 +94,7 @@ export class RouteCheckout extends RoutePage<RouteCheckoutProps, RouteCheckoutSt
                                         {({ doBusiness }) => {
                                             return (
                                                 <CheckoutFormControl
+                                                    showSteps={true}
                                                     initialValues={initialValues}
                                                     submit={doBusiness}
                                                 />

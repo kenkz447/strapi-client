@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router';
 
 import { NotFoundPage } from '@/components';
 
+import { MobileRouteCheckout } from './mobile checkout';
 import { MobileRouteCart } from './mobile-cart';
 import { RouteCatalog, RouteMobileCatalogDetails } from './mobile-catalog';
 import { RouteMobileContact } from './mobile-contact';
@@ -17,7 +18,8 @@ export const routes = routeFrom([
     RouteMobileCatalogDetails,
     RouteMobileContact,
     RouteMobileProduct,
-    MobileRouteCart
+    MobileRouteCart,
+    MobileRouteCheckout
 ]);
 
 export default () => (
