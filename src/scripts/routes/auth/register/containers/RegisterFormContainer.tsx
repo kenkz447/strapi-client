@@ -61,7 +61,10 @@ export class RegisterFormContainer extends React.PureComponent<RegisterFormConta
                                 <BusinessController
                                     action={registerUser}
                                     onSuccess={({ jwt }: AuthLoginResponseBody) => {
-                                        localStorage.setItem('tempJWT', jwt);
+                                        if (jwt) {
+                                            localStorage.setItem('tempJWT', jwt);
+                                        }
+                                        
                                         this.setState({
                                             registered: true
                                         });

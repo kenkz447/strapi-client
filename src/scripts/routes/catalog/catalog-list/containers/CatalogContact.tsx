@@ -70,7 +70,6 @@ export class CatalogContact extends React.PureComponent<CatalogContactProps> {
                     {
                         !currentUser && (
                             <React.Fragment>
-
                                 <Divider />
                                 <ContactPartnership />
                             </React.Fragment>

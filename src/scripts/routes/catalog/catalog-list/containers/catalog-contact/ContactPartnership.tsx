@@ -41,14 +41,18 @@ const ContactPartnershipContent = styled.div`
             justify-content: center;
             align-items: center;
         }
+    }
 
-        &-content {
-            p {
-                margin-bottom: 6px;
-                color: #000;
-                text-align: justify;
-            }
-        }
+    > p, > ul {
+        margin-left: 37px;
+    }
+    p, li {
+        margin-bottom: 6px;
+        color: #000;
+        text-align: justify;
+    }
+    h3 {
+        font-weight: bold;
     }
 `;
 
@@ -82,22 +86,38 @@ export class ContactPartnership extends React.PureComponent<ContactPartnershipPr
             <Row gutter={80}>
                 <Col span={12}>
                     <ContactPartnershipContent>
-                        <div>
-                            <h3 className="partnership-header">QUYỀN LỢI ĐỐI TÁC</h3>
-                        </div>
+                        <p style={{ paddingBottom: 24 }}>
+                            Với mong muốn đưa nội thất Việt cất cánh cao hơn không chỉ ở thị trường xuất khẩu mà còn tiếp cận sâu, trực tiếp hơn đến nhu cầu của người tiêu dùng thị trường nội địa, [M]furniture trân trọng kính mời các cá nhân, đơn vị cùng hợp tác trong việc triển khai và phân phối các sản phẩm nội thất của công ty.
+                        <br />
+                            Khi hợp tác với [M]furniture, Quý doanh nghiệp và đối tác sẽ có cơ hội được kinh doanh sản phẩm nội thất uy tín, chất lượng tốt. [M]furniture cam kết đem lại giá trị, lợi ích tốt nhất cho tất cả các đối tác và khách hàng.
+                        </p>
+                        <h3 className="partnership-header">QUYỀN LỢI ĐỐI TÁC</h3>
                         <div>
                             {/* tslint:disable-next-line:max-line-length */}
                             {this.renderPartnershipDetail(1, 'Mức chiết khấu ưu đãi', 'Tất cả các thành viên tham gia vào chương trình đối tác của [M]furniture đều được chiết khấu với nhiều mức ưu đãi hấp dẫn khác nhau cho từng đối tác')}
                             {/* tslint:disable-next-line:max-line-length */}
-                            {this.renderPartnershipDetail(2, 'Mức chiết khấu ưu đãi', 'Tất cả các thành viên tham gia vào chương trình đối tác của [M]furniture đều được chiết khấu với nhiều mức ưu đãi hấp dẫn khác nhau cho từng đối tác')}
+                            {this.renderPartnershipDetail(2, 'Tùy biến sản phẩm dễ dàng', 'Tùy biến thiết kế sản phẩm dễ dàng, linh hoạt với tool thiết kế của riêng [M]furniture, thiết kế sản phẩm furniture cho riêng mình giờ dễ dàng hơn bao giờ hết.')}
                             {/* tslint:disable-next-line:max-line-length */}
-                            {this.renderPartnershipDetail(3, 'Mức chiết khấu ưu đãi', 'Tất cả các thành viên tham gia vào chương trình đối tác của [M]furniture đều được chiết khấu với nhiều mức ưu đãi hấp dẫn khác nhau cho từng đối tác')}
+                            {this.renderPartnershipDetail(3, 'Chương trình ưu đãi', 'Tham gia các chương trình ưu đãi khi mua hàng: giảm giá khi mua số lượng lớn, mua sản phẩm mẫu trưng bày với giá cực tốt.')}
                             {/* tslint:disable-next-line:max-line-length */}
-                            {this.renderPartnershipDetail(4, 'Mức chiết khấu ưu đãi', 'Tất cả các thành viên tham gia vào chương trình đối tác của [M]furniture đều được chiết khấu với nhiều mức ưu đãi hấp dẫn khác nhau cho từng đối tác')}
+                            {this.renderPartnershipDetail(4, 'Tool thiết kế riêng dành cho thương hiệu của đối tác', 'Tư vấn và hỗ trợ hoàn thiện quy trình kinh doanh theo hình thức đại lý với thương hiệu riêng dựa trên nền tảng website của [M]furniture')}
                             {/* tslint:disable-next-line:max-line-length */}
-                            {this.renderPartnershipDetail(5, 'Mức chiết khấu ưu đãi', 'Tất cả các thành viên tham gia vào chương trình đối tác của [M]furniture đều được chiết khấu với nhiều mức ưu đãi hấp dẫn khác nhau cho từng đối tác')}
-
+                            {this.renderPartnershipDetail(5, 'Chương trình đào tạo thường xuyên', 'Được tư vấn và đào tạo các kỹ năng sử dụng tool miễn phí để giới thiệu nội thất đến khách hàng và update các tính năng mới thường xuyên')}
                         </div>
+                        <h3 className="partnership-header">ĐỐI  TƯỢNG  HỢP  TÁC</h3>
+                        <ul>
+                            <li>Công ty thiết kế, thi công</li>
+                            <li>Chủ đầu tư</li>
+                            <li>Freelancer</li>
+                            <li>Các doanh nghiệp hoạt động trong lĩnh vực kinh doanh thương mại</li>
+                            <li>Mọi đối tượng yêu thích kinh doanh và có khả năng phân phối các sản phẩm nội thất</li>
+                        </ul>
+                        <h3 className="partnership-header">ĐIỀU  KIỆN  HỢP  TÁC</h3>
+                        <ul>
+                            <li>Đối tác doanh nghiệp: là tổ chức đang kinh doanh và hoạt động theo pháp luật</li>
+                            {/* tslint:disable-next-line:max-line-length */}
+                            <li>Đối tác cá nhân: có kinh nghiệm, có kiến thức và uy tín trong việc cung cấp, giới thiệu các sản phẩm nội thất</li>
+                        </ul>
                     </ContactPartnershipContent>
                 </Col>
                 <Col span={12}>
