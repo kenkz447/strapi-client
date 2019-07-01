@@ -15,10 +15,17 @@ export const getOrderDiscount = (order: Partial<Order>, subTotal?: number) => {
         subTotal = getOrderDetailsSubTotal(orderDetails);
     }
 
-    const promotionDiscount = promotion ? (promotion.discountPrice || 0) : 0;
+    let promotionDiscount = 0;
+
+    if (promotion) {
+        promotionDiscount =
+            promotion.discountPrice
+            || subTotal * (promotion.discountPercent * 0.01);
+    }
+
     const productDiscount = getOrderDetailsDiscount(orderDetails);
 
-    const agencyDiscount = (subTotal) * (agencyOrderer ? (agencyOrderer.level.discountPercent * 0.01) : 0);
+    const agencyDiscount = (subTotal - promotionDiscount - productDiscount) * (agencyOrderer ? (agencyOrderer.level.discountPercent * 0.01) : 0);
 
     const totalDiscount = promotionDiscount + productDiscount + agencyDiscount;
 

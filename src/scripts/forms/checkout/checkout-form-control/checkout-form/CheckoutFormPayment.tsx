@@ -73,7 +73,7 @@ export class CheckoutFormPayment extends React.PureComponent<CheckoutFormPayment
                             <i>{text('Discount by agency policy')} : {formatCurrency(discounts.agency.discount)}</i>
                         </small>
                         <small style={{ lineHeight: 1.5, display: 'block' }}>
-                            <i>{text('Discount by quantity')} : {formatCurrency(discounts.promotion)}</i>
+                            <i>{text('Discount by quantity')} : {formatCurrency(discounts.products)}</i>
                         </small>
                     </span>
                 </Form.Item>

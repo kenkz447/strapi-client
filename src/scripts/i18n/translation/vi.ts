@@ -205,5 +205,6 @@ export const vi = {
     'Factory address': 'Địa chỉ nhà máy sản xuất',
     'Agency details': 'Thông tin đại lý',
     'Created at': 'Thời gian tạo',
-    'Done': 'Xong'
+    'Done': 'Xong',
+    'Discount by promo code': 'Mã giảm giá'
 };
