@@ -5,6 +5,7 @@ import { withContext, WithContextProps } from 'react-context-service';
 import {
     AUTH_PATH,
     AUTH_REGISTER_URL,
+    CART_URL,
     CATALOG_BASE_PATH,
     CATALOG_URL,
     getMobileUrl,

@@ -86,9 +86,9 @@ export class RegisterFormContainer extends React.PureComponent<RegisterFormConta
                 }
                 <Divider dashed={true} />
                 <div className="register-link">
-                    <Link to={LOGIN_URL}>
+                    <a href={LOGIN_URL}>
                         <u>{text('To login page')}</u>
-                    </Link>
+                    </a>
                 </div>
             </SlideUp>
         );

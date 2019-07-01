@@ -23,6 +23,10 @@ const CheckoutCompleteWrapper = styled.div`
             line-height: 0;
         }
     }
+    
+    .antd-pro-result-result {
+        width: 100%!important;
+    }
 `;
 
 interface CheckoutCompleteProps {
@@ -39,7 +43,6 @@ export class CheckoutComplete extends React.PureComponent<CheckoutCompleteProps>
         return (
             <CheckoutCompleteWrapper>
                 <Result
-                    style={{ maxWidth: 560 }}
                     type="success"
                     title={<div>{text('Completed')}</div>}
                     description={

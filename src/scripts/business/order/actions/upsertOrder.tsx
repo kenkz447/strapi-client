@@ -9,10 +9,8 @@ import {
 } from '../getters';
 
 export const upsertOrder = (order: Partial<Order>, context: DomainContext) => {
-    const { currentAgency } = context;
-
-    if (!order.orderDetails || !currentAgency) {
-        throw 'WTF???';
+    if (!order.orderDetails) {
+        throw 'Không có sản phẩm nào!';
     }
 
     const orderExisting = !!order.id;
