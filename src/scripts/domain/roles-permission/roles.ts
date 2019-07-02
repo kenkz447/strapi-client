@@ -63,12 +63,13 @@ const registered: Role = {
         permissions.PROFILE_PASSWORD,
         permissions.CONTACT_MOBILE,
         permissions.POSTS_MOBILE,
-        permissions.PRODUCT
+        permissions.PRODUCT,
+        permissions.FUNC_ADD_TO_CART,
+        permissions.PROFILE_ADDRESS_BOOK,
+        permissions.PROFILE_PROMO_CODE
     ],
     denied: [
-        permissions.PROFILE_AGENCY,
-        permissions.PROFILE_PROMO_CODE,
-        permissions.PROFILE_ADDRESS_BOOK
+        permissions.PROFILE_AGENCY
     ]
 };
 

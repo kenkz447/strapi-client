@@ -18,9 +18,19 @@ export const getOrderDiscount = (order: Partial<Order>, subTotal?: number) => {
     let promotionDiscount = 0;
 
     if (promotion) {
-        promotionDiscount =
-            promotion.discountPrice
-            || subTotal * (promotion.discountPercent * 0.01);
+        if (promotion.forSpecificProduct) {
+            if (orderDetails) {
+                const targetOrderDetail = orderDetails.find(o => o.productModulesCode === promotion.forSpecificProduct);
+                if (targetOrderDetail) {
+                    promotionDiscount = promotion.discountPrice
+                    || targetOrderDetail.totalPrice * (promotion.discountPercent * 0.01);
+                }
+            }
+        } else {
+            promotionDiscount =
+                promotion.discountPrice
+                || subTotal * (promotion.discountPercent * 0.01);
+        }
     }
 
     const productDiscount = getOrderDetailsDiscount(orderDetails);

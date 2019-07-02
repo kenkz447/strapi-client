@@ -16,6 +16,7 @@ export interface Promotion extends Record {
     readonly forProductTypes: string[] | ProductType[];
     readonly productQuantityOrdering?: number;
     readonly linkedPost?: string | Post;
+    readonly forSpecificProduct?: string;
 }
 
 export const promotionResourceType = new ResourceType<Promotion>(nameof<Promotion>());

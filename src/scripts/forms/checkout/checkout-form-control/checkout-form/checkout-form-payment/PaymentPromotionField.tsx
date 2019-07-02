@@ -77,10 +77,18 @@ export class PaymentPromotionField extends React.PureComponent<
 
     private readonly getHelpMessage = () => {
         const { value } = this.props;
+        if(!value) {
+            return null;
+        }
+
         const isPromoCodeValid = this.isCurrentPromoCodeValid();
 
         if (!isPromoCodeValid) {
             return '';
+        }
+
+        if (value.description) {
+            return value.description;
         }
 
         if (value!.discountPercent) {
