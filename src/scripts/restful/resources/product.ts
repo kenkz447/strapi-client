@@ -30,6 +30,7 @@ export interface ProductModule {
 
 export interface ProductExtended extends Omit<Product, 'produceCode'> {
     readonly modules: ProductModule[];
+    readonly thumbnail?: UploadedFile;
 }
 
 export const productResourceType = new ResourceType<Product>(nameof<Product>());

@@ -13,6 +13,10 @@ import { Img } from '@/components';
 import { DomainContext, policies } from '@/domain';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
+import { ProductAddToCart } from '@/routes/product/containers/product-fetcher';
+import {
+    ProductAddToCartSimple
+} from '@/routes/product/containers/product-fetcher/ProductAddToCartSimple';
 import { formatCurrency } from '@/utilities';
 
 import { CatalogDetailCarouel } from './catalog-detail';
@@ -123,6 +127,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
 
         this.setState({
             product: {
+                thumbnail: catalog.thumbnail,
                 modulesCode: catalog.moduleCodes,
                 modules: modules,
                 design: catalog.design,
@@ -226,6 +231,15 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                                         })}
                                     </div>
                                 )
+                        }
+
+                        {
+                            product && (
+                                <ProductAddToCartSimple
+                                    loadedProduct={product}
+                                    modulesCode={catalog.moduleCodes}
+                                />
+                            )
                         }
 
                         <Typography.Paragraph>

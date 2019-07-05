@@ -4,6 +4,7 @@ import { RootContext } from 'qoobee';
 import * as React from 'react';
 
 import { getDiscountByQuantityLabel } from '@/business/discount-by-quantity';
+import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { FormikControlBase, FormikControlBaseProps } from '@/components';
 import { DomainContext } from '@/domain';
 import {
@@ -22,6 +23,7 @@ interface OrderDetailCreateFormControlProps extends FormikControlBaseProps<Order
     readonly initialValues?: OrderDetailCreateFormValues;
     readonly product: ProductExtended;
     readonly submitDisabled: boolean;
+    readonly simpleMode?: boolean;
 }
 
 interface OrderDetailCreateFormControlState {
@@ -89,14 +91,14 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
 
     readonly beforeSubmit = async (values: OrderDetailCreateFormValues): Promise<OrderDetailCreateFormValues> => {
         const { takeProduct3DScreenshot } = this.context;
+        const { product } = this.props;
 
-        if (!takeProduct3DScreenshot) {
-            return values;
-        }
+        const previewImg = product.thumbnail
+            ? getUploadedFileSrc({ uploadedFile: product.thumbnail, size: 'img512x512' })
+            : await takeProduct3DScreenshot();
 
-        const previewImg = await takeProduct3DScreenshot();
         const discountByQuantity = (values.totalDiscountPerProduct || 0) * values.quantity!;
-        
+
         return {
             ...values,
             discount: discountByQuantity,
@@ -110,7 +112,7 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
     }
 
     public render() {
-        const { product, submitDisabled } = this.props;
+        const { product, submitDisabled, simpleMode } = this.props;
         const { allQuantityOptions, allQuantity, loaded } = this.state;
 
         if (!product || !loaded) {
@@ -133,6 +135,7 @@ export class OrderDetailCreateFormControl extends FormikControlBase<
                         allQuantity={allQuantity}
                         quantitySelectOptions={allQuantityOptions}
                         product={product}
+                        simpleMode={simpleMode}
                     />
                 )}
             </Formik>

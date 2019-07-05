@@ -5,5 +5,5 @@ export const getOrderDeposit = (order: Partial<Order>) => {
         return 0;
     }
 
-    return order.totalOfPayment * 0.3;
+    return order.totalOfPayment * 0.5;
 };

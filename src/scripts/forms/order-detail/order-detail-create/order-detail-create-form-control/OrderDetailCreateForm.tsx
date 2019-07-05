@@ -1,4 +1,5 @@
 import { Button, Form, Icon, Tooltip, Typography } from 'antd';
+import FormItem from 'antd/lib/form/FormItem';
 import { OptionProps } from 'antd/lib/select';
 import { FormikProps } from 'formik';
 import { RootContext } from 'qoobee';
@@ -39,6 +40,7 @@ export interface OrderDetailCreateFormOwnProps extends FormikProps<OrderDetailCr
     readonly quantitySelectOptions: OptionProps[];
     readonly product: ProductExtended;
     readonly submitDisabled: boolean;
+    readonly simpleMode?: boolean;
 }
 
 interface OrderDetailCreateFormState {
@@ -113,6 +115,7 @@ export class OrderDetailCreateForm extends React.PureComponent<
             handleSubmit,
             isSubmitting,
             submitDisabled,
+            simpleMode
         } = this.props;
 
         const { currentUser } = this.context;
@@ -122,6 +125,40 @@ export class OrderDetailCreateForm extends React.PureComponent<
 
         const { totalDiscount, discountByQuantity, discountByAgencyPolicy } = this.getProductDiscount();
         const totalPrice = values.subTotalPrice! - totalDiscount;
+
+        if (simpleMode) {
+            return (
+                <FormBody formProps={this.props}>
+                    <OrderDetailCreateFormWrapper>
+                        <FormItem
+                            validateStatus={errors.quantity ? 'error' : undefined}
+                            label={text('Quantity to buy')}
+                            help={errors.quantity}
+                        >
+                            <FormInputNumber
+                                style={{ marginRight: 6 }}
+                                name={nameof<OrderDetailCreateFormValues>(o => o.quantity)}
+                                value={values.quantity}
+                                setFieldValue={setFieldValue}
+                                useFieldWrapper={false}
+                                placeholder={text('100')}
+                                max={1000}
+                                min={1}
+                            />
+                            <Button
+                                type="primary"
+                                ghost={true}
+                                onClick={() => handleSubmit()}
+                                disabled={!currentUser || !canSubmit}
+                                loading={isSubmitting}
+                            >
+                                {text('Add to cart')}
+                            </Button>
+                        </FormItem>
+                    </OrderDetailCreateFormWrapper>
+                </FormBody>
+            );
+        }
 
         return (
             <FormBody formProps={this.props}>
