@@ -4,6 +4,7 @@
 import './ThreeSence.scss';
 
 import { Spin } from 'antd';
+import differenceBy from 'lodash/differenceBy';
 import * as React from 'react';
 
 import { getUploadedFileSrc } from '@/business/uploaded-file';
@@ -99,94 +100,96 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
                 continue;
             }
 
-            if (productModule.component.mtl) {
-                const onLoadMtl = (mtl: THREE.MaterialCreator) => {
-                    const textureFile = getUploadedFileSrc({
-                        uploadedFile: productModule.material.texture
-                    });
+            this.loadModule(productModule);
+        }
+    }
 
-                    for (const materialInfoKey in mtl.materialsInfo) {
-                        if (mtl.materialsInfo.hasOwnProperty(materialInfoKey)) {
-                            const materialInfo = mtl.materialsInfo[materialInfoKey];
-
-                            materialInfo.map_ka = textureFile;
-                            materialInfo.map_kd = textureFile;
-                        }
-                    }
-
-                    mtl.setCrossOrigin(true);
-                    mtl.preload();
-
-                    const materials = mtl.materials as THREE.MeshPhongMaterial[];
-
-                    for (const key in materials) {
-                        if (!materials.hasOwnProperty(key)) {
-                            continue;
-                        }
-
-                        const material = materials[key];
-
-                        material.name = productModule.material.id;
-                        material.transparent = true;
-
-                        if (material.map) {
-                            material.map.anisotropy = 16;
-                            if (productModule.material.materialType) {
-                                material.shininess = productModule.material.materialType.view_shiny || 0;
-                            }
-                        }
-
-                        if (productModule.material.view_normalMap) {
-                            this.loadNormalMap(productModule.material, material);
-                        }
-                    }
-
-                    const objLoader = new THREE.OBJLoader2();
-                    const callbackOnLoadObj = this.createInitModulesOnLoadHandler(productModule, materials);
-
-                    objLoader.setLogging(false, false);
-                    objLoader.setMaterials(materials);
-                    objLoader.setModelName(productModule.component.name);
-
-                    const objFile = getUploadedFileSrc({
-                        uploadedFile: productModule.component.obj
-                    });
-
-                    objLoader.load(objFile, callbackOnLoadObj, null, null, null, false);
-                };
-
-                const mtlLoader = new THREE.MTLLoader();
-                const mtlFile = getUploadedFileSrc({
-                    uploadedFile: productModule.component.mtl
+    private readonly loadModule = (productModule: ProductModule) => {
+        if (productModule.component.mtl) {
+            const onLoadMtl = (mtl: THREE.MaterialCreator) => {
+                const textureFile = getUploadedFileSrc({
+                    uploadedFile: productModule.material.texture
                 });
 
-                mtlLoader.load(mtlFile, onLoadMtl);
-                continue;
-            }
+                for (const materialInfoKey in mtl.materialsInfo) {
+                    if (mtl.materialsInfo.hasOwnProperty(materialInfoKey)) {
+                        const materialInfo = mtl.materialsInfo[materialInfoKey];
 
-            if (productModule.component.fbx) {
-                const fbxLoader = new THREE.FBXLoader();
+                        materialInfo.map_ka = textureFile;
+                        materialInfo.map_kd = textureFile;
+                    }
+                }
 
-                const fbxFile = getUploadedFileSrc({
-                    uploadedFile: productModule.component.fbx
+                mtl.setCrossOrigin(true);
+                mtl.preload();
+
+                const materials = mtl.materials as THREE.MeshPhongMaterial[];
+
+                for (const key in materials) {
+                    if (!materials.hasOwnProperty(key)) {
+                        continue;
+                    }
+
+                    const material = materials[key];
+
+                    material.name = productModule.material.id;
+                    material.transparent = true;
+
+                    if (material.map) {
+                        material.map.anisotropy = 16;
+                        if (productModule.material.materialType) {
+                            material.shininess = productModule.material.materialType.view_shiny || 0;
+                        }
+                    }
+
+                    if (productModule.material.view_normalMap) {
+                        this.loadNormalMap(productModule.material, material);
+                    }
+                }
+
+                const objLoader = new THREE.OBJLoader2();
+                const callbackOnLoadObj = this.createInitModulesOnLoadHandler(productModule, materials);
+
+                objLoader.setLogging(false, false);
+                objLoader.setMaterials(materials);
+                objLoader.setModelName(productModule.component.name);
+
+                const objFile = getUploadedFileSrc({
+                    uploadedFile: productModule.component.obj
                 });
 
-                fbxLoader.load(
-                    fbxFile,
-                    (object) => {
-                        for (const child of object.children) {
-                            child.castShadow = true;
-                            child.receiveShadow = true;
-                            child.name = productModule.component.id;
-                        }
-                        this.scene.add(object);
-                    },
-                    undefined,
-                    (error) => {
-                        console.log(error);
+                objLoader.load(objFile, callbackOnLoadObj, null, null, null, false);
+            };
+
+            const mtlLoader = new THREE.MTLLoader();
+            const mtlFile = getUploadedFileSrc({
+                uploadedFile: productModule.component.mtl
+            });
+
+            mtlLoader.load(mtlFile, onLoadMtl);
+
+        } else if (productModule.component.fbx) {
+            const fbxLoader = new THREE.FBXLoader();
+
+            const fbxFile = getUploadedFileSrc({
+                uploadedFile: productModule.component.fbx
+            });
+
+            fbxLoader.load(
+                fbxFile,
+                (object) => {
+                    for (const child of object.children) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        child.name = productModule.component.id;
                     }
-                );
-            }
+                    this.scene.add(object);
+                },
+                undefined,
+                (error) => {
+                    console.log(error);
+                }
+            );
         }
     }
 
@@ -232,6 +235,17 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         });
     }
 
+    private readonly addComponentObject = (productModule: ProductModule) => {
+        return new Promise((resolve, reject) => {
+            try {
+                this.loadModule(productModule);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     private readonly replace3DMeshMaterial = (props: {
         readonly object3D: THREE.Group;
         readonly material: FurnitureMaterial;
@@ -265,6 +279,23 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
                     resolve();
                 });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    private readonly removeComponentObject = (productModule: ProductModule) => {
+        return new Promise((resolve, reject) => {
+            try {
+                const childToRemove = this.scene.children.find(o => o.name === productModule.component.id);
+                if (!childToRemove) {
+                    resolve();
+                    return;
+                }
+                
+                this.scene.remove(childToRemove);
+                resolve();
             } catch (error) {
                 reject(error);
             }
@@ -375,14 +406,32 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
 
                 const groups = this.scene.children.filter(o => o instanceof THREE.Group) as THREE.Group[];
 
-                for (let index = 0; index < prevProductModules.length; index++) {
+                if (nextProductModules.length < prevProductModules.length) {
+                    const removedModules = differenceBy(
+                        prevProductModules,
+                        nextProductModules,
+                        (productModule) => productModule.component.id
+                    );
+
+                    removedModules.forEach(productModule =>
+                        this.addToQueue(
+                            () => this.removeComponentObject(productModule)
+                        ));
+                }
+
+                for (let index = 0; index < nextProductModules.length; index++) {
                     const prevProductModule = prevProductModules[index];
+                    const nextProductModule = nextProductModules[index];
+
                     if (!prevProductModule) {
+                        this.addToQueue(
+                            () => this.addComponentObject(nextProductModule)
+                        );
+
                         continue;
                     }
 
                     const oldObject = groups.find(o => o.name === prevProductModule.component.id)!;
-                    const nextProductModule = nextProductModules[index];
 
                     if (prevProductModule.material.id !== nextProductModule.material.id) {
                         this.addToQueue(

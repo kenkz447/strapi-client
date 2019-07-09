@@ -1,8 +1,9 @@
 import { List } from 'antd';
 import * as classNames from 'classnames';
+import differenceBy from 'lodash/differenceBy';
 import { RootContext } from 'qoobee';
 import * as React from 'react';
-import { withContext, WithContextProps } from 'react-context-service';
+import { WithContextProps } from 'react-context-service';
 
 import {
     getFurnitureComponentGroupById
@@ -14,7 +15,7 @@ import {
 } from '@/business/product-modules';
 import { Img } from '@/components';
 import { PRODUCT_URL } from '@/configs';
-import { DomainContext, Product3DSenceContext, WithHistory } from '@/domain';
+import { DomainContext } from '@/domain';
 import {
     FurnitureComponent,
     FurnitureComponentGroup,
@@ -53,9 +54,41 @@ export class ComponentSelectItem extends React.PureComponent<ComponentSelectItem
         const nextComponentGroupId = nextComponentGroup && nextComponentGroup.id;
 
         const nextProductModules: ProductModule[] = [];
+        let selectedProductModules = [...selectedProduct!.modules];
+        const selectedProductComponents = selectedProductModules.map(o => o.component);
+
+        if (nextComponentGroup!.components.length > selectedProductModules.length) {
+            const addedComponents = differenceBy(
+                nextComponentGroup!.components,
+                selectedProductComponents,
+                (component) => typeof component.componentType === 'string'
+                    ? component.componentType
+                    : component.componentType.id
+            );
+            
+            addedComponents.map(addedComponent => {
+                nextProductModules.push({
+                    component: addedComponent,
+                    componentPrice: 0,
+                    material: getFurntirureMaterialDefault(),
+                    materialPrice: 0
+                });
+            });
+        } else if (nextComponentGroup!.components.length < selectedProductModules.length) {
+            const removedComponents = differenceBy(
+                selectedProductComponents,
+                nextComponentGroup!.components,
+                (component) => typeof component.componentType === 'string'
+                    ? component.componentType
+                    : component.componentType.id
+            );
+
+            selectedProductModules = selectedProductModules.filter(o => !removedComponents.includes(o.component));
+        }
+
         const currentItemComponentTypeId = getNestedObjectId(furnitureComponent.componentType);
 
-        for (const productModule of selectedProduct!.modules) {
+        for (const productModule of selectedProductModules) {
             const moduleComponent = productModule.component;
             const moduleMaterial = productModule.material;
             const moduleMaterialType = getNestedObjectId(moduleMaterial.materialType);
