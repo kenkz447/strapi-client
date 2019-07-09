@@ -13,6 +13,9 @@ import { getMobileUrl } from '@/configs';
 import { DomainContext } from '@/domain';
 import { text } from '@/i18n';
 import { Catalog, ProductExtended } from '@/restful';
+import {
+    ProductAddToCartSimple
+} from '@/routes/product/containers/product-fetcher';
 import { formatCurrency } from '@/utilities';
 
 import { CatalogDetailCarouel } from './catalog-detail';
@@ -206,6 +209,14 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                                 sourceCurrency: 'VNĐ'
                             })}
                         </div>
+                        {
+                            product && (
+                                <ProductAddToCartSimple
+                                    loadedProduct={product}
+                                    modulesCode={catalog.moduleCodes}
+                                />
+                            )
+                        }
                         <Typography.Paragraph>
                             {catalog.description}
                         </Typography.Paragraph>

@@ -155,6 +155,10 @@ export class OrderDetailCreateForm extends React.PureComponent<
                                 {text('Add to cart')}
                             </Button>
                         </FormItem>
+                        <div>
+                            {/* tslint:disable-next-line:max-line-length */}
+                            {!currentUser && <i>Vui lòng <Link to={LOGIN_URL + `?returnUrl=${location.href}`}>đăng nhập</Link> để đặt hàng</i>}
+                        </div>
                     </OrderDetailCreateFormWrapper>
                 </FormBody>
             );

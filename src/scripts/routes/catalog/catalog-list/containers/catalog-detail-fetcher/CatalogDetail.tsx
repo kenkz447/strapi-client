@@ -234,7 +234,7 @@ export class CatalogDetail extends React.PureComponent<CatalogDetailProps, Catal
                         }
 
                         {
-                            product && (
+                             product && (
                                 <ProductAddToCartSimple
                                     loadedProduct={product}
                                     modulesCode={catalog.moduleCodes}
