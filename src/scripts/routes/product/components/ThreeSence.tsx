@@ -478,7 +478,7 @@ export class ThreeSence extends ThreeSenceBase<ThreeSenceProps> {
         const { productType, componentGroup } = this.props;
 
         const viewportWidth = window.innerWidth;
-        const widthRatio = viewportWidth < 400 ? viewportWidth / 400 : viewportWidth / 700;
+        const widthRatio = viewportWidth < 700 ? viewportWidth / 400 : viewportWidth / 700;
 
         const heightOrigin = (componentGroup && componentGroup.view_senceHeight)
             ? componentGroup.view_senceHeight

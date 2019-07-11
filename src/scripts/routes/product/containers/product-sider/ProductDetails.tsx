@@ -4,9 +4,7 @@ import { Icon } from 'antd';
 import { AccessControl, RootContext } from 'qoobee';
 import * as React from 'react';
 
-import {
-    getProductDetails
-} from '@/business/product/getters/getProductDetails';
+import { getProductDetails } from '@/business/product';
 import { getUploadedFileSrc } from '@/business/uploaded-file';
 import { DomainContext } from '@/domain';
 import { functionAllowed } from '@/domain/policies';
