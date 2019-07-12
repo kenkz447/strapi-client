@@ -134,6 +134,7 @@ export const getProductDetails = (
     product: ProductExtended,
     selectedFurnitureComponentGroup?: FurnitureComponentGroup
 ) => {
+    
     if (!selectedFurnitureComponentGroup) {
         const selectComponent = product.modules.find(o => !!o.component.componentGroup);
         selectedFurnitureComponentGroup = selectComponent

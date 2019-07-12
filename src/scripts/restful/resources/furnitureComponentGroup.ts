@@ -6,6 +6,7 @@ import { UploadedFile } from './uploadedFile';
 export interface FurnitureComponentGroup {
     readonly id: string;
     readonly name: string;
+    readonly displayName?: string;
     readonly components: FurnitureComponent[];
     readonly productSize?: string;
     readonly packagingSize?: string;

@@ -85,9 +85,21 @@ export class ProductDetails extends React.PureComponent<ProductDetailsProps> {
             selectedFurnitureComponentGroup.model3D
         );
 
+        const displayName = selectedFurnitureComponentGroup
+            ? selectedFurnitureComponentGroup.displayName
+            : null;
+
         return (
             <div className="product-details">
                 <p><strong>Thông số sản phẩm</strong></p>
+                {
+                    displayName && (
+                        <div className="product-details-item d-flex">
+                            <div className="flex-grow-1">Tên thương mại:</div>
+                            <div>{displayName}</div>
+                        </div>
+                    )
+                }
                 <div>
                     {
                         details.map((detail) => {
